@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
@@ -7,10 +7,19 @@ import { CreateMessageTemplateDto } from './dto/create-message-template.dto';
 import { SendUtilityMessageDto } from './dto/send-utility-message.dto';
 import { PrismaService } from 'prisma/prisma.service';
 import { TokenDto } from './dto/token.dto';
+import * as crypto from "crypto";
+
+
+interface GenerateOptions {
+  scopes?: string;
+  expiring?: boolean;
+}
+
 
 @Injectable()
 export class WhatsappService {
   private readonly baseUrl: string;
+   private readonly graph: string;
 
   constructor(
     private readonly httpService: HttpService,
@@ -22,8 +31,80 @@ export class WhatsappService {
     console.log(version, phoneNumberId, 'version and phone number id');
     
     this.baseUrl = `https://graph.facebook.com/${version}/1306783259184340`;
+     this.graph = `https://graph.facebook.com/${version}`;
     console.log(this.baseUrl, 'base_url');
   }
+
+  private appSecretProof(token: string, secret: string): string {
+    return crypto.createHmac("sha256", secret).update(token).digest("hex");
+  }
+
+  private async graphPost(
+    path: string,
+    params: Record<string, string>,
+  ): Promise<any> {
+    const res = await fetch(`${this.graph}${path}`, {
+      method: "POST",
+      body: new URLSearchParams(params),
+    });
+    const json = await res.json();
+    if (!res.ok || json.error) {
+      console.log(`Graph error on ${path}: ${JSON.stringify(json.error)}`);
+      // this.logger.error(`Graph error on ${path}: ${JSON.stringify(json.error)}`);
+      throw new InternalServerErrorException(
+        json.error?.message || "Graph API request failed",
+      );
+    }
+    return json;
+  }
+
+  /** Idempotent: installs the app for the system user. */
+  private async installApp(systemUserId: string, appId: string, adminToken: string) {
+    return this.graphPost(`/${systemUserId}/applications`, {
+      business_app: appId,
+      access_token: adminToken,
+    });
+  }
+
+  /** Installs the app (if needed) and generates a system user access token. */
+  async generateSystemToken(opts: GenerateOptions = {}): Promise<{ access_token: string }> {
+    const systemUserId = process.env.FB_SYSTEM_USER_ID as string;
+    // this.config.getOrThrow<string>("FB_SYSTEM_USER_ID");
+    const appId = process.env.FB_APP_ID as string;
+    // this.config.getOrThrow<string>("FB_APP_ID");
+    const appSecret = process.env.FB_APP_SECRET as string;
+    // this.config.getOrThrow<string>("FB_APP_SECRET");
+    // const adminToken = process.env.FB_ADMIN_TOKEN as string;
+    const scopes =
+      opts.scopes || process.env.FB_DEFAULT_SCOPES as string;
+      // this.config.get<string>("FB_DEFAULT_SCOPES", "ads_management");
+
+      // get token
+      let get_access_token = this.prisma.token.findFirst({
+        orderBy: { createdAt: 'desc' },
+      });
+      const adminToken = (await get_access_token)?.facebookLongLivedAccessToken;
+      if (!adminToken) {
+        throw new Error('No admin token found in the database. Please store a valid token first.');
+      }
+
+    await this.installApp(systemUserId, appId, adminToken);
+
+    const params: Record<string, string> = {
+      business_app: appId,
+      scope: scopes,
+      appsecret_proof: this.appSecretProof(adminToken, appSecret),
+      access_token: adminToken,
+    };
+    if (opts.expiring) params.set_token_expires_in_60_days = "true";
+
+    const { access_token } = await this.graphPost(
+      `/${systemUserId}/access_tokens`,
+      params,
+    );
+    return { access_token };
+  }
+
 
   async getAccessToken(): Promise<string> {
     const endpoint = 'https://graph.facebook.com/oauth/access_token';
@@ -126,6 +207,43 @@ export class WhatsappService {
     }
   }
 
+  async getMessagingLimit(): Promise<any> {
+    const systemUserId =
+      process.env.FB_SYSTEM_USER_ID || process.env.WHATSAPP_APP_ID;
+    const fetch_access_token = await this.prisma.token.findFirst({
+      orderBy: { createdAt: 'desc' },
+    });
+    const accessToken = fetch_access_token?.facebookLongLivedAccessToken;
+
+    if (!systemUserId) {
+      throw new Error(
+        'FB_SYSTEM_USER_ID or WHATSAPP_APP_ID is required',
+      );
+    }
+    if (!accessToken) {
+      throw new Error(
+        'A stored Facebook long-lived access token is required',
+      );
+    }
+
+    try {
+      const response = await firstValueFrom(
+        this.httpService.get(`${this.graph}/${systemUserId}`, {
+          params: {
+            fields: 'whatsapp_business_manager_messaging_limit',
+          },
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }),
+      );
+
+      return response.data;
+    } catch (error: any) {
+      throw error.response?.data || error.message;
+    }
+  }
+
   async createMessageTemplate(dto: CreateMessageTemplateDto): Promise<any> {
     const version = this.configService.get<string>('WHATSAPP_VERSION');
     const businessAccountId = this.configService.get<string>(
@@ -171,7 +289,7 @@ export class WhatsappService {
         orderBy: { createdAt: 'desc' },
       });
 
-    if (!version || !businessAccountId || !fetch_access_token?.facebookAccessToken) {
+    if (!version || !businessAccountId || !fetch_access_token?.facebookLongLivedAccessToken) {
       throw new Error(
         'WHATSAPP_VERSION, WABA_ID, and WHATSAPP_LONG_LIVED_ACCESS_TOKEN are required',
       );
@@ -183,7 +301,7 @@ export class WhatsappService {
       const response = await firstValueFrom(
         this.httpService.get(endpoint, {
           headers: {
-            Authorization: `Bearer ${fetch_access_token?.facebookAccessToken}`,
+            Authorization: `Bearer ${fetch_access_token?.facebookLongLivedAccessToken}`,
             // ${fetch_access_token?.facebookAccessToken}`,
           },
         }),
@@ -204,7 +322,7 @@ export class WhatsappService {
         orderBy: { createdAt: 'desc' },
       });
 
-    if (!templateId || !version || !fetch_access_token?.facebookAccessToken) {
+    if (!templateId || !version || !fetch_access_token?.facebookLongLivedAccessToken) {
       throw new Error(
         'templateId, WHATSAPP_VERSION, and WHATSAPP_LONG_LIVED_ACCESS_TOKEN are required',
       );
@@ -217,7 +335,7 @@ export class WhatsappService {
         this.httpService.get(endpoint, {
           params: { fields: 'status' },
           headers: {
-            Authorization: `Bearer ${fetch_access_token?.facebookAccessToken}`,
+            Authorization: `Bearer ${fetch_access_token?.facebookLongLivedAccessToken}`,
           },
         }),
       );

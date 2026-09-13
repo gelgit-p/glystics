@@ -69,10 +69,17 @@ export class WhatsappController {
     return await this.whatsappService.getTokens();
   }
 
+  @Get('messaging-limit')
+  async getMessagingLimit() {
+    return await this.whatsappService.getMessagingLimit();
+  }
+
   @Get('debug-token')
   async debugToken() {
     return await this.whatsappService.debugToken();
   }
+
+
 
   @Put('tokens/:id')
   async editTokenById(@Param('id') id: string, @Body() dto: TokenDto) {
