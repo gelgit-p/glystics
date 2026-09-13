@@ -1,6 +1,7 @@
 // 1. Configure the Prisma Client generator
 generator client {
   provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
 }
 
 // 2. Configure the PostgreSQL database connection
