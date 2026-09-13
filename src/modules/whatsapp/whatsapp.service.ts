@@ -159,7 +159,6 @@ export class WhatsappService {
     const accessToken = this.configService.get<string>(
       'WHATSAPP_LONG_LIVED_ACCESS_TOKEN',
     );
-
     if (!templateId || !version || !accessToken) {
       throw new Error(
         'templateId, WHATSAPP_VERSION, and WHATSAPP_LONG_LIVED_ACCESS_TOKEN are required',
@@ -185,6 +184,9 @@ export class WhatsappService {
   }
 
   async sendMessage(dto: MessageDto): Promise<any> {
+              const accessToken = this.configService.get<string>(
+      'WHATSAPP_LONG_LIVED_ACCESS_TOKEN',
+    );
     const url = `${this.baseUrl}/messages`;
     
     const body = {
@@ -195,7 +197,7 @@ export class WhatsappService {
     };
 
     const headers = {
-      Authorization: `Bearer ${await this.getAccessToken()}`,
+      Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     };
 
@@ -215,6 +217,9 @@ export class WhatsappService {
     const phoneNumberId =
       this.configService.get<string>('WHATSAPP_BUSINESS_PHONE_NUMBER_ID') ||
       '1343947352130201';
+          const accessToken = this.configService.get<string>(
+      'WHATSAPP_LONG_LIVED_ACCESS_TOKEN',
+    );
 
     if (!version || !phoneNumberId) {
       throw new Error(
@@ -241,7 +246,7 @@ export class WhatsappService {
       const response = await firstValueFrom(
         this.httpService.post(endpoint, body, {
           headers: {
-            Authorization: `Bearer ${await this.getAccessToken()}`,
+            Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
           },
         }),
@@ -249,6 +254,7 @@ export class WhatsappService {
 
       return response.data;
     } catch (error: any) {
+      console.log(error, 'log error')
       throw error.response?.data || error.message;
     }
   }

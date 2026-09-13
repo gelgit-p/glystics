@@ -1,13 +1,13 @@
 // 1. Configure the Prisma Client generator
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  output   = "./generated"
 }
 
 // 2. Configure the PostgreSQL database connection
 datasource db {
   provider = "postgresql"
-  url      = env("SHADOW_DATABASE_URL")
+  url      = env("DATABASE_URL")
   // shadowDatabaseUrl = env("SHADOW_DATABASE_URL"), 
 }
 
