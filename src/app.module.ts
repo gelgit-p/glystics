@@ -11,6 +11,10 @@ import { LoggerMiddleware } from './common/logger.middleware';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { GqlThrottlerGuard } from './modules/auth/guards/gql-throttler-guard';
+import { ShipbubbleModule } from './modules/shipbubble/shipbubble.module';
+import { WebhookModule } from './modules/webhook/webhook.module';
+import { InstagramModule } from './modules/instagram/instagram.module';
+import { WhatsappModule } from './modules/whatsapp/whatsapp.module';
 
 @Module({
   imports: [
@@ -32,6 +36,10 @@ import { GqlThrottlerGuard } from './modules/auth/guards/gql-throttler-guard';
     AuthModule,
     PrismaModule,
     UserModule,
+    ShipbubbleModule,
+    WebhookModule,
+    WhatsappModule,
+    InstagramModule,
   ],
   controllers: [AppController],
   providers: [

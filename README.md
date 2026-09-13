@@ -164,3 +164,8 @@ $ mau deploy
 ## 👨‍💻 Author
 
 Made with ❤️ by \Olzhas— feel free to contribute or fork.
+
+{
+  access_token: '1094705089173300|3Iz96_8rO9uBrZmQCyE6GXofTBU',
+  token_type: 'bearer'
+} response data
