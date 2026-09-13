@@ -2102,8 +2102,8 @@ export namespace Prisma {
 
   export type TokenGroupByOutputType = {
     id: string
-    facebookAccessToken: string
-    facebookLongLivedAccessToken: string
+    facebookAccessToken: string | null
+    facebookLongLivedAccessToken: string | null
     createdAt: Date
     _count: TokenCountAggregateOutputType | null
     _min: TokenMinAggregateOutputType | null
@@ -2159,8 +2159,8 @@ export namespace Prisma {
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      facebookAccessToken: string
-      facebookLongLivedAccessToken: string
+      facebookAccessToken: string | null
+      facebookLongLivedAccessToken: string | null
       createdAt: Date
     }, ExtArgs["result"]["token"]>
     composites: {}
@@ -2783,7 +2783,7 @@ export namespace Prisma {
     /**
      * The data needed to create a Token.
      */
-    data: XOR<TokenCreateInput, TokenUncheckedCreateInput>
+    data?: XOR<TokenCreateInput, TokenUncheckedCreateInput>
   }
 
   /**
@@ -3140,15 +3140,15 @@ export namespace Prisma {
     OR?: TokenWhereInput[]
     NOT?: TokenWhereInput | TokenWhereInput[]
     id?: StringFilter<"Token"> | string
-    facebookAccessToken?: StringFilter<"Token"> | string
-    facebookLongLivedAccessToken?: StringFilter<"Token"> | string
+    facebookAccessToken?: StringNullableFilter<"Token"> | string | null
+    facebookLongLivedAccessToken?: StringNullableFilter<"Token"> | string | null
     createdAt?: DateTimeFilter<"Token"> | Date | string
   }
 
   export type TokenOrderByWithRelationInput = {
     id?: SortOrder
-    facebookAccessToken?: SortOrder
-    facebookLongLivedAccessToken?: SortOrder
+    facebookAccessToken?: SortOrderInput | SortOrder
+    facebookLongLivedAccessToken?: SortOrderInput | SortOrder
     createdAt?: SortOrder
   }
 
@@ -3157,15 +3157,15 @@ export namespace Prisma {
     AND?: TokenWhereInput | TokenWhereInput[]
     OR?: TokenWhereInput[]
     NOT?: TokenWhereInput | TokenWhereInput[]
-    facebookAccessToken?: StringFilter<"Token"> | string
-    facebookLongLivedAccessToken?: StringFilter<"Token"> | string
+    facebookAccessToken?: StringNullableFilter<"Token"> | string | null
+    facebookLongLivedAccessToken?: StringNullableFilter<"Token"> | string | null
     createdAt?: DateTimeFilter<"Token"> | Date | string
   }, "id">
 
   export type TokenOrderByWithAggregationInput = {
     id?: SortOrder
-    facebookAccessToken?: SortOrder
-    facebookLongLivedAccessToken?: SortOrder
+    facebookAccessToken?: SortOrderInput | SortOrder
+    facebookLongLivedAccessToken?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: TokenCountOrderByAggregateInput
     _max?: TokenMaxOrderByAggregateInput
@@ -3177,8 +3177,8 @@ export namespace Prisma {
     OR?: TokenScalarWhereWithAggregatesInput[]
     NOT?: TokenScalarWhereWithAggregatesInput | TokenScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Token"> | string
-    facebookAccessToken?: StringWithAggregatesFilter<"Token"> | string
-    facebookLongLivedAccessToken?: StringWithAggregatesFilter<"Token"> | string
+    facebookAccessToken?: StringNullableWithAggregatesFilter<"Token"> | string | null
+    facebookLongLivedAccessToken?: StringNullableWithAggregatesFilter<"Token"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Token"> | Date | string
   }
 
@@ -3254,50 +3254,50 @@ export namespace Prisma {
 
   export type TokenCreateInput = {
     id?: string
-    facebookAccessToken: string
-    facebookLongLivedAccessToken: string
+    facebookAccessToken?: string | null
+    facebookLongLivedAccessToken?: string | null
     createdAt?: Date | string
   }
 
   export type TokenUncheckedCreateInput = {
     id?: string
-    facebookAccessToken: string
-    facebookLongLivedAccessToken: string
+    facebookAccessToken?: string | null
+    facebookLongLivedAccessToken?: string | null
     createdAt?: Date | string
   }
 
   export type TokenUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    facebookAccessToken?: StringFieldUpdateOperationsInput | string
-    facebookLongLivedAccessToken?: StringFieldUpdateOperationsInput | string
+    facebookAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookLongLivedAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TokenUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    facebookAccessToken?: StringFieldUpdateOperationsInput | string
-    facebookLongLivedAccessToken?: StringFieldUpdateOperationsInput | string
+    facebookAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookLongLivedAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TokenCreateManyInput = {
     id?: string
-    facebookAccessToken: string
-    facebookLongLivedAccessToken: string
+    facebookAccessToken?: string | null
+    facebookLongLivedAccessToken?: string | null
     createdAt?: Date | string
   }
 
   export type TokenUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    facebookAccessToken?: StringFieldUpdateOperationsInput | string
-    facebookLongLivedAccessToken?: StringFieldUpdateOperationsInput | string
+    facebookAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookLongLivedAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TokenUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    facebookAccessToken?: StringFieldUpdateOperationsInput | string
-    facebookLongLivedAccessToken?: StringFieldUpdateOperationsInput | string
+    facebookAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookLongLivedAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

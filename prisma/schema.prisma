@@ -25,8 +25,8 @@ model User {
 // 4. Tokens model for Facebook API integration
 model Token {
   id                             String   @id @default(uuid())
-  facebookAccessToken            String   @map("facebook_access_token")
-  facebookLongLivedAccessToken   String   @map("facebook_long_lived_access_token")
+  facebookAccessToken            String?   @map("facebook_access_token")
+  facebookLongLivedAccessToken   String?   @map("facebook_long_lived_access_token")
   createdAt                      DateTime @default(now())
 
   @@map("tokens") 

@@ -5,6 +5,8 @@ import { firstValueFrom } from 'rxjs';
 import { MessageDto } from './dto/whatsapp.dto';
 import { CreateMessageTemplateDto } from './dto/create-message-template.dto';
 import { SendUtilityMessageDto } from './dto/send-utility-message.dto';
+import { PrismaService } from 'prisma/prisma.service';
+import { TokenDto } from './dto/token.dto';
 
 @Injectable()
 export class WhatsappService {
@@ -13,6 +15,7 @@ export class WhatsappService {
   constructor(
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
+    private readonly prisma: PrismaService
   ) {
     const phoneNumberId = this.configService.get<string>('WHATSAPP_PHONE_NUMBER_ID');
     const version = this.configService.get<string>('WHATSAPP_VERSION');
@@ -94,6 +97,35 @@ export class WhatsappService {
     }
   }
 
+  async debugToken(): Promise<any> {
+    const fetch_access_token = await this.prisma.token.findFirst({
+      orderBy: { createdAt: 'desc' },
+    });
+    const accessToken = fetch_access_token?.facebookLongLivedAccessToken;
+
+    if (!accessToken) {
+      throw new Error(
+        'No Facebook access token found in the database. Please store a valid token first.',
+      );
+    }
+
+    try {
+      const response = await firstValueFrom(
+        this.httpService.get('https://graph.facebook.com/debug_token', {
+          params: {
+            input_token: accessToken,
+            access_token: accessToken,
+          },
+        }),
+      );
+
+      console.log(response, 'debug token response');
+      return response.data;
+    } catch (error: any) {
+      throw error.response?.data || error.message;
+    }
+  }
+
   async createMessageTemplate(dto: CreateMessageTemplateDto): Promise<any> {
     const version = this.configService.get<string>('WHATSAPP_VERSION');
     const businessAccountId = this.configService.get<string>(
@@ -106,13 +138,17 @@ export class WhatsappService {
       );
     }
 
+                      let fetch_access_token = await this.prisma.token.findFirst({
+        orderBy: { createdAt: 'desc' },
+      });
+
     const endpoint = `https://graph.facebook.com/v23.0/${businessAccountId}/message_templates`;
 
     try {
       const response = await firstValueFrom(
         this.httpService.post(endpoint, dto, {
           headers: {
-            Authorization: `Bearer ${process.env.WHATSAPP_LONG_LIVED_ACCESS_TOKEN}`,
+            Authorization: `Bearer ${fetch_access_token?.facebookLongLivedAccessToken}`,
             'Content-Type': 'application/json',
           },
         }),
@@ -127,11 +163,15 @@ export class WhatsappService {
   async getMessageTemplates(): Promise<any> {
     const version = this.configService.get<string>('WHATSAPP_VERSION');
     const businessAccountId = this.configService.get<string>('WABA_ID');
-    const accessToken = this.configService.get<string>(
-      'WHATSAPP_LONG_LIVED_ACCESS_TOKEN',
-    );
+    // const accessToken = this.configService.get<string>(
+    //   'WHATSAPP_LONG_LIVED_ACCESS_TOKEN',
+    // );
 
-    if (!version || !businessAccountId || !accessToken) {
+      let fetch_access_token = await this.prisma.token.findFirst({
+        orderBy: { createdAt: 'desc' },
+      });
+
+    if (!version || !businessAccountId || !fetch_access_token?.facebookAccessToken) {
       throw new Error(
         'WHATSAPP_VERSION, WABA_ID, and WHATSAPP_LONG_LIVED_ACCESS_TOKEN are required',
       );
@@ -143,7 +183,8 @@ export class WhatsappService {
       const response = await firstValueFrom(
         this.httpService.get(endpoint, {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${fetch_access_token?.facebookAccessToken}`,
+            // ${fetch_access_token?.facebookAccessToken}`,
           },
         }),
       );
@@ -156,10 +197,14 @@ export class WhatsappService {
 
   async getMessageTemplateStatus(templateId: string): Promise<any> {
     const version = this.configService.get<string>('WHATSAPP_VERSION');
-    const accessToken = this.configService.get<string>(
-      'WHATSAPP_LONG_LIVED_ACCESS_TOKEN',
-    );
-    if (!templateId || !version || !accessToken) {
+    // const accessToken = this.configService.get<string>(
+    //   'WHATSAPP_LONG_LIVED_ACCESS_TOKEN',
+    // );
+              let fetch_access_token = await this.prisma.token.findFirst({
+        orderBy: { createdAt: 'desc' },
+      });
+
+    if (!templateId || !version || !fetch_access_token?.facebookAccessToken) {
       throw new Error(
         'templateId, WHATSAPP_VERSION, and WHATSAPP_LONG_LIVED_ACCESS_TOKEN are required',
       );
@@ -172,7 +217,7 @@ export class WhatsappService {
         this.httpService.get(endpoint, {
           params: { fields: 'status' },
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${fetch_access_token?.facebookAccessToken}`,
           },
         }),
       );
@@ -184,9 +229,10 @@ export class WhatsappService {
   }
 
   async sendMessage(dto: MessageDto): Promise<any> {
-              const accessToken = this.configService.get<string>(
-      'WHATSAPP_LONG_LIVED_ACCESS_TOKEN',
-    );
+
+          let fetch_access_token = await this.prisma.token.findFirst({
+        orderBy: { createdAt: 'desc' },
+      });
     const url = `${this.baseUrl}/messages`;
     
     const body = {
@@ -197,7 +243,7 @@ export class WhatsappService {
     };
 
     const headers = {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${fetch_access_token?.facebookLongLivedAccessToken}`,
       'Content-Type': 'application/json',
     };
 
@@ -217,9 +263,15 @@ export class WhatsappService {
     const phoneNumberId =
       this.configService.get<string>('WHATSAPP_BUSINESS_PHONE_NUMBER_ID') ||
       '1343947352130201';
-          const accessToken = this.configService.get<string>(
-      'WHATSAPP_LONG_LIVED_ACCESS_TOKEN',
-    );
+
+      let fetch_access_token = await this.prisma.token.findFirst({
+        orderBy: { createdAt: 'desc' },
+      });
+      console.log(fetch_access_token, 'fetch access token');
+
+    if(!fetch_access_token) {
+      throw new Error('No access token found in the database. Please store a valid token first.');
+    }
 
     if (!version || !phoneNumberId) {
       throw new Error(
@@ -246,7 +298,7 @@ export class WhatsappService {
       const response = await firstValueFrom(
         this.httpService.post(endpoint, body, {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${fetch_access_token.facebookLongLivedAccessToken}`,
             'Content-Type': 'application/json',
           },
         }),
@@ -256,6 +308,56 @@ export class WhatsappService {
     } catch (error: any) {
       console.log(error, 'log error')
       throw error.response?.data || error.message;
+    }
+  }
+
+  async saveToken(dto: TokenDto): Promise<void> {
+    try {
+      await this.prisma.token.create({
+        data: {
+          facebookAccessToken: dto.facebookAccessToken,
+          facebookLongLivedAccessToken: dto.facebookLongLivedAccessToken,
+        },
+      });
+
+
+    } catch(error) {
+      console.error('Error saving token to database:', error);
+      throw new Error('Failed to save token to database');
+    }
+  }
+
+  async editTokenById(id: string, dto: TokenDto): Promise<void> {
+    try {
+      await this.prisma.token.update({
+        where: { id },
+        data: {
+          facebookAccessToken: dto.facebookAccessToken,
+          facebookLongLivedAccessToken: dto.facebookLongLivedAccessToken,
+        },
+      });
+    } catch (error) {
+      console.error('Error updating token in database:', error);
+      throw new Error('Failed to update token in database');
+    }
+  }
+
+  async getTokens(): Promise<any> {
+    try {
+      const tokenRecord = await this.prisma.token.findFirst({
+        orderBy: { createdAt: 'desc' },
+      });
+
+      if (!tokenRecord) {
+        return null;
+      }
+
+      return {
+        tokenRecord
+      };
+    } catch (error) {
+      console.error('Error retrieving tokens from database:', error);
+      throw new Error('Failed to retrieve tokens from database');
     }
   }
 }

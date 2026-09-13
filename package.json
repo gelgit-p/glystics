@@ -35,6 +35,8 @@
     "@nestjs/throttler": "^6.4.0",
     "@prisma/client": "^6.8.2",
     "bcrypt": "^6.0.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.15.1",
     "dotenv": "^17.4.2",
     "graphql": "^16.11.0",
     "instagram-bot-api": "^1.0.1",
