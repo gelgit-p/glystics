@@ -17,7 +17,7 @@ export class WebhookController {
     @Query('hub.verify_token') token: string,
     @Res() res: Response,
   ) {
-    const verifyToken = process.env.WHATSAPP_VERIFY_TOKEN;
+    const verifyToken = process.env.WEBHOOK_SECRET;
 
     if (mode === 'subscribe' && token === verifyToken) {
       console.log('WEBHOOK VERIFIED');
