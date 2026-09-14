@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Body, Query, Res, HttpStatus, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, Res, HttpStatus, Param, Put } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
 import { WhatsappService } from './whatsapp.service';
 import { MessageDto } from './dto/whatsapp.dto';
 import { CreateMessageTemplateDto } from './dto/create-message-template.dto';
 import { SendUtilityMessageDto } from './dto/send-utility-message.dto';
+import { TokenDto } from './dto/token.dto';
 
 @Controller('whatsapp')
 export class WhatsappController {
@@ -36,6 +37,8 @@ export class WhatsappController {
     return await this.whatsappService.getLongLivedToken(accessToken);
   }
 
+
+
   @Post('message-templates')
   async createMessageTemplate(@Body() dto: CreateMessageTemplateDto) {
     return await this.whatsappService.createMessageTemplate(dto);
@@ -54,6 +57,33 @@ export class WhatsappController {
   @Post('send-utility-message')
   async sendUtilityMessage(@Body() dto: SendUtilityMessageDto) {
     return await this.whatsappService.sendUtilityMessage(dto);
+  }
+
+  @Post('store-token')
+  async storeToken(@Body() dto: TokenDto) {
+    return await this.whatsappService.saveToken(dto);
+  }
+
+  @Get('tokens')
+  async getTokens() {
+    return await this.whatsappService.getTokens();
+  }
+
+  @Get('messaging-limit')
+  async getMessagingLimit() {
+    return await this.whatsappService.getMessagingLimit();
+  }
+
+  @Get('debug-token')
+  async debugToken() {
+    return await this.whatsappService.debugToken();
+  }
+
+
+
+  @Put('tokens/:id')
+  async editTokenById(@Param('id') id: string, @Body() dto: TokenDto) {
+    return await this.whatsappService.editTokenById(id, dto);
   }
 
   /**
