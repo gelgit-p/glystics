@@ -19,7 +19,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
-    "pnpm": {
+  "pnpm": {
     "allowBuilds": [
       "@apollo/protobufjs",
       "@prisma/client",
@@ -54,6 +54,7 @@
     "dotenv": "^17.4.2",
     "graphql": "^16.11.0",
     "instagram-bot-api": "^1.0.1",
+    "multer": "^2.4.0",
     "nodemailer": "^7.0.3",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
