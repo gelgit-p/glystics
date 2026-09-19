@@ -7,7 +7,7 @@ generator client {
 // 2. Configure the PostgreSQL database connection
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("SHADOW_DATABASE_URL")
   // shadowDatabaseUrl = env("SHADOW_DATABASE_URL"), 
 }
 
@@ -32,4 +32,25 @@ model Token {
   createdAt                    DateTime @default(now())
 
   @@map("tokens")
+}
+
+model Delivery {
+  id                   String  @id @default(uuid())
+  senderName           String
+  senderPhone          String
+  senderAddress        String
+  receiverName         String
+  receiverPhone        String
+  receiverAddress      String
+  packageName          String
+  packageCategory      String
+  packageWeight        String
+  packageDimensions    String
+  packageValue         String
+  pickupDate           String
+  deliveryType         String
+  deliveryInstructions String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }

@@ -23,6 +23,11 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  * 
  */
 export type Token = $Result.DefaultSelection<Prisma.$TokenPayload>
+/**
+ * Model Delivery
+ * 
+ */
+export type Delivery = $Result.DefaultSelection<Prisma.$DeliveryPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -161,6 +166,16 @@ export class PrismaClient<
     * ```
     */
   get token(): Prisma.TokenDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.delivery`: Exposes CRUD operations for the **Delivery** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Deliveries
+    * const deliveries = await prisma.delivery.findMany()
+    * ```
+    */
+  get delivery(): Prisma.DeliveryDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -603,7 +618,8 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
-    Token: 'Token'
+    Token: 'Token',
+    Delivery: 'Delivery'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -622,7 +638,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "token"
+      modelProps: "user" | "token" | "delivery"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -774,6 +790,80 @@ export namespace Prisma {
           }
         }
       }
+      Delivery: {
+        payload: Prisma.$DeliveryPayload<ExtArgs>
+        fields: Prisma.DeliveryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DeliveryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeliveryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DeliveryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeliveryPayload>
+          }
+          findFirst: {
+            args: Prisma.DeliveryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeliveryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DeliveryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeliveryPayload>
+          }
+          findMany: {
+            args: Prisma.DeliveryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeliveryPayload>[]
+          }
+          create: {
+            args: Prisma.DeliveryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeliveryPayload>
+          }
+          createMany: {
+            args: Prisma.DeliveryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DeliveryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeliveryPayload>[]
+          }
+          delete: {
+            args: Prisma.DeliveryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeliveryPayload>
+          }
+          update: {
+            args: Prisma.DeliveryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeliveryPayload>
+          }
+          deleteMany: {
+            args: Prisma.DeliveryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DeliveryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DeliveryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeliveryPayload>[]
+          }
+          upsert: {
+            args: Prisma.DeliveryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeliveryPayload>
+          }
+          aggregate: {
+            args: Prisma.DeliveryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDelivery>
+          }
+          groupBy: {
+            args: Prisma.DeliveryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DeliveryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DeliveryCountArgs<ExtArgs>
+            result: $Utils.Optional<DeliveryCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -872,6 +962,7 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     user?: UserOmit
     token?: TokenOmit
+    delivery?: DeliveryOmit
   }
 
   /* Types for Logging */
@@ -2982,6 +3073,1157 @@ export namespace Prisma {
 
 
   /**
+   * Model Delivery
+   */
+
+  export type AggregateDelivery = {
+    _count: DeliveryCountAggregateOutputType | null
+    _min: DeliveryMinAggregateOutputType | null
+    _max: DeliveryMaxAggregateOutputType | null
+  }
+
+  export type DeliveryMinAggregateOutputType = {
+    id: string | null
+    senderName: string | null
+    senderPhone: string | null
+    senderAddress: string | null
+    receiverName: string | null
+    receiverPhone: string | null
+    receiverAddress: string | null
+    packageName: string | null
+    packageCategory: string | null
+    packageWeight: string | null
+    packageDimensions: string | null
+    packageValue: string | null
+    pickupDate: string | null
+    deliveryType: string | null
+    deliveryInstructions: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DeliveryMaxAggregateOutputType = {
+    id: string | null
+    senderName: string | null
+    senderPhone: string | null
+    senderAddress: string | null
+    receiverName: string | null
+    receiverPhone: string | null
+    receiverAddress: string | null
+    packageName: string | null
+    packageCategory: string | null
+    packageWeight: string | null
+    packageDimensions: string | null
+    packageValue: string | null
+    pickupDate: string | null
+    deliveryType: string | null
+    deliveryInstructions: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DeliveryCountAggregateOutputType = {
+    id: number
+    senderName: number
+    senderPhone: number
+    senderAddress: number
+    receiverName: number
+    receiverPhone: number
+    receiverAddress: number
+    packageName: number
+    packageCategory: number
+    packageWeight: number
+    packageDimensions: number
+    packageValue: number
+    pickupDate: number
+    deliveryType: number
+    deliveryInstructions: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type DeliveryMinAggregateInputType = {
+    id?: true
+    senderName?: true
+    senderPhone?: true
+    senderAddress?: true
+    receiverName?: true
+    receiverPhone?: true
+    receiverAddress?: true
+    packageName?: true
+    packageCategory?: true
+    packageWeight?: true
+    packageDimensions?: true
+    packageValue?: true
+    pickupDate?: true
+    deliveryType?: true
+    deliveryInstructions?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DeliveryMaxAggregateInputType = {
+    id?: true
+    senderName?: true
+    senderPhone?: true
+    senderAddress?: true
+    receiverName?: true
+    receiverPhone?: true
+    receiverAddress?: true
+    packageName?: true
+    packageCategory?: true
+    packageWeight?: true
+    packageDimensions?: true
+    packageValue?: true
+    pickupDate?: true
+    deliveryType?: true
+    deliveryInstructions?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DeliveryCountAggregateInputType = {
+    id?: true
+    senderName?: true
+    senderPhone?: true
+    senderAddress?: true
+    receiverName?: true
+    receiverPhone?: true
+    receiverAddress?: true
+    packageName?: true
+    packageCategory?: true
+    packageWeight?: true
+    packageDimensions?: true
+    packageValue?: true
+    pickupDate?: true
+    deliveryType?: true
+    deliveryInstructions?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type DeliveryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Delivery to aggregate.
+     */
+    where?: DeliveryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Deliveries to fetch.
+     */
+    orderBy?: DeliveryOrderByWithRelationInput | DeliveryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DeliveryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Deliveries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Deliveries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Deliveries
+    **/
+    _count?: true | DeliveryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DeliveryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DeliveryMaxAggregateInputType
+  }
+
+  export type GetDeliveryAggregateType<T extends DeliveryAggregateArgs> = {
+        [P in keyof T & keyof AggregateDelivery]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDelivery[P]>
+      : GetScalarType<T[P], AggregateDelivery[P]>
+  }
+
+
+
+
+  export type DeliveryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DeliveryWhereInput
+    orderBy?: DeliveryOrderByWithAggregationInput | DeliveryOrderByWithAggregationInput[]
+    by: DeliveryScalarFieldEnum[] | DeliveryScalarFieldEnum
+    having?: DeliveryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DeliveryCountAggregateInputType | true
+    _min?: DeliveryMinAggregateInputType
+    _max?: DeliveryMaxAggregateInputType
+  }
+
+  export type DeliveryGroupByOutputType = {
+    id: string
+    senderName: string
+    senderPhone: string
+    senderAddress: string
+    receiverName: string
+    receiverPhone: string
+    receiverAddress: string
+    packageName: string
+    packageCategory: string
+    packageWeight: string
+    packageDimensions: string
+    packageValue: string
+    pickupDate: string
+    deliveryType: string
+    deliveryInstructions: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: DeliveryCountAggregateOutputType | null
+    _min: DeliveryMinAggregateOutputType | null
+    _max: DeliveryMaxAggregateOutputType | null
+  }
+
+  type GetDeliveryGroupByPayload<T extends DeliveryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DeliveryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DeliveryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DeliveryGroupByOutputType[P]>
+            : GetScalarType<T[P], DeliveryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DeliverySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    senderName?: boolean
+    senderPhone?: boolean
+    senderAddress?: boolean
+    receiverName?: boolean
+    receiverPhone?: boolean
+    receiverAddress?: boolean
+    packageName?: boolean
+    packageCategory?: boolean
+    packageWeight?: boolean
+    packageDimensions?: boolean
+    packageValue?: boolean
+    pickupDate?: boolean
+    deliveryType?: boolean
+    deliveryInstructions?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["delivery"]>
+
+  export type DeliverySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    senderName?: boolean
+    senderPhone?: boolean
+    senderAddress?: boolean
+    receiverName?: boolean
+    receiverPhone?: boolean
+    receiverAddress?: boolean
+    packageName?: boolean
+    packageCategory?: boolean
+    packageWeight?: boolean
+    packageDimensions?: boolean
+    packageValue?: boolean
+    pickupDate?: boolean
+    deliveryType?: boolean
+    deliveryInstructions?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["delivery"]>
+
+  export type DeliverySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    senderName?: boolean
+    senderPhone?: boolean
+    senderAddress?: boolean
+    receiverName?: boolean
+    receiverPhone?: boolean
+    receiverAddress?: boolean
+    packageName?: boolean
+    packageCategory?: boolean
+    packageWeight?: boolean
+    packageDimensions?: boolean
+    packageValue?: boolean
+    pickupDate?: boolean
+    deliveryType?: boolean
+    deliveryInstructions?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["delivery"]>
+
+  export type DeliverySelectScalar = {
+    id?: boolean
+    senderName?: boolean
+    senderPhone?: boolean
+    senderAddress?: boolean
+    receiverName?: boolean
+    receiverPhone?: boolean
+    receiverAddress?: boolean
+    packageName?: boolean
+    packageCategory?: boolean
+    packageWeight?: boolean
+    packageDimensions?: boolean
+    packageValue?: boolean
+    pickupDate?: boolean
+    deliveryType?: boolean
+    deliveryInstructions?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type DeliveryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "senderName" | "senderPhone" | "senderAddress" | "receiverName" | "receiverPhone" | "receiverAddress" | "packageName" | "packageCategory" | "packageWeight" | "packageDimensions" | "packageValue" | "pickupDate" | "deliveryType" | "deliveryInstructions" | "createdAt" | "updatedAt", ExtArgs["result"]["delivery"]>
+
+  export type $DeliveryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Delivery"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      senderName: string
+      senderPhone: string
+      senderAddress: string
+      receiverName: string
+      receiverPhone: string
+      receiverAddress: string
+      packageName: string
+      packageCategory: string
+      packageWeight: string
+      packageDimensions: string
+      packageValue: string
+      pickupDate: string
+      deliveryType: string
+      deliveryInstructions: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["delivery"]>
+    composites: {}
+  }
+
+  type DeliveryGetPayload<S extends boolean | null | undefined | DeliveryDefaultArgs> = $Result.GetResult<Prisma.$DeliveryPayload, S>
+
+  type DeliveryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DeliveryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DeliveryCountAggregateInputType | true
+    }
+
+  export interface DeliveryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Delivery'], meta: { name: 'Delivery' } }
+    /**
+     * Find zero or one Delivery that matches the filter.
+     * @param {DeliveryFindUniqueArgs} args - Arguments to find a Delivery
+     * @example
+     * // Get one Delivery
+     * const delivery = await prisma.delivery.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DeliveryFindUniqueArgs>(args: SelectSubset<T, DeliveryFindUniqueArgs<ExtArgs>>): Prisma__DeliveryClient<$Result.GetResult<Prisma.$DeliveryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Delivery that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DeliveryFindUniqueOrThrowArgs} args - Arguments to find a Delivery
+     * @example
+     * // Get one Delivery
+     * const delivery = await prisma.delivery.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DeliveryFindUniqueOrThrowArgs>(args: SelectSubset<T, DeliveryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DeliveryClient<$Result.GetResult<Prisma.$DeliveryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Delivery that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeliveryFindFirstArgs} args - Arguments to find a Delivery
+     * @example
+     * // Get one Delivery
+     * const delivery = await prisma.delivery.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DeliveryFindFirstArgs>(args?: SelectSubset<T, DeliveryFindFirstArgs<ExtArgs>>): Prisma__DeliveryClient<$Result.GetResult<Prisma.$DeliveryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Delivery that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeliveryFindFirstOrThrowArgs} args - Arguments to find a Delivery
+     * @example
+     * // Get one Delivery
+     * const delivery = await prisma.delivery.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DeliveryFindFirstOrThrowArgs>(args?: SelectSubset<T, DeliveryFindFirstOrThrowArgs<ExtArgs>>): Prisma__DeliveryClient<$Result.GetResult<Prisma.$DeliveryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Deliveries that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeliveryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Deliveries
+     * const deliveries = await prisma.delivery.findMany()
+     * 
+     * // Get first 10 Deliveries
+     * const deliveries = await prisma.delivery.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const deliveryWithIdOnly = await prisma.delivery.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DeliveryFindManyArgs>(args?: SelectSubset<T, DeliveryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DeliveryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Delivery.
+     * @param {DeliveryCreateArgs} args - Arguments to create a Delivery.
+     * @example
+     * // Create one Delivery
+     * const Delivery = await prisma.delivery.create({
+     *   data: {
+     *     // ... data to create a Delivery
+     *   }
+     * })
+     * 
+     */
+    create<T extends DeliveryCreateArgs>(args: SelectSubset<T, DeliveryCreateArgs<ExtArgs>>): Prisma__DeliveryClient<$Result.GetResult<Prisma.$DeliveryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Deliveries.
+     * @param {DeliveryCreateManyArgs} args - Arguments to create many Deliveries.
+     * @example
+     * // Create many Deliveries
+     * const delivery = await prisma.delivery.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DeliveryCreateManyArgs>(args?: SelectSubset<T, DeliveryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Deliveries and returns the data saved in the database.
+     * @param {DeliveryCreateManyAndReturnArgs} args - Arguments to create many Deliveries.
+     * @example
+     * // Create many Deliveries
+     * const delivery = await prisma.delivery.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Deliveries and only return the `id`
+     * const deliveryWithIdOnly = await prisma.delivery.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DeliveryCreateManyAndReturnArgs>(args?: SelectSubset<T, DeliveryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DeliveryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Delivery.
+     * @param {DeliveryDeleteArgs} args - Arguments to delete one Delivery.
+     * @example
+     * // Delete one Delivery
+     * const Delivery = await prisma.delivery.delete({
+     *   where: {
+     *     // ... filter to delete one Delivery
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DeliveryDeleteArgs>(args: SelectSubset<T, DeliveryDeleteArgs<ExtArgs>>): Prisma__DeliveryClient<$Result.GetResult<Prisma.$DeliveryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Delivery.
+     * @param {DeliveryUpdateArgs} args - Arguments to update one Delivery.
+     * @example
+     * // Update one Delivery
+     * const delivery = await prisma.delivery.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DeliveryUpdateArgs>(args: SelectSubset<T, DeliveryUpdateArgs<ExtArgs>>): Prisma__DeliveryClient<$Result.GetResult<Prisma.$DeliveryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Deliveries.
+     * @param {DeliveryDeleteManyArgs} args - Arguments to filter Deliveries to delete.
+     * @example
+     * // Delete a few Deliveries
+     * const { count } = await prisma.delivery.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DeliveryDeleteManyArgs>(args?: SelectSubset<T, DeliveryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Deliveries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeliveryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Deliveries
+     * const delivery = await prisma.delivery.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DeliveryUpdateManyArgs>(args: SelectSubset<T, DeliveryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Deliveries and returns the data updated in the database.
+     * @param {DeliveryUpdateManyAndReturnArgs} args - Arguments to update many Deliveries.
+     * @example
+     * // Update many Deliveries
+     * const delivery = await prisma.delivery.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Deliveries and only return the `id`
+     * const deliveryWithIdOnly = await prisma.delivery.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DeliveryUpdateManyAndReturnArgs>(args: SelectSubset<T, DeliveryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DeliveryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Delivery.
+     * @param {DeliveryUpsertArgs} args - Arguments to update or create a Delivery.
+     * @example
+     * // Update or create a Delivery
+     * const delivery = await prisma.delivery.upsert({
+     *   create: {
+     *     // ... data to create a Delivery
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Delivery we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DeliveryUpsertArgs>(args: SelectSubset<T, DeliveryUpsertArgs<ExtArgs>>): Prisma__DeliveryClient<$Result.GetResult<Prisma.$DeliveryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Deliveries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeliveryCountArgs} args - Arguments to filter Deliveries to count.
+     * @example
+     * // Count the number of Deliveries
+     * const count = await prisma.delivery.count({
+     *   where: {
+     *     // ... the filter for the Deliveries we want to count
+     *   }
+     * })
+    **/
+    count<T extends DeliveryCountArgs>(
+      args?: Subset<T, DeliveryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DeliveryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Delivery.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeliveryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DeliveryAggregateArgs>(args: Subset<T, DeliveryAggregateArgs>): Prisma.PrismaPromise<GetDeliveryAggregateType<T>>
+
+    /**
+     * Group by Delivery.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeliveryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DeliveryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DeliveryGroupByArgs['orderBy'] }
+        : { orderBy?: DeliveryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DeliveryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDeliveryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Delivery model
+   */
+  readonly fields: DeliveryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Delivery.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DeliveryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Delivery model
+   */
+  interface DeliveryFieldRefs {
+    readonly id: FieldRef<"Delivery", 'String'>
+    readonly senderName: FieldRef<"Delivery", 'String'>
+    readonly senderPhone: FieldRef<"Delivery", 'String'>
+    readonly senderAddress: FieldRef<"Delivery", 'String'>
+    readonly receiverName: FieldRef<"Delivery", 'String'>
+    readonly receiverPhone: FieldRef<"Delivery", 'String'>
+    readonly receiverAddress: FieldRef<"Delivery", 'String'>
+    readonly packageName: FieldRef<"Delivery", 'String'>
+    readonly packageCategory: FieldRef<"Delivery", 'String'>
+    readonly packageWeight: FieldRef<"Delivery", 'String'>
+    readonly packageDimensions: FieldRef<"Delivery", 'String'>
+    readonly packageValue: FieldRef<"Delivery", 'String'>
+    readonly pickupDate: FieldRef<"Delivery", 'String'>
+    readonly deliveryType: FieldRef<"Delivery", 'String'>
+    readonly deliveryInstructions: FieldRef<"Delivery", 'String'>
+    readonly createdAt: FieldRef<"Delivery", 'DateTime'>
+    readonly updatedAt: FieldRef<"Delivery", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Delivery findUnique
+   */
+  export type DeliveryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Delivery
+     */
+    select?: DeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Delivery
+     */
+    omit?: DeliveryOmit<ExtArgs> | null
+    /**
+     * Filter, which Delivery to fetch.
+     */
+    where: DeliveryWhereUniqueInput
+  }
+
+  /**
+   * Delivery findUniqueOrThrow
+   */
+  export type DeliveryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Delivery
+     */
+    select?: DeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Delivery
+     */
+    omit?: DeliveryOmit<ExtArgs> | null
+    /**
+     * Filter, which Delivery to fetch.
+     */
+    where: DeliveryWhereUniqueInput
+  }
+
+  /**
+   * Delivery findFirst
+   */
+  export type DeliveryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Delivery
+     */
+    select?: DeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Delivery
+     */
+    omit?: DeliveryOmit<ExtArgs> | null
+    /**
+     * Filter, which Delivery to fetch.
+     */
+    where?: DeliveryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Deliveries to fetch.
+     */
+    orderBy?: DeliveryOrderByWithRelationInput | DeliveryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Deliveries.
+     */
+    cursor?: DeliveryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Deliveries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Deliveries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Deliveries.
+     */
+    distinct?: DeliveryScalarFieldEnum | DeliveryScalarFieldEnum[]
+  }
+
+  /**
+   * Delivery findFirstOrThrow
+   */
+  export type DeliveryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Delivery
+     */
+    select?: DeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Delivery
+     */
+    omit?: DeliveryOmit<ExtArgs> | null
+    /**
+     * Filter, which Delivery to fetch.
+     */
+    where?: DeliveryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Deliveries to fetch.
+     */
+    orderBy?: DeliveryOrderByWithRelationInput | DeliveryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Deliveries.
+     */
+    cursor?: DeliveryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Deliveries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Deliveries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Deliveries.
+     */
+    distinct?: DeliveryScalarFieldEnum | DeliveryScalarFieldEnum[]
+  }
+
+  /**
+   * Delivery findMany
+   */
+  export type DeliveryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Delivery
+     */
+    select?: DeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Delivery
+     */
+    omit?: DeliveryOmit<ExtArgs> | null
+    /**
+     * Filter, which Deliveries to fetch.
+     */
+    where?: DeliveryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Deliveries to fetch.
+     */
+    orderBy?: DeliveryOrderByWithRelationInput | DeliveryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Deliveries.
+     */
+    cursor?: DeliveryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Deliveries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Deliveries.
+     */
+    skip?: number
+    distinct?: DeliveryScalarFieldEnum | DeliveryScalarFieldEnum[]
+  }
+
+  /**
+   * Delivery create
+   */
+  export type DeliveryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Delivery
+     */
+    select?: DeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Delivery
+     */
+    omit?: DeliveryOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Delivery.
+     */
+    data: XOR<DeliveryCreateInput, DeliveryUncheckedCreateInput>
+  }
+
+  /**
+   * Delivery createMany
+   */
+  export type DeliveryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Deliveries.
+     */
+    data: DeliveryCreateManyInput | DeliveryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Delivery createManyAndReturn
+   */
+  export type DeliveryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Delivery
+     */
+    select?: DeliverySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Delivery
+     */
+    omit?: DeliveryOmit<ExtArgs> | null
+    /**
+     * The data used to create many Deliveries.
+     */
+    data: DeliveryCreateManyInput | DeliveryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Delivery update
+   */
+  export type DeliveryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Delivery
+     */
+    select?: DeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Delivery
+     */
+    omit?: DeliveryOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Delivery.
+     */
+    data: XOR<DeliveryUpdateInput, DeliveryUncheckedUpdateInput>
+    /**
+     * Choose, which Delivery to update.
+     */
+    where: DeliveryWhereUniqueInput
+  }
+
+  /**
+   * Delivery updateMany
+   */
+  export type DeliveryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Deliveries.
+     */
+    data: XOR<DeliveryUpdateManyMutationInput, DeliveryUncheckedUpdateManyInput>
+    /**
+     * Filter which Deliveries to update
+     */
+    where?: DeliveryWhereInput
+    /**
+     * Limit how many Deliveries to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Delivery updateManyAndReturn
+   */
+  export type DeliveryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Delivery
+     */
+    select?: DeliverySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Delivery
+     */
+    omit?: DeliveryOmit<ExtArgs> | null
+    /**
+     * The data used to update Deliveries.
+     */
+    data: XOR<DeliveryUpdateManyMutationInput, DeliveryUncheckedUpdateManyInput>
+    /**
+     * Filter which Deliveries to update
+     */
+    where?: DeliveryWhereInput
+    /**
+     * Limit how many Deliveries to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Delivery upsert
+   */
+  export type DeliveryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Delivery
+     */
+    select?: DeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Delivery
+     */
+    omit?: DeliveryOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Delivery to update in case it exists.
+     */
+    where: DeliveryWhereUniqueInput
+    /**
+     * In case the Delivery found by the `where` argument doesn't exist, create a new Delivery with this data.
+     */
+    create: XOR<DeliveryCreateInput, DeliveryUncheckedCreateInput>
+    /**
+     * In case the Delivery was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DeliveryUpdateInput, DeliveryUncheckedUpdateInput>
+  }
+
+  /**
+   * Delivery delete
+   */
+  export type DeliveryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Delivery
+     */
+    select?: DeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Delivery
+     */
+    omit?: DeliveryOmit<ExtArgs> | null
+    /**
+     * Filter which Delivery to delete.
+     */
+    where: DeliveryWhereUniqueInput
+  }
+
+  /**
+   * Delivery deleteMany
+   */
+  export type DeliveryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Deliveries to delete
+     */
+    where?: DeliveryWhereInput
+    /**
+     * Limit how many Deliveries to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Delivery without action
+   */
+  export type DeliveryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Delivery
+     */
+    select?: DeliverySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Delivery
+     */
+    omit?: DeliveryOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -3018,6 +4260,29 @@ export namespace Prisma {
   };
 
   export type TokenScalarFieldEnum = (typeof TokenScalarFieldEnum)[keyof typeof TokenScalarFieldEnum]
+
+
+  export const DeliveryScalarFieldEnum: {
+    id: 'id',
+    senderName: 'senderName',
+    senderPhone: 'senderPhone',
+    senderAddress: 'senderAddress',
+    receiverName: 'receiverName',
+    receiverPhone: 'receiverPhone',
+    receiverAddress: 'receiverAddress',
+    packageName: 'packageName',
+    packageCategory: 'packageCategory',
+    packageWeight: 'packageWeight',
+    packageDimensions: 'packageDimensions',
+    packageValue: 'packageValue',
+    pickupDate: 'pickupDate',
+    deliveryType: 'deliveryType',
+    deliveryInstructions: 'deliveryInstructions',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type DeliveryScalarFieldEnum = (typeof DeliveryScalarFieldEnum)[keyof typeof DeliveryScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -3220,6 +4485,118 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Token"> | Date | string
   }
 
+  export type DeliveryWhereInput = {
+    AND?: DeliveryWhereInput | DeliveryWhereInput[]
+    OR?: DeliveryWhereInput[]
+    NOT?: DeliveryWhereInput | DeliveryWhereInput[]
+    id?: StringFilter<"Delivery"> | string
+    senderName?: StringFilter<"Delivery"> | string
+    senderPhone?: StringFilter<"Delivery"> | string
+    senderAddress?: StringFilter<"Delivery"> | string
+    receiverName?: StringFilter<"Delivery"> | string
+    receiverPhone?: StringFilter<"Delivery"> | string
+    receiverAddress?: StringFilter<"Delivery"> | string
+    packageName?: StringFilter<"Delivery"> | string
+    packageCategory?: StringFilter<"Delivery"> | string
+    packageWeight?: StringFilter<"Delivery"> | string
+    packageDimensions?: StringFilter<"Delivery"> | string
+    packageValue?: StringFilter<"Delivery"> | string
+    pickupDate?: StringFilter<"Delivery"> | string
+    deliveryType?: StringFilter<"Delivery"> | string
+    deliveryInstructions?: StringNullableFilter<"Delivery"> | string | null
+    createdAt?: DateTimeFilter<"Delivery"> | Date | string
+    updatedAt?: DateTimeFilter<"Delivery"> | Date | string
+  }
+
+  export type DeliveryOrderByWithRelationInput = {
+    id?: SortOrder
+    senderName?: SortOrder
+    senderPhone?: SortOrder
+    senderAddress?: SortOrder
+    receiverName?: SortOrder
+    receiverPhone?: SortOrder
+    receiverAddress?: SortOrder
+    packageName?: SortOrder
+    packageCategory?: SortOrder
+    packageWeight?: SortOrder
+    packageDimensions?: SortOrder
+    packageValue?: SortOrder
+    pickupDate?: SortOrder
+    deliveryType?: SortOrder
+    deliveryInstructions?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DeliveryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: DeliveryWhereInput | DeliveryWhereInput[]
+    OR?: DeliveryWhereInput[]
+    NOT?: DeliveryWhereInput | DeliveryWhereInput[]
+    senderName?: StringFilter<"Delivery"> | string
+    senderPhone?: StringFilter<"Delivery"> | string
+    senderAddress?: StringFilter<"Delivery"> | string
+    receiverName?: StringFilter<"Delivery"> | string
+    receiverPhone?: StringFilter<"Delivery"> | string
+    receiverAddress?: StringFilter<"Delivery"> | string
+    packageName?: StringFilter<"Delivery"> | string
+    packageCategory?: StringFilter<"Delivery"> | string
+    packageWeight?: StringFilter<"Delivery"> | string
+    packageDimensions?: StringFilter<"Delivery"> | string
+    packageValue?: StringFilter<"Delivery"> | string
+    pickupDate?: StringFilter<"Delivery"> | string
+    deliveryType?: StringFilter<"Delivery"> | string
+    deliveryInstructions?: StringNullableFilter<"Delivery"> | string | null
+    createdAt?: DateTimeFilter<"Delivery"> | Date | string
+    updatedAt?: DateTimeFilter<"Delivery"> | Date | string
+  }, "id">
+
+  export type DeliveryOrderByWithAggregationInput = {
+    id?: SortOrder
+    senderName?: SortOrder
+    senderPhone?: SortOrder
+    senderAddress?: SortOrder
+    receiverName?: SortOrder
+    receiverPhone?: SortOrder
+    receiverAddress?: SortOrder
+    packageName?: SortOrder
+    packageCategory?: SortOrder
+    packageWeight?: SortOrder
+    packageDimensions?: SortOrder
+    packageValue?: SortOrder
+    pickupDate?: SortOrder
+    deliveryType?: SortOrder
+    deliveryInstructions?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: DeliveryCountOrderByAggregateInput
+    _max?: DeliveryMaxOrderByAggregateInput
+    _min?: DeliveryMinOrderByAggregateInput
+  }
+
+  export type DeliveryScalarWhereWithAggregatesInput = {
+    AND?: DeliveryScalarWhereWithAggregatesInput | DeliveryScalarWhereWithAggregatesInput[]
+    OR?: DeliveryScalarWhereWithAggregatesInput[]
+    NOT?: DeliveryScalarWhereWithAggregatesInput | DeliveryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Delivery"> | string
+    senderName?: StringWithAggregatesFilter<"Delivery"> | string
+    senderPhone?: StringWithAggregatesFilter<"Delivery"> | string
+    senderAddress?: StringWithAggregatesFilter<"Delivery"> | string
+    receiverName?: StringWithAggregatesFilter<"Delivery"> | string
+    receiverPhone?: StringWithAggregatesFilter<"Delivery"> | string
+    receiverAddress?: StringWithAggregatesFilter<"Delivery"> | string
+    packageName?: StringWithAggregatesFilter<"Delivery"> | string
+    packageCategory?: StringWithAggregatesFilter<"Delivery"> | string
+    packageWeight?: StringWithAggregatesFilter<"Delivery"> | string
+    packageDimensions?: StringWithAggregatesFilter<"Delivery"> | string
+    packageValue?: StringWithAggregatesFilter<"Delivery"> | string
+    pickupDate?: StringWithAggregatesFilter<"Delivery"> | string
+    deliveryType?: StringWithAggregatesFilter<"Delivery"> | string
+    deliveryInstructions?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Delivery"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Delivery"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -3351,6 +4728,146 @@ export namespace Prisma {
     facebookAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     facebookLongLivedAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DeliveryCreateInput = {
+    id?: string
+    senderName: string
+    senderPhone: string
+    senderAddress: string
+    receiverName: string
+    receiverPhone: string
+    receiverAddress: string
+    packageName: string
+    packageCategory: string
+    packageWeight: string
+    packageDimensions: string
+    packageValue: string
+    pickupDate: string
+    deliveryType: string
+    deliveryInstructions?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DeliveryUncheckedCreateInput = {
+    id?: string
+    senderName: string
+    senderPhone: string
+    senderAddress: string
+    receiverName: string
+    receiverPhone: string
+    receiverAddress: string
+    packageName: string
+    packageCategory: string
+    packageWeight: string
+    packageDimensions: string
+    packageValue: string
+    pickupDate: string
+    deliveryType: string
+    deliveryInstructions?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DeliveryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    senderName?: StringFieldUpdateOperationsInput | string
+    senderPhone?: StringFieldUpdateOperationsInput | string
+    senderAddress?: StringFieldUpdateOperationsInput | string
+    receiverName?: StringFieldUpdateOperationsInput | string
+    receiverPhone?: StringFieldUpdateOperationsInput | string
+    receiverAddress?: StringFieldUpdateOperationsInput | string
+    packageName?: StringFieldUpdateOperationsInput | string
+    packageCategory?: StringFieldUpdateOperationsInput | string
+    packageWeight?: StringFieldUpdateOperationsInput | string
+    packageDimensions?: StringFieldUpdateOperationsInput | string
+    packageValue?: StringFieldUpdateOperationsInput | string
+    pickupDate?: StringFieldUpdateOperationsInput | string
+    deliveryType?: StringFieldUpdateOperationsInput | string
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DeliveryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    senderName?: StringFieldUpdateOperationsInput | string
+    senderPhone?: StringFieldUpdateOperationsInput | string
+    senderAddress?: StringFieldUpdateOperationsInput | string
+    receiverName?: StringFieldUpdateOperationsInput | string
+    receiverPhone?: StringFieldUpdateOperationsInput | string
+    receiverAddress?: StringFieldUpdateOperationsInput | string
+    packageName?: StringFieldUpdateOperationsInput | string
+    packageCategory?: StringFieldUpdateOperationsInput | string
+    packageWeight?: StringFieldUpdateOperationsInput | string
+    packageDimensions?: StringFieldUpdateOperationsInput | string
+    packageValue?: StringFieldUpdateOperationsInput | string
+    pickupDate?: StringFieldUpdateOperationsInput | string
+    deliveryType?: StringFieldUpdateOperationsInput | string
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DeliveryCreateManyInput = {
+    id?: string
+    senderName: string
+    senderPhone: string
+    senderAddress: string
+    receiverName: string
+    receiverPhone: string
+    receiverAddress: string
+    packageName: string
+    packageCategory: string
+    packageWeight: string
+    packageDimensions: string
+    packageValue: string
+    pickupDate: string
+    deliveryType: string
+    deliveryInstructions?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DeliveryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    senderName?: StringFieldUpdateOperationsInput | string
+    senderPhone?: StringFieldUpdateOperationsInput | string
+    senderAddress?: StringFieldUpdateOperationsInput | string
+    receiverName?: StringFieldUpdateOperationsInput | string
+    receiverPhone?: StringFieldUpdateOperationsInput | string
+    receiverAddress?: StringFieldUpdateOperationsInput | string
+    packageName?: StringFieldUpdateOperationsInput | string
+    packageCategory?: StringFieldUpdateOperationsInput | string
+    packageWeight?: StringFieldUpdateOperationsInput | string
+    packageDimensions?: StringFieldUpdateOperationsInput | string
+    packageValue?: StringFieldUpdateOperationsInput | string
+    pickupDate?: StringFieldUpdateOperationsInput | string
+    deliveryType?: StringFieldUpdateOperationsInput | string
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DeliveryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    senderName?: StringFieldUpdateOperationsInput | string
+    senderPhone?: StringFieldUpdateOperationsInput | string
+    senderAddress?: StringFieldUpdateOperationsInput | string
+    receiverName?: StringFieldUpdateOperationsInput | string
+    receiverPhone?: StringFieldUpdateOperationsInput | string
+    receiverAddress?: StringFieldUpdateOperationsInput | string
+    packageName?: StringFieldUpdateOperationsInput | string
+    packageCategory?: StringFieldUpdateOperationsInput | string
+    packageWeight?: StringFieldUpdateOperationsInput | string
+    packageDimensions?: StringFieldUpdateOperationsInput | string
+    packageValue?: StringFieldUpdateOperationsInput | string
+    pickupDate?: StringFieldUpdateOperationsInput | string
+    deliveryType?: StringFieldUpdateOperationsInput | string
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -3517,6 +5034,66 @@ export namespace Prisma {
     facebookAccessToken?: SortOrder
     facebookLongLivedAccessToken?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type DeliveryCountOrderByAggregateInput = {
+    id?: SortOrder
+    senderName?: SortOrder
+    senderPhone?: SortOrder
+    senderAddress?: SortOrder
+    receiverName?: SortOrder
+    receiverPhone?: SortOrder
+    receiverAddress?: SortOrder
+    packageName?: SortOrder
+    packageCategory?: SortOrder
+    packageWeight?: SortOrder
+    packageDimensions?: SortOrder
+    packageValue?: SortOrder
+    pickupDate?: SortOrder
+    deliveryType?: SortOrder
+    deliveryInstructions?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DeliveryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    senderName?: SortOrder
+    senderPhone?: SortOrder
+    senderAddress?: SortOrder
+    receiverName?: SortOrder
+    receiverPhone?: SortOrder
+    receiverAddress?: SortOrder
+    packageName?: SortOrder
+    packageCategory?: SortOrder
+    packageWeight?: SortOrder
+    packageDimensions?: SortOrder
+    packageValue?: SortOrder
+    pickupDate?: SortOrder
+    deliveryType?: SortOrder
+    deliveryInstructions?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DeliveryMinOrderByAggregateInput = {
+    id?: SortOrder
+    senderName?: SortOrder
+    senderPhone?: SortOrder
+    senderAddress?: SortOrder
+    receiverName?: SortOrder
+    receiverPhone?: SortOrder
+    receiverAddress?: SortOrder
+    packageName?: SortOrder
+    packageCategory?: SortOrder
+    packageWeight?: SortOrder
+    packageDimensions?: SortOrder
+    packageValue?: SortOrder
+    pickupDate?: SortOrder
+    deliveryType?: SortOrder
+    deliveryInstructions?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type StringFieldUpdateOperationsInput = {

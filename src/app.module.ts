@@ -17,6 +17,7 @@ import { InstagramModule } from './modules/instagram/instagram.module';
 import { WhatsappModule } from './modules/whatsapp/whatsapp.module';
 import { HealthController } from './health.controller';
 import { TerminusModule } from '@nestjs/terminus';
+import { DeliveryModule } from './modules/delivery/delivery.module';
 
 @Module({
   imports: [
@@ -42,7 +43,8 @@ import { TerminusModule } from '@nestjs/terminus';
     WebhookModule,
     WhatsappModule,
     InstagramModule,
-    TerminusModule
+    TerminusModule,
+    DeliveryModule,
   ],
   controllers: [AppController, HealthController],
   providers: [

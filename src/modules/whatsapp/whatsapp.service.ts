@@ -112,6 +112,8 @@ export class WhatsappService {
   }
 
 
+  // https://developers.facebook.com/documentation/business-messaging/whatsapp/embedded-signup/onboarding-customers-as-a-tech-provider
+  //  Exchange the token code for a business token
   async getAccessToken(): Promise<string> {
     const endpoint = 'https://graph.facebook.com/oauth/access_token';
     const appId = this.configService.get<string>('WHATSAPP_APP_ID');

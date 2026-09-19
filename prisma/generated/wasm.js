@@ -112,6 +112,26 @@ exports.Prisma.TokenScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.DeliveryScalarFieldEnum = {
+  id: 'id',
+  senderName: 'senderName',
+  senderPhone: 'senderPhone',
+  senderAddress: 'senderAddress',
+  receiverName: 'receiverName',
+  receiverPhone: 'receiverPhone',
+  receiverAddress: 'receiverAddress',
+  packageName: 'packageName',
+  packageCategory: 'packageCategory',
+  packageWeight: 'packageWeight',
+  packageDimensions: 'packageDimensions',
+  packageValue: 'packageValue',
+  pickupDate: 'pickupDate',
+  deliveryType: 'deliveryType',
+  deliveryInstructions: 'deliveryInstructions',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -130,7 +150,8 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Token: 'Token'
+  Token: 'Token',
+  Delivery: 'Delivery'
 };
 /**
  * Create the Client
@@ -171,22 +192,21 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
-        "fromEnvVar": "DATABASE_URL",
+        "fromEnvVar": "SHADOW_DATABASE_URL",
         "value": null
       }
     }
   },
-  "inlineSchema": "// 1. Configure the Prisma Client generator\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated\"\n}\n\n// 2. Configure the PostgreSQL database connection\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n  // shadowDatabaseUrl = env(\"SHADOW_DATABASE_URL\"), \n}\n\n// 3. User model for authentication and profiles\nmodel User {\n  id                String   @id @default(uuid())\n  email             String   @unique\n  password          String\n  emailConfirmed    Boolean  @default(false)\n  emailConfirmToken String?\n  businessName      String\n  fullName          String\n  createdAt         DateTime @default(now())\n  hashedRefresh     String?\n}\n\n// 4. Tokens model for Facebook API integration\nmodel Token {\n  id                           String   @id @default(uuid())\n  facebookAccessToken          String?  @map(\"facebook_access_token\")\n  facebookLongLivedAccessToken String?  @map(\"facebook_long_lived_access_token\")\n  createdAt                    DateTime @default(now())\n\n  @@map(\"tokens\")\n}\n",
-  "inlineSchemaHash": "ee68aa1c93c09bc13dd60bafcae4766ae46f6f93559575e5f3ef1dd32a551339",
+  "inlineSchema": "// 1. Configure the Prisma Client generator\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated\"\n}\n\n// 2. Configure the PostgreSQL database connection\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"SHADOW_DATABASE_URL\")\n  // shadowDatabaseUrl = env(\"SHADOW_DATABASE_URL\"), \n}\n\n// 3. User model for authentication and profiles\nmodel User {\n  id                String   @id @default(uuid())\n  email             String   @unique\n  password          String\n  emailConfirmed    Boolean  @default(false)\n  emailConfirmToken String?\n  businessName      String\n  fullName          String\n  createdAt         DateTime @default(now())\n  hashedRefresh     String?\n}\n\n// 4. Tokens model for Facebook API integration\nmodel Token {\n  id                           String   @id @default(uuid())\n  facebookAccessToken          String?  @map(\"facebook_access_token\")\n  facebookLongLivedAccessToken String?  @map(\"facebook_long_lived_access_token\")\n  createdAt                    DateTime @default(now())\n\n  @@map(\"tokens\")\n}\n\nmodel Delivery {\n  id                   String  @id @default(uuid())\n  senderName           String\n  senderPhone          String\n  senderAddress        String\n  receiverName         String\n  receiverPhone        String\n  receiverAddress      String\n  packageName          String\n  packageCategory      String\n  packageWeight        String\n  packageDimensions    String\n  packageValue         String\n  pickupDate           String\n  deliveryType         String\n  deliveryInstructions String?\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @default(now())\n}\n",
+  "inlineSchemaHash": "ea601e430021da18861519bd64f2f80d3e19a378332a73fd6d7c45f9e64f100b",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailConfirmed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"emailConfirmToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"businessName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"hashedRefresh\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"Token\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"facebookAccessToken\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"facebook_access_token\"},{\"name\":\"facebookLongLivedAccessToken\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"facebook_long_lived_access_token\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"tokens\"}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailConfirmed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"emailConfirmToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"businessName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"hashedRefresh\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"Token\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"facebookAccessToken\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"facebook_access_token\"},{\"name\":\"facebookLongLivedAccessToken\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"facebook_long_lived_access_token\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"tokens\"},\"Delivery\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"senderName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"senderPhone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"senderAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"receiverName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"receiverPhone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"receiverAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"packageName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"packageCategory\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"packageWeight\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"packageDimensions\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"packageValue\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"pickupDate\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deliveryType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deliveryInstructions\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),
@@ -200,7 +220,7 @@ config.compilerWasm = undefined
 
 config.injectableEdgeEnv = () => ({
   parsed: {
-    DATABASE_URL: typeof globalThis !== 'undefined' && globalThis['DATABASE_URL'] || typeof process !== 'undefined' && process.env && process.env.DATABASE_URL || undefined
+    SHADOW_DATABASE_URL: typeof globalThis !== 'undefined' && globalThis['SHADOW_DATABASE_URL'] || typeof process !== 'undefined' && process.env && process.env.SHADOW_DATABASE_URL || undefined
   }
 })
 

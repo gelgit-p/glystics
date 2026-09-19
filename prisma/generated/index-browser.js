@@ -140,6 +140,26 @@ exports.Prisma.TokenScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.DeliveryScalarFieldEnum = {
+  id: 'id',
+  senderName: 'senderName',
+  senderPhone: 'senderPhone',
+  senderAddress: 'senderAddress',
+  receiverName: 'receiverName',
+  receiverPhone: 'receiverPhone',
+  receiverAddress: 'receiverAddress',
+  packageName: 'packageName',
+  packageCategory: 'packageCategory',
+  packageWeight: 'packageWeight',
+  packageDimensions: 'packageDimensions',
+  packageValue: 'packageValue',
+  pickupDate: 'pickupDate',
+  deliveryType: 'deliveryType',
+  deliveryInstructions: 'deliveryInstructions',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -158,7 +178,8 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Token: 'Token'
+  Token: 'Token',
+  Delivery: 'Delivery'
 };
 
 /**
