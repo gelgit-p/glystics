@@ -15,6 +15,8 @@ import { ShipbubbleModule } from './modules/shipbubble/shipbubble.module';
 import { WebhookModule } from './modules/webhook/webhook.module';
 import { InstagramModule } from './modules/instagram/instagram.module';
 import { WhatsappModule } from './modules/whatsapp/whatsapp.module';
+import { HealthController } from './health.controller';
+import { TerminusModule } from '@nestjs/terminus';
 
 @Module({
   imports: [
@@ -40,8 +42,9 @@ import { WhatsappModule } from './modules/whatsapp/whatsapp.module';
     WebhookModule,
     WhatsappModule,
     InstagramModule,
+    TerminusModule
   ],
-  controllers: [AppController],
+  controllers: [AppController, HealthController],
   providers: [
     AppService,
     UserService,
