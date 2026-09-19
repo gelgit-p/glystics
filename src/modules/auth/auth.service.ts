@@ -49,34 +49,37 @@ export class AuthService {
       email: data.email,
       password: hash,
       emailConfirmToken: token,
+       emailConfirmed: true,
+       businessName: data.businessName,
+       fullName: data.fullName
     });
 
-    const confirmLink = `${process.env.FRONTEND_LINK}/confirm-email?token=${token}`;
+    // const confirmLink = `${process.env.FRONTEND_LINK}/confirm-email?token=${token}`;
 
-    await this.emailService.sendConfirmationEmail(user.email, confirmLink);
+    // await this.emailService.sendConfirmationEmail(user.email, confirmLink);
   }
 
-  async confirmEmail(token: string): Promise<boolean> {
-    try {
-      const payload = this.jwt.verify(token, {
-        secret: process.env.EMAIL_CONFIRM_SECRET,
-      });
-      const user = await this.userService.findByEmail(payload.email);
-      if (!user) throw new BadRequestException('User not found');
+  // async confirmEmail(token: string): Promise<boolean> {
+  //   try {
+  //     const payload = this.jwt.verify(token, {
+  //       secret: process.env.EMAIL_CONFIRM_SECRET,
+  //     });
+  //     const user = await this.userService.findByEmail(payload.email);
+  //     if (!user) throw new BadRequestException('User not found');
 
-      if (user.emailConfirmToken !== token) {
-        throw new BadRequestException('Invalid or outdated token');
-      }
+  //     if (user.emailConfirmToken !== token) {
+  //       throw new BadRequestException('Invalid or outdated token');
+  //     }
 
-      await this.userService.update(user.id, {
-        emailConfirmed: true,
-        emailConfirmToken: null,
-      });
-      return true;
-    } catch {
-      throw new BadRequestException('Invalid or expired token');
-    }
-  }
+  //     await this.userService.update(user.id, {
+  //       emailConfirmed: true,
+  //       emailConfirmToken: null,
+  //     });
+  //     return true;
+  //   } catch {
+  //     throw new BadRequestException('Invalid or expired token');
+  //   }
+  // }
 
   async login(data: LoginInput): Promise<AuthResponse> {
     const user = await this.userService.findByEmail(data.email);

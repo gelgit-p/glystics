@@ -18,6 +18,8 @@ model User {
   password          String
   emailConfirmed    Boolean  @default(false)
   emailConfirmToken String?
+  businessName      String
+  fullName          String
   createdAt         DateTime @default(now())
   hashedRefresh     String?
 }

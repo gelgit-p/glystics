@@ -15,6 +15,12 @@ interface GenerateOptions {
   expiring?: boolean;
 }
 
+export interface WhatsappMediaFile {
+  buffer: Buffer;
+  mimetype: string;
+  originalname: string;
+}
+
 
 @Injectable()
 export class WhatsappService {
@@ -144,6 +150,7 @@ export class WhatsappService {
     const version = this.configService.get<string>('WHATSAPP_VERSION');
     const appId = this.configService.get<string>('WHATSAPP_APP_ID');
     const appSecret = this.configService.get<string>('WHATSAPP_APP_SECRET');
+    console.log(accessToken, version, appId, appSecret, 'app_details');
 
     if (!accessToken || !version || !appId || !appSecret) {
       throw new Error(
@@ -171,6 +178,11 @@ export class WhatsappService {
           'Facebook Graph API response did not include access_token',
         );
       }
+
+      // call store-token
+
+      await this.saveToken({facebookAccessToken: accessToken, facebookLongLivedAccessToken: longLivedToken })
+
 
       return longLivedToken;
     } catch (error: any) {
@@ -372,6 +384,68 @@ export class WhatsappService {
       return response.data;
     } catch (error: any) {
         console.log(error, 'log error')
+      throw error.response?.data || error.message;
+    }
+  }
+
+  async uploadMedia(
+    phoneNumberId: string,
+    file: WhatsappMediaFile,
+  ): Promise<any> {
+    const version = this.configService.get<string>('WHATSAPP_VERSION');
+    const tokenRecord = await this.prisma.token.findFirst({
+      orderBy: { createdAt: 'desc' },
+    });
+    const accessToken = tokenRecord?.facebookLongLivedAccessToken;
+
+    if (!phoneNumberId || !version) {
+      throw new Error('phoneNumberId and WHATSAPP_VERSION are required');
+    }
+    if (!file?.buffer || !file.mimetype || !file.originalname) {
+      throw new Error('An image file is required');
+    }
+    if (!file.mimetype.startsWith('image/')) {
+      throw new Error('Only image files can be uploaded');
+    }
+    if (!accessToken) {
+      throw new Error(
+        'No Facebook access token found in the database. Please store a valid token first.',
+      );
+    }
+
+    const fileBytes = new ArrayBuffer(file.buffer.byteLength);
+    new Uint8Array(fileBytes).set(file.buffer);
+
+    const formData = new FormData();
+    formData.append('messaging_product', 'whatsapp');
+    formData.append('type', file.mimetype);
+    formData.append(
+      'file',
+      new Blob([fileBytes], { type: file.mimetype }),
+      file.originalname,
+    );
+
+    try {
+      const response = await fetch(
+        `https://graph.facebook.com/${version}/${phoneNumberId}/media`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: formData,
+        },
+      );
+      const data = await response.json();
+
+      if (!response.ok || data.error) {
+        throw new InternalServerErrorException(
+          data.error?.message || 'WhatsApp media upload failed',
+        );
+      }
+
+      return data;
+    } catch (error: any) {
       throw error.response?.data || error.message;
     }
   }

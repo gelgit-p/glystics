@@ -25,10 +25,10 @@ export class AuthResolver {
     return true;
   }
 
-  @Mutation(() => Boolean)
-  async confirmEmail(@Args('token') token: string) {
-    return this.authService.confirmEmail(token);
-  }
+  // @Mutation(() => Boolean)
+  // async confirmEmail(@Args('token') token: string) {
+  //   return this.authService.confirmEmail(token);
+  // }
 
   @Throttle({ default: { limit: 5, ttl: 60000 } })
   @Mutation(() => AuthResponse)

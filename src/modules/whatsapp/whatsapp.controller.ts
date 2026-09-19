@@ -1,7 +1,24 @@
-import { Controller, Get, Post, Body, Query, Res, HttpStatus, Param, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Query,
+  Res,
+  HttpStatus,
+  Param,
+  Put,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
-import { WhatsappService } from './whatsapp.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import 'multer';
+import {
+  WhatsappMediaFile,
+  WhatsappService,
+} from './whatsapp.service';
 import { MessageDto } from './dto/whatsapp.dto';
 import { CreateMessageTemplateDto } from './dto/create-message-template.dto';
 import { SendUtilityMessageDto } from './dto/send-utility-message.dto';
@@ -28,6 +45,15 @@ export class WhatsappController {
     @Body() dto: MessageDto,
   ) {
     return await this.whatsappService.sendMessage(dto);
+  }
+
+  @Post('media')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadMedia(
+    @Body('phoneNumberId') phoneNumberId: string,
+    @UploadedFile() file: WhatsappMediaFile,
+  ) {
+    return await this.whatsappService.uploadMedia(phoneNumberId, file);
   }
 
   @Get('long-lived-token')

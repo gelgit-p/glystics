@@ -10,3 +10,4 @@ export class TokenDto {
   @IsOptional()
   facebookLongLivedAccessToken: string;
 }
+

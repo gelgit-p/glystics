@@ -968,6 +968,8 @@ export namespace Prisma {
     password: string | null
     emailConfirmed: boolean | null
     emailConfirmToken: string | null
+    businessName: string | null
+    fullName: string | null
     createdAt: Date | null
     hashedRefresh: string | null
   }
@@ -978,6 +980,8 @@ export namespace Prisma {
     password: string | null
     emailConfirmed: boolean | null
     emailConfirmToken: string | null
+    businessName: string | null
+    fullName: string | null
     createdAt: Date | null
     hashedRefresh: string | null
   }
@@ -988,6 +992,8 @@ export namespace Prisma {
     password: number
     emailConfirmed: number
     emailConfirmToken: number
+    businessName: number
+    fullName: number
     createdAt: number
     hashedRefresh: number
     _all: number
@@ -1000,6 +1006,8 @@ export namespace Prisma {
     password?: true
     emailConfirmed?: true
     emailConfirmToken?: true
+    businessName?: true
+    fullName?: true
     createdAt?: true
     hashedRefresh?: true
   }
@@ -1010,6 +1018,8 @@ export namespace Prisma {
     password?: true
     emailConfirmed?: true
     emailConfirmToken?: true
+    businessName?: true
+    fullName?: true
     createdAt?: true
     hashedRefresh?: true
   }
@@ -1020,6 +1030,8 @@ export namespace Prisma {
     password?: true
     emailConfirmed?: true
     emailConfirmToken?: true
+    businessName?: true
+    fullName?: true
     createdAt?: true
     hashedRefresh?: true
     _all?: true
@@ -1103,6 +1115,8 @@ export namespace Prisma {
     password: string
     emailConfirmed: boolean
     emailConfirmToken: string | null
+    businessName: string
+    fullName: string
     createdAt: Date
     hashedRefresh: string | null
     _count: UserCountAggregateOutputType | null
@@ -1130,6 +1144,8 @@ export namespace Prisma {
     password?: boolean
     emailConfirmed?: boolean
     emailConfirmToken?: boolean
+    businessName?: boolean
+    fullName?: boolean
     createdAt?: boolean
     hashedRefresh?: boolean
   }, ExtArgs["result"]["user"]>
@@ -1140,6 +1156,8 @@ export namespace Prisma {
     password?: boolean
     emailConfirmed?: boolean
     emailConfirmToken?: boolean
+    businessName?: boolean
+    fullName?: boolean
     createdAt?: boolean
     hashedRefresh?: boolean
   }, ExtArgs["result"]["user"]>
@@ -1150,6 +1168,8 @@ export namespace Prisma {
     password?: boolean
     emailConfirmed?: boolean
     emailConfirmToken?: boolean
+    businessName?: boolean
+    fullName?: boolean
     createdAt?: boolean
     hashedRefresh?: boolean
   }, ExtArgs["result"]["user"]>
@@ -1160,11 +1180,13 @@ export namespace Prisma {
     password?: boolean
     emailConfirmed?: boolean
     emailConfirmToken?: boolean
+    businessName?: boolean
+    fullName?: boolean
     createdAt?: boolean
     hashedRefresh?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "emailConfirmed" | "emailConfirmToken" | "createdAt" | "hashedRefresh", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "emailConfirmed" | "emailConfirmToken" | "businessName" | "fullName" | "createdAt" | "hashedRefresh", ExtArgs["result"]["user"]>
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
@@ -1175,6 +1197,8 @@ export namespace Prisma {
       password: string
       emailConfirmed: boolean
       emailConfirmToken: string | null
+      businessName: string
+      fullName: string
       createdAt: Date
       hashedRefresh: string | null
     }, ExtArgs["result"]["user"]>
@@ -1605,6 +1629,8 @@ export namespace Prisma {
     readonly password: FieldRef<"User", 'String'>
     readonly emailConfirmed: FieldRef<"User", 'Boolean'>
     readonly emailConfirmToken: FieldRef<"User", 'String'>
+    readonly businessName: FieldRef<"User", 'String'>
+    readonly fullName: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly hashedRefresh: FieldRef<"User", 'String'>
   }
@@ -2975,6 +3001,8 @@ export namespace Prisma {
     password: 'password',
     emailConfirmed: 'emailConfirmed',
     emailConfirmToken: 'emailConfirmToken',
+    businessName: 'businessName',
+    fullName: 'fullName',
     createdAt: 'createdAt',
     hashedRefresh: 'hashedRefresh'
   };
@@ -3082,6 +3110,8 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     emailConfirmed?: BoolFilter<"User"> | boolean
     emailConfirmToken?: StringNullableFilter<"User"> | string | null
+    businessName?: StringFilter<"User"> | string
+    fullName?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     hashedRefresh?: StringNullableFilter<"User"> | string | null
   }
@@ -3092,6 +3122,8 @@ export namespace Prisma {
     password?: SortOrder
     emailConfirmed?: SortOrder
     emailConfirmToken?: SortOrderInput | SortOrder
+    businessName?: SortOrder
+    fullName?: SortOrder
     createdAt?: SortOrder
     hashedRefresh?: SortOrderInput | SortOrder
   }
@@ -3105,6 +3137,8 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     emailConfirmed?: BoolFilter<"User"> | boolean
     emailConfirmToken?: StringNullableFilter<"User"> | string | null
+    businessName?: StringFilter<"User"> | string
+    fullName?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     hashedRefresh?: StringNullableFilter<"User"> | string | null
   }, "id" | "email">
@@ -3115,6 +3149,8 @@ export namespace Prisma {
     password?: SortOrder
     emailConfirmed?: SortOrder
     emailConfirmToken?: SortOrderInput | SortOrder
+    businessName?: SortOrder
+    fullName?: SortOrder
     createdAt?: SortOrder
     hashedRefresh?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -3131,6 +3167,8 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter<"User"> | string
     emailConfirmed?: BoolWithAggregatesFilter<"User"> | boolean
     emailConfirmToken?: StringNullableWithAggregatesFilter<"User"> | string | null
+    businessName?: StringWithAggregatesFilter<"User"> | string
+    fullName?: StringWithAggregatesFilter<"User"> | string
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     hashedRefresh?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
@@ -3188,6 +3226,8 @@ export namespace Prisma {
     password: string
     emailConfirmed?: boolean
     emailConfirmToken?: string | null
+    businessName: string
+    fullName: string
     createdAt?: Date | string
     hashedRefresh?: string | null
   }
@@ -3198,6 +3238,8 @@ export namespace Prisma {
     password: string
     emailConfirmed?: boolean
     emailConfirmToken?: string | null
+    businessName: string
+    fullName: string
     createdAt?: Date | string
     hashedRefresh?: string | null
   }
@@ -3208,6 +3250,8 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     emailConfirmed?: BoolFieldUpdateOperationsInput | boolean
     emailConfirmToken?: NullableStringFieldUpdateOperationsInput | string | null
+    businessName?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -3218,6 +3262,8 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     emailConfirmed?: BoolFieldUpdateOperationsInput | boolean
     emailConfirmToken?: NullableStringFieldUpdateOperationsInput | string | null
+    businessName?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -3228,6 +3274,8 @@ export namespace Prisma {
     password: string
     emailConfirmed?: boolean
     emailConfirmToken?: string | null
+    businessName: string
+    fullName: string
     createdAt?: Date | string
     hashedRefresh?: string | null
   }
@@ -3238,6 +3286,8 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     emailConfirmed?: BoolFieldUpdateOperationsInput | boolean
     emailConfirmToken?: NullableStringFieldUpdateOperationsInput | string | null
+    businessName?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -3248,6 +3298,8 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     emailConfirmed?: BoolFieldUpdateOperationsInput | boolean
     emailConfirmToken?: NullableStringFieldUpdateOperationsInput | string | null
+    businessName?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -3358,6 +3410,8 @@ export namespace Prisma {
     password?: SortOrder
     emailConfirmed?: SortOrder
     emailConfirmToken?: SortOrder
+    businessName?: SortOrder
+    fullName?: SortOrder
     createdAt?: SortOrder
     hashedRefresh?: SortOrder
   }
@@ -3368,6 +3422,8 @@ export namespace Prisma {
     password?: SortOrder
     emailConfirmed?: SortOrder
     emailConfirmToken?: SortOrder
+    businessName?: SortOrder
+    fullName?: SortOrder
     createdAt?: SortOrder
     hashedRefresh?: SortOrder
   }
@@ -3378,6 +3434,8 @@ export namespace Prisma {
     password?: SortOrder
     emailConfirmed?: SortOrder
     emailConfirmToken?: SortOrder
+    businessName?: SortOrder
+    fullName?: SortOrder
     createdAt?: SortOrder
     hashedRefresh?: SortOrder
   }

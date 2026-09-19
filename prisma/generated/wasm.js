@@ -99,6 +99,8 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password',
   emailConfirmed: 'emailConfirmed',
   emailConfirmToken: 'emailConfirmToken',
+  businessName: 'businessName',
+  fullName: 'fullName',
   createdAt: 'createdAt',
   hashedRefresh: 'hashedRefresh'
 };
@@ -141,7 +143,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/michealdaralola/Projects/glystics/api/prisma/generated",
+      "value": "/Users/michaeoketunde/Documents/Projects/glystics/api/prisma/generated",
       "fromEnvVar": null
     },
     "config": {
@@ -155,7 +157,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/michealdaralola/Projects/glystics/api/prisma/schema.prisma",
+    "sourceFilePath": "/Users/michaeoketunde/Documents/Projects/glystics/api/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -178,13 +180,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// 1. Configure the Prisma Client generator\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated\"\n}\n\n// 2. Configure the PostgreSQL database connection\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n  // shadowDatabaseUrl = env(\"SHADOW_DATABASE_URL\"), \n}\n\n// 3. User model for authentication and profiles\nmodel User {\n  id                String   @id @default(uuid())\n  email             String   @unique\n  password          String\n  emailConfirmed    Boolean  @default(false)\n  emailConfirmToken String?\n  createdAt         DateTime @default(now())\n  hashedRefresh     String?\n}\n\n// 4. Tokens model for Facebook API integration\nmodel Token {\n  id                           String   @id @default(uuid())\n  facebookAccessToken          String?  @map(\"facebook_access_token\")\n  facebookLongLivedAccessToken String?  @map(\"facebook_long_lived_access_token\")\n  createdAt                    DateTime @default(now())\n\n  @@map(\"tokens\")\n}\n",
-  "inlineSchemaHash": "b4b151ec8e0d471df3d812c9ce33583fd9038daece733630ef68ea77aab5f923",
+  "inlineSchema": "// 1. Configure the Prisma Client generator\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated\"\n}\n\n// 2. Configure the PostgreSQL database connection\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n  // shadowDatabaseUrl = env(\"SHADOW_DATABASE_URL\"), \n}\n\n// 3. User model for authentication and profiles\nmodel User {\n  id                String   @id @default(uuid())\n  email             String   @unique\n  password          String\n  emailConfirmed    Boolean  @default(false)\n  emailConfirmToken String?\n  businessName      String\n  fullName          String\n  createdAt         DateTime @default(now())\n  hashedRefresh     String?\n}\n\n// 4. Tokens model for Facebook API integration\nmodel Token {\n  id                           String   @id @default(uuid())\n  facebookAccessToken          String?  @map(\"facebook_access_token\")\n  facebookLongLivedAccessToken String?  @map(\"facebook_long_lived_access_token\")\n  createdAt                    DateTime @default(now())\n\n  @@map(\"tokens\")\n}\n",
+  "inlineSchemaHash": "ee68aa1c93c09bc13dd60bafcae4766ae46f6f93559575e5f3ef1dd32a551339",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailConfirmed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"emailConfirmToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"hashedRefresh\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"Token\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"facebookAccessToken\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"facebook_access_token\"},{\"name\":\"facebookLongLivedAccessToken\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"facebook_long_lived_access_token\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"tokens\"}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailConfirmed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"emailConfirmToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"businessName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"hashedRefresh\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"Token\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"facebookAccessToken\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"facebook_access_token\"},{\"name\":\"facebookLongLivedAccessToken\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"facebook_long_lived_access_token\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"tokens\"}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

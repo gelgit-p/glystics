@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 
-@Controller('webhook')
+@Controller('whatsapp/webhook')
 export class WebhookController {
   @Get()
   verifyWebhook(
@@ -19,11 +19,21 @@ export class WebhookController {
   ) {
     const verifyToken = process.env.WEBHOOK_SECRET;
 
+    console.log('========== WHATSAPP WEBHOOK VERIFICATION ==========');
+    console.log('mode:', mode);
+    console.log('challenge:', challenge);
+    console.log('received token:', token);
+    console.log('expected token:', verifyToken);
+    console.log('tokens match:', token === verifyToken);
+    console.log('====================================================');
+
     if (mode === 'subscribe' && token === verifyToken) {
       console.log('WEBHOOK VERIFIED');
 
       return res.status(200).send(challenge);
     }
+
+    console.log('WEBHOOK VERIFICATION FAILED');
 
     return res.status(403).send('Forbidden');
   }
