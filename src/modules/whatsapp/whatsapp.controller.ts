@@ -19,7 +19,7 @@ import {
   WhatsappMediaFile,
   WhatsappService,
 } from './whatsapp.service';
-import { MessageDto } from './dto/whatsapp.dto';
+import { AccessTokenDto, MessageDto } from './dto/whatsapp.dto';
 import { CreateMessageTemplateDto } from './dto/create-message-template.dto';
 import { SendUtilityMessageDto } from './dto/send-utility-message.dto';
 import { TokenDto } from './dto/token.dto';
@@ -32,8 +32,8 @@ export class WhatsappController {
   ) {}
 
   @Get('access-token')
-  async getAccessToken(): Promise<string> {
-    return await this.whatsappService.getAccessToken();
+  async getAccessToken(@Query() dto: AccessTokenDto): Promise<string> {
+    return await this.whatsappService.getAccessToken(dto);
   }
 
   /**
@@ -59,8 +59,9 @@ export class WhatsappController {
   @Get('long-lived-token')
   async getLongLivedToken(
     @Query('access_token') accessToken: string,
+    @Query('user_id') userId: string,
   ): Promise<string> {
-    return await this.whatsappService.getLongLivedToken(accessToken);
+    return await this.whatsappService.getLongLivedToken(accessToken, userId);
   }
 
 

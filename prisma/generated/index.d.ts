@@ -30,6 +30,24 @@ export type Token = $Result.DefaultSelection<Prisma.$TokenPayload>
 export type Delivery = $Result.DefaultSelection<Prisma.$DeliveryPayload>
 
 /**
+ * Enums
+ */
+export namespace $Enums {
+  export const DeliveryStatus: {
+  DELIVERED: 'DELIVERED',
+  IN_TRANSIT: 'IN_TRANSIT',
+  FAILED: 'FAILED'
+};
+
+export type DeliveryStatus = (typeof DeliveryStatus)[keyof typeof DeliveryStatus]
+
+}
+
+export type DeliveryStatus = $Enums.DeliveryStatus
+
+export const DeliveryStatus: typeof $Enums.DeliveryStatus
+
+/**
  * ##  Prisma Client ʲˢ
  *
  * Type-safe database client for TypeScript & Node.js
@@ -1061,6 +1079,13 @@ export namespace Prisma {
     emailConfirmToken: string | null
     businessName: string | null
     fullName: string | null
+    metaUserId: string | null
+    appId: string | null
+    appSecret: string | null
+    facebookAcceessToken: string | null
+    grantedScopes: string | null
+    accessTokenExpiresIn: string | null
+    facebookConnectStatus: boolean | null
     createdAt: Date | null
     hashedRefresh: string | null
   }
@@ -1073,6 +1098,13 @@ export namespace Prisma {
     emailConfirmToken: string | null
     businessName: string | null
     fullName: string | null
+    metaUserId: string | null
+    appId: string | null
+    appSecret: string | null
+    facebookAcceessToken: string | null
+    grantedScopes: string | null
+    accessTokenExpiresIn: string | null
+    facebookConnectStatus: boolean | null
     createdAt: Date | null
     hashedRefresh: string | null
   }
@@ -1085,6 +1117,13 @@ export namespace Prisma {
     emailConfirmToken: number
     businessName: number
     fullName: number
+    metaUserId: number
+    appId: number
+    appSecret: number
+    facebookAcceessToken: number
+    grantedScopes: number
+    accessTokenExpiresIn: number
+    facebookConnectStatus: number
     createdAt: number
     hashedRefresh: number
     _all: number
@@ -1099,6 +1138,13 @@ export namespace Prisma {
     emailConfirmToken?: true
     businessName?: true
     fullName?: true
+    metaUserId?: true
+    appId?: true
+    appSecret?: true
+    facebookAcceessToken?: true
+    grantedScopes?: true
+    accessTokenExpiresIn?: true
+    facebookConnectStatus?: true
     createdAt?: true
     hashedRefresh?: true
   }
@@ -1111,6 +1157,13 @@ export namespace Prisma {
     emailConfirmToken?: true
     businessName?: true
     fullName?: true
+    metaUserId?: true
+    appId?: true
+    appSecret?: true
+    facebookAcceessToken?: true
+    grantedScopes?: true
+    accessTokenExpiresIn?: true
+    facebookConnectStatus?: true
     createdAt?: true
     hashedRefresh?: true
   }
@@ -1123,6 +1176,13 @@ export namespace Prisma {
     emailConfirmToken?: true
     businessName?: true
     fullName?: true
+    metaUserId?: true
+    appId?: true
+    appSecret?: true
+    facebookAcceessToken?: true
+    grantedScopes?: true
+    accessTokenExpiresIn?: true
+    facebookConnectStatus?: true
     createdAt?: true
     hashedRefresh?: true
     _all?: true
@@ -1208,6 +1268,13 @@ export namespace Prisma {
     emailConfirmToken: string | null
     businessName: string
     fullName: string
+    metaUserId: string | null
+    appId: string | null
+    appSecret: string | null
+    facebookAcceessToken: string | null
+    grantedScopes: string | null
+    accessTokenExpiresIn: string | null
+    facebookConnectStatus: boolean
     createdAt: Date
     hashedRefresh: string | null
     _count: UserCountAggregateOutputType | null
@@ -1237,6 +1304,13 @@ export namespace Prisma {
     emailConfirmToken?: boolean
     businessName?: boolean
     fullName?: boolean
+    metaUserId?: boolean
+    appId?: boolean
+    appSecret?: boolean
+    facebookAcceessToken?: boolean
+    grantedScopes?: boolean
+    accessTokenExpiresIn?: boolean
+    facebookConnectStatus?: boolean
     createdAt?: boolean
     hashedRefresh?: boolean
   }, ExtArgs["result"]["user"]>
@@ -1249,6 +1323,13 @@ export namespace Prisma {
     emailConfirmToken?: boolean
     businessName?: boolean
     fullName?: boolean
+    metaUserId?: boolean
+    appId?: boolean
+    appSecret?: boolean
+    facebookAcceessToken?: boolean
+    grantedScopes?: boolean
+    accessTokenExpiresIn?: boolean
+    facebookConnectStatus?: boolean
     createdAt?: boolean
     hashedRefresh?: boolean
   }, ExtArgs["result"]["user"]>
@@ -1261,6 +1342,13 @@ export namespace Prisma {
     emailConfirmToken?: boolean
     businessName?: boolean
     fullName?: boolean
+    metaUserId?: boolean
+    appId?: boolean
+    appSecret?: boolean
+    facebookAcceessToken?: boolean
+    grantedScopes?: boolean
+    accessTokenExpiresIn?: boolean
+    facebookConnectStatus?: boolean
     createdAt?: boolean
     hashedRefresh?: boolean
   }, ExtArgs["result"]["user"]>
@@ -1273,11 +1361,18 @@ export namespace Prisma {
     emailConfirmToken?: boolean
     businessName?: boolean
     fullName?: boolean
+    metaUserId?: boolean
+    appId?: boolean
+    appSecret?: boolean
+    facebookAcceessToken?: boolean
+    grantedScopes?: boolean
+    accessTokenExpiresIn?: boolean
+    facebookConnectStatus?: boolean
     createdAt?: boolean
     hashedRefresh?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "emailConfirmed" | "emailConfirmToken" | "businessName" | "fullName" | "createdAt" | "hashedRefresh", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "emailConfirmed" | "emailConfirmToken" | "businessName" | "fullName" | "metaUserId" | "appId" | "appSecret" | "facebookAcceessToken" | "grantedScopes" | "accessTokenExpiresIn" | "facebookConnectStatus" | "createdAt" | "hashedRefresh", ExtArgs["result"]["user"]>
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
@@ -1290,6 +1385,13 @@ export namespace Prisma {
       emailConfirmToken: string | null
       businessName: string
       fullName: string
+      metaUserId: string | null
+      appId: string | null
+      appSecret: string | null
+      facebookAcceessToken: string | null
+      grantedScopes: string | null
+      accessTokenExpiresIn: string | null
+      facebookConnectStatus: boolean
       createdAt: Date
       hashedRefresh: string | null
     }, ExtArgs["result"]["user"]>
@@ -1722,6 +1824,13 @@ export namespace Prisma {
     readonly emailConfirmToken: FieldRef<"User", 'String'>
     readonly businessName: FieldRef<"User", 'String'>
     readonly fullName: FieldRef<"User", 'String'>
+    readonly metaUserId: FieldRef<"User", 'String'>
+    readonly appId: FieldRef<"User", 'String'>
+    readonly appSecret: FieldRef<"User", 'String'>
+    readonly facebookAcceessToken: FieldRef<"User", 'String'>
+    readonly grantedScopes: FieldRef<"User", 'String'>
+    readonly accessTokenExpiresIn: FieldRef<"User", 'String'>
+    readonly facebookConnectStatus: FieldRef<"User", 'Boolean'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly hashedRefresh: FieldRef<"User", 'String'>
   }
@@ -2102,22 +2211,31 @@ export namespace Prisma {
 
   export type TokenMinAggregateOutputType = {
     id: string | null
+    userId: string | null
     facebookAccessToken: string | null
     facebookLongLivedAccessToken: string | null
+    expiresIn: string | null
+    dataAccessExpirationTime: string | null
     createdAt: Date | null
   }
 
   export type TokenMaxAggregateOutputType = {
     id: string | null
+    userId: string | null
     facebookAccessToken: string | null
     facebookLongLivedAccessToken: string | null
+    expiresIn: string | null
+    dataAccessExpirationTime: string | null
     createdAt: Date | null
   }
 
   export type TokenCountAggregateOutputType = {
     id: number
+    userId: number
     facebookAccessToken: number
     facebookLongLivedAccessToken: number
+    expiresIn: number
+    dataAccessExpirationTime: number
     createdAt: number
     _all: number
   }
@@ -2125,22 +2243,31 @@ export namespace Prisma {
 
   export type TokenMinAggregateInputType = {
     id?: true
+    userId?: true
     facebookAccessToken?: true
     facebookLongLivedAccessToken?: true
+    expiresIn?: true
+    dataAccessExpirationTime?: true
     createdAt?: true
   }
 
   export type TokenMaxAggregateInputType = {
     id?: true
+    userId?: true
     facebookAccessToken?: true
     facebookLongLivedAccessToken?: true
+    expiresIn?: true
+    dataAccessExpirationTime?: true
     createdAt?: true
   }
 
   export type TokenCountAggregateInputType = {
     id?: true
+    userId?: true
     facebookAccessToken?: true
     facebookLongLivedAccessToken?: true
+    expiresIn?: true
+    dataAccessExpirationTime?: true
     createdAt?: true
     _all?: true
   }
@@ -2219,8 +2346,11 @@ export namespace Prisma {
 
   export type TokenGroupByOutputType = {
     id: string
+    userId: string
     facebookAccessToken: string | null
     facebookLongLivedAccessToken: string | null
+    expiresIn: string | null
+    dataAccessExpirationTime: string | null
     createdAt: Date
     _count: TokenCountAggregateOutputType | null
     _min: TokenMinAggregateOutputType | null
@@ -2243,41 +2373,56 @@ export namespace Prisma {
 
   export type TokenSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    userId?: boolean
     facebookAccessToken?: boolean
     facebookLongLivedAccessToken?: boolean
+    expiresIn?: boolean
+    dataAccessExpirationTime?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["token"]>
 
   export type TokenSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    userId?: boolean
     facebookAccessToken?: boolean
     facebookLongLivedAccessToken?: boolean
+    expiresIn?: boolean
+    dataAccessExpirationTime?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["token"]>
 
   export type TokenSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    userId?: boolean
     facebookAccessToken?: boolean
     facebookLongLivedAccessToken?: boolean
+    expiresIn?: boolean
+    dataAccessExpirationTime?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["token"]>
 
   export type TokenSelectScalar = {
     id?: boolean
+    userId?: boolean
     facebookAccessToken?: boolean
     facebookLongLivedAccessToken?: boolean
+    expiresIn?: boolean
+    dataAccessExpirationTime?: boolean
     createdAt?: boolean
   }
 
-  export type TokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "facebookAccessToken" | "facebookLongLivedAccessToken" | "createdAt", ExtArgs["result"]["token"]>
+  export type TokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "facebookAccessToken" | "facebookLongLivedAccessToken" | "expiresIn" | "dataAccessExpirationTime" | "createdAt", ExtArgs["result"]["token"]>
 
   export type $TokenPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Token"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      userId: string
       facebookAccessToken: string | null
       facebookLongLivedAccessToken: string | null
+      expiresIn: string | null
+      dataAccessExpirationTime: string | null
       createdAt: Date
     }, ExtArgs["result"]["token"]>
     composites: {}
@@ -2703,8 +2848,11 @@ export namespace Prisma {
    */
   interface TokenFieldRefs {
     readonly id: FieldRef<"Token", 'String'>
+    readonly userId: FieldRef<"Token", 'String'>
     readonly facebookAccessToken: FieldRef<"Token", 'String'>
     readonly facebookLongLivedAccessToken: FieldRef<"Token", 'String'>
+    readonly expiresIn: FieldRef<"Token", 'String'>
+    readonly dataAccessExpirationTime: FieldRef<"Token", 'String'>
     readonly createdAt: FieldRef<"Token", 'DateTime'>
   }
     
@@ -2900,7 +3048,7 @@ export namespace Prisma {
     /**
      * The data needed to create a Token.
      */
-    data?: XOR<TokenCreateInput, TokenUncheckedCreateInput>
+    data: XOR<TokenCreateInput, TokenUncheckedCreateInput>
   }
 
   /**
@@ -3096,6 +3244,7 @@ export namespace Prisma {
     packageDimensions: string | null
     packageValue: string | null
     pickupDate: string | null
+    deliveryStatus: $Enums.DeliveryStatus | null
     deliveryType: string | null
     deliveryInstructions: string | null
     createdAt: Date | null
@@ -3116,6 +3265,7 @@ export namespace Prisma {
     packageDimensions: string | null
     packageValue: string | null
     pickupDate: string | null
+    deliveryStatus: $Enums.DeliveryStatus | null
     deliveryType: string | null
     deliveryInstructions: string | null
     createdAt: Date | null
@@ -3136,6 +3286,7 @@ export namespace Prisma {
     packageDimensions: number
     packageValue: number
     pickupDate: number
+    deliveryStatus: number
     deliveryType: number
     deliveryInstructions: number
     createdAt: number
@@ -3158,6 +3309,7 @@ export namespace Prisma {
     packageDimensions?: true
     packageValue?: true
     pickupDate?: true
+    deliveryStatus?: true
     deliveryType?: true
     deliveryInstructions?: true
     createdAt?: true
@@ -3178,6 +3330,7 @@ export namespace Prisma {
     packageDimensions?: true
     packageValue?: true
     pickupDate?: true
+    deliveryStatus?: true
     deliveryType?: true
     deliveryInstructions?: true
     createdAt?: true
@@ -3198,6 +3351,7 @@ export namespace Prisma {
     packageDimensions?: true
     packageValue?: true
     pickupDate?: true
+    deliveryStatus?: true
     deliveryType?: true
     deliveryInstructions?: true
     createdAt?: true
@@ -3291,6 +3445,7 @@ export namespace Prisma {
     packageDimensions: string
     packageValue: string
     pickupDate: string
+    deliveryStatus: $Enums.DeliveryStatus
     deliveryType: string
     deliveryInstructions: string | null
     createdAt: Date
@@ -3328,6 +3483,7 @@ export namespace Prisma {
     packageDimensions?: boolean
     packageValue?: boolean
     pickupDate?: boolean
+    deliveryStatus?: boolean
     deliveryType?: boolean
     deliveryInstructions?: boolean
     createdAt?: boolean
@@ -3348,6 +3504,7 @@ export namespace Prisma {
     packageDimensions?: boolean
     packageValue?: boolean
     pickupDate?: boolean
+    deliveryStatus?: boolean
     deliveryType?: boolean
     deliveryInstructions?: boolean
     createdAt?: boolean
@@ -3368,6 +3525,7 @@ export namespace Prisma {
     packageDimensions?: boolean
     packageValue?: boolean
     pickupDate?: boolean
+    deliveryStatus?: boolean
     deliveryType?: boolean
     deliveryInstructions?: boolean
     createdAt?: boolean
@@ -3388,13 +3546,14 @@ export namespace Prisma {
     packageDimensions?: boolean
     packageValue?: boolean
     pickupDate?: boolean
+    deliveryStatus?: boolean
     deliveryType?: boolean
     deliveryInstructions?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type DeliveryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "senderName" | "senderPhone" | "senderAddress" | "receiverName" | "receiverPhone" | "receiverAddress" | "packageName" | "packageCategory" | "packageWeight" | "packageDimensions" | "packageValue" | "pickupDate" | "deliveryType" | "deliveryInstructions" | "createdAt" | "updatedAt", ExtArgs["result"]["delivery"]>
+  export type DeliveryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "senderName" | "senderPhone" | "senderAddress" | "receiverName" | "receiverPhone" | "receiverAddress" | "packageName" | "packageCategory" | "packageWeight" | "packageDimensions" | "packageValue" | "pickupDate" | "deliveryStatus" | "deliveryType" | "deliveryInstructions" | "createdAt" | "updatedAt", ExtArgs["result"]["delivery"]>
 
   export type $DeliveryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Delivery"
@@ -3413,6 +3572,7 @@ export namespace Prisma {
       packageDimensions: string
       packageValue: string
       pickupDate: string
+      deliveryStatus: $Enums.DeliveryStatus
       deliveryType: string
       deliveryInstructions: string | null
       createdAt: Date
@@ -3853,6 +4013,7 @@ export namespace Prisma {
     readonly packageDimensions: FieldRef<"Delivery", 'String'>
     readonly packageValue: FieldRef<"Delivery", 'String'>
     readonly pickupDate: FieldRef<"Delivery", 'String'>
+    readonly deliveryStatus: FieldRef<"Delivery", 'DeliveryStatus'>
     readonly deliveryType: FieldRef<"Delivery", 'String'>
     readonly deliveryInstructions: FieldRef<"Delivery", 'String'>
     readonly createdAt: FieldRef<"Delivery", 'DateTime'>
@@ -4245,6 +4406,13 @@ export namespace Prisma {
     emailConfirmToken: 'emailConfirmToken',
     businessName: 'businessName',
     fullName: 'fullName',
+    metaUserId: 'metaUserId',
+    appId: 'appId',
+    appSecret: 'appSecret',
+    facebookAcceessToken: 'facebookAcceessToken',
+    grantedScopes: 'grantedScopes',
+    accessTokenExpiresIn: 'accessTokenExpiresIn',
+    facebookConnectStatus: 'facebookConnectStatus',
     createdAt: 'createdAt',
     hashedRefresh: 'hashedRefresh'
   };
@@ -4254,8 +4422,11 @@ export namespace Prisma {
 
   export const TokenScalarFieldEnum: {
     id: 'id',
+    userId: 'userId',
     facebookAccessToken: 'facebookAccessToken',
     facebookLongLivedAccessToken: 'facebookLongLivedAccessToken',
+    expiresIn: 'expiresIn',
+    dataAccessExpirationTime: 'dataAccessExpirationTime',
     createdAt: 'createdAt'
   };
 
@@ -4276,6 +4447,7 @@ export namespace Prisma {
     packageDimensions: 'packageDimensions',
     packageValue: 'packageValue',
     pickupDate: 'pickupDate',
+    deliveryStatus: 'deliveryStatus',
     deliveryType: 'deliveryType',
     deliveryInstructions: 'deliveryInstructions',
     createdAt: 'createdAt',
@@ -4350,6 +4522,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'DeliveryStatus'
+   */
+  export type EnumDeliveryStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeliveryStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'DeliveryStatus[]'
+   */
+  export type ListEnumDeliveryStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeliveryStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -4377,6 +4563,13 @@ export namespace Prisma {
     emailConfirmToken?: StringNullableFilter<"User"> | string | null
     businessName?: StringFilter<"User"> | string
     fullName?: StringFilter<"User"> | string
+    metaUserId?: StringNullableFilter<"User"> | string | null
+    appId?: StringNullableFilter<"User"> | string | null
+    appSecret?: StringNullableFilter<"User"> | string | null
+    facebookAcceessToken?: StringNullableFilter<"User"> | string | null
+    grantedScopes?: StringNullableFilter<"User"> | string | null
+    accessTokenExpiresIn?: StringNullableFilter<"User"> | string | null
+    facebookConnectStatus?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     hashedRefresh?: StringNullableFilter<"User"> | string | null
   }
@@ -4389,6 +4582,13 @@ export namespace Prisma {
     emailConfirmToken?: SortOrderInput | SortOrder
     businessName?: SortOrder
     fullName?: SortOrder
+    metaUserId?: SortOrderInput | SortOrder
+    appId?: SortOrderInput | SortOrder
+    appSecret?: SortOrderInput | SortOrder
+    facebookAcceessToken?: SortOrderInput | SortOrder
+    grantedScopes?: SortOrderInput | SortOrder
+    accessTokenExpiresIn?: SortOrderInput | SortOrder
+    facebookConnectStatus?: SortOrder
     createdAt?: SortOrder
     hashedRefresh?: SortOrderInput | SortOrder
   }
@@ -4404,6 +4604,13 @@ export namespace Prisma {
     emailConfirmToken?: StringNullableFilter<"User"> | string | null
     businessName?: StringFilter<"User"> | string
     fullName?: StringFilter<"User"> | string
+    metaUserId?: StringNullableFilter<"User"> | string | null
+    appId?: StringNullableFilter<"User"> | string | null
+    appSecret?: StringNullableFilter<"User"> | string | null
+    facebookAcceessToken?: StringNullableFilter<"User"> | string | null
+    grantedScopes?: StringNullableFilter<"User"> | string | null
+    accessTokenExpiresIn?: StringNullableFilter<"User"> | string | null
+    facebookConnectStatus?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     hashedRefresh?: StringNullableFilter<"User"> | string | null
   }, "id" | "email">
@@ -4416,6 +4623,13 @@ export namespace Prisma {
     emailConfirmToken?: SortOrderInput | SortOrder
     businessName?: SortOrder
     fullName?: SortOrder
+    metaUserId?: SortOrderInput | SortOrder
+    appId?: SortOrderInput | SortOrder
+    appSecret?: SortOrderInput | SortOrder
+    facebookAcceessToken?: SortOrderInput | SortOrder
+    grantedScopes?: SortOrderInput | SortOrder
+    accessTokenExpiresIn?: SortOrderInput | SortOrder
+    facebookConnectStatus?: SortOrder
     createdAt?: SortOrder
     hashedRefresh?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -4434,6 +4648,13 @@ export namespace Prisma {
     emailConfirmToken?: StringNullableWithAggregatesFilter<"User"> | string | null
     businessName?: StringWithAggregatesFilter<"User"> | string
     fullName?: StringWithAggregatesFilter<"User"> | string
+    metaUserId?: StringNullableWithAggregatesFilter<"User"> | string | null
+    appId?: StringNullableWithAggregatesFilter<"User"> | string | null
+    appSecret?: StringNullableWithAggregatesFilter<"User"> | string | null
+    facebookAcceessToken?: StringNullableWithAggregatesFilter<"User"> | string | null
+    grantedScopes?: StringNullableWithAggregatesFilter<"User"> | string | null
+    accessTokenExpiresIn?: StringNullableWithAggregatesFilter<"User"> | string | null
+    facebookConnectStatus?: BoolWithAggregatesFilter<"User"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     hashedRefresh?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
@@ -4443,32 +4664,44 @@ export namespace Prisma {
     OR?: TokenWhereInput[]
     NOT?: TokenWhereInput | TokenWhereInput[]
     id?: StringFilter<"Token"> | string
+    userId?: StringFilter<"Token"> | string
     facebookAccessToken?: StringNullableFilter<"Token"> | string | null
     facebookLongLivedAccessToken?: StringNullableFilter<"Token"> | string | null
+    expiresIn?: StringNullableFilter<"Token"> | string | null
+    dataAccessExpirationTime?: StringNullableFilter<"Token"> | string | null
     createdAt?: DateTimeFilter<"Token"> | Date | string
   }
 
   export type TokenOrderByWithRelationInput = {
     id?: SortOrder
+    userId?: SortOrder
     facebookAccessToken?: SortOrderInput | SortOrder
     facebookLongLivedAccessToken?: SortOrderInput | SortOrder
+    expiresIn?: SortOrderInput | SortOrder
+    dataAccessExpirationTime?: SortOrderInput | SortOrder
     createdAt?: SortOrder
   }
 
   export type TokenWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    userId?: string
     AND?: TokenWhereInput | TokenWhereInput[]
     OR?: TokenWhereInput[]
     NOT?: TokenWhereInput | TokenWhereInput[]
     facebookAccessToken?: StringNullableFilter<"Token"> | string | null
     facebookLongLivedAccessToken?: StringNullableFilter<"Token"> | string | null
+    expiresIn?: StringNullableFilter<"Token"> | string | null
+    dataAccessExpirationTime?: StringNullableFilter<"Token"> | string | null
     createdAt?: DateTimeFilter<"Token"> | Date | string
-  }, "id">
+  }, "id" | "userId">
 
   export type TokenOrderByWithAggregationInput = {
     id?: SortOrder
+    userId?: SortOrder
     facebookAccessToken?: SortOrderInput | SortOrder
     facebookLongLivedAccessToken?: SortOrderInput | SortOrder
+    expiresIn?: SortOrderInput | SortOrder
+    dataAccessExpirationTime?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: TokenCountOrderByAggregateInput
     _max?: TokenMaxOrderByAggregateInput
@@ -4480,8 +4713,11 @@ export namespace Prisma {
     OR?: TokenScalarWhereWithAggregatesInput[]
     NOT?: TokenScalarWhereWithAggregatesInput | TokenScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Token"> | string
+    userId?: StringWithAggregatesFilter<"Token"> | string
     facebookAccessToken?: StringNullableWithAggregatesFilter<"Token"> | string | null
     facebookLongLivedAccessToken?: StringNullableWithAggregatesFilter<"Token"> | string | null
+    expiresIn?: StringNullableWithAggregatesFilter<"Token"> | string | null
+    dataAccessExpirationTime?: StringNullableWithAggregatesFilter<"Token"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Token"> | Date | string
   }
 
@@ -4502,6 +4738,7 @@ export namespace Prisma {
     packageDimensions?: StringFilter<"Delivery"> | string
     packageValue?: StringFilter<"Delivery"> | string
     pickupDate?: StringFilter<"Delivery"> | string
+    deliveryStatus?: EnumDeliveryStatusFilter<"Delivery"> | $Enums.DeliveryStatus
     deliveryType?: StringFilter<"Delivery"> | string
     deliveryInstructions?: StringNullableFilter<"Delivery"> | string | null
     createdAt?: DateTimeFilter<"Delivery"> | Date | string
@@ -4522,6 +4759,7 @@ export namespace Prisma {
     packageDimensions?: SortOrder
     packageValue?: SortOrder
     pickupDate?: SortOrder
+    deliveryStatus?: SortOrder
     deliveryType?: SortOrder
     deliveryInstructions?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -4545,6 +4783,7 @@ export namespace Prisma {
     packageDimensions?: StringFilter<"Delivery"> | string
     packageValue?: StringFilter<"Delivery"> | string
     pickupDate?: StringFilter<"Delivery"> | string
+    deliveryStatus?: EnumDeliveryStatusFilter<"Delivery"> | $Enums.DeliveryStatus
     deliveryType?: StringFilter<"Delivery"> | string
     deliveryInstructions?: StringNullableFilter<"Delivery"> | string | null
     createdAt?: DateTimeFilter<"Delivery"> | Date | string
@@ -4565,6 +4804,7 @@ export namespace Prisma {
     packageDimensions?: SortOrder
     packageValue?: SortOrder
     pickupDate?: SortOrder
+    deliveryStatus?: SortOrder
     deliveryType?: SortOrder
     deliveryInstructions?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -4591,6 +4831,7 @@ export namespace Prisma {
     packageDimensions?: StringWithAggregatesFilter<"Delivery"> | string
     packageValue?: StringWithAggregatesFilter<"Delivery"> | string
     pickupDate?: StringWithAggregatesFilter<"Delivery"> | string
+    deliveryStatus?: EnumDeliveryStatusWithAggregatesFilter<"Delivery"> | $Enums.DeliveryStatus
     deliveryType?: StringWithAggregatesFilter<"Delivery"> | string
     deliveryInstructions?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Delivery"> | Date | string
@@ -4605,6 +4846,13 @@ export namespace Prisma {
     emailConfirmToken?: string | null
     businessName: string
     fullName: string
+    metaUserId?: string | null
+    appId?: string | null
+    appSecret?: string | null
+    facebookAcceessToken?: string | null
+    grantedScopes?: string | null
+    accessTokenExpiresIn?: string | null
+    facebookConnectStatus?: boolean
     createdAt?: Date | string
     hashedRefresh?: string | null
   }
@@ -4617,6 +4865,13 @@ export namespace Prisma {
     emailConfirmToken?: string | null
     businessName: string
     fullName: string
+    metaUserId?: string | null
+    appId?: string | null
+    appSecret?: string | null
+    facebookAcceessToken?: string | null
+    grantedScopes?: string | null
+    accessTokenExpiresIn?: string | null
+    facebookConnectStatus?: boolean
     createdAt?: Date | string
     hashedRefresh?: string | null
   }
@@ -4629,6 +4884,13 @@ export namespace Prisma {
     emailConfirmToken?: NullableStringFieldUpdateOperationsInput | string | null
     businessName?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
+    metaUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    appId?: NullableStringFieldUpdateOperationsInput | string | null
+    appSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookAcceessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    grantedScopes?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenExpiresIn?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -4641,6 +4903,13 @@ export namespace Prisma {
     emailConfirmToken?: NullableStringFieldUpdateOperationsInput | string | null
     businessName?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
+    metaUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    appId?: NullableStringFieldUpdateOperationsInput | string | null
+    appSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookAcceessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    grantedScopes?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenExpiresIn?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -4653,6 +4922,13 @@ export namespace Prisma {
     emailConfirmToken?: string | null
     businessName: string
     fullName: string
+    metaUserId?: string | null
+    appId?: string | null
+    appSecret?: string | null
+    facebookAcceessToken?: string | null
+    grantedScopes?: string | null
+    accessTokenExpiresIn?: string | null
+    facebookConnectStatus?: boolean
     createdAt?: Date | string
     hashedRefresh?: string | null
   }
@@ -4665,6 +4941,13 @@ export namespace Prisma {
     emailConfirmToken?: NullableStringFieldUpdateOperationsInput | string | null
     businessName?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
+    metaUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    appId?: NullableStringFieldUpdateOperationsInput | string | null
+    appSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookAcceessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    grantedScopes?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenExpiresIn?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -4677,56 +4960,84 @@ export namespace Prisma {
     emailConfirmToken?: NullableStringFieldUpdateOperationsInput | string | null
     businessName?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
+    metaUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    appId?: NullableStringFieldUpdateOperationsInput | string | null
+    appSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookAcceessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    grantedScopes?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenExpiresIn?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TokenCreateInput = {
     id?: string
+    userId: string
     facebookAccessToken?: string | null
     facebookLongLivedAccessToken?: string | null
+    expiresIn?: string | null
+    dataAccessExpirationTime?: string | null
     createdAt?: Date | string
   }
 
   export type TokenUncheckedCreateInput = {
     id?: string
+    userId: string
     facebookAccessToken?: string | null
     facebookLongLivedAccessToken?: string | null
+    expiresIn?: string | null
+    dataAccessExpirationTime?: string | null
     createdAt?: Date | string
   }
 
   export type TokenUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     facebookAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     facebookLongLivedAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresIn?: NullableStringFieldUpdateOperationsInput | string | null
+    dataAccessExpirationTime?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TokenUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     facebookAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     facebookLongLivedAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresIn?: NullableStringFieldUpdateOperationsInput | string | null
+    dataAccessExpirationTime?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TokenCreateManyInput = {
     id?: string
+    userId: string
     facebookAccessToken?: string | null
     facebookLongLivedAccessToken?: string | null
+    expiresIn?: string | null
+    dataAccessExpirationTime?: string | null
     createdAt?: Date | string
   }
 
   export type TokenUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     facebookAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     facebookLongLivedAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresIn?: NullableStringFieldUpdateOperationsInput | string | null
+    dataAccessExpirationTime?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TokenUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     facebookAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     facebookLongLivedAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresIn?: NullableStringFieldUpdateOperationsInput | string | null
+    dataAccessExpirationTime?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -4744,6 +5055,7 @@ export namespace Prisma {
     packageDimensions: string
     packageValue: string
     pickupDate: string
+    deliveryStatus: $Enums.DeliveryStatus
     deliveryType: string
     deliveryInstructions?: string | null
     createdAt?: Date | string
@@ -4764,6 +5076,7 @@ export namespace Prisma {
     packageDimensions: string
     packageValue: string
     pickupDate: string
+    deliveryStatus: $Enums.DeliveryStatus
     deliveryType: string
     deliveryInstructions?: string | null
     createdAt?: Date | string
@@ -4784,6 +5097,7 @@ export namespace Prisma {
     packageDimensions?: StringFieldUpdateOperationsInput | string
     packageValue?: StringFieldUpdateOperationsInput | string
     pickupDate?: StringFieldUpdateOperationsInput | string
+    deliveryStatus?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
     deliveryType?: StringFieldUpdateOperationsInput | string
     deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4804,6 +5118,7 @@ export namespace Prisma {
     packageDimensions?: StringFieldUpdateOperationsInput | string
     packageValue?: StringFieldUpdateOperationsInput | string
     pickupDate?: StringFieldUpdateOperationsInput | string
+    deliveryStatus?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
     deliveryType?: StringFieldUpdateOperationsInput | string
     deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4824,6 +5139,7 @@ export namespace Prisma {
     packageDimensions: string
     packageValue: string
     pickupDate: string
+    deliveryStatus: $Enums.DeliveryStatus
     deliveryType: string
     deliveryInstructions?: string | null
     createdAt?: Date | string
@@ -4844,6 +5160,7 @@ export namespace Prisma {
     packageDimensions?: StringFieldUpdateOperationsInput | string
     packageValue?: StringFieldUpdateOperationsInput | string
     pickupDate?: StringFieldUpdateOperationsInput | string
+    deliveryStatus?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
     deliveryType?: StringFieldUpdateOperationsInput | string
     deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4864,6 +5181,7 @@ export namespace Prisma {
     packageDimensions?: StringFieldUpdateOperationsInput | string
     packageValue?: StringFieldUpdateOperationsInput | string
     pickupDate?: StringFieldUpdateOperationsInput | string
+    deliveryStatus?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
     deliveryType?: StringFieldUpdateOperationsInput | string
     deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4929,6 +5247,13 @@ export namespace Prisma {
     emailConfirmToken?: SortOrder
     businessName?: SortOrder
     fullName?: SortOrder
+    metaUserId?: SortOrder
+    appId?: SortOrder
+    appSecret?: SortOrder
+    facebookAcceessToken?: SortOrder
+    grantedScopes?: SortOrder
+    accessTokenExpiresIn?: SortOrder
+    facebookConnectStatus?: SortOrder
     createdAt?: SortOrder
     hashedRefresh?: SortOrder
   }
@@ -4941,6 +5266,13 @@ export namespace Prisma {
     emailConfirmToken?: SortOrder
     businessName?: SortOrder
     fullName?: SortOrder
+    metaUserId?: SortOrder
+    appId?: SortOrder
+    appSecret?: SortOrder
+    facebookAcceessToken?: SortOrder
+    grantedScopes?: SortOrder
+    accessTokenExpiresIn?: SortOrder
+    facebookConnectStatus?: SortOrder
     createdAt?: SortOrder
     hashedRefresh?: SortOrder
   }
@@ -4953,6 +5285,13 @@ export namespace Prisma {
     emailConfirmToken?: SortOrder
     businessName?: SortOrder
     fullName?: SortOrder
+    metaUserId?: SortOrder
+    appId?: SortOrder
+    appSecret?: SortOrder
+    facebookAcceessToken?: SortOrder
+    grantedScopes?: SortOrder
+    accessTokenExpiresIn?: SortOrder
+    facebookConnectStatus?: SortOrder
     createdAt?: SortOrder
     hashedRefresh?: SortOrder
   }
@@ -5017,23 +5356,39 @@ export namespace Prisma {
 
   export type TokenCountOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
     facebookAccessToken?: SortOrder
     facebookLongLivedAccessToken?: SortOrder
+    expiresIn?: SortOrder
+    dataAccessExpirationTime?: SortOrder
     createdAt?: SortOrder
   }
 
   export type TokenMaxOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
     facebookAccessToken?: SortOrder
     facebookLongLivedAccessToken?: SortOrder
+    expiresIn?: SortOrder
+    dataAccessExpirationTime?: SortOrder
     createdAt?: SortOrder
   }
 
   export type TokenMinOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
     facebookAccessToken?: SortOrder
     facebookLongLivedAccessToken?: SortOrder
+    expiresIn?: SortOrder
+    dataAccessExpirationTime?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type EnumDeliveryStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.DeliveryStatus | EnumDeliveryStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DeliveryStatus[] | ListEnumDeliveryStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DeliveryStatus[] | ListEnumDeliveryStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDeliveryStatusFilter<$PrismaModel> | $Enums.DeliveryStatus
   }
 
   export type DeliveryCountOrderByAggregateInput = {
@@ -5050,6 +5405,7 @@ export namespace Prisma {
     packageDimensions?: SortOrder
     packageValue?: SortOrder
     pickupDate?: SortOrder
+    deliveryStatus?: SortOrder
     deliveryType?: SortOrder
     deliveryInstructions?: SortOrder
     createdAt?: SortOrder
@@ -5070,6 +5426,7 @@ export namespace Prisma {
     packageDimensions?: SortOrder
     packageValue?: SortOrder
     pickupDate?: SortOrder
+    deliveryStatus?: SortOrder
     deliveryType?: SortOrder
     deliveryInstructions?: SortOrder
     createdAt?: SortOrder
@@ -5090,10 +5447,21 @@ export namespace Prisma {
     packageDimensions?: SortOrder
     packageValue?: SortOrder
     pickupDate?: SortOrder
+    deliveryStatus?: SortOrder
     deliveryType?: SortOrder
     deliveryInstructions?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type EnumDeliveryStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DeliveryStatus | EnumDeliveryStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DeliveryStatus[] | ListEnumDeliveryStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DeliveryStatus[] | ListEnumDeliveryStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDeliveryStatusWithAggregatesFilter<$PrismaModel> | $Enums.DeliveryStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDeliveryStatusFilter<$PrismaModel>
+    _max?: NestedEnumDeliveryStatusFilter<$PrismaModel>
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -5110,6 +5478,10 @@ export namespace Prisma {
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
+  }
+
+  export type EnumDeliveryStatusFieldUpdateOperationsInput = {
+    set?: $Enums.DeliveryStatus
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -5232,6 +5604,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumDeliveryStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.DeliveryStatus | EnumDeliveryStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DeliveryStatus[] | ListEnumDeliveryStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DeliveryStatus[] | ListEnumDeliveryStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDeliveryStatusFilter<$PrismaModel> | $Enums.DeliveryStatus
+  }
+
+  export type NestedEnumDeliveryStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DeliveryStatus | EnumDeliveryStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DeliveryStatus[] | ListEnumDeliveryStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DeliveryStatus[] | ListEnumDeliveryStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDeliveryStatusWithAggregatesFilter<$PrismaModel> | $Enums.DeliveryStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDeliveryStatusFilter<$PrismaModel>
+    _max?: NestedEnumDeliveryStatusFilter<$PrismaModel>
   }
 
 

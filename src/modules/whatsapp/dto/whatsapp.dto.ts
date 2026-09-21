@@ -7,3 +7,11 @@ export class MessageDto {
     @ApiProperty({ description: 'The text message to be sent' })
     text: string;
 }
+
+export class AccessTokenDto {
+    @ApiProperty()
+    appId: string;
+
+        @ApiProperty()
+    appSecret: string;
+}

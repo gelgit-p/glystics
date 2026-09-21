@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Query,
   Req,
@@ -11,7 +12,8 @@ import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { AuthService } from './auth.service';
 import { LoginInput } from './dto/login.input';
-import { SignupInput } from './dto/signup.input';
+import { SignupInput, UpdateInput } from './dto/signup.input';
+import { UserService } from '../user/user.service';
 
 type AuthenticatedRequest = Request & {
   user: {
@@ -21,7 +23,7 @@ type AuthenticatedRequest = Request & {
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService, private readonly userService: UserService) {}
 
   @Post('signup')
   async signup(@Body() data: SignupInput): Promise<boolean> {
@@ -42,6 +44,25 @@ export class AuthController {
   @Post('refresh-token')
   refreshToken(@Body('token') token: string) {
     return this.authService.refreshToken(token);
+  }
+
+
+  @Post('update-user/:id')
+  updateUser(
+    @Param('id') id: string,
+    @Body() data: UpdateInput,
+  ) {
+    return this.userService.update(id, data);
+  }
+
+    @Get(':id')
+  findById(@Param('id') id: string) {
+    return this.userService.findById(id);
+  }
+
+  @Get('by-email')
+  findByEmail(@Query('email') email: string) {
+    return this.userService.findByEmail(email);
   }
 
   @UseGuards(AuthGuard('jwt'))

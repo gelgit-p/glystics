@@ -2,7 +2,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
-import { MessageDto } from './dto/whatsapp.dto';
+import { AccessTokenDto, MessageDto } from './dto/whatsapp.dto';
 import { CreateMessageTemplateDto } from './dto/create-message-template.dto';
 import { SendUtilityMessageDto } from './dto/send-utility-message.dto';
 import { PrismaService } from 'prisma/prisma.service';
@@ -114,12 +114,12 @@ export class WhatsappService {
 
   // https://developers.facebook.com/documentation/business-messaging/whatsapp/embedded-signup/onboarding-customers-as-a-tech-provider
   //  Exchange the token code for a business token
-  async getAccessToken(): Promise<string> {
-    const endpoint = 'https://graph.facebook.com/oauth/access_token';
-    const appId = this.configService.get<string>('WHATSAPP_APP_ID');
-    const appSecret = this.configService.get<string>('WHATSAPP_APP_SECRET');
+  async getAccessToken(dto: AccessTokenDto): Promise<string> {
+    const endpoint = 'https://graph.facebook.com/v25.0/oauth/access_token';
+    // const appId = this.configService.get<string>('WHATSAPP_APP_ID');
+    // const appSecret = this.configService.get<string>('WHATSAPP_APP_SECRET');
 
-    if (!appId || !appSecret) {
+    if (!dto.appId || !dto.appSecret) {
       throw new Error(
         'WHATSAPP_APP_ID and WHATSAPP_APP_SECRET are required',
       );
@@ -129,8 +129,8 @@ export class WhatsappService {
       const response = await firstValueFrom(
         this.httpService.get(endpoint, {
           params: {
-            client_id: appId,
-            client_secret: appSecret,
+            client_id: dto.appId,
+            client_secret: dto.appSecret,
             grant_type: 'client_credentials',
           },
         }),
@@ -148,7 +148,7 @@ export class WhatsappService {
     }
   }
 
-  async getLongLivedToken(accessToken: string): Promise<string> {
+  async getLongLivedToken(accessToken: string, userId: string): Promise<string> {
     const version = this.configService.get<string>('WHATSAPP_VERSION');
     const appId = this.configService.get<string>('WHATSAPP_APP_ID');
     const appSecret = this.configService.get<string>('WHATSAPP_APP_SECRET');
@@ -183,7 +183,7 @@ export class WhatsappService {
 
       // call store-token
 
-      await this.saveToken({facebookAccessToken: accessToken, facebookLongLivedAccessToken: longLivedToken })
+      await this.saveToken({userId: userId, facebookAccessToken: accessToken, facebookLongLivedAccessToken: longLivedToken })
 
 
       return longLivedToken;
@@ -506,20 +506,26 @@ export class WhatsappService {
   }
 
   async saveToken(dto: TokenDto): Promise<void> {
-    try {
-      await this.prisma.token.create({
-        data: {
-          facebookAccessToken: dto.facebookAccessToken,
-          facebookLongLivedAccessToken: dto.facebookLongLivedAccessToken,
-        },
-      });
-
-
-    } catch(error) {
-      console.error('Error saving token to database:', error);
-      throw new Error('Failed to save token to database');
-    }
+  try {
+    await this.prisma.token.upsert({
+      where: {
+        userId: dto.userId,
+      },
+      update: {
+        facebookAccessToken: dto.facebookAccessToken,
+        facebookLongLivedAccessToken: dto.facebookLongLivedAccessToken,
+      },
+      create: {
+        userId: dto.userId,
+        facebookAccessToken: dto.facebookAccessToken,
+        facebookLongLivedAccessToken: dto.facebookLongLivedAccessToken,
+      },
+    });
+  } catch (error) {
+    console.error('Error saving token to database:', error);
+    throw new Error('Failed to save token to database');
   }
+}
 
   async editTokenById(id: string, dto: TokenDto): Promise<void> {
     try {

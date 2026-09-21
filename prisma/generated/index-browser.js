@@ -129,14 +129,24 @@ exports.Prisma.UserScalarFieldEnum = {
   emailConfirmToken: 'emailConfirmToken',
   businessName: 'businessName',
   fullName: 'fullName',
+  metaUserId: 'metaUserId',
+  appId: 'appId',
+  appSecret: 'appSecret',
+  facebookAcceessToken: 'facebookAcceessToken',
+  grantedScopes: 'grantedScopes',
+  accessTokenExpiresIn: 'accessTokenExpiresIn',
+  facebookConnectStatus: 'facebookConnectStatus',
   createdAt: 'createdAt',
   hashedRefresh: 'hashedRefresh'
 };
 
 exports.Prisma.TokenScalarFieldEnum = {
   id: 'id',
+  userId: 'userId',
   facebookAccessToken: 'facebookAccessToken',
   facebookLongLivedAccessToken: 'facebookLongLivedAccessToken',
+  expiresIn: 'expiresIn',
+  dataAccessExpirationTime: 'dataAccessExpirationTime',
   createdAt: 'createdAt'
 };
 
@@ -154,6 +164,7 @@ exports.Prisma.DeliveryScalarFieldEnum = {
   packageDimensions: 'packageDimensions',
   packageValue: 'packageValue',
   pickupDate: 'pickupDate',
+  deliveryStatus: 'deliveryStatus',
   deliveryType: 'deliveryType',
   deliveryInstructions: 'deliveryInstructions',
   createdAt: 'createdAt',
@@ -174,7 +185,11 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.DeliveryStatus = exports.$Enums.DeliveryStatus = {
+  DELIVERED: 'DELIVERED',
+  IN_TRANSIT: 'IN_TRANSIT',
+  FAILED: 'FAILED'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
