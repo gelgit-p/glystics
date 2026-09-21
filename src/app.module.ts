@@ -8,9 +8,9 @@ import { UserModule } from './modules/user/user.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { LoggerMiddleware } from './common/logger.middleware';
-import { ThrottlerModule } from '@nestjs/throttler';
-import { APP_GUARD } from '@nestjs/core';
-import { GqlThrottlerGuard } from './modules/auth/guards/gql-throttler-guard';
+// import { ThrottlerModule } from '@nestjs/throttler';
+// import { APP_GUARD } from '@nestjs/core';
+// import { GqlThrottlerGuard } from './modules/auth/guards/gql-throttler-guard';
 import { ShipbubbleModule } from './modules/shipbubble/shipbubble.module';
 import { WebhookModule } from './modules/webhook/webhook.module';
 import { InstagramModule } from './modules/instagram/instagram.module';
@@ -28,14 +28,14 @@ import { DeliveryModule } from './modules/delivery/delivery.module';
         return { req, res };
       },
     }),
-    ThrottlerModule.forRoot({
-      throttlers: [
-        {
-          ttl: 60,
-          limit: 0,
-        },
-      ],
-    }),
+    // ThrottlerModule.forRoot({
+    //   throttlers: [
+    //     {
+    //       ttl: 60,
+    //       limit: 0,
+    //     },
+    //   ],
+    // }),
     AuthModule,
     PrismaModule,
     UserModule,
@@ -49,11 +49,7 @@ import { DeliveryModule } from './modules/delivery/delivery.module';
   controllers: [AppController, HealthController],
   providers: [
     AppService,
-    UserService,
-    {
-      provide: APP_GUARD,
-      useClass: GqlThrottlerGuard,
-    },
+    UserService
   ],
 })
 export class AppModule implements NestModule {
