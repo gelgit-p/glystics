@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
@@ -451,6 +451,54 @@ export class WhatsappService {
       throw error.response?.data || error.message;
     }
   }
+
+
+async getWabaAssignerToUserId(userId: string) {
+  const user = await this.prisma.user.findFirst({
+    where: {
+      metaUserId: userId,
+    },
+    select: {
+      id: true,
+      metaUserId: true,
+      facebookAcceessToken: true,
+    },
+  });
+
+  if (!user) {
+    throw new NotFoundException(
+      `No user found with Meta user ID: ${userId}`,
+    );
+  }
+
+  if (!user.facebookAcceessToken) {
+    throw new UnauthorizedException(
+      'User does not have a Facebook access token',
+    );
+  }
+
+  const response = await fetch(
+    `https://graph.facebook.com/${user.metaUserId}/assigned_whatsapp_business_accounts`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${user.facebookAcceessToken}`,
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new BadRequestException({
+      message: 'Failed to fetch assigned WhatsApp Business Accounts',
+      error: data,
+    });
+  }
+
+  return data;
+}
 
   async sendUtilityMessage(dto: SendUtilityMessageDto): Promise<any> {
     const version = this.configService.get<string>('WHATSAPP_VERSION');

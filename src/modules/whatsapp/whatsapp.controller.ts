@@ -106,6 +106,11 @@ export class WhatsappController {
     return await this.whatsappService.debugToken();
   }
 
+  @Get(':userId/waba')
+async getWaba(@Param('userId') userId: string) {
+  return this.whatsappService.getWabaAssignerToUserId(userId);
+}
+
 
 
   @Put('tokens/:id')
