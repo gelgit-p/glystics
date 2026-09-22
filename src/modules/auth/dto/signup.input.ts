@@ -72,5 +72,33 @@ export class UpdateInput {
   @IsOptional()
   facebookConnectStatus: boolean;
 
+    @ApiProperty()
+  @Field()
+  @IsOptional()
+  selectedWabaId: string;
 
+      @ApiProperty()
+  @Field()
+  @IsOptional()
+  selectedFacebookBusinessId: string;
+
+        @ApiProperty()
+  @Field()
+  @IsOptional()
+  selectedFacebookBusinessName: string;
+
+          @ApiProperty()
+  @Field()
+  @IsOptional()
+  selectedPhoneNumberQualityRating: string;
+
+          @ApiProperty()
+  @Field()
+  @IsOptional()
+  selectedPhoneNumberVerifiedName: string;
+
+          @ApiProperty()
+  @Field()
+  @IsOptional()
+  selectedPhoneNumberId: string;
 }

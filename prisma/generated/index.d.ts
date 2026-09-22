@@ -1085,6 +1085,12 @@ export namespace Prisma {
     facebookAcceessToken: string | null
     grantedScopes: string | null
     accessTokenExpiresIn: string | null
+    selectedWabaId: string | null
+    displayPhoneNumber: string | null
+    selectedFacebookBusinessId: string | null
+    selectedFacebookBusinessName: string | null
+    selectedPhoneNumberQualityRating: string | null
+    selectedPhoneNumberVerifiedName: string | null
     facebookConnectStatus: boolean | null
     createdAt: Date | null
     hashedRefresh: string | null
@@ -1104,6 +1110,12 @@ export namespace Prisma {
     facebookAcceessToken: string | null
     grantedScopes: string | null
     accessTokenExpiresIn: string | null
+    selectedWabaId: string | null
+    displayPhoneNumber: string | null
+    selectedFacebookBusinessId: string | null
+    selectedFacebookBusinessName: string | null
+    selectedPhoneNumberQualityRating: string | null
+    selectedPhoneNumberVerifiedName: string | null
     facebookConnectStatus: boolean | null
     createdAt: Date | null
     hashedRefresh: string | null
@@ -1123,6 +1135,13 @@ export namespace Prisma {
     facebookAcceessToken: number
     grantedScopes: number
     accessTokenExpiresIn: number
+    selectedWabaId: number
+    displayPhoneNumber: number
+    selectedFacebookBusinessId: number
+    selectedFacebookBusinessName: number
+    selectedPhoneNumberQualityRating: number
+    selectedPhoneNumberVerifiedName: number
+    selectedPhoneNumberId: number
     facebookConnectStatus: number
     createdAt: number
     hashedRefresh: number
@@ -1144,6 +1163,12 @@ export namespace Prisma {
     facebookAcceessToken?: true
     grantedScopes?: true
     accessTokenExpiresIn?: true
+    selectedWabaId?: true
+    displayPhoneNumber?: true
+    selectedFacebookBusinessId?: true
+    selectedFacebookBusinessName?: true
+    selectedPhoneNumberQualityRating?: true
+    selectedPhoneNumberVerifiedName?: true
     facebookConnectStatus?: true
     createdAt?: true
     hashedRefresh?: true
@@ -1163,6 +1188,12 @@ export namespace Prisma {
     facebookAcceessToken?: true
     grantedScopes?: true
     accessTokenExpiresIn?: true
+    selectedWabaId?: true
+    displayPhoneNumber?: true
+    selectedFacebookBusinessId?: true
+    selectedFacebookBusinessName?: true
+    selectedPhoneNumberQualityRating?: true
+    selectedPhoneNumberVerifiedName?: true
     facebookConnectStatus?: true
     createdAt?: true
     hashedRefresh?: true
@@ -1182,6 +1213,13 @@ export namespace Prisma {
     facebookAcceessToken?: true
     grantedScopes?: true
     accessTokenExpiresIn?: true
+    selectedWabaId?: true
+    displayPhoneNumber?: true
+    selectedFacebookBusinessId?: true
+    selectedFacebookBusinessName?: true
+    selectedPhoneNumberQualityRating?: true
+    selectedPhoneNumberVerifiedName?: true
+    selectedPhoneNumberId?: true
     facebookConnectStatus?: true
     createdAt?: true
     hashedRefresh?: true
@@ -1274,6 +1312,13 @@ export namespace Prisma {
     facebookAcceessToken: string | null
     grantedScopes: string | null
     accessTokenExpiresIn: string | null
+    selectedWabaId: string | null
+    displayPhoneNumber: string | null
+    selectedFacebookBusinessId: string | null
+    selectedFacebookBusinessName: string | null
+    selectedPhoneNumberQualityRating: string | null
+    selectedPhoneNumberVerifiedName: string | null
+    selectedPhoneNumberId: string[]
     facebookConnectStatus: boolean
     createdAt: Date
     hashedRefresh: string | null
@@ -1310,6 +1355,13 @@ export namespace Prisma {
     facebookAcceessToken?: boolean
     grantedScopes?: boolean
     accessTokenExpiresIn?: boolean
+    selectedWabaId?: boolean
+    displayPhoneNumber?: boolean
+    selectedFacebookBusinessId?: boolean
+    selectedFacebookBusinessName?: boolean
+    selectedPhoneNumberQualityRating?: boolean
+    selectedPhoneNumberVerifiedName?: boolean
+    selectedPhoneNumberId?: boolean
     facebookConnectStatus?: boolean
     createdAt?: boolean
     hashedRefresh?: boolean
@@ -1329,6 +1381,13 @@ export namespace Prisma {
     facebookAcceessToken?: boolean
     grantedScopes?: boolean
     accessTokenExpiresIn?: boolean
+    selectedWabaId?: boolean
+    displayPhoneNumber?: boolean
+    selectedFacebookBusinessId?: boolean
+    selectedFacebookBusinessName?: boolean
+    selectedPhoneNumberQualityRating?: boolean
+    selectedPhoneNumberVerifiedName?: boolean
+    selectedPhoneNumberId?: boolean
     facebookConnectStatus?: boolean
     createdAt?: boolean
     hashedRefresh?: boolean
@@ -1348,6 +1407,13 @@ export namespace Prisma {
     facebookAcceessToken?: boolean
     grantedScopes?: boolean
     accessTokenExpiresIn?: boolean
+    selectedWabaId?: boolean
+    displayPhoneNumber?: boolean
+    selectedFacebookBusinessId?: boolean
+    selectedFacebookBusinessName?: boolean
+    selectedPhoneNumberQualityRating?: boolean
+    selectedPhoneNumberVerifiedName?: boolean
+    selectedPhoneNumberId?: boolean
     facebookConnectStatus?: boolean
     createdAt?: boolean
     hashedRefresh?: boolean
@@ -1367,12 +1433,19 @@ export namespace Prisma {
     facebookAcceessToken?: boolean
     grantedScopes?: boolean
     accessTokenExpiresIn?: boolean
+    selectedWabaId?: boolean
+    displayPhoneNumber?: boolean
+    selectedFacebookBusinessId?: boolean
+    selectedFacebookBusinessName?: boolean
+    selectedPhoneNumberQualityRating?: boolean
+    selectedPhoneNumberVerifiedName?: boolean
+    selectedPhoneNumberId?: boolean
     facebookConnectStatus?: boolean
     createdAt?: boolean
     hashedRefresh?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "emailConfirmed" | "emailConfirmToken" | "businessName" | "fullName" | "metaUserId" | "appId" | "appSecret" | "facebookAcceessToken" | "grantedScopes" | "accessTokenExpiresIn" | "facebookConnectStatus" | "createdAt" | "hashedRefresh", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "emailConfirmed" | "emailConfirmToken" | "businessName" | "fullName" | "metaUserId" | "appId" | "appSecret" | "facebookAcceessToken" | "grantedScopes" | "accessTokenExpiresIn" | "selectedWabaId" | "displayPhoneNumber" | "selectedFacebookBusinessId" | "selectedFacebookBusinessName" | "selectedPhoneNumberQualityRating" | "selectedPhoneNumberVerifiedName" | "selectedPhoneNumberId" | "facebookConnectStatus" | "createdAt" | "hashedRefresh", ExtArgs["result"]["user"]>
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
@@ -1391,6 +1464,13 @@ export namespace Prisma {
       facebookAcceessToken: string | null
       grantedScopes: string | null
       accessTokenExpiresIn: string | null
+      selectedWabaId: string | null
+      displayPhoneNumber: string | null
+      selectedFacebookBusinessId: string | null
+      selectedFacebookBusinessName: string | null
+      selectedPhoneNumberQualityRating: string | null
+      selectedPhoneNumberVerifiedName: string | null
+      selectedPhoneNumberId: string[]
       facebookConnectStatus: boolean
       createdAt: Date
       hashedRefresh: string | null
@@ -1830,6 +1910,13 @@ export namespace Prisma {
     readonly facebookAcceessToken: FieldRef<"User", 'String'>
     readonly grantedScopes: FieldRef<"User", 'String'>
     readonly accessTokenExpiresIn: FieldRef<"User", 'String'>
+    readonly selectedWabaId: FieldRef<"User", 'String'>
+    readonly displayPhoneNumber: FieldRef<"User", 'String'>
+    readonly selectedFacebookBusinessId: FieldRef<"User", 'String'>
+    readonly selectedFacebookBusinessName: FieldRef<"User", 'String'>
+    readonly selectedPhoneNumberQualityRating: FieldRef<"User", 'String'>
+    readonly selectedPhoneNumberVerifiedName: FieldRef<"User", 'String'>
+    readonly selectedPhoneNumberId: FieldRef<"User", 'String[]'>
     readonly facebookConnectStatus: FieldRef<"User", 'Boolean'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly hashedRefresh: FieldRef<"User", 'String'>
@@ -4412,6 +4499,13 @@ export namespace Prisma {
     facebookAcceessToken: 'facebookAcceessToken',
     grantedScopes: 'grantedScopes',
     accessTokenExpiresIn: 'accessTokenExpiresIn',
+    selectedWabaId: 'selectedWabaId',
+    displayPhoneNumber: 'displayPhoneNumber',
+    selectedFacebookBusinessId: 'selectedFacebookBusinessId',
+    selectedFacebookBusinessName: 'selectedFacebookBusinessName',
+    selectedPhoneNumberQualityRating: 'selectedPhoneNumberQualityRating',
+    selectedPhoneNumberVerifiedName: 'selectedPhoneNumberVerifiedName',
+    selectedPhoneNumberId: 'selectedPhoneNumberId',
     facebookConnectStatus: 'facebookConnectStatus',
     createdAt: 'createdAt',
     hashedRefresh: 'hashedRefresh'
@@ -4569,6 +4663,13 @@ export namespace Prisma {
     facebookAcceessToken?: StringNullableFilter<"User"> | string | null
     grantedScopes?: StringNullableFilter<"User"> | string | null
     accessTokenExpiresIn?: StringNullableFilter<"User"> | string | null
+    selectedWabaId?: StringNullableFilter<"User"> | string | null
+    displayPhoneNumber?: StringNullableFilter<"User"> | string | null
+    selectedFacebookBusinessId?: StringNullableFilter<"User"> | string | null
+    selectedFacebookBusinessName?: StringNullableFilter<"User"> | string | null
+    selectedPhoneNumberQualityRating?: StringNullableFilter<"User"> | string | null
+    selectedPhoneNumberVerifiedName?: StringNullableFilter<"User"> | string | null
+    selectedPhoneNumberId?: StringNullableListFilter<"User">
     facebookConnectStatus?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     hashedRefresh?: StringNullableFilter<"User"> | string | null
@@ -4588,6 +4689,13 @@ export namespace Prisma {
     facebookAcceessToken?: SortOrderInput | SortOrder
     grantedScopes?: SortOrderInput | SortOrder
     accessTokenExpiresIn?: SortOrderInput | SortOrder
+    selectedWabaId?: SortOrderInput | SortOrder
+    displayPhoneNumber?: SortOrderInput | SortOrder
+    selectedFacebookBusinessId?: SortOrderInput | SortOrder
+    selectedFacebookBusinessName?: SortOrderInput | SortOrder
+    selectedPhoneNumberQualityRating?: SortOrderInput | SortOrder
+    selectedPhoneNumberVerifiedName?: SortOrderInput | SortOrder
+    selectedPhoneNumberId?: SortOrder
     facebookConnectStatus?: SortOrder
     createdAt?: SortOrder
     hashedRefresh?: SortOrderInput | SortOrder
@@ -4610,6 +4718,13 @@ export namespace Prisma {
     facebookAcceessToken?: StringNullableFilter<"User"> | string | null
     grantedScopes?: StringNullableFilter<"User"> | string | null
     accessTokenExpiresIn?: StringNullableFilter<"User"> | string | null
+    selectedWabaId?: StringNullableFilter<"User"> | string | null
+    displayPhoneNumber?: StringNullableFilter<"User"> | string | null
+    selectedFacebookBusinessId?: StringNullableFilter<"User"> | string | null
+    selectedFacebookBusinessName?: StringNullableFilter<"User"> | string | null
+    selectedPhoneNumberQualityRating?: StringNullableFilter<"User"> | string | null
+    selectedPhoneNumberVerifiedName?: StringNullableFilter<"User"> | string | null
+    selectedPhoneNumberId?: StringNullableListFilter<"User">
     facebookConnectStatus?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     hashedRefresh?: StringNullableFilter<"User"> | string | null
@@ -4629,6 +4744,13 @@ export namespace Prisma {
     facebookAcceessToken?: SortOrderInput | SortOrder
     grantedScopes?: SortOrderInput | SortOrder
     accessTokenExpiresIn?: SortOrderInput | SortOrder
+    selectedWabaId?: SortOrderInput | SortOrder
+    displayPhoneNumber?: SortOrderInput | SortOrder
+    selectedFacebookBusinessId?: SortOrderInput | SortOrder
+    selectedFacebookBusinessName?: SortOrderInput | SortOrder
+    selectedPhoneNumberQualityRating?: SortOrderInput | SortOrder
+    selectedPhoneNumberVerifiedName?: SortOrderInput | SortOrder
+    selectedPhoneNumberId?: SortOrder
     facebookConnectStatus?: SortOrder
     createdAt?: SortOrder
     hashedRefresh?: SortOrderInput | SortOrder
@@ -4654,6 +4776,13 @@ export namespace Prisma {
     facebookAcceessToken?: StringNullableWithAggregatesFilter<"User"> | string | null
     grantedScopes?: StringNullableWithAggregatesFilter<"User"> | string | null
     accessTokenExpiresIn?: StringNullableWithAggregatesFilter<"User"> | string | null
+    selectedWabaId?: StringNullableWithAggregatesFilter<"User"> | string | null
+    displayPhoneNumber?: StringNullableWithAggregatesFilter<"User"> | string | null
+    selectedFacebookBusinessId?: StringNullableWithAggregatesFilter<"User"> | string | null
+    selectedFacebookBusinessName?: StringNullableWithAggregatesFilter<"User"> | string | null
+    selectedPhoneNumberQualityRating?: StringNullableWithAggregatesFilter<"User"> | string | null
+    selectedPhoneNumberVerifiedName?: StringNullableWithAggregatesFilter<"User"> | string | null
+    selectedPhoneNumberId?: StringNullableListFilter<"User">
     facebookConnectStatus?: BoolWithAggregatesFilter<"User"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     hashedRefresh?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -4852,6 +4981,13 @@ export namespace Prisma {
     facebookAcceessToken?: string | null
     grantedScopes?: string | null
     accessTokenExpiresIn?: string | null
+    selectedWabaId?: string | null
+    displayPhoneNumber?: string | null
+    selectedFacebookBusinessId?: string | null
+    selectedFacebookBusinessName?: string | null
+    selectedPhoneNumberQualityRating?: string | null
+    selectedPhoneNumberVerifiedName?: string | null
+    selectedPhoneNumberId?: UserCreateselectedPhoneNumberIdInput | string[]
     facebookConnectStatus?: boolean
     createdAt?: Date | string
     hashedRefresh?: string | null
@@ -4871,6 +5007,13 @@ export namespace Prisma {
     facebookAcceessToken?: string | null
     grantedScopes?: string | null
     accessTokenExpiresIn?: string | null
+    selectedWabaId?: string | null
+    displayPhoneNumber?: string | null
+    selectedFacebookBusinessId?: string | null
+    selectedFacebookBusinessName?: string | null
+    selectedPhoneNumberQualityRating?: string | null
+    selectedPhoneNumberVerifiedName?: string | null
+    selectedPhoneNumberId?: UserCreateselectedPhoneNumberIdInput | string[]
     facebookConnectStatus?: boolean
     createdAt?: Date | string
     hashedRefresh?: string | null
@@ -4890,6 +5033,13 @@ export namespace Prisma {
     facebookAcceessToken?: NullableStringFieldUpdateOperationsInput | string | null
     grantedScopes?: NullableStringFieldUpdateOperationsInput | string | null
     accessTokenExpiresIn?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedWabaId?: NullableStringFieldUpdateOperationsInput | string | null
+    displayPhoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedFacebookBusinessId?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedFacebookBusinessName?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedPhoneNumberQualityRating?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedPhoneNumberVerifiedName?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedPhoneNumberId?: UserUpdateselectedPhoneNumberIdInput | string[]
     facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
@@ -4909,6 +5059,13 @@ export namespace Prisma {
     facebookAcceessToken?: NullableStringFieldUpdateOperationsInput | string | null
     grantedScopes?: NullableStringFieldUpdateOperationsInput | string | null
     accessTokenExpiresIn?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedWabaId?: NullableStringFieldUpdateOperationsInput | string | null
+    displayPhoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedFacebookBusinessId?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedFacebookBusinessName?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedPhoneNumberQualityRating?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedPhoneNumberVerifiedName?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedPhoneNumberId?: UserUpdateselectedPhoneNumberIdInput | string[]
     facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
@@ -4928,6 +5085,13 @@ export namespace Prisma {
     facebookAcceessToken?: string | null
     grantedScopes?: string | null
     accessTokenExpiresIn?: string | null
+    selectedWabaId?: string | null
+    displayPhoneNumber?: string | null
+    selectedFacebookBusinessId?: string | null
+    selectedFacebookBusinessName?: string | null
+    selectedPhoneNumberQualityRating?: string | null
+    selectedPhoneNumberVerifiedName?: string | null
+    selectedPhoneNumberId?: UserCreateselectedPhoneNumberIdInput | string[]
     facebookConnectStatus?: boolean
     createdAt?: Date | string
     hashedRefresh?: string | null
@@ -4947,6 +5111,13 @@ export namespace Prisma {
     facebookAcceessToken?: NullableStringFieldUpdateOperationsInput | string | null
     grantedScopes?: NullableStringFieldUpdateOperationsInput | string | null
     accessTokenExpiresIn?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedWabaId?: NullableStringFieldUpdateOperationsInput | string | null
+    displayPhoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedFacebookBusinessId?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedFacebookBusinessName?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedPhoneNumberQualityRating?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedPhoneNumberVerifiedName?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedPhoneNumberId?: UserUpdateselectedPhoneNumberIdInput | string[]
     facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
@@ -4966,6 +5137,13 @@ export namespace Prisma {
     facebookAcceessToken?: NullableStringFieldUpdateOperationsInput | string | null
     grantedScopes?: NullableStringFieldUpdateOperationsInput | string | null
     accessTokenExpiresIn?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedWabaId?: NullableStringFieldUpdateOperationsInput | string | null
+    displayPhoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedFacebookBusinessId?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedFacebookBusinessName?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedPhoneNumberQualityRating?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedPhoneNumberVerifiedName?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedPhoneNumberId?: UserUpdateselectedPhoneNumberIdInput | string[]
     facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
@@ -5223,6 +5401,14 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -5253,6 +5439,13 @@ export namespace Prisma {
     facebookAcceessToken?: SortOrder
     grantedScopes?: SortOrder
     accessTokenExpiresIn?: SortOrder
+    selectedWabaId?: SortOrder
+    displayPhoneNumber?: SortOrder
+    selectedFacebookBusinessId?: SortOrder
+    selectedFacebookBusinessName?: SortOrder
+    selectedPhoneNumberQualityRating?: SortOrder
+    selectedPhoneNumberVerifiedName?: SortOrder
+    selectedPhoneNumberId?: SortOrder
     facebookConnectStatus?: SortOrder
     createdAt?: SortOrder
     hashedRefresh?: SortOrder
@@ -5272,6 +5465,12 @@ export namespace Prisma {
     facebookAcceessToken?: SortOrder
     grantedScopes?: SortOrder
     accessTokenExpiresIn?: SortOrder
+    selectedWabaId?: SortOrder
+    displayPhoneNumber?: SortOrder
+    selectedFacebookBusinessId?: SortOrder
+    selectedFacebookBusinessName?: SortOrder
+    selectedPhoneNumberQualityRating?: SortOrder
+    selectedPhoneNumberVerifiedName?: SortOrder
     facebookConnectStatus?: SortOrder
     createdAt?: SortOrder
     hashedRefresh?: SortOrder
@@ -5291,6 +5490,12 @@ export namespace Prisma {
     facebookAcceessToken?: SortOrder
     grantedScopes?: SortOrder
     accessTokenExpiresIn?: SortOrder
+    selectedWabaId?: SortOrder
+    displayPhoneNumber?: SortOrder
+    selectedFacebookBusinessId?: SortOrder
+    selectedFacebookBusinessName?: SortOrder
+    selectedPhoneNumberQualityRating?: SortOrder
+    selectedPhoneNumberVerifiedName?: SortOrder
     facebookConnectStatus?: SortOrder
     createdAt?: SortOrder
     hashedRefresh?: SortOrder
@@ -5464,6 +5669,10 @@ export namespace Prisma {
     _max?: NestedEnumDeliveryStatusFilter<$PrismaModel>
   }
 
+  export type UserCreateselectedPhoneNumberIdInput = {
+    set: string[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -5474,6 +5683,11 @@ export namespace Prisma {
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
+  }
+
+  export type UserUpdateselectedPhoneNumberIdInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type DateTimeFieldUpdateOperationsInput = {

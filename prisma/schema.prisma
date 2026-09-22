@@ -7,7 +7,7 @@ generator client {
 // 2. Configure the PostgreSQL database connection
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("SHADOW_DATABASE_URL")
 }
 
 // 3. User model for authentication and profiles
@@ -25,6 +25,13 @@ model User {
   facebookAcceessToken  String?
   grantedScopes         String?
   accessTokenExpiresIn  String?
+  selectedWabaId        String?
+  displayPhoneNumber    String?
+  selectedFacebookBusinessId  String?
+  selectedFacebookBusinessName    String?
+  selectedPhoneNumberQualityRating  String?
+  selectedPhoneNumberVerifiedName   String?
+  selectedPhoneNumberId   String[]
   facebookConnectStatus Boolean  @default(false)
   createdAt             DateTime @default(now())
   hashedRefresh         String?

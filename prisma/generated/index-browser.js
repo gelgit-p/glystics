@@ -135,6 +135,13 @@ exports.Prisma.UserScalarFieldEnum = {
   facebookAcceessToken: 'facebookAcceessToken',
   grantedScopes: 'grantedScopes',
   accessTokenExpiresIn: 'accessTokenExpiresIn',
+  selectedWabaId: 'selectedWabaId',
+  displayPhoneNumber: 'displayPhoneNumber',
+  selectedFacebookBusinessId: 'selectedFacebookBusinessId',
+  selectedFacebookBusinessName: 'selectedFacebookBusinessName',
+  selectedPhoneNumberQualityRating: 'selectedPhoneNumberQualityRating',
+  selectedPhoneNumberVerifiedName: 'selectedPhoneNumberVerifiedName',
+  selectedPhoneNumberId: 'selectedPhoneNumberId',
   facebookConnectStatus: 'facebookConnectStatus',
   createdAt: 'createdAt',
   hashedRefresh: 'hashedRefresh'
