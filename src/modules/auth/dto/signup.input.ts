@@ -1,6 +1,6 @@
 import { InputType, Field } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional } from 'class-validator';
+import { IsArray, IsOptional, IsString } from 'class-validator';
 
 @InputType()
 export class SignupInput {
@@ -97,8 +97,13 @@ export class UpdateInput {
   @IsOptional()
   selectedPhoneNumberVerifiedName: string;
 
-          @ApiProperty()
-  @Field()
+  @ApiProperty({
+    required: false,
+    type: [String],
+  })
+  @Field(() => [String], { nullable: true })
   @IsOptional()
-  selectedPhoneNumberId: string;
+  @IsArray()
+  @IsString({ each: true })
+  selectedPhoneNumberId?: string[];
 }
