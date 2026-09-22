@@ -141,6 +141,7 @@ exports.Prisma.UserScalarFieldEnum = {
   selectedFacebookBusinessName: 'selectedFacebookBusinessName',
   selectedPhoneNumberQualityRating: 'selectedPhoneNumberQualityRating',
   selectedPhoneNumberVerifiedName: 'selectedPhoneNumberVerifiedName',
+  webhookStatus: 'webhookStatus',
   selectedPhoneNumberId: 'selectedPhoneNumberId',
   facebookConnectStatus: 'facebookConnectStatus',
   createdAt: 'createdAt',

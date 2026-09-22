@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, InternalServerErrorException, NotFound
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
-import { AccessTokenDto, MessageDto } from './dto/whatsapp.dto';
+import { AccessTokenDto, MessageDto, WebhookSubscriptionDto } from './dto/whatsapp.dto';
 import { CreateMessageTemplateDto } from './dto/create-message-template.dto';
 import { SendUtilityMessageDto } from './dto/send-utility-message.dto';
 import { PrismaService } from 'prisma/prisma.service';
@@ -248,6 +248,56 @@ export class WhatsappService {
           },
           headers: {
             Authorization: `Bearer ${accessToken}`,
+          },
+        }),
+      );
+
+      return response.data;
+    } catch (error: any) {
+      throw error.response?.data || error.message;
+    }
+  }
+
+  async subscribeToWebhooks(dto: WebhookSubscriptionDto) {
+    // fetch accessToken with userId
+    let find_acess_token = await this.prisma.user.findFirst({
+      where: {id: dto.userId}
+    })
+        const endpoint = `https://graph.facebook.com/v25.0/${find_acess_token?.selectedFacebookBusinessId}/subscribed_apps`;
+        const body = {
+          override_callback_uri: dto.override_callback_uri,
+          verify_token: dto.verify_token
+        }
+
+    try {
+      const response = await firstValueFrom(
+        this.httpService.post(endpoint, body, {
+          headers: {
+            Authorization: `Bearer ${find_acess_token?.facebookAcceessToken}`,
+            'Content-Type': 'application/json',
+          },
+        }),
+      );
+
+      return response.data;
+    } catch (error: any) {
+      throw error.response?.data || error.message;
+    }
+  }
+
+    async getAllWabaSubscriptions(userId: string) {
+    // fetch accessToken with userId
+    let find_acess_token = await this.prisma.user.findFirst({
+      where: {id: userId}
+    })
+        const endpoint = `https://graph.facebook.com/v25.0/${find_acess_token?.selectedFacebookBusinessId}/subscribed_apps`;
+
+    try {
+      const response = await firstValueFrom(
+        this.httpService.post(endpoint, {
+          headers: {
+            Authorization: `Bearer ${find_acess_token?.facebookAcceessToken}`,
+            'Content-Type': 'application/json',
           },
         }),
       );

@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { IsOptional } from "class-validator";
 
 export class MessageDto {
     @ApiProperty({ description: 'The recipient phone number in international format' })
@@ -14,4 +15,18 @@ export class AccessTokenDto {
 
         @ApiProperty()
     appSecret: string;
+}
+
+export class WebhookSubscriptionDto {
+    @ApiProperty()
+    @IsOptional()
+    userId: string;
+
+    @ApiProperty()
+    @IsOptional()
+    override_callback_uri: string;
+
+    @ApiProperty()
+    @IsOptional()
+    verify_token: string
 }

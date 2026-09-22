@@ -1091,6 +1091,7 @@ export namespace Prisma {
     selectedFacebookBusinessName: string | null
     selectedPhoneNumberQualityRating: string | null
     selectedPhoneNumberVerifiedName: string | null
+    webhookStatus: boolean | null
     facebookConnectStatus: boolean | null
     createdAt: Date | null
     hashedRefresh: string | null
@@ -1116,6 +1117,7 @@ export namespace Prisma {
     selectedFacebookBusinessName: string | null
     selectedPhoneNumberQualityRating: string | null
     selectedPhoneNumberVerifiedName: string | null
+    webhookStatus: boolean | null
     facebookConnectStatus: boolean | null
     createdAt: Date | null
     hashedRefresh: string | null
@@ -1141,6 +1143,7 @@ export namespace Prisma {
     selectedFacebookBusinessName: number
     selectedPhoneNumberQualityRating: number
     selectedPhoneNumberVerifiedName: number
+    webhookStatus: number
     selectedPhoneNumberId: number
     facebookConnectStatus: number
     createdAt: number
@@ -1169,6 +1172,7 @@ export namespace Prisma {
     selectedFacebookBusinessName?: true
     selectedPhoneNumberQualityRating?: true
     selectedPhoneNumberVerifiedName?: true
+    webhookStatus?: true
     facebookConnectStatus?: true
     createdAt?: true
     hashedRefresh?: true
@@ -1194,6 +1198,7 @@ export namespace Prisma {
     selectedFacebookBusinessName?: true
     selectedPhoneNumberQualityRating?: true
     selectedPhoneNumberVerifiedName?: true
+    webhookStatus?: true
     facebookConnectStatus?: true
     createdAt?: true
     hashedRefresh?: true
@@ -1219,6 +1224,7 @@ export namespace Prisma {
     selectedFacebookBusinessName?: true
     selectedPhoneNumberQualityRating?: true
     selectedPhoneNumberVerifiedName?: true
+    webhookStatus?: true
     selectedPhoneNumberId?: true
     facebookConnectStatus?: true
     createdAt?: true
@@ -1318,6 +1324,7 @@ export namespace Prisma {
     selectedFacebookBusinessName: string | null
     selectedPhoneNumberQualityRating: string | null
     selectedPhoneNumberVerifiedName: string | null
+    webhookStatus: boolean
     selectedPhoneNumberId: string[]
     facebookConnectStatus: boolean
     createdAt: Date
@@ -1361,6 +1368,7 @@ export namespace Prisma {
     selectedFacebookBusinessName?: boolean
     selectedPhoneNumberQualityRating?: boolean
     selectedPhoneNumberVerifiedName?: boolean
+    webhookStatus?: boolean
     selectedPhoneNumberId?: boolean
     facebookConnectStatus?: boolean
     createdAt?: boolean
@@ -1387,6 +1395,7 @@ export namespace Prisma {
     selectedFacebookBusinessName?: boolean
     selectedPhoneNumberQualityRating?: boolean
     selectedPhoneNumberVerifiedName?: boolean
+    webhookStatus?: boolean
     selectedPhoneNumberId?: boolean
     facebookConnectStatus?: boolean
     createdAt?: boolean
@@ -1413,6 +1422,7 @@ export namespace Prisma {
     selectedFacebookBusinessName?: boolean
     selectedPhoneNumberQualityRating?: boolean
     selectedPhoneNumberVerifiedName?: boolean
+    webhookStatus?: boolean
     selectedPhoneNumberId?: boolean
     facebookConnectStatus?: boolean
     createdAt?: boolean
@@ -1439,13 +1449,14 @@ export namespace Prisma {
     selectedFacebookBusinessName?: boolean
     selectedPhoneNumberQualityRating?: boolean
     selectedPhoneNumberVerifiedName?: boolean
+    webhookStatus?: boolean
     selectedPhoneNumberId?: boolean
     facebookConnectStatus?: boolean
     createdAt?: boolean
     hashedRefresh?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "emailConfirmed" | "emailConfirmToken" | "businessName" | "fullName" | "metaUserId" | "appId" | "appSecret" | "facebookAcceessToken" | "grantedScopes" | "accessTokenExpiresIn" | "selectedWabaId" | "displayPhoneNumber" | "selectedFacebookBusinessId" | "selectedFacebookBusinessName" | "selectedPhoneNumberQualityRating" | "selectedPhoneNumberVerifiedName" | "selectedPhoneNumberId" | "facebookConnectStatus" | "createdAt" | "hashedRefresh", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "emailConfirmed" | "emailConfirmToken" | "businessName" | "fullName" | "metaUserId" | "appId" | "appSecret" | "facebookAcceessToken" | "grantedScopes" | "accessTokenExpiresIn" | "selectedWabaId" | "displayPhoneNumber" | "selectedFacebookBusinessId" | "selectedFacebookBusinessName" | "selectedPhoneNumberQualityRating" | "selectedPhoneNumberVerifiedName" | "webhookStatus" | "selectedPhoneNumberId" | "facebookConnectStatus" | "createdAt" | "hashedRefresh", ExtArgs["result"]["user"]>
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
@@ -1470,6 +1481,7 @@ export namespace Prisma {
       selectedFacebookBusinessName: string | null
       selectedPhoneNumberQualityRating: string | null
       selectedPhoneNumberVerifiedName: string | null
+      webhookStatus: boolean
       selectedPhoneNumberId: string[]
       facebookConnectStatus: boolean
       createdAt: Date
@@ -1916,6 +1928,7 @@ export namespace Prisma {
     readonly selectedFacebookBusinessName: FieldRef<"User", 'String'>
     readonly selectedPhoneNumberQualityRating: FieldRef<"User", 'String'>
     readonly selectedPhoneNumberVerifiedName: FieldRef<"User", 'String'>
+    readonly webhookStatus: FieldRef<"User", 'Boolean'>
     readonly selectedPhoneNumberId: FieldRef<"User", 'String[]'>
     readonly facebookConnectStatus: FieldRef<"User", 'Boolean'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
@@ -4505,6 +4518,7 @@ export namespace Prisma {
     selectedFacebookBusinessName: 'selectedFacebookBusinessName',
     selectedPhoneNumberQualityRating: 'selectedPhoneNumberQualityRating',
     selectedPhoneNumberVerifiedName: 'selectedPhoneNumberVerifiedName',
+    webhookStatus: 'webhookStatus',
     selectedPhoneNumberId: 'selectedPhoneNumberId',
     facebookConnectStatus: 'facebookConnectStatus',
     createdAt: 'createdAt',
@@ -4669,6 +4683,7 @@ export namespace Prisma {
     selectedFacebookBusinessName?: StringNullableFilter<"User"> | string | null
     selectedPhoneNumberQualityRating?: StringNullableFilter<"User"> | string | null
     selectedPhoneNumberVerifiedName?: StringNullableFilter<"User"> | string | null
+    webhookStatus?: BoolFilter<"User"> | boolean
     selectedPhoneNumberId?: StringNullableListFilter<"User">
     facebookConnectStatus?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
@@ -4695,6 +4710,7 @@ export namespace Prisma {
     selectedFacebookBusinessName?: SortOrderInput | SortOrder
     selectedPhoneNumberQualityRating?: SortOrderInput | SortOrder
     selectedPhoneNumberVerifiedName?: SortOrderInput | SortOrder
+    webhookStatus?: SortOrder
     selectedPhoneNumberId?: SortOrder
     facebookConnectStatus?: SortOrder
     createdAt?: SortOrder
@@ -4724,6 +4740,7 @@ export namespace Prisma {
     selectedFacebookBusinessName?: StringNullableFilter<"User"> | string | null
     selectedPhoneNumberQualityRating?: StringNullableFilter<"User"> | string | null
     selectedPhoneNumberVerifiedName?: StringNullableFilter<"User"> | string | null
+    webhookStatus?: BoolFilter<"User"> | boolean
     selectedPhoneNumberId?: StringNullableListFilter<"User">
     facebookConnectStatus?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
@@ -4750,6 +4767,7 @@ export namespace Prisma {
     selectedFacebookBusinessName?: SortOrderInput | SortOrder
     selectedPhoneNumberQualityRating?: SortOrderInput | SortOrder
     selectedPhoneNumberVerifiedName?: SortOrderInput | SortOrder
+    webhookStatus?: SortOrder
     selectedPhoneNumberId?: SortOrder
     facebookConnectStatus?: SortOrder
     createdAt?: SortOrder
@@ -4782,6 +4800,7 @@ export namespace Prisma {
     selectedFacebookBusinessName?: StringNullableWithAggregatesFilter<"User"> | string | null
     selectedPhoneNumberQualityRating?: StringNullableWithAggregatesFilter<"User"> | string | null
     selectedPhoneNumberVerifiedName?: StringNullableWithAggregatesFilter<"User"> | string | null
+    webhookStatus?: BoolWithAggregatesFilter<"User"> | boolean
     selectedPhoneNumberId?: StringNullableListFilter<"User">
     facebookConnectStatus?: BoolWithAggregatesFilter<"User"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -4987,6 +5006,7 @@ export namespace Prisma {
     selectedFacebookBusinessName?: string | null
     selectedPhoneNumberQualityRating?: string | null
     selectedPhoneNumberVerifiedName?: string | null
+    webhookStatus?: boolean
     selectedPhoneNumberId?: UserCreateselectedPhoneNumberIdInput | string[]
     facebookConnectStatus?: boolean
     createdAt?: Date | string
@@ -5013,6 +5033,7 @@ export namespace Prisma {
     selectedFacebookBusinessName?: string | null
     selectedPhoneNumberQualityRating?: string | null
     selectedPhoneNumberVerifiedName?: string | null
+    webhookStatus?: boolean
     selectedPhoneNumberId?: UserCreateselectedPhoneNumberIdInput | string[]
     facebookConnectStatus?: boolean
     createdAt?: Date | string
@@ -5039,6 +5060,7 @@ export namespace Prisma {
     selectedFacebookBusinessName?: NullableStringFieldUpdateOperationsInput | string | null
     selectedPhoneNumberQualityRating?: NullableStringFieldUpdateOperationsInput | string | null
     selectedPhoneNumberVerifiedName?: NullableStringFieldUpdateOperationsInput | string | null
+    webhookStatus?: BoolFieldUpdateOperationsInput | boolean
     selectedPhoneNumberId?: UserUpdateselectedPhoneNumberIdInput | string[]
     facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5065,6 +5087,7 @@ export namespace Prisma {
     selectedFacebookBusinessName?: NullableStringFieldUpdateOperationsInput | string | null
     selectedPhoneNumberQualityRating?: NullableStringFieldUpdateOperationsInput | string | null
     selectedPhoneNumberVerifiedName?: NullableStringFieldUpdateOperationsInput | string | null
+    webhookStatus?: BoolFieldUpdateOperationsInput | boolean
     selectedPhoneNumberId?: UserUpdateselectedPhoneNumberIdInput | string[]
     facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5091,6 +5114,7 @@ export namespace Prisma {
     selectedFacebookBusinessName?: string | null
     selectedPhoneNumberQualityRating?: string | null
     selectedPhoneNumberVerifiedName?: string | null
+    webhookStatus?: boolean
     selectedPhoneNumberId?: UserCreateselectedPhoneNumberIdInput | string[]
     facebookConnectStatus?: boolean
     createdAt?: Date | string
@@ -5117,6 +5141,7 @@ export namespace Prisma {
     selectedFacebookBusinessName?: NullableStringFieldUpdateOperationsInput | string | null
     selectedPhoneNumberQualityRating?: NullableStringFieldUpdateOperationsInput | string | null
     selectedPhoneNumberVerifiedName?: NullableStringFieldUpdateOperationsInput | string | null
+    webhookStatus?: BoolFieldUpdateOperationsInput | boolean
     selectedPhoneNumberId?: UserUpdateselectedPhoneNumberIdInput | string[]
     facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5143,6 +5168,7 @@ export namespace Prisma {
     selectedFacebookBusinessName?: NullableStringFieldUpdateOperationsInput | string | null
     selectedPhoneNumberQualityRating?: NullableStringFieldUpdateOperationsInput | string | null
     selectedPhoneNumberVerifiedName?: NullableStringFieldUpdateOperationsInput | string | null
+    webhookStatus?: BoolFieldUpdateOperationsInput | boolean
     selectedPhoneNumberId?: UserUpdateselectedPhoneNumberIdInput | string[]
     facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5445,6 +5471,7 @@ export namespace Prisma {
     selectedFacebookBusinessName?: SortOrder
     selectedPhoneNumberQualityRating?: SortOrder
     selectedPhoneNumberVerifiedName?: SortOrder
+    webhookStatus?: SortOrder
     selectedPhoneNumberId?: SortOrder
     facebookConnectStatus?: SortOrder
     createdAt?: SortOrder
@@ -5471,6 +5498,7 @@ export namespace Prisma {
     selectedFacebookBusinessName?: SortOrder
     selectedPhoneNumberQualityRating?: SortOrder
     selectedPhoneNumberVerifiedName?: SortOrder
+    webhookStatus?: SortOrder
     facebookConnectStatus?: SortOrder
     createdAt?: SortOrder
     hashedRefresh?: SortOrder
@@ -5496,6 +5524,7 @@ export namespace Prisma {
     selectedFacebookBusinessName?: SortOrder
     selectedPhoneNumberQualityRating?: SortOrder
     selectedPhoneNumberVerifiedName?: SortOrder
+    webhookStatus?: SortOrder
     facebookConnectStatus?: SortOrder
     createdAt?: SortOrder
     hashedRefresh?: SortOrder

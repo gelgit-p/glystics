@@ -7,15 +7,15 @@ generator client {
 // 2. Configure the PostgreSQL database connection
 datasource db {
   provider = "postgresql"
-  url      = env("SHADOW_DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 // 3. User model for authentication and profiles
 model User {
-  id                               String   @id @default(uuid())
-  email                            String   @unique
+  id                               String  @id @default(uuid())
+  email                            String  @unique
   password                         String
-  emailConfirmed                   Boolean  @default(false)
+  emailConfirmed                   Boolean @default(false)
   emailConfirmToken                String?
   businessName                     String
   fullName                         String
@@ -31,10 +31,12 @@ model User {
   selectedFacebookBusinessName     String?
   selectedPhoneNumberQualityRating String?
   selectedPhoneNumberVerifiedName  String?
-  selectedPhoneNumberId            String[]
-  facebookConnectStatus            Boolean  @default(false)
-  createdAt                        DateTime @default(now())
-  hashedRefresh                    String?
+  webhookStatus                    Boolean @default(false)
+
+  selectedPhoneNumberId String[]
+  facebookConnectStatus Boolean  @default(false)
+  createdAt             DateTime @default(now())
+  hashedRefresh         String?
 }
 
 // 4. Tokens model for Facebook API integration

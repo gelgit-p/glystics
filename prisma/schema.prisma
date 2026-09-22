@@ -31,6 +31,8 @@ model User {
   selectedFacebookBusinessName    String?
   selectedPhoneNumberQualityRating  String?
   selectedPhoneNumberVerifiedName   String?
+  webhookStatus       Boolean @default(false)
+  
   selectedPhoneNumberId   String[]
   facebookConnectStatus Boolean  @default(false)
   createdAt             DateTime @default(now())

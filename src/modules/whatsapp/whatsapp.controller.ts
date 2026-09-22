@@ -10,6 +10,7 @@ import {
   Put,
   UploadedFile,
   UseInterceptors,
+  Delete,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
@@ -19,7 +20,7 @@ import {
   WhatsappMediaFile,
   WhatsappService,
 } from './whatsapp.service';
-import { AccessTokenDto, MessageDto } from './dto/whatsapp.dto';
+import { AccessTokenDto, MessageDto, WebhookSubscriptionDto } from './dto/whatsapp.dto';
 import { CreateMessageTemplateDto } from './dto/create-message-template.dto';
 import { SendUtilityMessageDto } from './dto/send-utility-message.dto';
 import { TokenDto } from './dto/token.dto';
@@ -29,7 +30,7 @@ export class WhatsappController {
   constructor(
     private readonly whatsappService: WhatsappService,
     private readonly configService: ConfigService,
-  ) {}
+  ) { }
 
   @Get('access-token')
   async getAccessToken(@Query() dto: AccessTokenDto): Promise<string> {
@@ -91,6 +92,21 @@ export class WhatsappController {
     return await this.whatsappService.saveToken(dto);
   }
 
+  @Post('subscribe')
+  async subscribeToWebhooks(@Query() dto: WebhookSubscriptionDto) {
+    return await this.whatsappService.subscribeToWebhooks(dto);
+  }
+
+  @Delete('unsubscribe')
+  async unsubscribeToWebhooks(@Query() dto: WebhookSubscriptionDto) {
+    return await this.whatsappService.subscribeToWebhooks(dto);
+  }
+
+  @Get('get-subscriptions')
+  async getWabaSubscriptions(@Query('userId') userId: string) {
+    return await this.whatsappService.getAllWabaSubscriptions(userId);
+  }
+
   @Get('tokens')
   async getTokens() {
     return await this.whatsappService.getTokens();
@@ -107,9 +123,9 @@ export class WhatsappController {
   }
 
   @Get(':userId/waba')
-async getWaba(@Param('userId') userId: string) {
-  return this.whatsappService.getWabaAssignerToUserId(userId);
-}
+  async getWaba(@Param('userId') userId: string) {
+    return this.whatsappService.getWabaAssignerToUserId(userId);
+  }
 
 
 
@@ -135,7 +151,7 @@ async getWaba(@Param('userId') userId: string) {
       // Meta requires returning the exact challenge string as plain text with a 200 OK status
       return res.status(HttpStatus.OK).send(challenge);
     }
-    
+
     return res.status(HttpStatus.FORBIDDEN).send('Verification failed');
   }
 
@@ -161,7 +177,7 @@ async getWaba(@Param('userId') userId: string) {
             const text = incomingMessage.text?.body; // Message body (if text)
 
             console.log(`Received message from ${from}: ${text}`);
-            
+
             // TODO: Process your business logic here (e.g., pass to an event emitter or database)
           }
 
