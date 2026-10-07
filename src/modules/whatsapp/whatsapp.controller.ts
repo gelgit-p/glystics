@@ -61,7 +61,7 @@ export class WhatsappController {
   async getLongLivedToken(
     @Query('access_token') accessToken: string,
     @Query('user_id') userId: string,
-  ): Promise<string> {
+  ): Promise<any> {
     return await this.whatsappService.getLongLivedToken(accessToken, userId);
   }
 
