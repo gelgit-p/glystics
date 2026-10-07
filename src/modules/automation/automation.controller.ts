@@ -12,9 +12,8 @@ import {
 
 import {
   AutomationService,
-  CreateAutomationDto,
-  UpdateAutomationDto,
 } from './automation.service';
+import { CreateAutomationDto, UpdateAutomationDto } from './dto/automation.dto';
 
 @Controller('automations')
 export class AutomationController {
