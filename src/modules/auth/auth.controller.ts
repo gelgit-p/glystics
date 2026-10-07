@@ -29,7 +29,7 @@ export class AuthController {
   async signup(@Body() data: SignupInput): Promise<boolean> {
     await this.authService.signup(data);
     return true;
-  }
+  }f
 
 //   @Get('confirm-email')
 //   confirmEmail(@Query('token') token: string) {

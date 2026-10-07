@@ -7,7 +7,14 @@ export class UserService {
   constructor(private prisma: PrismaService) {}
 
   async findById(id: string) {
-    return this.prisma.user.findUnique({ where: { id } });
+    try {
+      return await this.prisma.user.findUnique({
+        where: { id },
+      });
+    } catch (error) {
+      console.error(`Failed to find user with ID ${id}:`, error);
+      throw error;
+    }
   }
 
   async findByEmail(email: string) {
