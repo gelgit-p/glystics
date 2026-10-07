@@ -148,7 +148,7 @@ export class WhatsappService {
     }
   }
 
-  async getLongLivedToken(accessToken: string, userId: string): Promise<string> {
+  async getLongLivedToken(accessToken: string, userId: string): Promise<any> {
     const version = this.configService.get<string>('WHATSAPP_VERSION');
     const appId = this.configService.get<string>('WHATSAPP_APP_ID');
     const appSecret = this.configService.get<string>('WHATSAPP_APP_SECRET');
@@ -186,7 +186,7 @@ export class WhatsappService {
       await this.saveToken({userId: userId, facebookAccessToken: accessToken, facebookLongLivedAccessToken: longLivedToken })
 
 
-      return longLivedToken;
+      return { accessToken: longLivedToken };
     } catch (error: any) {
       throw error.response?.data || error.message;
     }
