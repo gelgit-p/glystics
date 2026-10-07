@@ -129,15 +129,54 @@ exports.Prisma.UserScalarFieldEnum = {
   emailConfirmToken: 'emailConfirmToken',
   businessName: 'businessName',
   fullName: 'fullName',
+  metaUserId: 'metaUserId',
+  appId: 'appId',
+  appSecret: 'appSecret',
+  facebookAcceessToken: 'facebookAcceessToken',
+  grantedScopes: 'grantedScopes',
+  accessTokenExpiresIn: 'accessTokenExpiresIn',
+  selectedWabaId: 'selectedWabaId',
+  displayPhoneNumber: 'displayPhoneNumber',
+  selectedFacebookBusinessId: 'selectedFacebookBusinessId',
+  selectedFacebookBusinessName: 'selectedFacebookBusinessName',
+  selectedPhoneNumberQualityRating: 'selectedPhoneNumberQualityRating',
+  selectedPhoneNumberVerifiedName: 'selectedPhoneNumberVerifiedName',
+  webhookStatus: 'webhookStatus',
+  selectedPhoneNumberId: 'selectedPhoneNumberId',
+  facebookConnectStatus: 'facebookConnectStatus',
   createdAt: 'createdAt',
   hashedRefresh: 'hashedRefresh'
 };
 
 exports.Prisma.TokenScalarFieldEnum = {
   id: 'id',
+  userId: 'userId',
   facebookAccessToken: 'facebookAccessToken',
   facebookLongLivedAccessToken: 'facebookLongLivedAccessToken',
+  expiresIn: 'expiresIn',
+  dataAccessExpirationTime: 'dataAccessExpirationTime',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.DeliveryScalarFieldEnum = {
+  id: 'id',
+  senderName: 'senderName',
+  senderPhone: 'senderPhone',
+  senderAddress: 'senderAddress',
+  receiverName: 'receiverName',
+  receiverPhone: 'receiverPhone',
+  receiverAddress: 'receiverAddress',
+  packageName: 'packageName',
+  packageCategory: 'packageCategory',
+  packageWeight: 'packageWeight',
+  packageDimensions: 'packageDimensions',
+  packageValue: 'packageValue',
+  pickupDate: 'pickupDate',
+  deliveryStatus: 'deliveryStatus',
+  deliveryType: 'deliveryType',
+  deliveryInstructions: 'deliveryInstructions',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -154,11 +193,16 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.DeliveryStatus = exports.$Enums.DeliveryStatus = {
+  DELIVERED: 'DELIVERED',
+  IN_TRANSIT: 'IN_TRANSIT',
+  FAILED: 'FAILED'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Token: 'Token'
+  Token: 'Token',
+  Delivery: 'Delivery'
 };
 
 /**

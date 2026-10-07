@@ -101,15 +101,54 @@ exports.Prisma.UserScalarFieldEnum = {
   emailConfirmToken: 'emailConfirmToken',
   businessName: 'businessName',
   fullName: 'fullName',
+  metaUserId: 'metaUserId',
+  appId: 'appId',
+  appSecret: 'appSecret',
+  facebookAcceessToken: 'facebookAcceessToken',
+  grantedScopes: 'grantedScopes',
+  accessTokenExpiresIn: 'accessTokenExpiresIn',
+  selectedWabaId: 'selectedWabaId',
+  displayPhoneNumber: 'displayPhoneNumber',
+  selectedFacebookBusinessId: 'selectedFacebookBusinessId',
+  selectedFacebookBusinessName: 'selectedFacebookBusinessName',
+  selectedPhoneNumberQualityRating: 'selectedPhoneNumberQualityRating',
+  selectedPhoneNumberVerifiedName: 'selectedPhoneNumberVerifiedName',
+  webhookStatus: 'webhookStatus',
+  selectedPhoneNumberId: 'selectedPhoneNumberId',
+  facebookConnectStatus: 'facebookConnectStatus',
   createdAt: 'createdAt',
   hashedRefresh: 'hashedRefresh'
 };
 
 exports.Prisma.TokenScalarFieldEnum = {
   id: 'id',
+  userId: 'userId',
   facebookAccessToken: 'facebookAccessToken',
   facebookLongLivedAccessToken: 'facebookLongLivedAccessToken',
+  expiresIn: 'expiresIn',
+  dataAccessExpirationTime: 'dataAccessExpirationTime',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.DeliveryScalarFieldEnum = {
+  id: 'id',
+  senderName: 'senderName',
+  senderPhone: 'senderPhone',
+  senderAddress: 'senderAddress',
+  receiverName: 'receiverName',
+  receiverPhone: 'receiverPhone',
+  receiverAddress: 'receiverAddress',
+  packageName: 'packageName',
+  packageCategory: 'packageCategory',
+  packageWeight: 'packageWeight',
+  packageDimensions: 'packageDimensions',
+  packageValue: 'packageValue',
+  pickupDate: 'pickupDate',
+  deliveryStatus: 'deliveryStatus',
+  deliveryType: 'deliveryType',
+  deliveryInstructions: 'deliveryInstructions',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -126,11 +165,16 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.DeliveryStatus = exports.$Enums.DeliveryStatus = {
+  DELIVERED: 'DELIVERED',
+  IN_TRANSIT: 'IN_TRANSIT',
+  FAILED: 'FAILED'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Token: 'Token'
+  Token: 'Token',
+  Delivery: 'Delivery'
 };
 /**
  * Create the Client
@@ -180,13 +224,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// 1. Configure the Prisma Client generator\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated\"\n}\n\n// 2. Configure the PostgreSQL database connection\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n  // shadowDatabaseUrl = env(\"SHADOW_DATABASE_URL\"), \n}\n\n// 3. User model for authentication and profiles\nmodel User {\n  id                String   @id @default(uuid())\n  email             String   @unique\n  password          String\n  emailConfirmed    Boolean  @default(false)\n  emailConfirmToken String?\n  businessName      String\n  fullName          String\n  createdAt         DateTime @default(now())\n  hashedRefresh     String?\n}\n\n// 4. Tokens model for Facebook API integration\nmodel Token {\n  id                           String   @id @default(uuid())\n  facebookAccessToken          String?  @map(\"facebook_access_token\")\n  facebookLongLivedAccessToken String?  @map(\"facebook_long_lived_access_token\")\n  createdAt                    DateTime @default(now())\n\n  @@map(\"tokens\")\n}\n",
-  "inlineSchemaHash": "ee68aa1c93c09bc13dd60bafcae4766ae46f6f93559575e5f3ef1dd32a551339",
+  "inlineSchema": "// 1. Configure the Prisma Client generator\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated\"\n}\n\n// 2. Configure the PostgreSQL database connection\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\n// 3. User model for authentication and profiles\nmodel User {\n  id                               String  @id @default(uuid())\n  email                            String  @unique\n  password                         String\n  emailConfirmed                   Boolean @default(false)\n  emailConfirmToken                String?\n  businessName                     String\n  fullName                         String\n  metaUserId                       String?\n  appId                            String?\n  appSecret                        String?\n  facebookAcceessToken             String?\n  grantedScopes                    String?\n  accessTokenExpiresIn             String?\n  selectedWabaId                   String?\n  displayPhoneNumber               String?\n  selectedFacebookBusinessId       String?\n  selectedFacebookBusinessName     String?\n  selectedPhoneNumberQualityRating String?\n  selectedPhoneNumberVerifiedName  String?\n  webhookStatus                    Boolean @default(false)\n\n  selectedPhoneNumberId String[]\n  facebookConnectStatus Boolean  @default(false)\n  createdAt             DateTime @default(now())\n  hashedRefresh         String?\n}\n\n// 4. Tokens model for Facebook API integration\nmodel Token {\n  id                           String   @id @default(uuid())\n  userId                       String   @unique\n  facebookAccessToken          String?  @map(\"facebook_access_token\")\n  facebookLongLivedAccessToken String?  @map(\"facebook_long_lived_access_token\")\n  expiresIn                    String?\n  dataAccessExpirationTime     String?\n  createdAt                    DateTime @default(now())\n\n  @@map(\"tokens\")\n}\n\nmodel Delivery {\n  id                   String         @id @default(uuid())\n  senderName           String\n  senderPhone          String\n  senderAddress        String\n  receiverName         String\n  receiverPhone        String\n  receiverAddress      String\n  packageName          String\n  packageCategory      String\n  packageWeight        String\n  packageDimensions    String\n  packageValue         String\n  pickupDate           String\n  deliveryStatus       DeliveryStatus\n  deliveryType         String\n  deliveryInstructions String?\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @default(now())\n}\n\nenum DeliveryStatus {\n  DELIVERED\n  IN_TRANSIT\n  FAILED\n}\n",
+  "inlineSchemaHash": "b1b48cfc37ca2524147d338b35eeb122ead3b8e4ac4fb040b9bdbe8bd0cc54be",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailConfirmed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"emailConfirmToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"businessName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"hashedRefresh\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"Token\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"facebookAccessToken\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"facebook_access_token\"},{\"name\":\"facebookLongLivedAccessToken\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"facebook_long_lived_access_token\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"tokens\"}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailConfirmed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"emailConfirmToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"businessName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"metaUserId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"appId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"appSecret\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"facebookAcceessToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"grantedScopes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"accessTokenExpiresIn\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"selectedWabaId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"displayPhoneNumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"selectedFacebookBusinessId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"selectedFacebookBusinessName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"selectedPhoneNumberQualityRating\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"selectedPhoneNumberVerifiedName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"webhookStatus\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"selectedPhoneNumberId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"facebookConnectStatus\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"hashedRefresh\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"Token\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"facebookAccessToken\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"facebook_access_token\"},{\"name\":\"facebookLongLivedAccessToken\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"facebook_long_lived_access_token\"},{\"name\":\"expiresIn\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dataAccessExpirationTime\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"tokens\"},\"Delivery\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"senderName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"senderPhone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"senderAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"receiverName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"receiverPhone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"receiverAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"packageName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"packageCategory\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"packageWeight\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"packageDimensions\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"packageValue\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"pickupDate\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deliveryStatus\",\"kind\":\"enum\",\"type\":\"DeliveryStatus\"},{\"name\":\"deliveryType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deliveryInstructions\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

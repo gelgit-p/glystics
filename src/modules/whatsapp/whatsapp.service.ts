@@ -1,8 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
-import { MessageDto } from './dto/whatsapp.dto';
+import { AccessTokenDto, MessageDto, WebhookSubscriptionDto } from './dto/whatsapp.dto';
 import { CreateMessageTemplateDto } from './dto/create-message-template.dto';
 import { SendUtilityMessageDto } from './dto/send-utility-message.dto';
 import { PrismaService } from 'prisma/prisma.service';
@@ -112,12 +112,14 @@ export class WhatsappService {
   }
 
 
-  async getAccessToken(): Promise<string> {
-    const endpoint = 'https://graph.facebook.com/oauth/access_token';
-    const appId = this.configService.get<string>('WHATSAPP_APP_ID');
-    const appSecret = this.configService.get<string>('WHATSAPP_APP_SECRET');
+  // https://developers.facebook.com/documentation/business-messaging/whatsapp/embedded-signup/onboarding-customers-as-a-tech-provider
+  //  Exchange the token code for a business token
+  async getAccessToken(dto: AccessTokenDto): Promise<string> {
+    const endpoint = 'https://graph.facebook.com/v25.0/oauth/access_token';
+    // const appId = this.configService.get<string>('WHATSAPP_APP_ID');
+    // const appSecret = this.configService.get<string>('WHATSAPP_APP_SECRET');
 
-    if (!appId || !appSecret) {
+    if (!dto.appId || !dto.appSecret) {
       throw new Error(
         'WHATSAPP_APP_ID and WHATSAPP_APP_SECRET are required',
       );
@@ -127,8 +129,8 @@ export class WhatsappService {
       const response = await firstValueFrom(
         this.httpService.get(endpoint, {
           params: {
-            client_id: appId,
-            client_secret: appSecret,
+            client_id: dto.appId,
+            client_secret: dto.appSecret,
             grant_type: 'client_credentials',
           },
         }),
@@ -146,7 +148,7 @@ export class WhatsappService {
     }
   }
 
-  async getLongLivedToken(accessToken: string): Promise<string> {
+  async getLongLivedToken(accessToken: string, userId: string): Promise<string> {
     const version = this.configService.get<string>('WHATSAPP_VERSION');
     const appId = this.configService.get<string>('WHATSAPP_APP_ID');
     const appSecret = this.configService.get<string>('WHATSAPP_APP_SECRET');
@@ -181,13 +183,44 @@ export class WhatsappService {
 
       // call store-token
 
-      await this.saveToken({facebookAccessToken: accessToken, facebookLongLivedAccessToken: longLivedToken })
+      await this.saveToken({userId: userId, facebookAccessToken: accessToken, facebookLongLivedAccessToken: longLivedToken })
 
 
       return longLivedToken;
     } catch (error: any) {
       throw error.response?.data || error.message;
     }
+  }
+
+  async getSettings(phoneNumberId: string): Promise<any> {
+
+    const fetch_access_token = await this.prisma.token.findFirst({
+      orderBy: { createdAt: 'desc' },
+    });
+    const accessToken = fetch_access_token?.facebookLongLivedAccessToken;
+
+    if (!accessToken) {
+      throw new Error(
+        'No Facebook access token found in the database. Please store a valid token first.',
+      );
+    }
+
+    try {
+      const response = await firstValueFrom(
+        this.httpService.get(`https://graph.facebook.com/${phoneNumberId}/settings`, {
+          params: {
+            input_token: accessToken,
+            access_token: accessToken,
+          },
+        }),
+      );
+
+      console.log(response, 'debug token response');
+      return response.data;
+    } catch (error: any) {
+      throw error.response?.data || error.message;
+    }
+
   }
 
   async debugToken(): Promise<any> {
@@ -246,6 +279,56 @@ export class WhatsappService {
           },
           headers: {
             Authorization: `Bearer ${accessToken}`,
+          },
+        }),
+      );
+
+      return response.data;
+    } catch (error: any) {
+      throw error.response?.data || error.message;
+    }
+  }
+
+  async subscribeToWebhooks(dto: WebhookSubscriptionDto) {
+    // fetch accessToken with userId
+    let find_acess_token = await this.prisma.user.findFirst({
+      where: {id: dto.userId}
+    })
+        const endpoint = `https://graph.facebook.com/v25.0/${find_acess_token?.selectedFacebookBusinessId}/subscribed_apps`;
+        const body = {
+          override_callback_uri: dto.override_callback_uri,
+          verify_token: dto.verify_token
+        }
+
+    try {
+      const response = await firstValueFrom(
+        this.httpService.post(endpoint, body, {
+          headers: {
+            Authorization: `Bearer ${find_acess_token?.facebookAcceessToken}`,
+            'Content-Type': 'application/json',
+          },
+        }),
+      );
+
+      return response.data;
+    } catch (error: any) {
+      throw error.response?.data || error.message;
+    }
+  }
+
+    async getAllWabaSubscriptions(userId: string) {
+    // fetch accessToken with userId
+    let find_acess_token = await this.prisma.user.findFirst({
+      where: {id: userId}
+    })
+        const endpoint = `https://graph.facebook.com/v25.0/${find_acess_token?.selectedFacebookBusinessId}/subscribed_apps`;
+
+    try {
+      const response = await firstValueFrom(
+        this.httpService.post(endpoint, {
+          headers: {
+            Authorization: `Bearer ${find_acess_token?.facebookAcceessToken}`,
+            'Content-Type': 'application/json',
           },
         }),
       );
@@ -450,6 +533,54 @@ export class WhatsappService {
     }
   }
 
+
+async getWabaAssignerToUserId(userId: string) {
+  const user = await this.prisma.user.findFirst({
+    where: {
+      metaUserId: userId,
+    },
+    select: {
+      id: true,
+      metaUserId: true,
+      facebookAcceessToken: true,
+    },
+  });
+
+  if (!user) {
+    throw new NotFoundException(
+      `No user found with Meta user ID: ${userId}`,
+    );
+  }
+
+  if (!user.facebookAcceessToken) {
+    throw new UnauthorizedException(
+      'User does not have a Facebook access token',
+    );
+  }
+
+  const response = await fetch(
+    `https://graph.facebook.com/${user.metaUserId}/assigned_whatsapp_business_accounts`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${user.facebookAcceessToken}`,
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new BadRequestException({
+      message: 'Failed to fetch assigned WhatsApp Business Accounts',
+      error: data,
+    });
+  }
+
+  return data;
+}
+
   async sendUtilityMessage(dto: SendUtilityMessageDto): Promise<any> {
     const version = this.configService.get<string>('WHATSAPP_VERSION');
     const phoneNumberId =
@@ -504,20 +635,26 @@ export class WhatsappService {
   }
 
   async saveToken(dto: TokenDto): Promise<void> {
-    try {
-      await this.prisma.token.create({
-        data: {
-          facebookAccessToken: dto.facebookAccessToken,
-          facebookLongLivedAccessToken: dto.facebookLongLivedAccessToken,
-        },
-      });
-
-
-    } catch(error) {
-      console.error('Error saving token to database:', error);
-      throw new Error('Failed to save token to database');
-    }
+  try {
+    await this.prisma.token.upsert({
+      where: {
+        userId: dto.userId,
+      },
+      update: {
+        facebookAccessToken: dto.facebookAccessToken,
+        facebookLongLivedAccessToken: dto.facebookLongLivedAccessToken,
+      },
+      create: {
+        userId: dto.userId,
+        facebookAccessToken: dto.facebookAccessToken,
+        facebookLongLivedAccessToken: dto.facebookLongLivedAccessToken,
+      },
+    });
+  } catch (error) {
+    console.error('Error saving token to database:', error);
+    throw new Error('Failed to save token to database');
   }
+}
 
   async editTokenById(id: string, dto: TokenDto): Promise<void> {
     try {

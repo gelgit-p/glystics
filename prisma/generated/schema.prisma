@@ -8,28 +8,74 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  // shadowDatabaseUrl = env("SHADOW_DATABASE_URL"), 
 }
 
 // 3. User model for authentication and profiles
 model User {
-  id                String   @id @default(uuid())
-  email             String   @unique
-  password          String
-  emailConfirmed    Boolean  @default(false)
-  emailConfirmToken String?
-  businessName      String
-  fullName          String
-  createdAt         DateTime @default(now())
-  hashedRefresh     String?
+  id                               String  @id @default(uuid())
+  email                            String  @unique
+  password                         String
+  emailConfirmed                   Boolean @default(false)
+  emailConfirmToken                String?
+  businessName                     String
+  fullName                         String
+  metaUserId                       String?
+  appId                            String?
+  appSecret                        String?
+  facebookAcceessToken             String?
+  grantedScopes                    String?
+  accessTokenExpiresIn             String?
+  selectedWabaId                   String?
+  displayPhoneNumber               String?
+  selectedFacebookBusinessId       String?
+  selectedFacebookBusinessName     String?
+  selectedPhoneNumberQualityRating String?
+  selectedPhoneNumberVerifiedName  String?
+  webhookStatus                    Boolean @default(false)
+
+  selectedPhoneNumberId String[]
+  facebookConnectStatus Boolean  @default(false)
+  createdAt             DateTime @default(now())
+  hashedRefresh         String?
 }
 
 // 4. Tokens model for Facebook API integration
 model Token {
   id                           String   @id @default(uuid())
+  userId                       String   @unique
   facebookAccessToken          String?  @map("facebook_access_token")
   facebookLongLivedAccessToken String?  @map("facebook_long_lived_access_token")
+  expiresIn                    String?
+  dataAccessExpirationTime     String?
   createdAt                    DateTime @default(now())
 
   @@map("tokens")
+}
+
+model Delivery {
+  id                   String         @id @default(uuid())
+  senderName           String
+  senderPhone          String
+  senderAddress        String
+  receiverName         String
+  receiverPhone        String
+  receiverAddress      String
+  packageName          String
+  packageCategory      String
+  packageWeight        String
+  packageDimensions    String
+  packageValue         String
+  pickupDate           String
+  deliveryStatus       DeliveryStatus
+  deliveryType         String
+  deliveryInstructions String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+enum DeliveryStatus {
+  DELIVERED
+  IN_TRANSIT
+  FAILED
 }
