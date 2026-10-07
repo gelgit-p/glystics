@@ -15,6 +15,7 @@ import { WhatsappModule } from './modules/whatsapp/whatsapp.module';
 import { HealthController } from './health.controller';
 import { TerminusModule } from '@nestjs/terminus';
 import { DeliveryModule } from './modules/delivery/delivery.module';
+import { AutomationModule } from './modules/automation/automation.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { DeliveryModule } from './modules/delivery/delivery.module';
     InstagramModule,
     TerminusModule,
     DeliveryModule,
+    AutomationModule
   ],
   controllers: [AppController, HealthController],
   providers: [

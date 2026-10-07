@@ -33,6 +33,11 @@ export type Delivery = $Result.DefaultSelection<Prisma.$DeliveryPayload>
  * 
  */
 export type MessageTemplate = $Result.DefaultSelection<Prisma.$MessageTemplatePayload>
+/**
+ * Model Automation
+ * 
+ */
+export type Automation = $Result.DefaultSelection<Prisma.$AutomationPayload>
 
 /**
  * Enums
@@ -209,6 +214,16 @@ export class PrismaClient<
     * ```
     */
   get messageTemplate(): Prisma.MessageTemplateDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.automation`: Exposes CRUD operations for the **Automation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Automations
+    * const automations = await prisma.automation.findMany()
+    * ```
+    */
+  get automation(): Prisma.AutomationDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -653,7 +668,8 @@ export namespace Prisma {
     User: 'User',
     Token: 'Token',
     Delivery: 'Delivery',
-    MessageTemplate: 'MessageTemplate'
+    MessageTemplate: 'MessageTemplate',
+    Automation: 'Automation'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -672,7 +688,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "token" | "delivery" | "messageTemplate"
+      modelProps: "user" | "token" | "delivery" | "messageTemplate" | "automation"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -972,6 +988,80 @@ export namespace Prisma {
           }
         }
       }
+      Automation: {
+        payload: Prisma.$AutomationPayload<ExtArgs>
+        fields: Prisma.AutomationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AutomationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AutomationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AutomationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AutomationPayload>
+          }
+          findFirst: {
+            args: Prisma.AutomationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AutomationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AutomationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AutomationPayload>
+          }
+          findMany: {
+            args: Prisma.AutomationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AutomationPayload>[]
+          }
+          create: {
+            args: Prisma.AutomationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AutomationPayload>
+          }
+          createMany: {
+            args: Prisma.AutomationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AutomationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AutomationPayload>[]
+          }
+          delete: {
+            args: Prisma.AutomationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AutomationPayload>
+          }
+          update: {
+            args: Prisma.AutomationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AutomationPayload>
+          }
+          deleteMany: {
+            args: Prisma.AutomationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AutomationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AutomationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AutomationPayload>[]
+          }
+          upsert: {
+            args: Prisma.AutomationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AutomationPayload>
+          }
+          aggregate: {
+            args: Prisma.AutomationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAutomation>
+          }
+          groupBy: {
+            args: Prisma.AutomationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AutomationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AutomationCountArgs<ExtArgs>
+            result: $Utils.Optional<AutomationCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1072,6 +1162,7 @@ export namespace Prisma {
     token?: TokenOmit
     delivery?: DeliveryOmit
     messageTemplate?: MessageTemplateOmit
+    automation?: AutomationOmit
   }
 
   /* Types for Logging */
@@ -1153,10 +1244,12 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     messageTemplates: number
+    automations: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messageTemplates?: boolean | UserCountOutputTypeCountMessageTemplatesArgs
+    automations?: boolean | UserCountOutputTypeCountAutomationsArgs
   }
 
   // Custom InputTypes
@@ -1175,6 +1268,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountMessageTemplatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MessageTemplateWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAutomationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AutomationWhereInput
   }
 
 
@@ -1495,6 +1595,7 @@ export namespace Prisma {
     createdAt?: boolean
     hashedRefresh?: boolean
     messageTemplates?: boolean | User$messageTemplatesArgs<ExtArgs>
+    automations?: boolean | User$automationsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1582,6 +1683,7 @@ export namespace Prisma {
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "emailConfirmed" | "emailConfirmToken" | "businessName" | "fullName" | "metaUserId" | "appId" | "appSecret" | "facebookAcceessToken" | "grantedScopes" | "accessTokenExpiresIn" | "selectedWabaId" | "displayPhoneNumber" | "selectedFacebookBusinessId" | "selectedFacebookBusinessName" | "selectedPhoneNumberQualityRating" | "selectedPhoneNumberVerifiedName" | "webhookStatus" | "selectedPhoneNumberId" | "facebookConnectStatus" | "createdAt" | "hashedRefresh", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messageTemplates?: boolean | User$messageTemplatesArgs<ExtArgs>
+    automations?: boolean | User$automationsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1591,6 +1693,7 @@ export namespace Prisma {
     name: "User"
     objects: {
       messageTemplates: Prisma.$MessageTemplatePayload<ExtArgs>[]
+      automations: Prisma.$AutomationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2012,6 +2115,7 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     messageTemplates<T extends User$messageTemplatesArgs<ExtArgs> = {}>(args?: Subset<T, User$messageTemplatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessageTemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    automations<T extends User$automationsArgs<ExtArgs> = {}>(args?: Subset<T, User$automationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AutomationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2474,6 +2578,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MessageTemplateScalarFieldEnum | MessageTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * User.automations
+   */
+  export type User$automationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Automation
+     */
+    select?: AutomationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Automation
+     */
+    omit?: AutomationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AutomationInclude<ExtArgs> | null
+    where?: AutomationWhereInput
+    orderBy?: AutomationOrderByWithRelationInput | AutomationOrderByWithRelationInput[]
+    cursor?: AutomationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AutomationScalarFieldEnum | AutomationScalarFieldEnum[]
   }
 
   /**
@@ -5852,6 +5980,1189 @@ export namespace Prisma {
 
 
   /**
+   * Model Automation
+   */
+
+  export type AggregateAutomation = {
+    _count: AutomationCountAggregateOutputType | null
+    _avg: AutomationAvgAggregateOutputType | null
+    _sum: AutomationSumAggregateOutputType | null
+    _min: AutomationMinAggregateOutputType | null
+    _max: AutomationMaxAggregateOutputType | null
+  }
+
+  export type AutomationAvgAggregateOutputType = {
+    totalRuns: number | null
+  }
+
+  export type AutomationSumAggregateOutputType = {
+    totalRuns: number | null
+  }
+
+  export type AutomationMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    name: string | null
+    trigger: string | null
+    triggerValue: string | null
+    action: string | null
+    actionTemplate: string | null
+    enabled: boolean | null
+    totalRuns: number | null
+    lastTriggered: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AutomationMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    name: string | null
+    trigger: string | null
+    triggerValue: string | null
+    action: string | null
+    actionTemplate: string | null
+    enabled: boolean | null
+    totalRuns: number | null
+    lastTriggered: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AutomationCountAggregateOutputType = {
+    id: number
+    userId: number
+    name: number
+    trigger: number
+    triggerValue: number
+    action: number
+    actionTemplate: number
+    enabled: number
+    totalRuns: number
+    lastTriggered: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AutomationAvgAggregateInputType = {
+    totalRuns?: true
+  }
+
+  export type AutomationSumAggregateInputType = {
+    totalRuns?: true
+  }
+
+  export type AutomationMinAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    trigger?: true
+    triggerValue?: true
+    action?: true
+    actionTemplate?: true
+    enabled?: true
+    totalRuns?: true
+    lastTriggered?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AutomationMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    trigger?: true
+    triggerValue?: true
+    action?: true
+    actionTemplate?: true
+    enabled?: true
+    totalRuns?: true
+    lastTriggered?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AutomationCountAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    trigger?: true
+    triggerValue?: true
+    action?: true
+    actionTemplate?: true
+    enabled?: true
+    totalRuns?: true
+    lastTriggered?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AutomationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Automation to aggregate.
+     */
+    where?: AutomationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Automations to fetch.
+     */
+    orderBy?: AutomationOrderByWithRelationInput | AutomationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AutomationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Automations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Automations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Automations
+    **/
+    _count?: true | AutomationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AutomationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AutomationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AutomationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AutomationMaxAggregateInputType
+  }
+
+  export type GetAutomationAggregateType<T extends AutomationAggregateArgs> = {
+        [P in keyof T & keyof AggregateAutomation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAutomation[P]>
+      : GetScalarType<T[P], AggregateAutomation[P]>
+  }
+
+
+
+
+  export type AutomationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AutomationWhereInput
+    orderBy?: AutomationOrderByWithAggregationInput | AutomationOrderByWithAggregationInput[]
+    by: AutomationScalarFieldEnum[] | AutomationScalarFieldEnum
+    having?: AutomationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AutomationCountAggregateInputType | true
+    _avg?: AutomationAvgAggregateInputType
+    _sum?: AutomationSumAggregateInputType
+    _min?: AutomationMinAggregateInputType
+    _max?: AutomationMaxAggregateInputType
+  }
+
+  export type AutomationGroupByOutputType = {
+    id: string
+    userId: string
+    name: string
+    trigger: string
+    triggerValue: string | null
+    action: string
+    actionTemplate: string
+    enabled: boolean
+    totalRuns: number
+    lastTriggered: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: AutomationCountAggregateOutputType | null
+    _avg: AutomationAvgAggregateOutputType | null
+    _sum: AutomationSumAggregateOutputType | null
+    _min: AutomationMinAggregateOutputType | null
+    _max: AutomationMaxAggregateOutputType | null
+  }
+
+  type GetAutomationGroupByPayload<T extends AutomationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AutomationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AutomationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AutomationGroupByOutputType[P]>
+            : GetScalarType<T[P], AutomationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AutomationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    trigger?: boolean
+    triggerValue?: boolean
+    action?: boolean
+    actionTemplate?: boolean
+    enabled?: boolean
+    totalRuns?: boolean
+    lastTriggered?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["automation"]>
+
+  export type AutomationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    trigger?: boolean
+    triggerValue?: boolean
+    action?: boolean
+    actionTemplate?: boolean
+    enabled?: boolean
+    totalRuns?: boolean
+    lastTriggered?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["automation"]>
+
+  export type AutomationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    trigger?: boolean
+    triggerValue?: boolean
+    action?: boolean
+    actionTemplate?: boolean
+    enabled?: boolean
+    totalRuns?: boolean
+    lastTriggered?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["automation"]>
+
+  export type AutomationSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    trigger?: boolean
+    triggerValue?: boolean
+    action?: boolean
+    actionTemplate?: boolean
+    enabled?: boolean
+    totalRuns?: boolean
+    lastTriggered?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AutomationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "name" | "trigger" | "triggerValue" | "action" | "actionTemplate" | "enabled" | "totalRuns" | "lastTriggered" | "createdAt" | "updatedAt", ExtArgs["result"]["automation"]>
+  export type AutomationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AutomationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AutomationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $AutomationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Automation"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      name: string
+      trigger: string
+      triggerValue: string | null
+      action: string
+      actionTemplate: string
+      enabled: boolean
+      totalRuns: number
+      lastTriggered: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["automation"]>
+    composites: {}
+  }
+
+  type AutomationGetPayload<S extends boolean | null | undefined | AutomationDefaultArgs> = $Result.GetResult<Prisma.$AutomationPayload, S>
+
+  type AutomationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AutomationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AutomationCountAggregateInputType | true
+    }
+
+  export interface AutomationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Automation'], meta: { name: 'Automation' } }
+    /**
+     * Find zero or one Automation that matches the filter.
+     * @param {AutomationFindUniqueArgs} args - Arguments to find a Automation
+     * @example
+     * // Get one Automation
+     * const automation = await prisma.automation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AutomationFindUniqueArgs>(args: SelectSubset<T, AutomationFindUniqueArgs<ExtArgs>>): Prisma__AutomationClient<$Result.GetResult<Prisma.$AutomationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Automation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AutomationFindUniqueOrThrowArgs} args - Arguments to find a Automation
+     * @example
+     * // Get one Automation
+     * const automation = await prisma.automation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AutomationFindUniqueOrThrowArgs>(args: SelectSubset<T, AutomationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AutomationClient<$Result.GetResult<Prisma.$AutomationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Automation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AutomationFindFirstArgs} args - Arguments to find a Automation
+     * @example
+     * // Get one Automation
+     * const automation = await prisma.automation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AutomationFindFirstArgs>(args?: SelectSubset<T, AutomationFindFirstArgs<ExtArgs>>): Prisma__AutomationClient<$Result.GetResult<Prisma.$AutomationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Automation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AutomationFindFirstOrThrowArgs} args - Arguments to find a Automation
+     * @example
+     * // Get one Automation
+     * const automation = await prisma.automation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AutomationFindFirstOrThrowArgs>(args?: SelectSubset<T, AutomationFindFirstOrThrowArgs<ExtArgs>>): Prisma__AutomationClient<$Result.GetResult<Prisma.$AutomationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Automations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AutomationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Automations
+     * const automations = await prisma.automation.findMany()
+     * 
+     * // Get first 10 Automations
+     * const automations = await prisma.automation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const automationWithIdOnly = await prisma.automation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AutomationFindManyArgs>(args?: SelectSubset<T, AutomationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AutomationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Automation.
+     * @param {AutomationCreateArgs} args - Arguments to create a Automation.
+     * @example
+     * // Create one Automation
+     * const Automation = await prisma.automation.create({
+     *   data: {
+     *     // ... data to create a Automation
+     *   }
+     * })
+     * 
+     */
+    create<T extends AutomationCreateArgs>(args: SelectSubset<T, AutomationCreateArgs<ExtArgs>>): Prisma__AutomationClient<$Result.GetResult<Prisma.$AutomationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Automations.
+     * @param {AutomationCreateManyArgs} args - Arguments to create many Automations.
+     * @example
+     * // Create many Automations
+     * const automation = await prisma.automation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AutomationCreateManyArgs>(args?: SelectSubset<T, AutomationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Automations and returns the data saved in the database.
+     * @param {AutomationCreateManyAndReturnArgs} args - Arguments to create many Automations.
+     * @example
+     * // Create many Automations
+     * const automation = await prisma.automation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Automations and only return the `id`
+     * const automationWithIdOnly = await prisma.automation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AutomationCreateManyAndReturnArgs>(args?: SelectSubset<T, AutomationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AutomationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Automation.
+     * @param {AutomationDeleteArgs} args - Arguments to delete one Automation.
+     * @example
+     * // Delete one Automation
+     * const Automation = await prisma.automation.delete({
+     *   where: {
+     *     // ... filter to delete one Automation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AutomationDeleteArgs>(args: SelectSubset<T, AutomationDeleteArgs<ExtArgs>>): Prisma__AutomationClient<$Result.GetResult<Prisma.$AutomationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Automation.
+     * @param {AutomationUpdateArgs} args - Arguments to update one Automation.
+     * @example
+     * // Update one Automation
+     * const automation = await prisma.automation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AutomationUpdateArgs>(args: SelectSubset<T, AutomationUpdateArgs<ExtArgs>>): Prisma__AutomationClient<$Result.GetResult<Prisma.$AutomationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Automations.
+     * @param {AutomationDeleteManyArgs} args - Arguments to filter Automations to delete.
+     * @example
+     * // Delete a few Automations
+     * const { count } = await prisma.automation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AutomationDeleteManyArgs>(args?: SelectSubset<T, AutomationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Automations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AutomationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Automations
+     * const automation = await prisma.automation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AutomationUpdateManyArgs>(args: SelectSubset<T, AutomationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Automations and returns the data updated in the database.
+     * @param {AutomationUpdateManyAndReturnArgs} args - Arguments to update many Automations.
+     * @example
+     * // Update many Automations
+     * const automation = await prisma.automation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Automations and only return the `id`
+     * const automationWithIdOnly = await prisma.automation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AutomationUpdateManyAndReturnArgs>(args: SelectSubset<T, AutomationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AutomationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Automation.
+     * @param {AutomationUpsertArgs} args - Arguments to update or create a Automation.
+     * @example
+     * // Update or create a Automation
+     * const automation = await prisma.automation.upsert({
+     *   create: {
+     *     // ... data to create a Automation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Automation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AutomationUpsertArgs>(args: SelectSubset<T, AutomationUpsertArgs<ExtArgs>>): Prisma__AutomationClient<$Result.GetResult<Prisma.$AutomationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Automations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AutomationCountArgs} args - Arguments to filter Automations to count.
+     * @example
+     * // Count the number of Automations
+     * const count = await prisma.automation.count({
+     *   where: {
+     *     // ... the filter for the Automations we want to count
+     *   }
+     * })
+    **/
+    count<T extends AutomationCountArgs>(
+      args?: Subset<T, AutomationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AutomationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Automation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AutomationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AutomationAggregateArgs>(args: Subset<T, AutomationAggregateArgs>): Prisma.PrismaPromise<GetAutomationAggregateType<T>>
+
+    /**
+     * Group by Automation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AutomationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AutomationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AutomationGroupByArgs['orderBy'] }
+        : { orderBy?: AutomationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AutomationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAutomationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Automation model
+   */
+  readonly fields: AutomationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Automation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AutomationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Automation model
+   */
+  interface AutomationFieldRefs {
+    readonly id: FieldRef<"Automation", 'String'>
+    readonly userId: FieldRef<"Automation", 'String'>
+    readonly name: FieldRef<"Automation", 'String'>
+    readonly trigger: FieldRef<"Automation", 'String'>
+    readonly triggerValue: FieldRef<"Automation", 'String'>
+    readonly action: FieldRef<"Automation", 'String'>
+    readonly actionTemplate: FieldRef<"Automation", 'String'>
+    readonly enabled: FieldRef<"Automation", 'Boolean'>
+    readonly totalRuns: FieldRef<"Automation", 'Int'>
+    readonly lastTriggered: FieldRef<"Automation", 'DateTime'>
+    readonly createdAt: FieldRef<"Automation", 'DateTime'>
+    readonly updatedAt: FieldRef<"Automation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Automation findUnique
+   */
+  export type AutomationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Automation
+     */
+    select?: AutomationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Automation
+     */
+    omit?: AutomationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AutomationInclude<ExtArgs> | null
+    /**
+     * Filter, which Automation to fetch.
+     */
+    where: AutomationWhereUniqueInput
+  }
+
+  /**
+   * Automation findUniqueOrThrow
+   */
+  export type AutomationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Automation
+     */
+    select?: AutomationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Automation
+     */
+    omit?: AutomationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AutomationInclude<ExtArgs> | null
+    /**
+     * Filter, which Automation to fetch.
+     */
+    where: AutomationWhereUniqueInput
+  }
+
+  /**
+   * Automation findFirst
+   */
+  export type AutomationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Automation
+     */
+    select?: AutomationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Automation
+     */
+    omit?: AutomationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AutomationInclude<ExtArgs> | null
+    /**
+     * Filter, which Automation to fetch.
+     */
+    where?: AutomationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Automations to fetch.
+     */
+    orderBy?: AutomationOrderByWithRelationInput | AutomationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Automations.
+     */
+    cursor?: AutomationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Automations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Automations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Automations.
+     */
+    distinct?: AutomationScalarFieldEnum | AutomationScalarFieldEnum[]
+  }
+
+  /**
+   * Automation findFirstOrThrow
+   */
+  export type AutomationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Automation
+     */
+    select?: AutomationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Automation
+     */
+    omit?: AutomationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AutomationInclude<ExtArgs> | null
+    /**
+     * Filter, which Automation to fetch.
+     */
+    where?: AutomationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Automations to fetch.
+     */
+    orderBy?: AutomationOrderByWithRelationInput | AutomationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Automations.
+     */
+    cursor?: AutomationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Automations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Automations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Automations.
+     */
+    distinct?: AutomationScalarFieldEnum | AutomationScalarFieldEnum[]
+  }
+
+  /**
+   * Automation findMany
+   */
+  export type AutomationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Automation
+     */
+    select?: AutomationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Automation
+     */
+    omit?: AutomationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AutomationInclude<ExtArgs> | null
+    /**
+     * Filter, which Automations to fetch.
+     */
+    where?: AutomationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Automations to fetch.
+     */
+    orderBy?: AutomationOrderByWithRelationInput | AutomationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Automations.
+     */
+    cursor?: AutomationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Automations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Automations.
+     */
+    skip?: number
+    distinct?: AutomationScalarFieldEnum | AutomationScalarFieldEnum[]
+  }
+
+  /**
+   * Automation create
+   */
+  export type AutomationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Automation
+     */
+    select?: AutomationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Automation
+     */
+    omit?: AutomationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AutomationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Automation.
+     */
+    data: XOR<AutomationCreateInput, AutomationUncheckedCreateInput>
+  }
+
+  /**
+   * Automation createMany
+   */
+  export type AutomationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Automations.
+     */
+    data: AutomationCreateManyInput | AutomationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Automation createManyAndReturn
+   */
+  export type AutomationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Automation
+     */
+    select?: AutomationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Automation
+     */
+    omit?: AutomationOmit<ExtArgs> | null
+    /**
+     * The data used to create many Automations.
+     */
+    data: AutomationCreateManyInput | AutomationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AutomationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Automation update
+   */
+  export type AutomationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Automation
+     */
+    select?: AutomationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Automation
+     */
+    omit?: AutomationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AutomationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Automation.
+     */
+    data: XOR<AutomationUpdateInput, AutomationUncheckedUpdateInput>
+    /**
+     * Choose, which Automation to update.
+     */
+    where: AutomationWhereUniqueInput
+  }
+
+  /**
+   * Automation updateMany
+   */
+  export type AutomationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Automations.
+     */
+    data: XOR<AutomationUpdateManyMutationInput, AutomationUncheckedUpdateManyInput>
+    /**
+     * Filter which Automations to update
+     */
+    where?: AutomationWhereInput
+    /**
+     * Limit how many Automations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Automation updateManyAndReturn
+   */
+  export type AutomationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Automation
+     */
+    select?: AutomationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Automation
+     */
+    omit?: AutomationOmit<ExtArgs> | null
+    /**
+     * The data used to update Automations.
+     */
+    data: XOR<AutomationUpdateManyMutationInput, AutomationUncheckedUpdateManyInput>
+    /**
+     * Filter which Automations to update
+     */
+    where?: AutomationWhereInput
+    /**
+     * Limit how many Automations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AutomationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Automation upsert
+   */
+  export type AutomationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Automation
+     */
+    select?: AutomationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Automation
+     */
+    omit?: AutomationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AutomationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Automation to update in case it exists.
+     */
+    where: AutomationWhereUniqueInput
+    /**
+     * In case the Automation found by the `where` argument doesn't exist, create a new Automation with this data.
+     */
+    create: XOR<AutomationCreateInput, AutomationUncheckedCreateInput>
+    /**
+     * In case the Automation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AutomationUpdateInput, AutomationUncheckedUpdateInput>
+  }
+
+  /**
+   * Automation delete
+   */
+  export type AutomationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Automation
+     */
+    select?: AutomationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Automation
+     */
+    omit?: AutomationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AutomationInclude<ExtArgs> | null
+    /**
+     * Filter which Automation to delete.
+     */
+    where: AutomationWhereUniqueInput
+  }
+
+  /**
+   * Automation deleteMany
+   */
+  export type AutomationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Automations to delete
+     */
+    where?: AutomationWhereInput
+    /**
+     * Limit how many Automations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Automation without action
+   */
+  export type AutomationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Automation
+     */
+    select?: AutomationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Automation
+     */
+    omit?: AutomationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AutomationInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -5950,6 +7261,24 @@ export namespace Prisma {
   };
 
   export type MessageTemplateScalarFieldEnum = (typeof MessageTemplateScalarFieldEnum)[keyof typeof MessageTemplateScalarFieldEnum]
+
+
+  export const AutomationScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    name: 'name',
+    trigger: 'trigger',
+    triggerValue: 'triggerValue',
+    action: 'action',
+    actionTemplate: 'actionTemplate',
+    enabled: 'enabled',
+    totalRuns: 'totalRuns',
+    lastTriggered: 'lastTriggered',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AutomationScalarFieldEnum = (typeof AutomationScalarFieldEnum)[keyof typeof AutomationScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -6072,6 +7401,20 @@ export namespace Prisma {
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
   /**
    * Deep Input Types
    */
@@ -6106,6 +7449,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     hashedRefresh?: StringNullableFilter<"User"> | string | null
     messageTemplates?: MessageTemplateListRelationFilter
+    automations?: AutomationListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -6134,6 +7478,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     hashedRefresh?: SortOrderInput | SortOrder
     messageTemplates?: MessageTemplateOrderByRelationAggregateInput
+    automations?: AutomationOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -6165,6 +7510,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     hashedRefresh?: StringNullableFilter<"User"> | string | null
     messageTemplates?: MessageTemplateListRelationFilter
+    automations?: AutomationListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -6507,6 +7853,98 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"MessageTemplate"> | Date | string
   }
 
+  export type AutomationWhereInput = {
+    AND?: AutomationWhereInput | AutomationWhereInput[]
+    OR?: AutomationWhereInput[]
+    NOT?: AutomationWhereInput | AutomationWhereInput[]
+    id?: StringFilter<"Automation"> | string
+    userId?: StringFilter<"Automation"> | string
+    name?: StringFilter<"Automation"> | string
+    trigger?: StringFilter<"Automation"> | string
+    triggerValue?: StringNullableFilter<"Automation"> | string | null
+    action?: StringFilter<"Automation"> | string
+    actionTemplate?: StringFilter<"Automation"> | string
+    enabled?: BoolFilter<"Automation"> | boolean
+    totalRuns?: IntFilter<"Automation"> | number
+    lastTriggered?: DateTimeNullableFilter<"Automation"> | Date | string | null
+    createdAt?: DateTimeFilter<"Automation"> | Date | string
+    updatedAt?: DateTimeFilter<"Automation"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type AutomationOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    trigger?: SortOrder
+    triggerValue?: SortOrderInput | SortOrder
+    action?: SortOrder
+    actionTemplate?: SortOrder
+    enabled?: SortOrder
+    totalRuns?: SortOrder
+    lastTriggered?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type AutomationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AutomationWhereInput | AutomationWhereInput[]
+    OR?: AutomationWhereInput[]
+    NOT?: AutomationWhereInput | AutomationWhereInput[]
+    userId?: StringFilter<"Automation"> | string
+    name?: StringFilter<"Automation"> | string
+    trigger?: StringFilter<"Automation"> | string
+    triggerValue?: StringNullableFilter<"Automation"> | string | null
+    action?: StringFilter<"Automation"> | string
+    actionTemplate?: StringFilter<"Automation"> | string
+    enabled?: BoolFilter<"Automation"> | boolean
+    totalRuns?: IntFilter<"Automation"> | number
+    lastTriggered?: DateTimeNullableFilter<"Automation"> | Date | string | null
+    createdAt?: DateTimeFilter<"Automation"> | Date | string
+    updatedAt?: DateTimeFilter<"Automation"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type AutomationOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    trigger?: SortOrder
+    triggerValue?: SortOrderInput | SortOrder
+    action?: SortOrder
+    actionTemplate?: SortOrder
+    enabled?: SortOrder
+    totalRuns?: SortOrder
+    lastTriggered?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AutomationCountOrderByAggregateInput
+    _avg?: AutomationAvgOrderByAggregateInput
+    _max?: AutomationMaxOrderByAggregateInput
+    _min?: AutomationMinOrderByAggregateInput
+    _sum?: AutomationSumOrderByAggregateInput
+  }
+
+  export type AutomationScalarWhereWithAggregatesInput = {
+    AND?: AutomationScalarWhereWithAggregatesInput | AutomationScalarWhereWithAggregatesInput[]
+    OR?: AutomationScalarWhereWithAggregatesInput[]
+    NOT?: AutomationScalarWhereWithAggregatesInput | AutomationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Automation"> | string
+    userId?: StringWithAggregatesFilter<"Automation"> | string
+    name?: StringWithAggregatesFilter<"Automation"> | string
+    trigger?: StringWithAggregatesFilter<"Automation"> | string
+    triggerValue?: StringNullableWithAggregatesFilter<"Automation"> | string | null
+    action?: StringWithAggregatesFilter<"Automation"> | string
+    actionTemplate?: StringWithAggregatesFilter<"Automation"> | string
+    enabled?: BoolWithAggregatesFilter<"Automation"> | boolean
+    totalRuns?: IntWithAggregatesFilter<"Automation"> | number
+    lastTriggered?: DateTimeNullableWithAggregatesFilter<"Automation"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Automation"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Automation"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -6533,6 +7971,7 @@ export namespace Prisma {
     createdAt?: Date | string
     hashedRefresh?: string | null
     messageTemplates?: MessageTemplateCreateNestedManyWithoutUserInput
+    automations?: AutomationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -6561,6 +8000,7 @@ export namespace Prisma {
     createdAt?: Date | string
     hashedRefresh?: string | null
     messageTemplates?: MessageTemplateUncheckedCreateNestedManyWithoutUserInput
+    automations?: AutomationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -6589,6 +8029,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
     messageTemplates?: MessageTemplateUpdateManyWithoutUserNestedInput
+    automations?: AutomationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -6617,6 +8058,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
     messageTemplates?: MessageTemplateUncheckedUpdateManyWithoutUserNestedInput
+    automations?: AutomationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -7035,6 +8477,110 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AutomationCreateInput = {
+    id?: string
+    name: string
+    trigger: string
+    triggerValue?: string | null
+    action: string
+    actionTemplate: string
+    enabled?: boolean
+    totalRuns?: number
+    lastTriggered?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAutomationsInput
+  }
+
+  export type AutomationUncheckedCreateInput = {
+    id?: string
+    userId: string
+    name: string
+    trigger: string
+    triggerValue?: string | null
+    action: string
+    actionTemplate: string
+    enabled?: boolean
+    totalRuns?: number
+    lastTriggered?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AutomationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    trigger?: StringFieldUpdateOperationsInput | string
+    triggerValue?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: StringFieldUpdateOperationsInput | string
+    actionTemplate?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    totalRuns?: IntFieldUpdateOperationsInput | number
+    lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAutomationsNestedInput
+  }
+
+  export type AutomationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    trigger?: StringFieldUpdateOperationsInput | string
+    triggerValue?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: StringFieldUpdateOperationsInput | string
+    actionTemplate?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    totalRuns?: IntFieldUpdateOperationsInput | number
+    lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AutomationCreateManyInput = {
+    id?: string
+    userId: string
+    name: string
+    trigger: string
+    triggerValue?: string | null
+    action: string
+    actionTemplate: string
+    enabled?: boolean
+    totalRuns?: number
+    lastTriggered?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AutomationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    trigger?: StringFieldUpdateOperationsInput | string
+    triggerValue?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: StringFieldUpdateOperationsInput | string
+    actionTemplate?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    totalRuns?: IntFieldUpdateOperationsInput | number
+    lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AutomationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    trigger?: StringFieldUpdateOperationsInput | string
+    triggerValue?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: StringFieldUpdateOperationsInput | string
+    actionTemplate?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    totalRuns?: IntFieldUpdateOperationsInput | number
+    lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -7095,12 +8641,22 @@ export namespace Prisma {
     none?: MessageTemplateWhereInput
   }
 
+  export type AutomationListRelationFilter = {
+    every?: AutomationWhereInput
+    some?: AutomationWhereInput
+    none?: AutomationWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
   export type MessageTemplateOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AutomationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -7459,6 +9015,111 @@ export namespace Prisma {
     _max?: NestedJsonFilter<$PrismaModel>
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type AutomationCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    trigger?: SortOrder
+    triggerValue?: SortOrder
+    action?: SortOrder
+    actionTemplate?: SortOrder
+    enabled?: SortOrder
+    totalRuns?: SortOrder
+    lastTriggered?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AutomationAvgOrderByAggregateInput = {
+    totalRuns?: SortOrder
+  }
+
+  export type AutomationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    trigger?: SortOrder
+    triggerValue?: SortOrder
+    action?: SortOrder
+    actionTemplate?: SortOrder
+    enabled?: SortOrder
+    totalRuns?: SortOrder
+    lastTriggered?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AutomationMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    trigger?: SortOrder
+    triggerValue?: SortOrder
+    action?: SortOrder
+    actionTemplate?: SortOrder
+    enabled?: SortOrder
+    totalRuns?: SortOrder
+    lastTriggered?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AutomationSumOrderByAggregateInput = {
+    totalRuns?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type UserCreateselectedPhoneNumberIdInput = {
     set: string[]
   }
@@ -7470,11 +9131,25 @@ export namespace Prisma {
     connect?: MessageTemplateWhereUniqueInput | MessageTemplateWhereUniqueInput[]
   }
 
+  export type AutomationCreateNestedManyWithoutUserInput = {
+    create?: XOR<AutomationCreateWithoutUserInput, AutomationUncheckedCreateWithoutUserInput> | AutomationCreateWithoutUserInput[] | AutomationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AutomationCreateOrConnectWithoutUserInput | AutomationCreateOrConnectWithoutUserInput[]
+    createMany?: AutomationCreateManyUserInputEnvelope
+    connect?: AutomationWhereUniqueInput | AutomationWhereUniqueInput[]
+  }
+
   export type MessageTemplateUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<MessageTemplateCreateWithoutUserInput, MessageTemplateUncheckedCreateWithoutUserInput> | MessageTemplateCreateWithoutUserInput[] | MessageTemplateUncheckedCreateWithoutUserInput[]
     connectOrCreate?: MessageTemplateCreateOrConnectWithoutUserInput | MessageTemplateCreateOrConnectWithoutUserInput[]
     createMany?: MessageTemplateCreateManyUserInputEnvelope
     connect?: MessageTemplateWhereUniqueInput | MessageTemplateWhereUniqueInput[]
+  }
+
+  export type AutomationUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<AutomationCreateWithoutUserInput, AutomationUncheckedCreateWithoutUserInput> | AutomationCreateWithoutUserInput[] | AutomationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AutomationCreateOrConnectWithoutUserInput | AutomationCreateOrConnectWithoutUserInput[]
+    createMany?: AutomationCreateManyUserInputEnvelope
+    connect?: AutomationWhereUniqueInput | AutomationWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -7512,6 +9187,20 @@ export namespace Prisma {
     deleteMany?: MessageTemplateScalarWhereInput | MessageTemplateScalarWhereInput[]
   }
 
+  export type AutomationUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AutomationCreateWithoutUserInput, AutomationUncheckedCreateWithoutUserInput> | AutomationCreateWithoutUserInput[] | AutomationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AutomationCreateOrConnectWithoutUserInput | AutomationCreateOrConnectWithoutUserInput[]
+    upsert?: AutomationUpsertWithWhereUniqueWithoutUserInput | AutomationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AutomationCreateManyUserInputEnvelope
+    set?: AutomationWhereUniqueInput | AutomationWhereUniqueInput[]
+    disconnect?: AutomationWhereUniqueInput | AutomationWhereUniqueInput[]
+    delete?: AutomationWhereUniqueInput | AutomationWhereUniqueInput[]
+    connect?: AutomationWhereUniqueInput | AutomationWhereUniqueInput[]
+    update?: AutomationUpdateWithWhereUniqueWithoutUserInput | AutomationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AutomationUpdateManyWithWhereWithoutUserInput | AutomationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AutomationScalarWhereInput | AutomationScalarWhereInput[]
+  }
+
   export type MessageTemplateUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<MessageTemplateCreateWithoutUserInput, MessageTemplateUncheckedCreateWithoutUserInput> | MessageTemplateCreateWithoutUserInput[] | MessageTemplateUncheckedCreateWithoutUserInput[]
     connectOrCreate?: MessageTemplateCreateOrConnectWithoutUserInput | MessageTemplateCreateOrConnectWithoutUserInput[]
@@ -7524,6 +9213,20 @@ export namespace Prisma {
     update?: MessageTemplateUpdateWithWhereUniqueWithoutUserInput | MessageTemplateUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: MessageTemplateUpdateManyWithWhereWithoutUserInput | MessageTemplateUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: MessageTemplateScalarWhereInput | MessageTemplateScalarWhereInput[]
+  }
+
+  export type AutomationUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AutomationCreateWithoutUserInput, AutomationUncheckedCreateWithoutUserInput> | AutomationCreateWithoutUserInput[] | AutomationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AutomationCreateOrConnectWithoutUserInput | AutomationCreateOrConnectWithoutUserInput[]
+    upsert?: AutomationUpsertWithWhereUniqueWithoutUserInput | AutomationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AutomationCreateManyUserInputEnvelope
+    set?: AutomationWhereUniqueInput | AutomationWhereUniqueInput[]
+    disconnect?: AutomationWhereUniqueInput | AutomationWhereUniqueInput[]
+    delete?: AutomationWhereUniqueInput | AutomationWhereUniqueInput[]
+    connect?: AutomationWhereUniqueInput | AutomationWhereUniqueInput[]
+    update?: AutomationUpdateWithWhereUniqueWithoutUserInput | AutomationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AutomationUpdateManyWithWhereWithoutUserInput | AutomationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AutomationScalarWhereInput | AutomationScalarWhereInput[]
   }
 
   export type EnumDeliveryStatusFieldUpdateOperationsInput = {
@@ -7542,6 +9245,32 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutMessageTemplatesInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMessageTemplatesInput, UserUpdateWithoutMessageTemplatesInput>, UserUncheckedUpdateWithoutMessageTemplatesInput>
+  }
+
+  export type UserCreateNestedOneWithoutAutomationsInput = {
+    create?: XOR<UserCreateWithoutAutomationsInput, UserUncheckedCreateWithoutAutomationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAutomationsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type UserUpdateOneRequiredWithoutAutomationsNestedInput = {
+    create?: XOR<UserCreateWithoutAutomationsInput, UserUncheckedCreateWithoutAutomationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAutomationsInput
+    upsert?: UserUpsertWithoutAutomationsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAutomationsInput, UserUpdateWithoutAutomationsInput>, UserUncheckedUpdateWithoutAutomationsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -7706,6 +9435,58 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type MessageTemplateCreateWithoutUserInput = {
     id?: string
     metaTemplateId: string
@@ -7748,6 +9529,44 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AutomationCreateWithoutUserInput = {
+    id?: string
+    name: string
+    trigger: string
+    triggerValue?: string | null
+    action: string
+    actionTemplate: string
+    enabled?: boolean
+    totalRuns?: number
+    lastTriggered?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AutomationUncheckedCreateWithoutUserInput = {
+    id?: string
+    name: string
+    trigger: string
+    triggerValue?: string | null
+    action: string
+    actionTemplate: string
+    enabled?: boolean
+    totalRuns?: number
+    lastTriggered?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AutomationCreateOrConnectWithoutUserInput = {
+    where: AutomationWhereUniqueInput
+    create: XOR<AutomationCreateWithoutUserInput, AutomationUncheckedCreateWithoutUserInput>
+  }
+
+  export type AutomationCreateManyUserInputEnvelope = {
+    data: AutomationCreateManyUserInput | AutomationCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type MessageTemplateUpsertWithWhereUniqueWithoutUserInput = {
     where: MessageTemplateWhereUniqueInput
     update: XOR<MessageTemplateUpdateWithoutUserInput, MessageTemplateUncheckedUpdateWithoutUserInput>
@@ -7784,6 +9603,40 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"MessageTemplate"> | Date | string
   }
 
+  export type AutomationUpsertWithWhereUniqueWithoutUserInput = {
+    where: AutomationWhereUniqueInput
+    update: XOR<AutomationUpdateWithoutUserInput, AutomationUncheckedUpdateWithoutUserInput>
+    create: XOR<AutomationCreateWithoutUserInput, AutomationUncheckedCreateWithoutUserInput>
+  }
+
+  export type AutomationUpdateWithWhereUniqueWithoutUserInput = {
+    where: AutomationWhereUniqueInput
+    data: XOR<AutomationUpdateWithoutUserInput, AutomationUncheckedUpdateWithoutUserInput>
+  }
+
+  export type AutomationUpdateManyWithWhereWithoutUserInput = {
+    where: AutomationScalarWhereInput
+    data: XOR<AutomationUpdateManyMutationInput, AutomationUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type AutomationScalarWhereInput = {
+    AND?: AutomationScalarWhereInput | AutomationScalarWhereInput[]
+    OR?: AutomationScalarWhereInput[]
+    NOT?: AutomationScalarWhereInput | AutomationScalarWhereInput[]
+    id?: StringFilter<"Automation"> | string
+    userId?: StringFilter<"Automation"> | string
+    name?: StringFilter<"Automation"> | string
+    trigger?: StringFilter<"Automation"> | string
+    triggerValue?: StringNullableFilter<"Automation"> | string | null
+    action?: StringFilter<"Automation"> | string
+    actionTemplate?: StringFilter<"Automation"> | string
+    enabled?: BoolFilter<"Automation"> | boolean
+    totalRuns?: IntFilter<"Automation"> | number
+    lastTriggered?: DateTimeNullableFilter<"Automation"> | Date | string | null
+    createdAt?: DateTimeFilter<"Automation"> | Date | string
+    updatedAt?: DateTimeFilter<"Automation"> | Date | string
+  }
+
   export type UserCreateWithoutMessageTemplatesInput = {
     id?: string
     email: string
@@ -7809,6 +9662,7 @@ export namespace Prisma {
     facebookConnectStatus?: boolean
     createdAt?: Date | string
     hashedRefresh?: string | null
+    automations?: AutomationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMessageTemplatesInput = {
@@ -7836,6 +9690,7 @@ export namespace Prisma {
     facebookConnectStatus?: boolean
     createdAt?: Date | string
     hashedRefresh?: string | null
+    automations?: AutomationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMessageTemplatesInput = {
@@ -7879,6 +9734,7 @@ export namespace Prisma {
     facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
+    automations?: AutomationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessageTemplatesInput = {
@@ -7906,6 +9762,135 @@ export namespace Prisma {
     facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
+    automations?: AutomationUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutAutomationsInput = {
+    id?: string
+    email: string
+    password: string
+    emailConfirmed?: boolean
+    emailConfirmToken?: string | null
+    businessName: string
+    fullName: string
+    metaUserId?: string | null
+    appId?: string | null
+    appSecret?: string | null
+    facebookAcceessToken?: string | null
+    grantedScopes?: string | null
+    accessTokenExpiresIn?: string | null
+    selectedWabaId?: string | null
+    displayPhoneNumber?: string | null
+    selectedFacebookBusinessId?: string | null
+    selectedFacebookBusinessName?: string | null
+    selectedPhoneNumberQualityRating?: string | null
+    selectedPhoneNumberVerifiedName?: string | null
+    webhookStatus?: boolean
+    selectedPhoneNumberId?: UserCreateselectedPhoneNumberIdInput | string[]
+    facebookConnectStatus?: boolean
+    createdAt?: Date | string
+    hashedRefresh?: string | null
+    messageTemplates?: MessageTemplateCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutAutomationsInput = {
+    id?: string
+    email: string
+    password: string
+    emailConfirmed?: boolean
+    emailConfirmToken?: string | null
+    businessName: string
+    fullName: string
+    metaUserId?: string | null
+    appId?: string | null
+    appSecret?: string | null
+    facebookAcceessToken?: string | null
+    grantedScopes?: string | null
+    accessTokenExpiresIn?: string | null
+    selectedWabaId?: string | null
+    displayPhoneNumber?: string | null
+    selectedFacebookBusinessId?: string | null
+    selectedFacebookBusinessName?: string | null
+    selectedPhoneNumberQualityRating?: string | null
+    selectedPhoneNumberVerifiedName?: string | null
+    webhookStatus?: boolean
+    selectedPhoneNumberId?: UserCreateselectedPhoneNumberIdInput | string[]
+    facebookConnectStatus?: boolean
+    createdAt?: Date | string
+    hashedRefresh?: string | null
+    messageTemplates?: MessageTemplateUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutAutomationsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAutomationsInput, UserUncheckedCreateWithoutAutomationsInput>
+  }
+
+  export type UserUpsertWithoutAutomationsInput = {
+    update: XOR<UserUpdateWithoutAutomationsInput, UserUncheckedUpdateWithoutAutomationsInput>
+    create: XOR<UserCreateWithoutAutomationsInput, UserUncheckedCreateWithoutAutomationsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAutomationsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAutomationsInput, UserUncheckedUpdateWithoutAutomationsInput>
+  }
+
+  export type UserUpdateWithoutAutomationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    emailConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    emailConfirmToken?: NullableStringFieldUpdateOperationsInput | string | null
+    businessName?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    metaUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    appId?: NullableStringFieldUpdateOperationsInput | string | null
+    appSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookAcceessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    grantedScopes?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenExpiresIn?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedWabaId?: NullableStringFieldUpdateOperationsInput | string | null
+    displayPhoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedFacebookBusinessId?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedFacebookBusinessName?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedPhoneNumberQualityRating?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedPhoneNumberVerifiedName?: NullableStringFieldUpdateOperationsInput | string | null
+    webhookStatus?: BoolFieldUpdateOperationsInput | boolean
+    selectedPhoneNumberId?: UserUpdateselectedPhoneNumberIdInput | string[]
+    facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
+    messageTemplates?: MessageTemplateUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAutomationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    emailConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    emailConfirmToken?: NullableStringFieldUpdateOperationsInput | string | null
+    businessName?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    metaUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    appId?: NullableStringFieldUpdateOperationsInput | string | null
+    appSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookAcceessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    grantedScopes?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenExpiresIn?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedWabaId?: NullableStringFieldUpdateOperationsInput | string | null
+    displayPhoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedFacebookBusinessId?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedFacebookBusinessName?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedPhoneNumberQualityRating?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedPhoneNumberVerifiedName?: NullableStringFieldUpdateOperationsInput | string | null
+    webhookStatus?: BoolFieldUpdateOperationsInput | boolean
+    selectedPhoneNumberId?: UserUpdateselectedPhoneNumberIdInput | string[]
+    facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
+    messageTemplates?: MessageTemplateUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MessageTemplateCreateManyUserInput = {
@@ -7920,6 +9905,20 @@ export namespace Prisma {
     components: JsonNullValueInput | InputJsonValue
     disableIosAutofill?: boolean
     isPrimaryDeviceDeliveryOnly?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AutomationCreateManyUserInput = {
+    id?: string
+    name: string
+    trigger: string
+    triggerValue?: string | null
+    action: string
+    actionTemplate: string
+    enabled?: boolean
+    totalRuns?: number
+    lastTriggered?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -7968,6 +9967,48 @@ export namespace Prisma {
     components?: JsonNullValueInput | InputJsonValue
     disableIosAutofill?: BoolFieldUpdateOperationsInput | boolean
     isPrimaryDeviceDeliveryOnly?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AutomationUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    trigger?: StringFieldUpdateOperationsInput | string
+    triggerValue?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: StringFieldUpdateOperationsInput | string
+    actionTemplate?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    totalRuns?: IntFieldUpdateOperationsInput | number
+    lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AutomationUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    trigger?: StringFieldUpdateOperationsInput | string
+    triggerValue?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: StringFieldUpdateOperationsInput | string
+    actionTemplate?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    totalRuns?: IntFieldUpdateOperationsInput | number
+    lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AutomationUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    trigger?: StringFieldUpdateOperationsInput | string
+    triggerValue?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: StringFieldUpdateOperationsInput | string
+    actionTemplate?: StringFieldUpdateOperationsInput | string
+    enabled?: BoolFieldUpdateOperationsInput | boolean
+    totalRuns?: IntFieldUpdateOperationsInput | number
+    lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

@@ -196,6 +196,21 @@ exports.Prisma.MessageTemplateScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.AutomationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  trigger: 'trigger',
+  triggerValue: 'triggerValue',
+  action: 'action',
+  actionTemplate: 'actionTemplate',
+  enabled: 'enabled',
+  totalRuns: 'totalRuns',
+  lastTriggered: 'lastTriggered',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -230,7 +245,8 @@ exports.Prisma.ModelName = {
   User: 'User',
   Token: 'Token',
   Delivery: 'Delivery',
-  MessageTemplate: 'MessageTemplate'
+  MessageTemplate: 'MessageTemplate',
+  Automation: 'Automation'
 };
 
 /**
