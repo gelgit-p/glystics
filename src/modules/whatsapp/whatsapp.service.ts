@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, HttpException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
@@ -373,40 +373,188 @@ export class WhatsappService {
     }
   }
 
-  async getMessageTemplates(): Promise<any> {
-    const version = this.configService.get<string>('WHATSAPP_VERSION');
-    const businessAccountId = this.configService.get<string>('WABA_ID');
-    // const accessToken = this.configService.get<string>(
-    //   'WHATSAPP_LONG_LIVED_ACCESS_TOKEN',
-    // );
+  async getMessageTemplates(userId: string): Promise<any> {
+  try {
+    const version =
+      this.configService.get<string>('WHATSAPP_VERSION');
 
-      let fetch_access_token = await this.prisma.token.findFirst({
-        orderBy: { createdAt: 'desc' },
-      });
-
-    if (!version || !businessAccountId || !fetch_access_token?.facebookLongLivedAccessToken) {
-      throw new Error(
-        'WHATSAPP_VERSION, WABA_ID, and WHATSAPP_LONG_LIVED_ACCESS_TOKEN are required',
+    if (!version) {
+      throw new BadRequestException(
+        'WHATSAPP_VERSION is required',
       );
     }
 
-    const endpoint = `https://graph.facebook.com/${version}/${businessAccountId}/message_templates`;
+    if (!userId) {
+      throw new BadRequestException(
+        'User ID is required',
+      );
+    }
 
-    try {
-      const response = await firstValueFrom(
-        this.httpService.get(endpoint, {
-          headers: {
-            Authorization: `Bearer ${fetch_access_token?.facebookLongLivedAccessToken}`,
-            // ${fetch_access_token?.facebookAccessToken}`,
+    // Get current user
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException(
+        `User with ID ${userId} not found`,
+      );
+    }
+
+    // Prefer the WABA selected during Embedded Signup.
+    const businessAccountId =
+      user.selectedWabaId ||
+      this.configService.get<string>('WABA_ID');
+
+    if (!businessAccountId) {
+      throw new BadRequestException(
+        'No WhatsApp Business Account is connected to this user',
+      );
+    }
+
+    // Get this user's Facebook token
+    const token = await this.prisma.token.findUnique({
+      where: {
+        userId,
+      },
+    });
+
+    if (!token?.facebookLongLivedAccessToken) {
+      throw new BadRequestException(
+        'Facebook long-lived access token not found for this user',
+      );
+    }
+
+    const endpoint =
+      `https://graph.facebook.com/${version}/${businessAccountId}/message_templates`;
+
+    const response = await firstValueFrom(
+      this.httpService.get(endpoint, {
+        headers: {
+          Authorization:
+            `Bearer ${token.facebookLongLivedAccessToken}`,
+        },
+      }),
+    );
+
+    const templates = response.data?.data ?? [];
+
+    if (!Array.isArray(templates)) {
+      throw new BadRequestException(
+        'Invalid message templates response from Facebook',
+      );
+    }
+
+    /**
+     * Remove duplicate templates returned by Meta.
+     * metaTemplateId is used as the unique identifier.
+     */
+    const uniqueTemplates = Array.from(
+      new Map(
+        templates
+          .filter((template: any) => template?.id)
+          .map((template: any) => [
+            String(template.id),
+            template,
+          ]),
+      ).values(),
+    ) as any[];
+
+    /**
+     * Upsert means:
+     *
+     * - Existing template -> update it
+     * - New template      -> create it
+     *
+     * Therefore the same Meta template will not be
+     * inserted multiple times for the same user.
+     */
+    const savedTemplates = await Promise.all(
+      uniqueTemplates.map(async (template: any) => {
+        return this.prisma.messageTemplate.upsert({
+          where: {
+            userId_metaTemplateId: {
+              userId,
+              metaTemplateId: String(template.id),
+            },
           },
-        }),
-      );
 
-      return response.data;
-    } catch (error: any) {
-      throw error.response?.data || error.message;
+          update: {
+            name: template.name,
+            language: template.language,
+            status: template.status,
+            category: template.category,
+
+            previousCategory:
+              template.previous_category ?? null,
+
+            parameterFormat:
+              template.parameter_format ?? null,
+
+            components:
+              template.components ?? [],
+
+            disableIosAutofill:
+              template.disable_ios_autofill ?? false,
+
+            isPrimaryDeviceDeliveryOnly:
+              template.is_primary_device_delivery_only ??
+              false,
+          },
+
+          create: {
+            metaTemplateId: String(template.id),
+            userId,
+
+            name: template.name,
+            language: template.language,
+            status: template.status,
+            category: template.category,
+
+            previousCategory:
+              template.previous_category ?? null,
+
+            parameterFormat:
+              template.parameter_format ?? null,
+
+            components:
+              template.components ?? [],
+
+            disableIosAutofill:
+              template.disable_ios_autofill ?? false,
+
+            isPrimaryDeviceDeliveryOnly:
+              template.is_primary_device_delivery_only ??
+              false,
+          },
+        });
+      }),
+    );
+
+    return {
+      data: uniqueTemplates,
+      paging: response.data?.paging,
+      savedTemplates: savedTemplates.length,
+    };
+  } catch (error: any) {
+    console.error(
+      'Get message templates error:',
+      error.response?.data || error,
+    );
+
+    if (error instanceof HttpException) {
+      throw error;
     }
+
+    throw new InternalServerErrorException(
+      error.response?.data?.error?.message ||
+        error.message ||
+        'Failed to fetch message templates',
+    );
   }
+}
 
   async getMessageTemplateStatus(templateId: string): Promise<any> {
     const version = this.configService.get<string>('WHATSAPP_VERSION');

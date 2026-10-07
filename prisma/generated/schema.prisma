@@ -34,9 +34,10 @@ model User {
   webhookStatus                    Boolean @default(false)
 
   selectedPhoneNumberId String[]
-  facebookConnectStatus Boolean  @default(false)
-  createdAt             DateTime @default(now())
+  facebookConnectStatus Boolean           @default(false)
+  createdAt             DateTime          @default(now())
   hashedRefresh         String?
+  messageTemplates      MessageTemplate[]
 }
 
 // 4. Tokens model for Facebook API integration
@@ -72,6 +73,37 @@ model Delivery {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+}
+
+model MessageTemplate {
+  id String @id @default(uuid())
+
+  // Meta template ID
+  metaTemplateId String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name             String
+  language         String
+  status           String
+  category         String
+  previousCategory String?
+  parameterFormat  String?
+
+  // Stores HEADER, BODY, FOOTER, BUTTONS, CAROUSEL, etc.
+  components Json
+
+  disableIosAutofill          Boolean @default(false)
+  isPrimaryDeviceDeliveryOnly Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, metaTemplateId])
+  @@index([userId])
+  @@index([name])
+  @@map("message_templates")
 }
 
 enum DeliveryStatus {

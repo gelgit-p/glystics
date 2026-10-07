@@ -179,9 +179,30 @@ exports.Prisma.DeliveryScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.MessageTemplateScalarFieldEnum = {
+  id: 'id',
+  metaTemplateId: 'metaTemplateId',
+  userId: 'userId',
+  name: 'name',
+  language: 'language',
+  status: 'status',
+  category: 'category',
+  previousCategory: 'previousCategory',
+  parameterFormat: 'parameterFormat',
+  components: 'components',
+  disableIosAutofill: 'disableIosAutofill',
+  isPrimaryDeviceDeliveryOnly: 'isPrimaryDeviceDeliveryOnly',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -193,6 +214,12 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
 exports.DeliveryStatus = exports.$Enums.DeliveryStatus = {
   DELIVERED: 'DELIVERED',
   IN_TRANSIT: 'IN_TRANSIT',
@@ -202,7 +229,8 @@ exports.DeliveryStatus = exports.$Enums.DeliveryStatus = {
 exports.Prisma.ModelName = {
   User: 'User',
   Token: 'Token',
-  Delivery: 'Delivery'
+  Delivery: 'Delivery',
+  MessageTemplate: 'MessageTemplate'
 };
 
 /**
