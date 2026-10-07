@@ -38,4 +38,17 @@ export class UserService {
       data,
     });
   }
+
+  async addToken(userId: string, facebookAccessToken: string, facebookLongLivedAccessToken: string, expiresIn: string, dataAccessExpirationTime: string) {
+    let save_token = await this.prisma.token.create({
+      data: {userId,
+      facebookAccessToken,
+      facebookLongLivedAccessToken,
+      expiresIn,
+      dataAccessExpirationTime,
+      }
+    });
+
+    return save_token;
+  }
 }

@@ -192,6 +192,37 @@ export class WhatsappService {
     }
   }
 
+  async getSettings(phoneNumberId: string): Promise<any> {
+
+    const fetch_access_token = await this.prisma.token.findFirst({
+      orderBy: { createdAt: 'desc' },
+    });
+    const accessToken = fetch_access_token?.facebookLongLivedAccessToken;
+
+    if (!accessToken) {
+      throw new Error(
+        'No Facebook access token found in the database. Please store a valid token first.',
+      );
+    }
+
+    try {
+      const response = await firstValueFrom(
+        this.httpService.get(`https://graph.facebook.com/${phoneNumberId}/settings`, {
+          params: {
+            input_token: accessToken,
+            access_token: accessToken,
+          },
+        }),
+      );
+
+      console.log(response, 'debug token response');
+      return response.data;
+    } catch (error: any) {
+      throw error.response?.data || error.message;
+    }
+
+  }
+
   async debugToken(): Promise<any> {
     const fetch_access_token = await this.prisma.token.findFirst({
       orderBy: { createdAt: 'desc' },

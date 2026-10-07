@@ -128,6 +128,11 @@ export class WhatsappController {
   }
 
 
+    @Get(':phoneNumberId/settings')
+  async getPhoneSettings(@Param('phoneNumberId') phoneNumberId: string) {
+    return this.whatsappService.getSettings(phoneNumberId);
+  }
+
 
   @Put('tokens/:id')
   async editTokenById(@Param('id') id: string, @Body() dto: TokenDto) {
