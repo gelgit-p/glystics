@@ -12,31 +12,32 @@ datasource db {
 
 // 3. User model for authentication and profiles
 model User {
-  id                    String   @id @default(uuid())
-  email                 String   @unique
-  password              String
-  emailConfirmed        Boolean  @default(false)
-  emailConfirmToken     String?
-  businessName          String
-  fullName              String
-  metaUserId            String?
-  appId                 String?
-  appSecret             String?
-  facebookAcceessToken  String?
-  grantedScopes         String?
-  accessTokenExpiresIn  String?
-  selectedWabaId        String?
-  displayPhoneNumber    String?
-  selectedFacebookBusinessId  String?
-  selectedFacebookBusinessName    String?
-  selectedPhoneNumberQualityRating  String?
-  selectedPhoneNumberVerifiedName   String?
-  webhookStatus       Boolean @default(false)
+  id                               String  @id @default(uuid())
+  email                            String  @unique
+  password                         String
+  emailConfirmed                   Boolean @default(false)
+  emailConfirmToken                String?
+  businessName                     String
+  fullName                         String
+  metaUserId                       String?
+  appId                            String?
+  appSecret                        String?
+  facebookAcceessToken             String?
+  grantedScopes                    String?
+  accessTokenExpiresIn             String?
+  selectedWabaId                   String?
+  displayPhoneNumber               String?
+  selectedFacebookBusinessId       String?
+  selectedFacebookBusinessName     String?
+  selectedPhoneNumberQualityRating String?
+  selectedPhoneNumberVerifiedName  String?
+  webhookStatus                    Boolean @default(false)
 
-  selectedPhoneNumberId   String[]
-  facebookConnectStatus Boolean  @default(false)
-  createdAt             DateTime @default(now())
+  selectedPhoneNumberId String[]
+  facebookConnectStatus Boolean           @default(false)
+  createdAt             DateTime          @default(now())
   hashedRefresh         String?
+  messageTemplates      MessageTemplate[]
 }
 
 // 4. Tokens model for Facebook API integration
@@ -72,6 +73,37 @@ model Delivery {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+}
+
+model MessageTemplate {
+  id String @id @default(uuid())
+
+  // Meta template ID
+  metaTemplateId String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name             String
+  language         String
+  status           String
+  category         String
+  previousCategory String?
+  parameterFormat  String?
+
+  // Stores HEADER, BODY, FOOTER, BUTTONS, CAROUSEL, etc.
+  components Json
+
+  disableIosAutofill          Boolean @default(false)
+  isPrimaryDeviceDeliveryOnly Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, metaTemplateId])
+  @@index([userId])
+  @@index([name])
+  @@map("message_templates")
 }
 
 enum DeliveryStatus {
