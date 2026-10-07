@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
-import { CreateAutomationDto } from './dto/automation.dto';
+import { CreateAutomationDto, UpdateAutomationDto } from './dto/automation.dto';
 
 
 
