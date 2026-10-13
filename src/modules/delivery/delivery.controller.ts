@@ -7,6 +7,8 @@ import {
   Post,
   UsePipes,
   ValidationPipe,
+  HttpStatus,
+  HttpCode
 } from '@nestjs/common';
 import { DeliveryService } from './delivery.service';
 import { UpdateDeliveryDto } from './dto/update-delivery.dto';
@@ -22,6 +24,7 @@ export class DeliveryController {
   }
 
   @Get(':id')
+  @HttpCode(HttpStatus.OK)
   getDeliveriesByUserId(@Param('id') id: string) {
     return this.deliveryService.getDeliveriesByUserId(id);
   }
