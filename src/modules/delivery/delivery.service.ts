@@ -73,12 +73,13 @@ export class DeliveryService {
     }
   }
 
-  async getDeliveriesByUserId(userId: string) {
-    return this.prisma.delivery.findMany({
-      where: { userId },
-      orderBy: { createdAt: 'desc' },
-    });
-  }
+async getDeliveriesByUserId(userId: string) {
+  return this.prisma.delivery.findMany({
+    where: {
+      userId: String(userId),
+    },
+  });
+}
 
   async getDeliveries() {
     const deliveries = await this.prisma.delivery.findMany();
