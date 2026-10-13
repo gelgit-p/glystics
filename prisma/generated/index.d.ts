@@ -3650,12 +3650,23 @@ export namespace Prisma {
 
   export type AggregateDelivery = {
     _count: DeliveryCountAggregateOutputType | null
+    _avg: DeliveryAvgAggregateOutputType | null
+    _sum: DeliverySumAggregateOutputType | null
     _min: DeliveryMinAggregateOutputType | null
     _max: DeliveryMaxAggregateOutputType | null
   }
 
+  export type DeliveryAvgAggregateOutputType = {
+    userId: number | null
+  }
+
+  export type DeliverySumAggregateOutputType = {
+    userId: number | null
+  }
+
   export type DeliveryMinAggregateOutputType = {
     id: string | null
+    userId: number | null
     senderName: string | null
     senderPhone: string | null
     senderAddress: string | null
@@ -3677,6 +3688,7 @@ export namespace Prisma {
 
   export type DeliveryMaxAggregateOutputType = {
     id: string | null
+    userId: number | null
     senderName: string | null
     senderPhone: string | null
     senderAddress: string | null
@@ -3698,6 +3710,7 @@ export namespace Prisma {
 
   export type DeliveryCountAggregateOutputType = {
     id: number
+    userId: number
     senderName: number
     senderPhone: number
     senderAddress: number
@@ -3719,8 +3732,17 @@ export namespace Prisma {
   }
 
 
+  export type DeliveryAvgAggregateInputType = {
+    userId?: true
+  }
+
+  export type DeliverySumAggregateInputType = {
+    userId?: true
+  }
+
   export type DeliveryMinAggregateInputType = {
     id?: true
+    userId?: true
     senderName?: true
     senderPhone?: true
     senderAddress?: true
@@ -3742,6 +3764,7 @@ export namespace Prisma {
 
   export type DeliveryMaxAggregateInputType = {
     id?: true
+    userId?: true
     senderName?: true
     senderPhone?: true
     senderAddress?: true
@@ -3763,6 +3786,7 @@ export namespace Prisma {
 
   export type DeliveryCountAggregateInputType = {
     id?: true
+    userId?: true
     senderName?: true
     senderPhone?: true
     senderAddress?: true
@@ -3821,6 +3845,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: DeliveryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DeliverySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: DeliveryMinAggregateInputType
@@ -3851,12 +3887,15 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: DeliveryCountAggregateInputType | true
+    _avg?: DeliveryAvgAggregateInputType
+    _sum?: DeliverySumAggregateInputType
     _min?: DeliveryMinAggregateInputType
     _max?: DeliveryMaxAggregateInputType
   }
 
   export type DeliveryGroupByOutputType = {
     id: string
+    userId: number | null
     senderName: string
     senderPhone: string
     senderAddress: string
@@ -3875,6 +3914,8 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     _count: DeliveryCountAggregateOutputType | null
+    _avg: DeliveryAvgAggregateOutputType | null
+    _sum: DeliverySumAggregateOutputType | null
     _min: DeliveryMinAggregateOutputType | null
     _max: DeliveryMaxAggregateOutputType | null
   }
@@ -3895,6 +3936,7 @@ export namespace Prisma {
 
   export type DeliverySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    userId?: boolean
     senderName?: boolean
     senderPhone?: boolean
     senderAddress?: boolean
@@ -3916,6 +3958,7 @@ export namespace Prisma {
 
   export type DeliverySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    userId?: boolean
     senderName?: boolean
     senderPhone?: boolean
     senderAddress?: boolean
@@ -3937,6 +3980,7 @@ export namespace Prisma {
 
   export type DeliverySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    userId?: boolean
     senderName?: boolean
     senderPhone?: boolean
     senderAddress?: boolean
@@ -3958,6 +4002,7 @@ export namespace Prisma {
 
   export type DeliverySelectScalar = {
     id?: boolean
+    userId?: boolean
     senderName?: boolean
     senderPhone?: boolean
     senderAddress?: boolean
@@ -3977,13 +4022,14 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type DeliveryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "senderName" | "senderPhone" | "senderAddress" | "receiverName" | "receiverPhone" | "receiverAddress" | "packageName" | "packageCategory" | "packageWeight" | "packageDimensions" | "packageValue" | "pickupDate" | "deliveryStatus" | "deliveryType" | "deliveryInstructions" | "createdAt" | "updatedAt", ExtArgs["result"]["delivery"]>
+  export type DeliveryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "senderName" | "senderPhone" | "senderAddress" | "receiverName" | "receiverPhone" | "receiverAddress" | "packageName" | "packageCategory" | "packageWeight" | "packageDimensions" | "packageValue" | "pickupDate" | "deliveryStatus" | "deliveryType" | "deliveryInstructions" | "createdAt" | "updatedAt", ExtArgs["result"]["delivery"]>
 
   export type $DeliveryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Delivery"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      userId: number | null
       senderName: string
       senderPhone: string
       senderAddress: string
@@ -4425,6 +4471,7 @@ export namespace Prisma {
    */
   interface DeliveryFieldRefs {
     readonly id: FieldRef<"Delivery", 'String'>
+    readonly userId: FieldRef<"Delivery", 'Int'>
     readonly senderName: FieldRef<"Delivery", 'String'>
     readonly senderPhone: FieldRef<"Delivery", 'String'>
     readonly senderAddress: FieldRef<"Delivery", 'String'>
@@ -7221,6 +7268,7 @@ export namespace Prisma {
 
   export const DeliveryScalarFieldEnum: {
     id: 'id',
+    userId: 'userId',
     senderName: 'senderName',
     senderPhone: 'senderPhone',
     senderAddress: 'senderAddress',
@@ -7362,6 +7410,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
    * Reference to a field of type 'DeliveryStatus'
    */
   export type EnumDeliveryStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeliveryStatus'>
@@ -7386,20 +7448,6 @@ export namespace Prisma {
    * Reference to a field of type 'QueryMode'
    */
   export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -7640,6 +7688,7 @@ export namespace Prisma {
     OR?: DeliveryWhereInput[]
     NOT?: DeliveryWhereInput | DeliveryWhereInput[]
     id?: StringFilter<"Delivery"> | string
+    userId?: IntNullableFilter<"Delivery"> | number | null
     senderName?: StringFilter<"Delivery"> | string
     senderPhone?: StringFilter<"Delivery"> | string
     senderAddress?: StringFilter<"Delivery"> | string
@@ -7661,6 +7710,7 @@ export namespace Prisma {
 
   export type DeliveryOrderByWithRelationInput = {
     id?: SortOrder
+    userId?: SortOrderInput | SortOrder
     senderName?: SortOrder
     senderPhone?: SortOrder
     senderAddress?: SortOrder
@@ -7685,6 +7735,7 @@ export namespace Prisma {
     AND?: DeliveryWhereInput | DeliveryWhereInput[]
     OR?: DeliveryWhereInput[]
     NOT?: DeliveryWhereInput | DeliveryWhereInput[]
+    userId?: IntNullableFilter<"Delivery"> | number | null
     senderName?: StringFilter<"Delivery"> | string
     senderPhone?: StringFilter<"Delivery"> | string
     senderAddress?: StringFilter<"Delivery"> | string
@@ -7706,6 +7757,7 @@ export namespace Prisma {
 
   export type DeliveryOrderByWithAggregationInput = {
     id?: SortOrder
+    userId?: SortOrderInput | SortOrder
     senderName?: SortOrder
     senderPhone?: SortOrder
     senderAddress?: SortOrder
@@ -7724,8 +7776,10 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: DeliveryCountOrderByAggregateInput
+    _avg?: DeliveryAvgOrderByAggregateInput
     _max?: DeliveryMaxOrderByAggregateInput
     _min?: DeliveryMinOrderByAggregateInput
+    _sum?: DeliverySumOrderByAggregateInput
   }
 
   export type DeliveryScalarWhereWithAggregatesInput = {
@@ -7733,6 +7787,7 @@ export namespace Prisma {
     OR?: DeliveryScalarWhereWithAggregatesInput[]
     NOT?: DeliveryScalarWhereWithAggregatesInput | DeliveryScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Delivery"> | string
+    userId?: IntNullableWithAggregatesFilter<"Delivery"> | number | null
     senderName?: StringWithAggregatesFilter<"Delivery"> | string
     senderPhone?: StringWithAggregatesFilter<"Delivery"> | string
     senderAddress?: StringWithAggregatesFilter<"Delivery"> | string
@@ -8214,6 +8269,7 @@ export namespace Prisma {
 
   export type DeliveryCreateInput = {
     id?: string
+    userId?: number | null
     senderName: string
     senderPhone: string
     senderAddress: string
@@ -8235,6 +8291,7 @@ export namespace Prisma {
 
   export type DeliveryUncheckedCreateInput = {
     id?: string
+    userId?: number | null
     senderName: string
     senderPhone: string
     senderAddress: string
@@ -8256,6 +8313,7 @@ export namespace Prisma {
 
   export type DeliveryUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableIntFieldUpdateOperationsInput | number | null
     senderName?: StringFieldUpdateOperationsInput | string
     senderPhone?: StringFieldUpdateOperationsInput | string
     senderAddress?: StringFieldUpdateOperationsInput | string
@@ -8277,6 +8335,7 @@ export namespace Prisma {
 
   export type DeliveryUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableIntFieldUpdateOperationsInput | number | null
     senderName?: StringFieldUpdateOperationsInput | string
     senderPhone?: StringFieldUpdateOperationsInput | string
     senderAddress?: StringFieldUpdateOperationsInput | string
@@ -8298,6 +8357,7 @@ export namespace Prisma {
 
   export type DeliveryCreateManyInput = {
     id?: string
+    userId?: number | null
     senderName: string
     senderPhone: string
     senderAddress: string
@@ -8319,6 +8379,7 @@ export namespace Prisma {
 
   export type DeliveryUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableIntFieldUpdateOperationsInput | number | null
     senderName?: StringFieldUpdateOperationsInput | string
     senderPhone?: StringFieldUpdateOperationsInput | string
     senderAddress?: StringFieldUpdateOperationsInput | string
@@ -8340,6 +8401,7 @@ export namespace Prisma {
 
   export type DeliveryUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableIntFieldUpdateOperationsInput | number | null
     senderName?: StringFieldUpdateOperationsInput | string
     senderPhone?: StringFieldUpdateOperationsInput | string
     senderAddress?: StringFieldUpdateOperationsInput | string
@@ -8827,6 +8889,17 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type EnumDeliveryStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.DeliveryStatus | EnumDeliveryStatusFieldRefInput<$PrismaModel>
     in?: $Enums.DeliveryStatus[] | ListEnumDeliveryStatusFieldRefInput<$PrismaModel>
@@ -8836,6 +8909,7 @@ export namespace Prisma {
 
   export type DeliveryCountOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
     senderName?: SortOrder
     senderPhone?: SortOrder
     senderAddress?: SortOrder
@@ -8855,8 +8929,13 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type DeliveryAvgOrderByAggregateInput = {
+    userId?: SortOrder
+  }
+
   export type DeliveryMaxOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
     senderName?: SortOrder
     senderPhone?: SortOrder
     senderAddress?: SortOrder
@@ -8878,6 +8957,7 @@ export namespace Prisma {
 
   export type DeliveryMinOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
     senderName?: SortOrder
     senderPhone?: SortOrder
     senderAddress?: SortOrder
@@ -8895,6 +8975,26 @@ export namespace Prisma {
     deliveryInstructions?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type DeliverySumOrderByAggregateInput = {
+    userId?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type EnumDeliveryStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -9229,6 +9329,14 @@ export namespace Prisma {
     deleteMany?: AutomationScalarWhereInput | AutomationScalarWhereInput[]
   }
 
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type EnumDeliveryStatusFieldUpdateOperationsInput = {
     set?: $Enums.DeliveryStatus
   }
@@ -9400,6 +9508,33 @@ export namespace Prisma {
     in?: $Enums.DeliveryStatus[] | ListEnumDeliveryStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.DeliveryStatus[] | ListEnumDeliveryStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumDeliveryStatusFilter<$PrismaModel> | $Enums.DeliveryStatus
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedEnumDeliveryStatusWithAggregatesFilter<$PrismaModel = never> = {

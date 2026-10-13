@@ -160,6 +160,7 @@ exports.Prisma.TokenScalarFieldEnum = {
 
 exports.Prisma.DeliveryScalarFieldEnum = {
   id: 'id',
+  userId: 'userId',
   senderName: 'senderName',
   senderPhone: 'senderPhone',
   senderAddress: 'senderAddress',
