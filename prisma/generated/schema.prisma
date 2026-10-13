@@ -55,6 +55,7 @@ model Token {
 
 model Delivery {
   id                   String         @id @default(uuid())
+  userId               Int?
   senderName           String
   senderPhone          String
   senderAddress        String

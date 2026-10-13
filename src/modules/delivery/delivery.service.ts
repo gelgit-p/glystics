@@ -14,6 +14,7 @@ export class DeliveryService {
   async create(data: UpdateDeliveryDto) {
     const requiredFields = [
       'senderName',
+      'userId',
       'senderPhone',
       'senderAddress',
       'receiverName',
@@ -60,5 +61,22 @@ export class DeliveryService {
 
       throw error;
     }
+  }
+
+  async getDeliveryById(id: number) {
+    const delivery = await this.prisma.delivery.findFirst({
+      where: { userId: id },
+    });
+
+    if (!delivery) {
+      throw new NotFoundException(`Delivery with id ${id} was not found`);
+    }
+
+    return delivery;
+  }
+
+  async getDeliveries() {
+    const deliveries = await this.prisma.delivery.findMany();
+    return deliveries;
   }
 }

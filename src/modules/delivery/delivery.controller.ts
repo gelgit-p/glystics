@@ -3,6 +3,7 @@ import {
   Controller,
   Param,
   Patch,
+  Get,
   Post,
   UsePipes,
   ValidationPipe,
@@ -18,6 +19,16 @@ export class DeliveryController {
   @Post()
   create(@Body() data: UpdateDeliveryDto) {
     return this.deliveryService.create(data);
+  }
+
+  @Get(':id')
+  getDeliveryById(@Param('id') id: number) {
+    return this.deliveryService.getDeliveryById(id);
+  }
+
+  @Get()
+  getDeliveries() {
+    return this.deliveryService.getDeliveries();
   }
 
   @Patch(':id')

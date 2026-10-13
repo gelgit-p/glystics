@@ -26,14 +26,6 @@ import { AutomationModule } from './modules/automation/automation.module';
         return { req, res };
       },
     }),
-    // ThrottlerModule.forRoot({
-    //   throttlers: [
-    //     {
-    //       ttl: 60,
-    //       limit: 0,
-    //     },
-    //   ],
-    // }),
     AuthModule,
     PrismaModule,
     UserModule,

@@ -136,6 +136,8 @@ $ npm run test:e2e
 
 # Check test coverage
 $ npm run test:cov
+
+$ npx prisma migrate dev && npx prisma migrate deploy && npx prisma db push && pnpm run start:dev
 ```
 
 ---
@@ -165,11 +167,3 @@ $ mau deploy
 
 Made with ❤️ by \Olzhas— feel free to contribute or fork.
 
-{
-  access_token: '1094705089173300|3Iz96_8rO9uBrZmQCyE6GXofTBU',
-  token_type: 'bearer'
-} response data
-
-117709171 sender_address_code
-382978966 receiver_address_code
-77179563 category_id
