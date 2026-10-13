@@ -11,36 +11,46 @@ import { UpdateDeliveryDto } from './dto/update-delivery.dto';
 export class DeliveryService {
   constructor(private readonly prisma: PrismaService) {}
 
+
   async create(data: UpdateDeliveryDto) {
-    const requiredFields = [
-      'senderName',
-      'userId',
-      'senderPhone',
-      'senderAddress',
-      'receiverName',
-      'receiverPhone',
-      'receiverAddress',
-      'packageName',
-      'packageCategory',
-      'packageWeight',
-      'packageDimensions',
-      'packageValue',
-      'pickupDate',
-      'deliveryType',
-      'deliveryInstructions',
-    ] as const;
+  const requiredFields = [
+    'senderName',
+    'userId',
+    'senderPhone',
+    'senderAddress',
+    'receiverName',
+    'receiverPhone',
+    'receiverAddress',
+    'packageName',
+    'packageCategory',
+    'packageWeight',
+    'packageDimensions',
+    'packageValue',
+    'pickupDate',
+    'deliveryType',
+  ] as const;
 
-    // const missingFields = requiredFields.filter((field) => !data[field]);
-    // if (missingFields.length > 0) {
-    //   throw new BadRequestException(
-    //     `Missing required fields: ${missingFields.join(', ')}`,
-    //   );
-    // }
+  const missingFields = requiredFields.filter(
+    (field) =>
+      data[field] === undefined ||
+      data[field] === null ||
+      data[field] === '',
+  );
 
-    return this.prisma.delivery.create({
-      data: data as Prisma.DeliveryCreateInput,
-    });
+  if (missingFields.length > 0) {
+    throw new BadRequestException(
+      `Missing required fields: ${missingFields.join(', ')}`,
+    );
   }
+
+  return this.prisma.delivery.create({
+    data: {
+      ...(data as Prisma.DeliveryCreateInput),
+      trackingId: `SD${Math.floor(10000 + Math.random() * 90000)}`,
+      updatedAt: new Date(),
+    },
+  });
+}
 
   async update(id: string, data: Prisma.DeliveryUpdateInput) {
     try {
@@ -63,16 +73,11 @@ export class DeliveryService {
     }
   }
 
-  async getDeliveryById(id: number) {
-    const delivery = await this.prisma.delivery.findFirst({
-      where: { userId: id },
+  async getDeliveriesByUserId(userId: string) {
+    return this.prisma.delivery.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
     });
-
-    if (!delivery) {
-      throw new NotFoundException(`Delivery with id ${id} was not found`);
-    }
-
-    return delivery;
   }
 
   async getDeliveries() {
