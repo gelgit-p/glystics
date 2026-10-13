@@ -55,7 +55,8 @@ model Token {
 
 model Delivery {
   id                   String         @id @default(uuid())
-  userId               Int?
+  userId               String?
+  trackingId           String
   senderName           String
   senderPhone          String
   senderAddress        String
@@ -68,7 +69,7 @@ model Delivery {
   packageDimensions    String
   packageValue         String
   pickupDate           String
-  deliveryStatus       DeliveryStatus
+  deliveryStatus       DeliveryStatus @default(CREATED)
   deliveryType         String
   deliveryInstructions String?
 
@@ -141,6 +142,9 @@ model Automation {
 
 enum DeliveryStatus {
   DELIVERED
+  PICKED_UP
+  OUT_FOR_DELIVERY
+  CREATED
   IN_TRANSIT
   FAILED
 }

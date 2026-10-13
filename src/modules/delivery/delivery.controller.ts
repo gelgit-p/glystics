@@ -22,8 +22,8 @@ export class DeliveryController {
   }
 
   @Get(':id')
-  getDeliveryById(@Param('id') id: number) {
-    return this.deliveryService.getDeliveryById(id);
+  getDeliveriesByUserId(@Param('id') id: string) {
+    return this.deliveryService.getDeliveriesByUserId(id);
   }
 
   @Get()

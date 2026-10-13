@@ -161,6 +161,7 @@ exports.Prisma.TokenScalarFieldEnum = {
 exports.Prisma.DeliveryScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  trackingId: 'trackingId',
   senderName: 'senderName',
   senderPhone: 'senderPhone',
   senderAddress: 'senderAddress',
@@ -238,6 +239,9 @@ exports.Prisma.JsonNullValueFilter = {
 };
 exports.DeliveryStatus = exports.$Enums.DeliveryStatus = {
   DELIVERED: 'DELIVERED',
+  PICKED_UP: 'PICKED_UP',
+  OUT_FOR_DELIVERY: 'OUT_FOR_DELIVERY',
+  CREATED: 'CREATED',
   IN_TRANSIT: 'IN_TRANSIT',
   FAILED: 'FAILED'
 };
