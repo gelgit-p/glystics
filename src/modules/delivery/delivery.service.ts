@@ -81,6 +81,20 @@ async getDeliveriesByUserId(userId: string) {
   });
 }
 
+async getDeliveryByTrackingId(trackingId: string) {
+  const delivery = await this.prisma.delivery.findFirstOrThrow({
+    where: { trackingId },
+  });
+
+  if (!delivery) {
+    throw new NotFoundException(
+      `Delivery with tracking ID ${trackingId} was not found`,
+    );
+  }
+
+  return delivery;
+}
+
   async getDeliveries() {
     const deliveries = await this.prisma.delivery.findMany();
     return deliveries;
