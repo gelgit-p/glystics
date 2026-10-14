@@ -29,6 +29,11 @@ export class DeliveryController {
     return this.deliveryService.getDeliveriesByUserId(id);
   }
 
+  @Get('tracking/:trackingId')
+  getDeliveryByTrackingId(@Param('trackingId') trackingId: string) {
+    return this.deliveryService.getDeliveryByTrackingId(trackingId);
+  }
+
   @Get()
   getDeliveries() {
     return this.deliveryService.getDeliveries();
