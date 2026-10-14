@@ -44,6 +44,7 @@ export type Automation = $Result.DefaultSelection<Prisma.$AutomationPayload>
  */
 export namespace $Enums {
   export const DeliveryStatus: {
+  PENDING: 'PENDING',
   DELIVERED: 'DELIVERED',
   PICKED_UP: 'PICKED_UP',
   OUT_FOR_DELIVERY: 'OUT_FOR_DELIVERY',
@@ -3664,15 +3665,29 @@ export namespace Prisma {
     senderName: string | null
     senderPhone: string | null
     senderAddress: string | null
+    senderLatitude: string | null
+    senderLongitude: string | null
     receiverName: string | null
     receiverPhone: string | null
     receiverAddress: string | null
+    receiverLatitude: string | null
+    receiverLongitude: string | null
     packageName: string | null
     packageCategory: string | null
     packageWeight: string | null
     packageDimensions: string | null
     packageValue: string | null
     pickupDate: string | null
+    courier_name: string | null
+    courier_email: string | null
+    courier_phone: string | null
+    shipbubbleOrderId: string | null
+    tracking_url: string | null
+    package_amount: string | null
+    package_weight: string | null
+    shipping_fee: string | null
+    shipping_payment_type: string | null
+    shipping_payment_status: string | null
     deliveryStatus: $Enums.DeliveryStatus | null
     deliveryType: string | null
     deliveryInstructions: string | null
@@ -3687,15 +3702,29 @@ export namespace Prisma {
     senderName: string | null
     senderPhone: string | null
     senderAddress: string | null
+    senderLatitude: string | null
+    senderLongitude: string | null
     receiverName: string | null
     receiverPhone: string | null
     receiverAddress: string | null
+    receiverLatitude: string | null
+    receiverLongitude: string | null
     packageName: string | null
     packageCategory: string | null
     packageWeight: string | null
     packageDimensions: string | null
     packageValue: string | null
     pickupDate: string | null
+    courier_name: string | null
+    courier_email: string | null
+    courier_phone: string | null
+    shipbubbleOrderId: string | null
+    tracking_url: string | null
+    package_amount: string | null
+    package_weight: string | null
+    shipping_fee: string | null
+    shipping_payment_type: string | null
+    shipping_payment_status: string | null
     deliveryStatus: $Enums.DeliveryStatus | null
     deliveryType: string | null
     deliveryInstructions: string | null
@@ -3710,15 +3739,29 @@ export namespace Prisma {
     senderName: number
     senderPhone: number
     senderAddress: number
+    senderLatitude: number
+    senderLongitude: number
     receiverName: number
     receiverPhone: number
     receiverAddress: number
+    receiverLatitude: number
+    receiverLongitude: number
     packageName: number
     packageCategory: number
     packageWeight: number
     packageDimensions: number
     packageValue: number
     pickupDate: number
+    courier_name: number
+    courier_email: number
+    courier_phone: number
+    shipbubbleOrderId: number
+    tracking_url: number
+    package_amount: number
+    package_weight: number
+    shipping_fee: number
+    shipping_payment_type: number
+    shipping_payment_status: number
     deliveryStatus: number
     deliveryType: number
     deliveryInstructions: number
@@ -3735,15 +3778,29 @@ export namespace Prisma {
     senderName?: true
     senderPhone?: true
     senderAddress?: true
+    senderLatitude?: true
+    senderLongitude?: true
     receiverName?: true
     receiverPhone?: true
     receiverAddress?: true
+    receiverLatitude?: true
+    receiverLongitude?: true
     packageName?: true
     packageCategory?: true
     packageWeight?: true
     packageDimensions?: true
     packageValue?: true
     pickupDate?: true
+    courier_name?: true
+    courier_email?: true
+    courier_phone?: true
+    shipbubbleOrderId?: true
+    tracking_url?: true
+    package_amount?: true
+    package_weight?: true
+    shipping_fee?: true
+    shipping_payment_type?: true
+    shipping_payment_status?: true
     deliveryStatus?: true
     deliveryType?: true
     deliveryInstructions?: true
@@ -3758,15 +3815,29 @@ export namespace Prisma {
     senderName?: true
     senderPhone?: true
     senderAddress?: true
+    senderLatitude?: true
+    senderLongitude?: true
     receiverName?: true
     receiverPhone?: true
     receiverAddress?: true
+    receiverLatitude?: true
+    receiverLongitude?: true
     packageName?: true
     packageCategory?: true
     packageWeight?: true
     packageDimensions?: true
     packageValue?: true
     pickupDate?: true
+    courier_name?: true
+    courier_email?: true
+    courier_phone?: true
+    shipbubbleOrderId?: true
+    tracking_url?: true
+    package_amount?: true
+    package_weight?: true
+    shipping_fee?: true
+    shipping_payment_type?: true
+    shipping_payment_status?: true
     deliveryStatus?: true
     deliveryType?: true
     deliveryInstructions?: true
@@ -3781,15 +3852,29 @@ export namespace Prisma {
     senderName?: true
     senderPhone?: true
     senderAddress?: true
+    senderLatitude?: true
+    senderLongitude?: true
     receiverName?: true
     receiverPhone?: true
     receiverAddress?: true
+    receiverLatitude?: true
+    receiverLongitude?: true
     packageName?: true
     packageCategory?: true
     packageWeight?: true
     packageDimensions?: true
     packageValue?: true
     pickupDate?: true
+    courier_name?: true
+    courier_email?: true
+    courier_phone?: true
+    shipbubbleOrderId?: true
+    tracking_url?: true
+    package_amount?: true
+    package_weight?: true
+    shipping_fee?: true
+    shipping_payment_type?: true
+    shipping_payment_status?: true
     deliveryStatus?: true
     deliveryType?: true
     deliveryInstructions?: true
@@ -3877,15 +3962,29 @@ export namespace Prisma {
     senderName: string
     senderPhone: string
     senderAddress: string
+    senderLatitude: string | null
+    senderLongitude: string | null
     receiverName: string
     receiverPhone: string
     receiverAddress: string
+    receiverLatitude: string | null
+    receiverLongitude: string | null
     packageName: string
     packageCategory: string
     packageWeight: string
     packageDimensions: string
     packageValue: string
     pickupDate: string
+    courier_name: string | null
+    courier_email: string | null
+    courier_phone: string | null
+    shipbubbleOrderId: string | null
+    tracking_url: string | null
+    package_amount: string | null
+    package_weight: string | null
+    shipping_fee: string | null
+    shipping_payment_type: string | null
+    shipping_payment_status: string | null
     deliveryStatus: $Enums.DeliveryStatus
     deliveryType: string
     deliveryInstructions: string | null
@@ -3917,15 +4016,29 @@ export namespace Prisma {
     senderName?: boolean
     senderPhone?: boolean
     senderAddress?: boolean
+    senderLatitude?: boolean
+    senderLongitude?: boolean
     receiverName?: boolean
     receiverPhone?: boolean
     receiverAddress?: boolean
+    receiverLatitude?: boolean
+    receiverLongitude?: boolean
     packageName?: boolean
     packageCategory?: boolean
     packageWeight?: boolean
     packageDimensions?: boolean
     packageValue?: boolean
     pickupDate?: boolean
+    courier_name?: boolean
+    courier_email?: boolean
+    courier_phone?: boolean
+    shipbubbleOrderId?: boolean
+    tracking_url?: boolean
+    package_amount?: boolean
+    package_weight?: boolean
+    shipping_fee?: boolean
+    shipping_payment_type?: boolean
+    shipping_payment_status?: boolean
     deliveryStatus?: boolean
     deliveryType?: boolean
     deliveryInstructions?: boolean
@@ -3940,15 +4053,29 @@ export namespace Prisma {
     senderName?: boolean
     senderPhone?: boolean
     senderAddress?: boolean
+    senderLatitude?: boolean
+    senderLongitude?: boolean
     receiverName?: boolean
     receiverPhone?: boolean
     receiverAddress?: boolean
+    receiverLatitude?: boolean
+    receiverLongitude?: boolean
     packageName?: boolean
     packageCategory?: boolean
     packageWeight?: boolean
     packageDimensions?: boolean
     packageValue?: boolean
     pickupDate?: boolean
+    courier_name?: boolean
+    courier_email?: boolean
+    courier_phone?: boolean
+    shipbubbleOrderId?: boolean
+    tracking_url?: boolean
+    package_amount?: boolean
+    package_weight?: boolean
+    shipping_fee?: boolean
+    shipping_payment_type?: boolean
+    shipping_payment_status?: boolean
     deliveryStatus?: boolean
     deliveryType?: boolean
     deliveryInstructions?: boolean
@@ -3963,15 +4090,29 @@ export namespace Prisma {
     senderName?: boolean
     senderPhone?: boolean
     senderAddress?: boolean
+    senderLatitude?: boolean
+    senderLongitude?: boolean
     receiverName?: boolean
     receiverPhone?: boolean
     receiverAddress?: boolean
+    receiverLatitude?: boolean
+    receiverLongitude?: boolean
     packageName?: boolean
     packageCategory?: boolean
     packageWeight?: boolean
     packageDimensions?: boolean
     packageValue?: boolean
     pickupDate?: boolean
+    courier_name?: boolean
+    courier_email?: boolean
+    courier_phone?: boolean
+    shipbubbleOrderId?: boolean
+    tracking_url?: boolean
+    package_amount?: boolean
+    package_weight?: boolean
+    shipping_fee?: boolean
+    shipping_payment_type?: boolean
+    shipping_payment_status?: boolean
     deliveryStatus?: boolean
     deliveryType?: boolean
     deliveryInstructions?: boolean
@@ -3986,15 +4127,29 @@ export namespace Prisma {
     senderName?: boolean
     senderPhone?: boolean
     senderAddress?: boolean
+    senderLatitude?: boolean
+    senderLongitude?: boolean
     receiverName?: boolean
     receiverPhone?: boolean
     receiverAddress?: boolean
+    receiverLatitude?: boolean
+    receiverLongitude?: boolean
     packageName?: boolean
     packageCategory?: boolean
     packageWeight?: boolean
     packageDimensions?: boolean
     packageValue?: boolean
     pickupDate?: boolean
+    courier_name?: boolean
+    courier_email?: boolean
+    courier_phone?: boolean
+    shipbubbleOrderId?: boolean
+    tracking_url?: boolean
+    package_amount?: boolean
+    package_weight?: boolean
+    shipping_fee?: boolean
+    shipping_payment_type?: boolean
+    shipping_payment_status?: boolean
     deliveryStatus?: boolean
     deliveryType?: boolean
     deliveryInstructions?: boolean
@@ -4002,7 +4157,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type DeliveryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "trackingId" | "senderName" | "senderPhone" | "senderAddress" | "receiverName" | "receiverPhone" | "receiverAddress" | "packageName" | "packageCategory" | "packageWeight" | "packageDimensions" | "packageValue" | "pickupDate" | "deliveryStatus" | "deliveryType" | "deliveryInstructions" | "createdAt" | "updatedAt", ExtArgs["result"]["delivery"]>
+  export type DeliveryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "trackingId" | "senderName" | "senderPhone" | "senderAddress" | "senderLatitude" | "senderLongitude" | "receiverName" | "receiverPhone" | "receiverAddress" | "receiverLatitude" | "receiverLongitude" | "packageName" | "packageCategory" | "packageWeight" | "packageDimensions" | "packageValue" | "pickupDate" | "courier_name" | "courier_email" | "courier_phone" | "shipbubbleOrderId" | "tracking_url" | "package_amount" | "package_weight" | "shipping_fee" | "shipping_payment_type" | "shipping_payment_status" | "deliveryStatus" | "deliveryType" | "deliveryInstructions" | "createdAt" | "updatedAt", ExtArgs["result"]["delivery"]>
 
   export type $DeliveryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Delivery"
@@ -4014,15 +4169,29 @@ export namespace Prisma {
       senderName: string
       senderPhone: string
       senderAddress: string
+      senderLatitude: string | null
+      senderLongitude: string | null
       receiverName: string
       receiverPhone: string
       receiverAddress: string
+      receiverLatitude: string | null
+      receiverLongitude: string | null
       packageName: string
       packageCategory: string
       packageWeight: string
       packageDimensions: string
       packageValue: string
       pickupDate: string
+      courier_name: string | null
+      courier_email: string | null
+      courier_phone: string | null
+      shipbubbleOrderId: string | null
+      tracking_url: string | null
+      package_amount: string | null
+      package_weight: string | null
+      shipping_fee: string | null
+      shipping_payment_type: string | null
+      shipping_payment_status: string | null
       deliveryStatus: $Enums.DeliveryStatus
       deliveryType: string
       deliveryInstructions: string | null
@@ -4457,15 +4626,29 @@ export namespace Prisma {
     readonly senderName: FieldRef<"Delivery", 'String'>
     readonly senderPhone: FieldRef<"Delivery", 'String'>
     readonly senderAddress: FieldRef<"Delivery", 'String'>
+    readonly senderLatitude: FieldRef<"Delivery", 'String'>
+    readonly senderLongitude: FieldRef<"Delivery", 'String'>
     readonly receiverName: FieldRef<"Delivery", 'String'>
     readonly receiverPhone: FieldRef<"Delivery", 'String'>
     readonly receiverAddress: FieldRef<"Delivery", 'String'>
+    readonly receiverLatitude: FieldRef<"Delivery", 'String'>
+    readonly receiverLongitude: FieldRef<"Delivery", 'String'>
     readonly packageName: FieldRef<"Delivery", 'String'>
     readonly packageCategory: FieldRef<"Delivery", 'String'>
     readonly packageWeight: FieldRef<"Delivery", 'String'>
     readonly packageDimensions: FieldRef<"Delivery", 'String'>
     readonly packageValue: FieldRef<"Delivery", 'String'>
     readonly pickupDate: FieldRef<"Delivery", 'String'>
+    readonly courier_name: FieldRef<"Delivery", 'String'>
+    readonly courier_email: FieldRef<"Delivery", 'String'>
+    readonly courier_phone: FieldRef<"Delivery", 'String'>
+    readonly shipbubbleOrderId: FieldRef<"Delivery", 'String'>
+    readonly tracking_url: FieldRef<"Delivery", 'String'>
+    readonly package_amount: FieldRef<"Delivery", 'String'>
+    readonly package_weight: FieldRef<"Delivery", 'String'>
+    readonly shipping_fee: FieldRef<"Delivery", 'String'>
+    readonly shipping_payment_type: FieldRef<"Delivery", 'String'>
+    readonly shipping_payment_status: FieldRef<"Delivery", 'String'>
     readonly deliveryStatus: FieldRef<"Delivery", 'DeliveryStatus'>
     readonly deliveryType: FieldRef<"Delivery", 'String'>
     readonly deliveryInstructions: FieldRef<"Delivery", 'String'>
@@ -7255,15 +7438,29 @@ export namespace Prisma {
     senderName: 'senderName',
     senderPhone: 'senderPhone',
     senderAddress: 'senderAddress',
+    senderLatitude: 'senderLatitude',
+    senderLongitude: 'senderLongitude',
     receiverName: 'receiverName',
     receiverPhone: 'receiverPhone',
     receiverAddress: 'receiverAddress',
+    receiverLatitude: 'receiverLatitude',
+    receiverLongitude: 'receiverLongitude',
     packageName: 'packageName',
     packageCategory: 'packageCategory',
     packageWeight: 'packageWeight',
     packageDimensions: 'packageDimensions',
     packageValue: 'packageValue',
     pickupDate: 'pickupDate',
+    courier_name: 'courier_name',
+    courier_email: 'courier_email',
+    courier_phone: 'courier_phone',
+    shipbubbleOrderId: 'shipbubbleOrderId',
+    tracking_url: 'tracking_url',
+    package_amount: 'package_amount',
+    package_weight: 'package_weight',
+    shipping_fee: 'shipping_fee',
+    shipping_payment_type: 'shipping_payment_type',
+    shipping_payment_status: 'shipping_payment_status',
     deliveryStatus: 'deliveryStatus',
     deliveryType: 'deliveryType',
     deliveryInstructions: 'deliveryInstructions',
@@ -7676,15 +7873,29 @@ export namespace Prisma {
     senderName?: StringFilter<"Delivery"> | string
     senderPhone?: StringFilter<"Delivery"> | string
     senderAddress?: StringFilter<"Delivery"> | string
+    senderLatitude?: StringNullableFilter<"Delivery"> | string | null
+    senderLongitude?: StringNullableFilter<"Delivery"> | string | null
     receiverName?: StringFilter<"Delivery"> | string
     receiverPhone?: StringFilter<"Delivery"> | string
     receiverAddress?: StringFilter<"Delivery"> | string
+    receiverLatitude?: StringNullableFilter<"Delivery"> | string | null
+    receiverLongitude?: StringNullableFilter<"Delivery"> | string | null
     packageName?: StringFilter<"Delivery"> | string
     packageCategory?: StringFilter<"Delivery"> | string
     packageWeight?: StringFilter<"Delivery"> | string
     packageDimensions?: StringFilter<"Delivery"> | string
     packageValue?: StringFilter<"Delivery"> | string
     pickupDate?: StringFilter<"Delivery"> | string
+    courier_name?: StringNullableFilter<"Delivery"> | string | null
+    courier_email?: StringNullableFilter<"Delivery"> | string | null
+    courier_phone?: StringNullableFilter<"Delivery"> | string | null
+    shipbubbleOrderId?: StringNullableFilter<"Delivery"> | string | null
+    tracking_url?: StringNullableFilter<"Delivery"> | string | null
+    package_amount?: StringNullableFilter<"Delivery"> | string | null
+    package_weight?: StringNullableFilter<"Delivery"> | string | null
+    shipping_fee?: StringNullableFilter<"Delivery"> | string | null
+    shipping_payment_type?: StringNullableFilter<"Delivery"> | string | null
+    shipping_payment_status?: StringNullableFilter<"Delivery"> | string | null
     deliveryStatus?: EnumDeliveryStatusFilter<"Delivery"> | $Enums.DeliveryStatus
     deliveryType?: StringFilter<"Delivery"> | string
     deliveryInstructions?: StringNullableFilter<"Delivery"> | string | null
@@ -7699,15 +7910,29 @@ export namespace Prisma {
     senderName?: SortOrder
     senderPhone?: SortOrder
     senderAddress?: SortOrder
+    senderLatitude?: SortOrderInput | SortOrder
+    senderLongitude?: SortOrderInput | SortOrder
     receiverName?: SortOrder
     receiverPhone?: SortOrder
     receiverAddress?: SortOrder
+    receiverLatitude?: SortOrderInput | SortOrder
+    receiverLongitude?: SortOrderInput | SortOrder
     packageName?: SortOrder
     packageCategory?: SortOrder
     packageWeight?: SortOrder
     packageDimensions?: SortOrder
     packageValue?: SortOrder
     pickupDate?: SortOrder
+    courier_name?: SortOrderInput | SortOrder
+    courier_email?: SortOrderInput | SortOrder
+    courier_phone?: SortOrderInput | SortOrder
+    shipbubbleOrderId?: SortOrderInput | SortOrder
+    tracking_url?: SortOrderInput | SortOrder
+    package_amount?: SortOrderInput | SortOrder
+    package_weight?: SortOrderInput | SortOrder
+    shipping_fee?: SortOrderInput | SortOrder
+    shipping_payment_type?: SortOrderInput | SortOrder
+    shipping_payment_status?: SortOrderInput | SortOrder
     deliveryStatus?: SortOrder
     deliveryType?: SortOrder
     deliveryInstructions?: SortOrderInput | SortOrder
@@ -7725,15 +7950,29 @@ export namespace Prisma {
     senderName?: StringFilter<"Delivery"> | string
     senderPhone?: StringFilter<"Delivery"> | string
     senderAddress?: StringFilter<"Delivery"> | string
+    senderLatitude?: StringNullableFilter<"Delivery"> | string | null
+    senderLongitude?: StringNullableFilter<"Delivery"> | string | null
     receiverName?: StringFilter<"Delivery"> | string
     receiverPhone?: StringFilter<"Delivery"> | string
     receiverAddress?: StringFilter<"Delivery"> | string
+    receiverLatitude?: StringNullableFilter<"Delivery"> | string | null
+    receiverLongitude?: StringNullableFilter<"Delivery"> | string | null
     packageName?: StringFilter<"Delivery"> | string
     packageCategory?: StringFilter<"Delivery"> | string
     packageWeight?: StringFilter<"Delivery"> | string
     packageDimensions?: StringFilter<"Delivery"> | string
     packageValue?: StringFilter<"Delivery"> | string
     pickupDate?: StringFilter<"Delivery"> | string
+    courier_name?: StringNullableFilter<"Delivery"> | string | null
+    courier_email?: StringNullableFilter<"Delivery"> | string | null
+    courier_phone?: StringNullableFilter<"Delivery"> | string | null
+    shipbubbleOrderId?: StringNullableFilter<"Delivery"> | string | null
+    tracking_url?: StringNullableFilter<"Delivery"> | string | null
+    package_amount?: StringNullableFilter<"Delivery"> | string | null
+    package_weight?: StringNullableFilter<"Delivery"> | string | null
+    shipping_fee?: StringNullableFilter<"Delivery"> | string | null
+    shipping_payment_type?: StringNullableFilter<"Delivery"> | string | null
+    shipping_payment_status?: StringNullableFilter<"Delivery"> | string | null
     deliveryStatus?: EnumDeliveryStatusFilter<"Delivery"> | $Enums.DeliveryStatus
     deliveryType?: StringFilter<"Delivery"> | string
     deliveryInstructions?: StringNullableFilter<"Delivery"> | string | null
@@ -7748,15 +7987,29 @@ export namespace Prisma {
     senderName?: SortOrder
     senderPhone?: SortOrder
     senderAddress?: SortOrder
+    senderLatitude?: SortOrderInput | SortOrder
+    senderLongitude?: SortOrderInput | SortOrder
     receiverName?: SortOrder
     receiverPhone?: SortOrder
     receiverAddress?: SortOrder
+    receiverLatitude?: SortOrderInput | SortOrder
+    receiverLongitude?: SortOrderInput | SortOrder
     packageName?: SortOrder
     packageCategory?: SortOrder
     packageWeight?: SortOrder
     packageDimensions?: SortOrder
     packageValue?: SortOrder
     pickupDate?: SortOrder
+    courier_name?: SortOrderInput | SortOrder
+    courier_email?: SortOrderInput | SortOrder
+    courier_phone?: SortOrderInput | SortOrder
+    shipbubbleOrderId?: SortOrderInput | SortOrder
+    tracking_url?: SortOrderInput | SortOrder
+    package_amount?: SortOrderInput | SortOrder
+    package_weight?: SortOrderInput | SortOrder
+    shipping_fee?: SortOrderInput | SortOrder
+    shipping_payment_type?: SortOrderInput | SortOrder
+    shipping_payment_status?: SortOrderInput | SortOrder
     deliveryStatus?: SortOrder
     deliveryType?: SortOrder
     deliveryInstructions?: SortOrderInput | SortOrder
@@ -7777,15 +8030,29 @@ export namespace Prisma {
     senderName?: StringWithAggregatesFilter<"Delivery"> | string
     senderPhone?: StringWithAggregatesFilter<"Delivery"> | string
     senderAddress?: StringWithAggregatesFilter<"Delivery"> | string
+    senderLatitude?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
+    senderLongitude?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
     receiverName?: StringWithAggregatesFilter<"Delivery"> | string
     receiverPhone?: StringWithAggregatesFilter<"Delivery"> | string
     receiverAddress?: StringWithAggregatesFilter<"Delivery"> | string
+    receiverLatitude?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
+    receiverLongitude?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
     packageName?: StringWithAggregatesFilter<"Delivery"> | string
     packageCategory?: StringWithAggregatesFilter<"Delivery"> | string
     packageWeight?: StringWithAggregatesFilter<"Delivery"> | string
     packageDimensions?: StringWithAggregatesFilter<"Delivery"> | string
     packageValue?: StringWithAggregatesFilter<"Delivery"> | string
     pickupDate?: StringWithAggregatesFilter<"Delivery"> | string
+    courier_name?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
+    courier_email?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
+    courier_phone?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
+    shipbubbleOrderId?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
+    tracking_url?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
+    package_amount?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
+    package_weight?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
+    shipping_fee?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
+    shipping_payment_type?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
+    shipping_payment_status?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
     deliveryStatus?: EnumDeliveryStatusWithAggregatesFilter<"Delivery"> | $Enums.DeliveryStatus
     deliveryType?: StringWithAggregatesFilter<"Delivery"> | string
     deliveryInstructions?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
@@ -8260,15 +8527,29 @@ export namespace Prisma {
     senderName: string
     senderPhone: string
     senderAddress: string
+    senderLatitude?: string | null
+    senderLongitude?: string | null
     receiverName: string
     receiverPhone: string
     receiverAddress: string
+    receiverLatitude?: string | null
+    receiverLongitude?: string | null
     packageName: string
     packageCategory: string
     packageWeight: string
     packageDimensions: string
     packageValue: string
     pickupDate: string
+    courier_name?: string | null
+    courier_email?: string | null
+    courier_phone?: string | null
+    shipbubbleOrderId?: string | null
+    tracking_url?: string | null
+    package_amount?: string | null
+    package_weight?: string | null
+    shipping_fee?: string | null
+    shipping_payment_type?: string | null
+    shipping_payment_status?: string | null
     deliveryStatus?: $Enums.DeliveryStatus
     deliveryType: string
     deliveryInstructions?: string | null
@@ -8283,15 +8564,29 @@ export namespace Prisma {
     senderName: string
     senderPhone: string
     senderAddress: string
+    senderLatitude?: string | null
+    senderLongitude?: string | null
     receiverName: string
     receiverPhone: string
     receiverAddress: string
+    receiverLatitude?: string | null
+    receiverLongitude?: string | null
     packageName: string
     packageCategory: string
     packageWeight: string
     packageDimensions: string
     packageValue: string
     pickupDate: string
+    courier_name?: string | null
+    courier_email?: string | null
+    courier_phone?: string | null
+    shipbubbleOrderId?: string | null
+    tracking_url?: string | null
+    package_amount?: string | null
+    package_weight?: string | null
+    shipping_fee?: string | null
+    shipping_payment_type?: string | null
+    shipping_payment_status?: string | null
     deliveryStatus?: $Enums.DeliveryStatus
     deliveryType: string
     deliveryInstructions?: string | null
@@ -8306,15 +8601,29 @@ export namespace Prisma {
     senderName?: StringFieldUpdateOperationsInput | string
     senderPhone?: StringFieldUpdateOperationsInput | string
     senderAddress?: StringFieldUpdateOperationsInput | string
+    senderLatitude?: NullableStringFieldUpdateOperationsInput | string | null
+    senderLongitude?: NullableStringFieldUpdateOperationsInput | string | null
     receiverName?: StringFieldUpdateOperationsInput | string
     receiverPhone?: StringFieldUpdateOperationsInput | string
     receiverAddress?: StringFieldUpdateOperationsInput | string
+    receiverLatitude?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverLongitude?: NullableStringFieldUpdateOperationsInput | string | null
     packageName?: StringFieldUpdateOperationsInput | string
     packageCategory?: StringFieldUpdateOperationsInput | string
     packageWeight?: StringFieldUpdateOperationsInput | string
     packageDimensions?: StringFieldUpdateOperationsInput | string
     packageValue?: StringFieldUpdateOperationsInput | string
     pickupDate?: StringFieldUpdateOperationsInput | string
+    courier_name?: NullableStringFieldUpdateOperationsInput | string | null
+    courier_email?: NullableStringFieldUpdateOperationsInput | string | null
+    courier_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    shipbubbleOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    tracking_url?: NullableStringFieldUpdateOperationsInput | string | null
+    package_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    package_weight?: NullableStringFieldUpdateOperationsInput | string | null
+    shipping_fee?: NullableStringFieldUpdateOperationsInput | string | null
+    shipping_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
+    shipping_payment_status?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryStatus?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
     deliveryType?: StringFieldUpdateOperationsInput | string
     deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8329,15 +8638,29 @@ export namespace Prisma {
     senderName?: StringFieldUpdateOperationsInput | string
     senderPhone?: StringFieldUpdateOperationsInput | string
     senderAddress?: StringFieldUpdateOperationsInput | string
+    senderLatitude?: NullableStringFieldUpdateOperationsInput | string | null
+    senderLongitude?: NullableStringFieldUpdateOperationsInput | string | null
     receiverName?: StringFieldUpdateOperationsInput | string
     receiverPhone?: StringFieldUpdateOperationsInput | string
     receiverAddress?: StringFieldUpdateOperationsInput | string
+    receiverLatitude?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverLongitude?: NullableStringFieldUpdateOperationsInput | string | null
     packageName?: StringFieldUpdateOperationsInput | string
     packageCategory?: StringFieldUpdateOperationsInput | string
     packageWeight?: StringFieldUpdateOperationsInput | string
     packageDimensions?: StringFieldUpdateOperationsInput | string
     packageValue?: StringFieldUpdateOperationsInput | string
     pickupDate?: StringFieldUpdateOperationsInput | string
+    courier_name?: NullableStringFieldUpdateOperationsInput | string | null
+    courier_email?: NullableStringFieldUpdateOperationsInput | string | null
+    courier_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    shipbubbleOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    tracking_url?: NullableStringFieldUpdateOperationsInput | string | null
+    package_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    package_weight?: NullableStringFieldUpdateOperationsInput | string | null
+    shipping_fee?: NullableStringFieldUpdateOperationsInput | string | null
+    shipping_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
+    shipping_payment_status?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryStatus?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
     deliveryType?: StringFieldUpdateOperationsInput | string
     deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8352,15 +8675,29 @@ export namespace Prisma {
     senderName: string
     senderPhone: string
     senderAddress: string
+    senderLatitude?: string | null
+    senderLongitude?: string | null
     receiverName: string
     receiverPhone: string
     receiverAddress: string
+    receiverLatitude?: string | null
+    receiverLongitude?: string | null
     packageName: string
     packageCategory: string
     packageWeight: string
     packageDimensions: string
     packageValue: string
     pickupDate: string
+    courier_name?: string | null
+    courier_email?: string | null
+    courier_phone?: string | null
+    shipbubbleOrderId?: string | null
+    tracking_url?: string | null
+    package_amount?: string | null
+    package_weight?: string | null
+    shipping_fee?: string | null
+    shipping_payment_type?: string | null
+    shipping_payment_status?: string | null
     deliveryStatus?: $Enums.DeliveryStatus
     deliveryType: string
     deliveryInstructions?: string | null
@@ -8375,15 +8712,29 @@ export namespace Prisma {
     senderName?: StringFieldUpdateOperationsInput | string
     senderPhone?: StringFieldUpdateOperationsInput | string
     senderAddress?: StringFieldUpdateOperationsInput | string
+    senderLatitude?: NullableStringFieldUpdateOperationsInput | string | null
+    senderLongitude?: NullableStringFieldUpdateOperationsInput | string | null
     receiverName?: StringFieldUpdateOperationsInput | string
     receiverPhone?: StringFieldUpdateOperationsInput | string
     receiverAddress?: StringFieldUpdateOperationsInput | string
+    receiverLatitude?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverLongitude?: NullableStringFieldUpdateOperationsInput | string | null
     packageName?: StringFieldUpdateOperationsInput | string
     packageCategory?: StringFieldUpdateOperationsInput | string
     packageWeight?: StringFieldUpdateOperationsInput | string
     packageDimensions?: StringFieldUpdateOperationsInput | string
     packageValue?: StringFieldUpdateOperationsInput | string
     pickupDate?: StringFieldUpdateOperationsInput | string
+    courier_name?: NullableStringFieldUpdateOperationsInput | string | null
+    courier_email?: NullableStringFieldUpdateOperationsInput | string | null
+    courier_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    shipbubbleOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    tracking_url?: NullableStringFieldUpdateOperationsInput | string | null
+    package_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    package_weight?: NullableStringFieldUpdateOperationsInput | string | null
+    shipping_fee?: NullableStringFieldUpdateOperationsInput | string | null
+    shipping_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
+    shipping_payment_status?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryStatus?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
     deliveryType?: StringFieldUpdateOperationsInput | string
     deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8398,15 +8749,29 @@ export namespace Prisma {
     senderName?: StringFieldUpdateOperationsInput | string
     senderPhone?: StringFieldUpdateOperationsInput | string
     senderAddress?: StringFieldUpdateOperationsInput | string
+    senderLatitude?: NullableStringFieldUpdateOperationsInput | string | null
+    senderLongitude?: NullableStringFieldUpdateOperationsInput | string | null
     receiverName?: StringFieldUpdateOperationsInput | string
     receiverPhone?: StringFieldUpdateOperationsInput | string
     receiverAddress?: StringFieldUpdateOperationsInput | string
+    receiverLatitude?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverLongitude?: NullableStringFieldUpdateOperationsInput | string | null
     packageName?: StringFieldUpdateOperationsInput | string
     packageCategory?: StringFieldUpdateOperationsInput | string
     packageWeight?: StringFieldUpdateOperationsInput | string
     packageDimensions?: StringFieldUpdateOperationsInput | string
     packageValue?: StringFieldUpdateOperationsInput | string
     pickupDate?: StringFieldUpdateOperationsInput | string
+    courier_name?: NullableStringFieldUpdateOperationsInput | string | null
+    courier_email?: NullableStringFieldUpdateOperationsInput | string | null
+    courier_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    shipbubbleOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    tracking_url?: NullableStringFieldUpdateOperationsInput | string | null
+    package_amount?: NullableStringFieldUpdateOperationsInput | string | null
+    package_weight?: NullableStringFieldUpdateOperationsInput | string | null
+    shipping_fee?: NullableStringFieldUpdateOperationsInput | string | null
+    shipping_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
+    shipping_payment_status?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryStatus?: EnumDeliveryStatusFieldUpdateOperationsInput | $Enums.DeliveryStatus
     deliveryType?: StringFieldUpdateOperationsInput | string
     deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8896,15 +9261,29 @@ export namespace Prisma {
     senderName?: SortOrder
     senderPhone?: SortOrder
     senderAddress?: SortOrder
+    senderLatitude?: SortOrder
+    senderLongitude?: SortOrder
     receiverName?: SortOrder
     receiverPhone?: SortOrder
     receiverAddress?: SortOrder
+    receiverLatitude?: SortOrder
+    receiverLongitude?: SortOrder
     packageName?: SortOrder
     packageCategory?: SortOrder
     packageWeight?: SortOrder
     packageDimensions?: SortOrder
     packageValue?: SortOrder
     pickupDate?: SortOrder
+    courier_name?: SortOrder
+    courier_email?: SortOrder
+    courier_phone?: SortOrder
+    shipbubbleOrderId?: SortOrder
+    tracking_url?: SortOrder
+    package_amount?: SortOrder
+    package_weight?: SortOrder
+    shipping_fee?: SortOrder
+    shipping_payment_type?: SortOrder
+    shipping_payment_status?: SortOrder
     deliveryStatus?: SortOrder
     deliveryType?: SortOrder
     deliveryInstructions?: SortOrder
@@ -8919,15 +9298,29 @@ export namespace Prisma {
     senderName?: SortOrder
     senderPhone?: SortOrder
     senderAddress?: SortOrder
+    senderLatitude?: SortOrder
+    senderLongitude?: SortOrder
     receiverName?: SortOrder
     receiverPhone?: SortOrder
     receiverAddress?: SortOrder
+    receiverLatitude?: SortOrder
+    receiverLongitude?: SortOrder
     packageName?: SortOrder
     packageCategory?: SortOrder
     packageWeight?: SortOrder
     packageDimensions?: SortOrder
     packageValue?: SortOrder
     pickupDate?: SortOrder
+    courier_name?: SortOrder
+    courier_email?: SortOrder
+    courier_phone?: SortOrder
+    shipbubbleOrderId?: SortOrder
+    tracking_url?: SortOrder
+    package_amount?: SortOrder
+    package_weight?: SortOrder
+    shipping_fee?: SortOrder
+    shipping_payment_type?: SortOrder
+    shipping_payment_status?: SortOrder
     deliveryStatus?: SortOrder
     deliveryType?: SortOrder
     deliveryInstructions?: SortOrder
@@ -8942,15 +9335,29 @@ export namespace Prisma {
     senderName?: SortOrder
     senderPhone?: SortOrder
     senderAddress?: SortOrder
+    senderLatitude?: SortOrder
+    senderLongitude?: SortOrder
     receiverName?: SortOrder
     receiverPhone?: SortOrder
     receiverAddress?: SortOrder
+    receiverLatitude?: SortOrder
+    receiverLongitude?: SortOrder
     packageName?: SortOrder
     packageCategory?: SortOrder
     packageWeight?: SortOrder
     packageDimensions?: SortOrder
     packageValue?: SortOrder
     pickupDate?: SortOrder
+    courier_name?: SortOrder
+    courier_email?: SortOrder
+    courier_phone?: SortOrder
+    shipbubbleOrderId?: SortOrder
+    tracking_url?: SortOrder
+    package_amount?: SortOrder
+    package_weight?: SortOrder
+    shipping_fee?: SortOrder
+    shipping_payment_type?: SortOrder
+    shipping_payment_status?: SortOrder
     deliveryStatus?: SortOrder
     deliveryType?: SortOrder
     deliveryInstructions?: SortOrder
