@@ -16,9 +16,12 @@ import {
 } from '@nestjs/common';
 
 import { Response } from 'express';
+import { DeliveryService } from '../delivery/delivery.service';
 
 @Controller()
 export class WebhookController {
+  constructor(private readonly deliveryService: DeliveryService) {}
+
   /**
    * WhatsApp webhook verification
    */
@@ -132,7 +135,7 @@ export class WebhookController {
    * x-ship-signature
    */
   @Post('/webhook/shipbubble')
-  receiveShipbubble(
+  async receiveShipbubble(
     @RawBody() rawBody: Buffer,
     @Headers('x-ship-signature')
     signatureHeader: string,
@@ -205,6 +208,7 @@ export class WebhookController {
           'Shipment label created:',
           payload.order_id,
         );
+        await this.syncPendingDelivery(payload);
         break;
 
       case 'shipment.status.changed':
@@ -213,6 +217,7 @@ export class WebhookController {
           payload.order_id,
           payload.status,
         );
+        await this.syncPendingDelivery(payload);
         break;
 
       case 'shipment.cancelled':
@@ -275,6 +280,40 @@ export class WebhookController {
     return {
       received: true,
     };
+  }
+
+  private async syncPendingDelivery(
+    payload: Record<string, unknown>,
+  ): Promise<void> {
+    if (
+      typeof payload.status !== 'string' ||
+      payload.status.toLowerCase() !== 'pending'
+    ) {
+      return;
+    }
+
+    if (typeof payload.order_id !== 'string' || !payload.order_id) {
+      console.error(
+        'Cannot update pending delivery: Shipbubble webhook order_id is missing',
+      );
+      return;
+    }
+
+    const updatedCount =
+      await this.deliveryService.markPendingByShipbubbleOrderId(
+        payload.order_id,
+      );
+
+    if (updatedCount === 0) {
+      console.warn(
+        `No delivery found for Shipbubble order ${payload.order_id}`,
+      );
+      return;
+    }
+
+    console.log(
+      `Updated ${updatedCount} delivery record(s) to PENDING for Shipbubble order ${payload.order_id}`,
+    );
   }
 
   /**

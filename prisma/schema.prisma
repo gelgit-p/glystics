@@ -61,15 +61,31 @@ model Delivery {
   senderName           String
   senderPhone          String
   senderAddress        String
+  senderLatitude        String?
+  senderLongitude       String?
   receiverName         String
   receiverPhone        String
   receiverAddress      String
+  receiverLatitude      String?
+  receiverLongitude     String?
   packageName          String
   packageCategory      String
   packageWeight        String
   packageDimensions    String
   packageValue         String
   pickupDate           String
+  courier_name          String?
+  courier_email         String?
+  courier_phone         String?
+  shipbubbleOrderId     String?
+  tracking_url          String?
+  package_amount        String?
+  package_weight        String?
+  shipping_fee          String?
+  shipping_payment_type   String?
+  shipping_payment_status   String?
+
+
   deliveryStatus       DeliveryStatus @default(CREATED)
   deliveryType         String
   deliveryInstructions String?
@@ -142,6 +158,7 @@ model Automation {
 }
 
 enum DeliveryStatus {
+  PENDING
   DELIVERED
   PICKED_UP
   OUT_FOR_DELIVERY

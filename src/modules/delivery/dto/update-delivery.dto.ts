@@ -22,6 +22,18 @@ export class UpdateDeliveryDto {
   @IsString()
   senderAddress?: string;
 
+
+    @ApiProperty()
+  @IsOptional()
+    @IsString()
+    senderLatitude?: string;
+
+        @ApiProperty()
+  @IsOptional()
+    @IsString()
+    senderLongitude?: string;
+
+
    @ApiProperty()
   @IsOptional()
   @IsString()
@@ -36,6 +48,16 @@ export class UpdateDeliveryDto {
   @IsOptional()
   @IsString()
   receiverAddress?: string;
+
+     @ApiProperty()
+  @IsOptional()
+  @IsString()
+  receiverLatitude?: string;
+
+       @ApiProperty()
+  @IsOptional()
+  @IsString()
+  receiverLongitude?: string;
 
    @ApiProperty()
   @IsOptional()
@@ -66,6 +88,56 @@ export class UpdateDeliveryDto {
   @IsOptional()
   @IsString()
   pickupDate?: string;
+
+     @ApiProperty()
+  @IsOptional()
+  @IsString()
+  courier_name?: string;
+
+       @ApiProperty()
+  @IsOptional()
+  @IsString()
+  courier_email?: string;
+
+         @ApiProperty()
+  @IsOptional()
+  @IsString()
+  courier_phone?: string;
+
+           @ApiProperty()
+  @IsOptional()
+  @IsString()
+  shipbubbleOrderId?: string;
+
+             @ApiProperty()
+  @IsOptional()
+  @IsString()
+  tracking_url?: string;
+
+               @ApiProperty()
+  @IsOptional()
+  @IsString()
+  package_amount?: string;
+
+                 @ApiProperty()
+  @IsOptional()
+  @IsString()
+  package_weight?: string;
+
+                   @ApiProperty()
+  @IsOptional()
+  @IsString()
+  shipping_fee?: string;
+
+                     @ApiProperty()
+  @IsOptional()
+  @IsString()
+  shipping_payment_type?: string;
+
+                       @ApiProperty()
+  @IsOptional()
+  @IsString()
+  shipping_payment_status?: string;
 
    @ApiProperty()
   @IsOptional()
