@@ -83,8 +83,9 @@ model Delivery {
   shipping_fee            String?
   shipping_payment_type   String?
   shipping_payment_status String?
+  package_status          Json?
 
-  deliveryStatus       DeliveryStatus @default(CREATED)
+  deliveryStatus       String
   deliveryType         String
   deliveryInstructions String?
 
@@ -153,14 +154,4 @@ model Automation {
   @@index([userId])
   @@index([userId, enabled])
   @@index([trigger, triggerValue])
-}
-
-enum DeliveryStatus {
-  PENDING
-  DELIVERED
-  PICKED_UP
-  OUT_FOR_DELIVERY
-  CREATED
-  IN_TRANSIT
-  FAILED
 }
