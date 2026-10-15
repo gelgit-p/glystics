@@ -77,6 +77,11 @@ export class WhatsappController {
     return await this.whatsappService.getMessageTemplates(userId, status);
   }
 
+  @Get('message-templates/:userId/all')
+  async getAllMessageTemplates(@Param('userId') userId: string) {
+    return await this.whatsappService.getAllMessageTemplates(userId);
+  }
+
   @Get('message-templates/:templateId/status')
   async getMessageTemplateStatus(@Param('templateId') templateId: string) {
     return await this.whatsappService.getMessageTemplateStatus(templateId);
