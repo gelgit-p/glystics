@@ -208,7 +208,7 @@ export class WebhookController {
           'Shipment label created:',
           payload.order_id,
         );
-        await this.syncPendingDelivery(payload);
+        await this.syncDeliveryStatus(payload);
         break;
 
       case 'shipment.status.changed':
@@ -217,7 +217,7 @@ export class WebhookController {
           payload.order_id,
           payload.status,
         );
-        await this.syncPendingDelivery(payload);
+        await this.syncDeliveryStatus(payload);
         break;
 
       case 'shipment.cancelled':
@@ -282,26 +282,62 @@ export class WebhookController {
     };
   }
 
-  private async syncPendingDelivery(
+  private async syncDeliveryStatus(
     payload: Record<string, unknown>,
   ): Promise<void> {
-    if (
-      typeof payload.status !== 'string' ||
-      payload.status.toLowerCase() !== 'pending'
-    ) {
+    if (typeof payload.status !== 'string' || !payload.status.trim()) {
+      console.error(
+        'Cannot update delivery: Shipbubble webhook status is missing',
+      );
       return;
     }
 
     if (typeof payload.order_id !== 'string' || !payload.order_id) {
       console.error(
-        'Cannot update pending delivery: Shipbubble webhook order_id is missing',
+        'Cannot update delivery: Shipbubble webhook order_id is missing',
       );
       return;
     }
 
+    let packageStatus:
+      | Array<{ status: string; datetime: string }>
+      | undefined;
+    if (payload.package_status !== undefined) {
+      if (!Array.isArray(payload.package_status)) {
+        console.error(
+          'Cannot update delivery: Shipbubble package_status must be an array',
+        );
+        return;
+      }
+
+      packageStatus = [];
+      for (const entry of payload.package_status) {
+        if (
+          typeof entry !== 'object' ||
+          entry === null ||
+          !('status' in entry) ||
+          typeof entry.status !== 'string' ||
+          !('datetime' in entry) ||
+          typeof entry.datetime !== 'string'
+        ) {
+          console.error(
+            'Cannot update delivery: Shipbubble package_status contains an invalid entry',
+          );
+          return;
+        }
+
+        packageStatus.push({
+          status: entry.status,
+          datetime: entry.datetime,
+        });
+      }
+    }
+
     const updatedCount =
-      await this.deliveryService.markPendingByShipbubbleOrderId(
+      await this.deliveryService.syncShipbubbleStatusByOrderId(
         payload.order_id,
+        payload.status,
+        packageStatus,
       );
 
     if (updatedCount === 0) {
@@ -312,7 +348,7 @@ export class WebhookController {
     }
 
     console.log(
-      `Updated ${updatedCount} delivery record(s) to PENDING for Shipbubble order ${payload.order_id}`,
+      `Updated ${updatedCount} delivery record(s) to ${payload.status.toUpperCase()} for Shipbubble order ${payload.order_id}`,
     );
   }
 

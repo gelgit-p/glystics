@@ -188,6 +188,7 @@ exports.Prisma.DeliveryScalarFieldEnum = {
   shipping_fee: 'shipping_fee',
   shipping_payment_type: 'shipping_payment_type',
   shipping_payment_status: 'shipping_payment_status',
+  package_status: 'package_status',
   deliveryStatus: 'deliveryStatus',
   deliveryType: 'deliveryType',
   deliveryInstructions: 'deliveryInstructions',
@@ -232,6 +233,11 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
@@ -251,15 +257,7 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
-exports.DeliveryStatus = exports.$Enums.DeliveryStatus = {
-  PENDING: 'PENDING',
-  DELIVERED: 'DELIVERED',
-  PICKED_UP: 'PICKED_UP',
-  OUT_FOR_DELIVERY: 'OUT_FOR_DELIVERY',
-  CREATED: 'CREATED',
-  IN_TRANSIT: 'IN_TRANSIT',
-  FAILED: 'FAILED'
-};
+
 
 exports.Prisma.ModelName = {
   User: 'User',

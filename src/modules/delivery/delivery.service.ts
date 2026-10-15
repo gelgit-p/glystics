@@ -73,11 +73,16 @@ export class DeliveryService {
     }
   }
 
-  async markPendingByShipbubbleOrderId(orderId: string) {
+  async syncShipbubbleStatusByOrderId(
+    orderId: string,
+    status: string,
+    packageStatus?: Array<{ status: string; datetime: string }>,
+  ) {
     const result = await this.prisma.delivery.updateMany({
       where: { shipbubbleOrderId: orderId },
       data: {
-        deliveryStatus: 'PENDING',
+        deliveryStatus: status.trim().toUpperCase(),
+        ...(packageStatus ? { package_status: packageStatus } : {}),
         updatedAt: new Date(),
       },
     });
