@@ -565,7 +565,123 @@ export class WhatsappService {
   }
 }
 
-  async getMessageTemplateStatus(templateId: string): Promise<any> {
+async getAllMessageTemplates(userId: string): Promise<{ data: any[]; count: number }> {
+  const version = this.configService.get<string>('WHATSAPP_VERSION');
+
+  if (!version) {
+    throw new BadRequestException('WHATSAPP_VERSION is required');
+  }
+
+  if (!userId) {
+    throw new BadRequestException('User ID is required');
+  }
+
+  try {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new NotFoundException(`User with ID ${userId} not found`);
+    }
+
+    const businessAccountId =
+      user.selectedWabaId ||
+      this.configService.get<string>('WABA_ID');
+
+    if (!businessAccountId) {
+      throw new BadRequestException(
+        'No WhatsApp Business Account is connected to this user',
+      );
+    }
+
+    const token = await this.prisma.token.findUnique({
+      where: { userId },
+    });
+
+    if (!token?.facebookLongLivedAccessToken) {
+      throw new BadRequestException(
+        'Facebook long-lived access token not found for this user',
+      );
+    }
+
+    const endpoint =
+      `https://graph.facebook.com/${version}/${businessAccountId}/message_templates`;
+    const headers = {
+      Authorization: `Bearer ${token.facebookLongLivedAccessToken}`,
+    };
+    const params = {
+      fields:
+        'name,status,language,category,quality_score,previous_category,parameter_format,components,disable_ios_autofill,is_primary_device_delivery_only',
+      limit: '100',
+    };
+
+    const templates: any[] = [];
+    const seenIds = new Set<string>();
+    const seenPageUrls = new Set<string>();
+    let nextUrl: string | undefined;
+
+    do {
+      const requestUrl = nextUrl ?? endpoint;
+      if (seenPageUrls.has(requestUrl)) {
+        throw new BadRequestException(
+          'Facebook returned a repeated message templates pagination URL',
+        );
+      }
+      seenPageUrls.add(requestUrl);
+
+      const response = await firstValueFrom(this.httpService.get(requestUrl, {
+        headers,
+        ...(nextUrl ? {} : { params }),
+      }));
+      const pageTemplates = response.data?.data;
+
+      if (!Array.isArray(pageTemplates)) {
+        throw new BadRequestException(
+          'Invalid message templates response from Facebook',
+        );
+      }
+
+      for (const template of pageTemplates) {
+        if (template?.id) {
+          const id = String(template.id);
+          if (!seenIds.has(id)) {
+            seenIds.add(id);
+            templates.push(template);
+          }
+        }
+      }
+
+      nextUrl = response.data?.paging?.next;
+      if (nextUrl) {
+        const parsedNextUrl = new URL(nextUrl);
+        const parsedEndpoint = new URL(endpoint);
+        if (
+          parsedNextUrl.origin !== parsedEndpoint.origin ||
+          parsedNextUrl.pathname !== parsedEndpoint.pathname
+        ) {
+          throw new BadRequestException(
+            'Facebook returned an invalid message templates pagination URL',
+          );
+        }
+      }
+    } while (nextUrl);
+
+    return { data: templates, count: templates.length };
+  } catch (error: any) {
+    if (error instanceof HttpException) {
+      throw error;
+    }
+
+    throw new InternalServerErrorException(
+      error.response?.data?.error?.message ||
+        error.message ||
+        'Failed to fetch all message templates',
+    );
+  }
+}
+
+async getMessageTemplateStatus(templateId: string): Promise<any> {
     const version = this.configService.get<string>('WHATSAPP_VERSION');
     // const accessToken = this.configService.get<string>(
     //   'WHATSAPP_LONG_LIVED_ACCESS_TOKEN',
