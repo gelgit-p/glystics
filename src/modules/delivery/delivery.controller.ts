@@ -11,6 +11,7 @@ import {
   HttpCode
 } from '@nestjs/common';
 import { DeliveryService } from './delivery.service';
+import { CreateDeliveryCheckoutDto } from './dto/create-delivery-checkout.dto';
 import { UpdateDeliveryDto } from './dto/update-delivery.dto';
 
 @Controller('delivery')
@@ -21,6 +22,14 @@ export class DeliveryController {
   @Post()
   create(@Body() data: UpdateDeliveryDto) {
     return this.deliveryService.create(data);
+  }
+
+  @Post(':id/checkout-session')
+  createCheckoutSession(
+    @Param('id') id: string,
+    @Body() data: CreateDeliveryCheckoutDto,
+  ) {
+    return this.deliveryService.createCheckoutSession(id, data);
   }
 
   @Get(':id')

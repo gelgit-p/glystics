@@ -5,6 +5,7 @@ import {
 
 import {
   Body,
+  BadRequestException,
   Controller,
   Get,
   Headers,
@@ -87,7 +88,7 @@ export class WebhookController {
    * Bachs webhook receiver
    */
   @Post('/webhook/bachs')
-  receiveBachs(
+  async receiveBachs(
     @RawBody() rawBody: Buffer,
     @Headers('x-bachs-timestamp')
     timestampHeader: string,
@@ -118,6 +119,38 @@ export class WebhookController {
       'Bachs webhook received:',
       JSON.stringify(payload, null, 2),
     );
+
+    if ((payload.event ?? payload.type) === 'checkout.completed') {
+      const data =
+        typeof payload.data === 'object' && payload.data !== null
+          ? (payload.data as Record<string, unknown>)
+          : {};
+      const nestedData =
+        typeof data.object === 'object' && data.object !== null
+          ? (data.object as Record<string, unknown>)
+          : {};
+      const reference = [
+        data.reference,
+        nestedData.reference,
+        payload.reference,
+      ].find((value): value is string => typeof value === 'string' && !!value);
+      const checkoutId = [
+        data.checkout_id,
+        data.checkout_session_id,
+        data.id,
+        nestedData.checkout_id,
+        nestedData.id,
+        payload.checkout_id,
+      ].find((value): value is string => typeof value === 'string' && !!value);
+
+      if (!reference) {
+        throw new BadRequestException(
+          'Bachs checkout.completed webhook is missing its checkout reference',
+        );
+      }
+
+      await this.deliveryService.completePaidCheckout(reference, checkoutId);
+    }
 
     return {
       received: true,
