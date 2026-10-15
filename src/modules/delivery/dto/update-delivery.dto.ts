@@ -139,9 +139,14 @@ export class UpdateDeliveryDto {
   @IsString()
   shipping_payment_status?: string;
 
-   @ApiProperty()
+                       @ApiProperty({ required: false, default: 'CREATED' })
   @IsOptional()
   @IsString()
+                       deliveryStatus?: string;
+
+                        @ApiProperty()
+                       @IsOptional()
+                       @IsString()
   deliveryType?: string;
 
    @ApiProperty()

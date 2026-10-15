@@ -3966,7 +3966,7 @@ export namespace Prisma {
     shipping_payment_type: string | null
     shipping_payment_status: string | null
     package_status: JsonValue | null
-    deliveryStatus: string
+    deliveryStatus: string | null
     deliveryType: string
     deliveryInstructions: string | null
     createdAt: Date
@@ -4178,7 +4178,7 @@ export namespace Prisma {
       shipping_payment_type: string | null
       shipping_payment_status: string | null
       package_status: Prisma.JsonValue | null
-      deliveryStatus: string
+      deliveryStatus: string | null
       deliveryType: string
       deliveryInstructions: string | null
       createdAt: Date
@@ -7879,7 +7879,7 @@ export namespace Prisma {
     shipping_payment_type?: StringNullableFilter<"Delivery"> | string | null
     shipping_payment_status?: StringNullableFilter<"Delivery"> | string | null
     package_status?: JsonNullableFilter<"Delivery">
-    deliveryStatus?: StringFilter<"Delivery"> | string
+    deliveryStatus?: StringNullableFilter<"Delivery"> | string | null
     deliveryType?: StringFilter<"Delivery"> | string
     deliveryInstructions?: StringNullableFilter<"Delivery"> | string | null
     createdAt?: DateTimeFilter<"Delivery"> | Date | string
@@ -7917,7 +7917,7 @@ export namespace Prisma {
     shipping_payment_type?: SortOrderInput | SortOrder
     shipping_payment_status?: SortOrderInput | SortOrder
     package_status?: SortOrderInput | SortOrder
-    deliveryStatus?: SortOrder
+    deliveryStatus?: SortOrderInput | SortOrder
     deliveryType?: SortOrder
     deliveryInstructions?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -7958,7 +7958,7 @@ export namespace Prisma {
     shipping_payment_type?: StringNullableFilter<"Delivery"> | string | null
     shipping_payment_status?: StringNullableFilter<"Delivery"> | string | null
     package_status?: JsonNullableFilter<"Delivery">
-    deliveryStatus?: StringFilter<"Delivery"> | string
+    deliveryStatus?: StringNullableFilter<"Delivery"> | string | null
     deliveryType?: StringFilter<"Delivery"> | string
     deliveryInstructions?: StringNullableFilter<"Delivery"> | string | null
     createdAt?: DateTimeFilter<"Delivery"> | Date | string
@@ -7996,7 +7996,7 @@ export namespace Prisma {
     shipping_payment_type?: SortOrderInput | SortOrder
     shipping_payment_status?: SortOrderInput | SortOrder
     package_status?: SortOrderInput | SortOrder
-    deliveryStatus?: SortOrder
+    deliveryStatus?: SortOrderInput | SortOrder
     deliveryType?: SortOrder
     deliveryInstructions?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -8040,7 +8040,7 @@ export namespace Prisma {
     shipping_payment_type?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
     shipping_payment_status?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
     package_status?: JsonNullableWithAggregatesFilter<"Delivery">
-    deliveryStatus?: StringWithAggregatesFilter<"Delivery"> | string
+    deliveryStatus?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
     deliveryType?: StringWithAggregatesFilter<"Delivery"> | string
     deliveryInstructions?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Delivery"> | Date | string
@@ -8538,7 +8538,7 @@ export namespace Prisma {
     shipping_payment_type?: string | null
     shipping_payment_status?: string | null
     package_status?: NullableJsonNullValueInput | InputJsonValue
-    deliveryStatus: string
+    deliveryStatus?: string | null
     deliveryType: string
     deliveryInstructions?: string | null
     createdAt?: Date | string
@@ -8576,7 +8576,7 @@ export namespace Prisma {
     shipping_payment_type?: string | null
     shipping_payment_status?: string | null
     package_status?: NullableJsonNullValueInput | InputJsonValue
-    deliveryStatus: string
+    deliveryStatus?: string | null
     deliveryType: string
     deliveryInstructions?: string | null
     createdAt?: Date | string
@@ -8614,7 +8614,7 @@ export namespace Prisma {
     shipping_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
     shipping_payment_status?: NullableStringFieldUpdateOperationsInput | string | null
     package_status?: NullableJsonNullValueInput | InputJsonValue
-    deliveryStatus?: StringFieldUpdateOperationsInput | string
+    deliveryStatus?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryType?: StringFieldUpdateOperationsInput | string
     deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8652,7 +8652,7 @@ export namespace Prisma {
     shipping_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
     shipping_payment_status?: NullableStringFieldUpdateOperationsInput | string | null
     package_status?: NullableJsonNullValueInput | InputJsonValue
-    deliveryStatus?: StringFieldUpdateOperationsInput | string
+    deliveryStatus?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryType?: StringFieldUpdateOperationsInput | string
     deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8690,7 +8690,7 @@ export namespace Prisma {
     shipping_payment_type?: string | null
     shipping_payment_status?: string | null
     package_status?: NullableJsonNullValueInput | InputJsonValue
-    deliveryStatus: string
+    deliveryStatus?: string | null
     deliveryType: string
     deliveryInstructions?: string | null
     createdAt?: Date | string
@@ -8728,7 +8728,7 @@ export namespace Prisma {
     shipping_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
     shipping_payment_status?: NullableStringFieldUpdateOperationsInput | string | null
     package_status?: NullableJsonNullValueInput | InputJsonValue
-    deliveryStatus?: StringFieldUpdateOperationsInput | string
+    deliveryStatus?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryType?: StringFieldUpdateOperationsInput | string
     deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8766,7 +8766,7 @@ export namespace Prisma {
     shipping_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
     shipping_payment_status?: NullableStringFieldUpdateOperationsInput | string | null
     package_status?: NullableJsonNullValueInput | InputJsonValue
-    deliveryStatus?: StringFieldUpdateOperationsInput | string
+    deliveryStatus?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryType?: StringFieldUpdateOperationsInput | string
     deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

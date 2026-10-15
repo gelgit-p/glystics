@@ -87,7 +87,7 @@ model Delivery {
   package_status        Json?
 
 
-  deliveryStatus       String
+  deliveryStatus       String?
   deliveryType         String
   deliveryInstructions String?
 
