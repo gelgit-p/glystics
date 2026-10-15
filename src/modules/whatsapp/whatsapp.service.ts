@@ -373,7 +373,7 @@ export class WhatsappService {
     }
   }
 
-  async getMessageTemplates(userId: string): Promise<any> {
+  async getMessageTemplates(userId: string, status?: string): Promise<any> {
   try {
     const version =
       this.configService.get<string>('WHATSAPP_VERSION');
@@ -428,7 +428,15 @@ export class WhatsappService {
     }
 
     const endpoint =
-      `https://graph.facebook.com/${version}/${businessAccountId}/message_templates`;
+      `https://graph.facebook.com/${version}/${businessAccountId}/message_templates?status=${status}`;
+
+       const queryParams: any = {
+      fields: 'name,status,language,category,quality_score,previous_category,parameter_format,components,disable_ios_autofill,is_primary_device_delivery_only',
+    };
+
+      if (status) {
+      queryParams.status = status.toUpperCase(); // Ensure it matches Meta formatting (e.g., 'APPROVED')
+    }
 
     const response = await firstValueFrom(
       this.httpService.get(endpoint, {
@@ -436,6 +444,7 @@ export class WhatsappService {
           Authorization:
             `Bearer ${token.facebookLongLivedAccessToken}`,
         },
+        params: queryParams,
       }),
     );
 
