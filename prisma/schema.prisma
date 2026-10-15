@@ -33,14 +33,13 @@ model User {
   selectedPhoneNumberVerifiedName  String?
   webhookStatus                    Boolean @default(false)
 
-  selectedPhoneNumberId             String[]
-  facebookConnectStatus            Boolean           @default(false)
-  createdAt                         DateTime          @default(now())
-  hashedRefresh                     String?
-  messageTemplates                MessageTemplate[]
-  automations                     Automation[]
+  selectedPhoneNumberId String[]
+  facebookConnectStatus Boolean           @default(false)
+  createdAt             DateTime          @default(now())
+  hashedRefresh         String?
+  messageTemplates      MessageTemplate[]
+  automations           Automation[]
 }
-
 
 model Token {
   id                           String   @id @default(uuid())
@@ -55,37 +54,43 @@ model Token {
 }
 
 model Delivery {
-  id                   String         @id @default(uuid())
-  userId                String?
-  trackingId            String
-  senderName           String
-  senderPhone          String
-  senderAddress        String
-  senderLatitude        String?
-  senderLongitude       String?
-  receiverName         String
-  receiverPhone        String
-  receiverAddress      String
-  receiverLatitude      String?
-  receiverLongitude     String?
-  packageName          String
-  packageCategory      String
-  packageWeight        String
-  packageDimensions    String
-  packageValue         String
-  pickupDate           String
-  courier_name          String?
-  courier_email         String?
-  courier_phone         String?
-  shipbubbleOrderId     String?
-  tracking_url          String?
-  package_amount        String?
-  package_weight        String?
-  shipping_fee          String?
+  id                      String  @id @default(uuid())
+  userId                  String?
+  trackingId              String
+  senderName              String
+  senderPhone             String
+  senderAddress           String
+  senderLatitude          String?
+  senderLongitude         String?
+  receiverName            String
+  receiverPhone           String
+  receiverAddress         String
+  receiverLatitude        String?
+  receiverLongitude       String?
+  packageName             String
+  packageCategory         String
+  packageWeight           String
+  packageDimensions       String
+  packageValue            String
+  pickupDate              String
+  courier_name            String?
+  courier_email           String?
+  courier_phone           String?
+  shipbubbleOrderId       String?
+  tracking_url            String?
+  package_amount          String?
+  package_weight          String?
+  shipping_fee            String?
   shipping_payment_type   String?
-  shipping_payment_status   String?
-  package_status        Json?
-
+  shipping_payment_status String?
+  package_status          Json?
+  checkoutSessionId       String? @unique
+  checkoutUrl             String?
+  paymentAmount           String?
+  paymentCurrency         String?
+  paymentStatus           String  @default("NOT_STARTED")
+  bookingDetails          Json?
+  bookingError            String?
 
   deliveryStatus       String?
   deliveryType         String
@@ -127,29 +132,29 @@ model MessageTemplate {
 }
 
 model Automation {
-  id             String   @id @default(cuid())
-  userId         String
+  id     String @id @default(cuid())
+  userId String
 
   // Display name
-  name           String
+  name String
 
   // WHEN
-  trigger        String
-  triggerValue   String?
+  trigger      String
+  triggerValue String?
 
   // THEN
   action         String
   actionTemplate String
 
   // State
-  enabled        Boolean  @default(true)
+  enabled Boolean @default(true)
 
   // Execution statistics
-  totalRuns      Int      @default(0)
-  lastTriggered  DateTime?
+  totalRuns     Int       @default(0)
+  lastTriggered DateTime?
 
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 

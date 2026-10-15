@@ -3666,6 +3666,12 @@ export namespace Prisma {
     shipping_fee: string | null
     shipping_payment_type: string | null
     shipping_payment_status: string | null
+    checkoutSessionId: string | null
+    checkoutUrl: string | null
+    paymentAmount: string | null
+    paymentCurrency: string | null
+    paymentStatus: string | null
+    bookingError: string | null
     deliveryStatus: string | null
     deliveryType: string | null
     deliveryInstructions: string | null
@@ -3703,6 +3709,12 @@ export namespace Prisma {
     shipping_fee: string | null
     shipping_payment_type: string | null
     shipping_payment_status: string | null
+    checkoutSessionId: string | null
+    checkoutUrl: string | null
+    paymentAmount: string | null
+    paymentCurrency: string | null
+    paymentStatus: string | null
+    bookingError: string | null
     deliveryStatus: string | null
     deliveryType: string | null
     deliveryInstructions: string | null
@@ -3741,6 +3753,13 @@ export namespace Prisma {
     shipping_payment_type: number
     shipping_payment_status: number
     package_status: number
+    checkoutSessionId: number
+    checkoutUrl: number
+    paymentAmount: number
+    paymentCurrency: number
+    paymentStatus: number
+    bookingDetails: number
+    bookingError: number
     deliveryStatus: number
     deliveryType: number
     deliveryInstructions: number
@@ -3780,6 +3799,12 @@ export namespace Prisma {
     shipping_fee?: true
     shipping_payment_type?: true
     shipping_payment_status?: true
+    checkoutSessionId?: true
+    checkoutUrl?: true
+    paymentAmount?: true
+    paymentCurrency?: true
+    paymentStatus?: true
+    bookingError?: true
     deliveryStatus?: true
     deliveryType?: true
     deliveryInstructions?: true
@@ -3817,6 +3842,12 @@ export namespace Prisma {
     shipping_fee?: true
     shipping_payment_type?: true
     shipping_payment_status?: true
+    checkoutSessionId?: true
+    checkoutUrl?: true
+    paymentAmount?: true
+    paymentCurrency?: true
+    paymentStatus?: true
+    bookingError?: true
     deliveryStatus?: true
     deliveryType?: true
     deliveryInstructions?: true
@@ -3855,6 +3886,13 @@ export namespace Prisma {
     shipping_payment_type?: true
     shipping_payment_status?: true
     package_status?: true
+    checkoutSessionId?: true
+    checkoutUrl?: true
+    paymentAmount?: true
+    paymentCurrency?: true
+    paymentStatus?: true
+    bookingDetails?: true
+    bookingError?: true
     deliveryStatus?: true
     deliveryType?: true
     deliveryInstructions?: true
@@ -3966,6 +4004,13 @@ export namespace Prisma {
     shipping_payment_type: string | null
     shipping_payment_status: string | null
     package_status: JsonValue | null
+    checkoutSessionId: string | null
+    checkoutUrl: string | null
+    paymentAmount: string | null
+    paymentCurrency: string | null
+    paymentStatus: string
+    bookingDetails: JsonValue | null
+    bookingError: string | null
     deliveryStatus: string | null
     deliveryType: string
     deliveryInstructions: string | null
@@ -4021,6 +4066,13 @@ export namespace Prisma {
     shipping_payment_type?: boolean
     shipping_payment_status?: boolean
     package_status?: boolean
+    checkoutSessionId?: boolean
+    checkoutUrl?: boolean
+    paymentAmount?: boolean
+    paymentCurrency?: boolean
+    paymentStatus?: boolean
+    bookingDetails?: boolean
+    bookingError?: boolean
     deliveryStatus?: boolean
     deliveryType?: boolean
     deliveryInstructions?: boolean
@@ -4059,6 +4111,13 @@ export namespace Prisma {
     shipping_payment_type?: boolean
     shipping_payment_status?: boolean
     package_status?: boolean
+    checkoutSessionId?: boolean
+    checkoutUrl?: boolean
+    paymentAmount?: boolean
+    paymentCurrency?: boolean
+    paymentStatus?: boolean
+    bookingDetails?: boolean
+    bookingError?: boolean
     deliveryStatus?: boolean
     deliveryType?: boolean
     deliveryInstructions?: boolean
@@ -4097,6 +4156,13 @@ export namespace Prisma {
     shipping_payment_type?: boolean
     shipping_payment_status?: boolean
     package_status?: boolean
+    checkoutSessionId?: boolean
+    checkoutUrl?: boolean
+    paymentAmount?: boolean
+    paymentCurrency?: boolean
+    paymentStatus?: boolean
+    bookingDetails?: boolean
+    bookingError?: boolean
     deliveryStatus?: boolean
     deliveryType?: boolean
     deliveryInstructions?: boolean
@@ -4135,6 +4201,13 @@ export namespace Prisma {
     shipping_payment_type?: boolean
     shipping_payment_status?: boolean
     package_status?: boolean
+    checkoutSessionId?: boolean
+    checkoutUrl?: boolean
+    paymentAmount?: boolean
+    paymentCurrency?: boolean
+    paymentStatus?: boolean
+    bookingDetails?: boolean
+    bookingError?: boolean
     deliveryStatus?: boolean
     deliveryType?: boolean
     deliveryInstructions?: boolean
@@ -4142,7 +4215,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type DeliveryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "trackingId" | "senderName" | "senderPhone" | "senderAddress" | "senderLatitude" | "senderLongitude" | "receiverName" | "receiverPhone" | "receiverAddress" | "receiverLatitude" | "receiverLongitude" | "packageName" | "packageCategory" | "packageWeight" | "packageDimensions" | "packageValue" | "pickupDate" | "courier_name" | "courier_email" | "courier_phone" | "shipbubbleOrderId" | "tracking_url" | "package_amount" | "package_weight" | "shipping_fee" | "shipping_payment_type" | "shipping_payment_status" | "package_status" | "deliveryStatus" | "deliveryType" | "deliveryInstructions" | "createdAt" | "updatedAt", ExtArgs["result"]["delivery"]>
+  export type DeliveryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "trackingId" | "senderName" | "senderPhone" | "senderAddress" | "senderLatitude" | "senderLongitude" | "receiverName" | "receiverPhone" | "receiverAddress" | "receiverLatitude" | "receiverLongitude" | "packageName" | "packageCategory" | "packageWeight" | "packageDimensions" | "packageValue" | "pickupDate" | "courier_name" | "courier_email" | "courier_phone" | "shipbubbleOrderId" | "tracking_url" | "package_amount" | "package_weight" | "shipping_fee" | "shipping_payment_type" | "shipping_payment_status" | "package_status" | "checkoutSessionId" | "checkoutUrl" | "paymentAmount" | "paymentCurrency" | "paymentStatus" | "bookingDetails" | "bookingError" | "deliveryStatus" | "deliveryType" | "deliveryInstructions" | "createdAt" | "updatedAt", ExtArgs["result"]["delivery"]>
 
   export type $DeliveryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Delivery"
@@ -4178,6 +4251,13 @@ export namespace Prisma {
       shipping_payment_type: string | null
       shipping_payment_status: string | null
       package_status: Prisma.JsonValue | null
+      checkoutSessionId: string | null
+      checkoutUrl: string | null
+      paymentAmount: string | null
+      paymentCurrency: string | null
+      paymentStatus: string
+      bookingDetails: Prisma.JsonValue | null
+      bookingError: string | null
       deliveryStatus: string | null
       deliveryType: string
       deliveryInstructions: string | null
@@ -4636,6 +4716,13 @@ export namespace Prisma {
     readonly shipping_payment_type: FieldRef<"Delivery", 'String'>
     readonly shipping_payment_status: FieldRef<"Delivery", 'String'>
     readonly package_status: FieldRef<"Delivery", 'Json'>
+    readonly checkoutSessionId: FieldRef<"Delivery", 'String'>
+    readonly checkoutUrl: FieldRef<"Delivery", 'String'>
+    readonly paymentAmount: FieldRef<"Delivery", 'String'>
+    readonly paymentCurrency: FieldRef<"Delivery", 'String'>
+    readonly paymentStatus: FieldRef<"Delivery", 'String'>
+    readonly bookingDetails: FieldRef<"Delivery", 'Json'>
+    readonly bookingError: FieldRef<"Delivery", 'String'>
     readonly deliveryStatus: FieldRef<"Delivery", 'String'>
     readonly deliveryType: FieldRef<"Delivery", 'String'>
     readonly deliveryInstructions: FieldRef<"Delivery", 'String'>
@@ -7449,6 +7536,13 @@ export namespace Prisma {
     shipping_payment_type: 'shipping_payment_type',
     shipping_payment_status: 'shipping_payment_status',
     package_status: 'package_status',
+    checkoutSessionId: 'checkoutSessionId',
+    checkoutUrl: 'checkoutUrl',
+    paymentAmount: 'paymentAmount',
+    paymentCurrency: 'paymentCurrency',
+    paymentStatus: 'paymentStatus',
+    bookingDetails: 'bookingDetails',
+    bookingError: 'bookingError',
     deliveryStatus: 'deliveryStatus',
     deliveryType: 'deliveryType',
     deliveryInstructions: 'deliveryInstructions',
@@ -7879,6 +7973,13 @@ export namespace Prisma {
     shipping_payment_type?: StringNullableFilter<"Delivery"> | string | null
     shipping_payment_status?: StringNullableFilter<"Delivery"> | string | null
     package_status?: JsonNullableFilter<"Delivery">
+    checkoutSessionId?: StringNullableFilter<"Delivery"> | string | null
+    checkoutUrl?: StringNullableFilter<"Delivery"> | string | null
+    paymentAmount?: StringNullableFilter<"Delivery"> | string | null
+    paymentCurrency?: StringNullableFilter<"Delivery"> | string | null
+    paymentStatus?: StringFilter<"Delivery"> | string
+    bookingDetails?: JsonNullableFilter<"Delivery">
+    bookingError?: StringNullableFilter<"Delivery"> | string | null
     deliveryStatus?: StringNullableFilter<"Delivery"> | string | null
     deliveryType?: StringFilter<"Delivery"> | string
     deliveryInstructions?: StringNullableFilter<"Delivery"> | string | null
@@ -7917,6 +8018,13 @@ export namespace Prisma {
     shipping_payment_type?: SortOrderInput | SortOrder
     shipping_payment_status?: SortOrderInput | SortOrder
     package_status?: SortOrderInput | SortOrder
+    checkoutSessionId?: SortOrderInput | SortOrder
+    checkoutUrl?: SortOrderInput | SortOrder
+    paymentAmount?: SortOrderInput | SortOrder
+    paymentCurrency?: SortOrderInput | SortOrder
+    paymentStatus?: SortOrder
+    bookingDetails?: SortOrderInput | SortOrder
+    bookingError?: SortOrderInput | SortOrder
     deliveryStatus?: SortOrderInput | SortOrder
     deliveryType?: SortOrder
     deliveryInstructions?: SortOrderInput | SortOrder
@@ -7926,6 +8034,7 @@ export namespace Prisma {
 
   export type DeliveryWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    checkoutSessionId?: string
     AND?: DeliveryWhereInput | DeliveryWhereInput[]
     OR?: DeliveryWhereInput[]
     NOT?: DeliveryWhereInput | DeliveryWhereInput[]
@@ -7958,12 +8067,18 @@ export namespace Prisma {
     shipping_payment_type?: StringNullableFilter<"Delivery"> | string | null
     shipping_payment_status?: StringNullableFilter<"Delivery"> | string | null
     package_status?: JsonNullableFilter<"Delivery">
+    checkoutUrl?: StringNullableFilter<"Delivery"> | string | null
+    paymentAmount?: StringNullableFilter<"Delivery"> | string | null
+    paymentCurrency?: StringNullableFilter<"Delivery"> | string | null
+    paymentStatus?: StringFilter<"Delivery"> | string
+    bookingDetails?: JsonNullableFilter<"Delivery">
+    bookingError?: StringNullableFilter<"Delivery"> | string | null
     deliveryStatus?: StringNullableFilter<"Delivery"> | string | null
     deliveryType?: StringFilter<"Delivery"> | string
     deliveryInstructions?: StringNullableFilter<"Delivery"> | string | null
     createdAt?: DateTimeFilter<"Delivery"> | Date | string
     updatedAt?: DateTimeFilter<"Delivery"> | Date | string
-  }, "id">
+  }, "id" | "checkoutSessionId">
 
   export type DeliveryOrderByWithAggregationInput = {
     id?: SortOrder
@@ -7996,6 +8111,13 @@ export namespace Prisma {
     shipping_payment_type?: SortOrderInput | SortOrder
     shipping_payment_status?: SortOrderInput | SortOrder
     package_status?: SortOrderInput | SortOrder
+    checkoutSessionId?: SortOrderInput | SortOrder
+    checkoutUrl?: SortOrderInput | SortOrder
+    paymentAmount?: SortOrderInput | SortOrder
+    paymentCurrency?: SortOrderInput | SortOrder
+    paymentStatus?: SortOrder
+    bookingDetails?: SortOrderInput | SortOrder
+    bookingError?: SortOrderInput | SortOrder
     deliveryStatus?: SortOrderInput | SortOrder
     deliveryType?: SortOrder
     deliveryInstructions?: SortOrderInput | SortOrder
@@ -8040,6 +8162,13 @@ export namespace Prisma {
     shipping_payment_type?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
     shipping_payment_status?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
     package_status?: JsonNullableWithAggregatesFilter<"Delivery">
+    checkoutSessionId?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
+    checkoutUrl?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
+    paymentAmount?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
+    paymentCurrency?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
+    paymentStatus?: StringWithAggregatesFilter<"Delivery"> | string
+    bookingDetails?: JsonNullableWithAggregatesFilter<"Delivery">
+    bookingError?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
     deliveryStatus?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
     deliveryType?: StringWithAggregatesFilter<"Delivery"> | string
     deliveryInstructions?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
@@ -8538,6 +8667,13 @@ export namespace Prisma {
     shipping_payment_type?: string | null
     shipping_payment_status?: string | null
     package_status?: NullableJsonNullValueInput | InputJsonValue
+    checkoutSessionId?: string | null
+    checkoutUrl?: string | null
+    paymentAmount?: string | null
+    paymentCurrency?: string | null
+    paymentStatus?: string
+    bookingDetails?: NullableJsonNullValueInput | InputJsonValue
+    bookingError?: string | null
     deliveryStatus?: string | null
     deliveryType: string
     deliveryInstructions?: string | null
@@ -8576,6 +8712,13 @@ export namespace Prisma {
     shipping_payment_type?: string | null
     shipping_payment_status?: string | null
     package_status?: NullableJsonNullValueInput | InputJsonValue
+    checkoutSessionId?: string | null
+    checkoutUrl?: string | null
+    paymentAmount?: string | null
+    paymentCurrency?: string | null
+    paymentStatus?: string
+    bookingDetails?: NullableJsonNullValueInput | InputJsonValue
+    bookingError?: string | null
     deliveryStatus?: string | null
     deliveryType: string
     deliveryInstructions?: string | null
@@ -8614,6 +8757,13 @@ export namespace Prisma {
     shipping_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
     shipping_payment_status?: NullableStringFieldUpdateOperationsInput | string | null
     package_status?: NullableJsonNullValueInput | InputJsonValue
+    checkoutSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    checkoutUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentAmount?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentCurrency?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: StringFieldUpdateOperationsInput | string
+    bookingDetails?: NullableJsonNullValueInput | InputJsonValue
+    bookingError?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryStatus?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryType?: StringFieldUpdateOperationsInput | string
     deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8652,6 +8802,13 @@ export namespace Prisma {
     shipping_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
     shipping_payment_status?: NullableStringFieldUpdateOperationsInput | string | null
     package_status?: NullableJsonNullValueInput | InputJsonValue
+    checkoutSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    checkoutUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentAmount?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentCurrency?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: StringFieldUpdateOperationsInput | string
+    bookingDetails?: NullableJsonNullValueInput | InputJsonValue
+    bookingError?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryStatus?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryType?: StringFieldUpdateOperationsInput | string
     deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8690,6 +8847,13 @@ export namespace Prisma {
     shipping_payment_type?: string | null
     shipping_payment_status?: string | null
     package_status?: NullableJsonNullValueInput | InputJsonValue
+    checkoutSessionId?: string | null
+    checkoutUrl?: string | null
+    paymentAmount?: string | null
+    paymentCurrency?: string | null
+    paymentStatus?: string
+    bookingDetails?: NullableJsonNullValueInput | InputJsonValue
+    bookingError?: string | null
     deliveryStatus?: string | null
     deliveryType: string
     deliveryInstructions?: string | null
@@ -8728,6 +8892,13 @@ export namespace Prisma {
     shipping_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
     shipping_payment_status?: NullableStringFieldUpdateOperationsInput | string | null
     package_status?: NullableJsonNullValueInput | InputJsonValue
+    checkoutSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    checkoutUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentAmount?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentCurrency?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: StringFieldUpdateOperationsInput | string
+    bookingDetails?: NullableJsonNullValueInput | InputJsonValue
+    bookingError?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryStatus?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryType?: StringFieldUpdateOperationsInput | string
     deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8766,6 +8937,13 @@ export namespace Prisma {
     shipping_payment_type?: NullableStringFieldUpdateOperationsInput | string | null
     shipping_payment_status?: NullableStringFieldUpdateOperationsInput | string | null
     package_status?: NullableJsonNullValueInput | InputJsonValue
+    checkoutSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    checkoutUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentAmount?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentCurrency?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: StringFieldUpdateOperationsInput | string
+    bookingDetails?: NullableJsonNullValueInput | InputJsonValue
+    bookingError?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryStatus?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryType?: StringFieldUpdateOperationsInput | string
     deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9295,6 +9473,13 @@ export namespace Prisma {
     shipping_payment_type?: SortOrder
     shipping_payment_status?: SortOrder
     package_status?: SortOrder
+    checkoutSessionId?: SortOrder
+    checkoutUrl?: SortOrder
+    paymentAmount?: SortOrder
+    paymentCurrency?: SortOrder
+    paymentStatus?: SortOrder
+    bookingDetails?: SortOrder
+    bookingError?: SortOrder
     deliveryStatus?: SortOrder
     deliveryType?: SortOrder
     deliveryInstructions?: SortOrder
@@ -9332,6 +9517,12 @@ export namespace Prisma {
     shipping_fee?: SortOrder
     shipping_payment_type?: SortOrder
     shipping_payment_status?: SortOrder
+    checkoutSessionId?: SortOrder
+    checkoutUrl?: SortOrder
+    paymentAmount?: SortOrder
+    paymentCurrency?: SortOrder
+    paymentStatus?: SortOrder
+    bookingError?: SortOrder
     deliveryStatus?: SortOrder
     deliveryType?: SortOrder
     deliveryInstructions?: SortOrder
@@ -9369,6 +9560,12 @@ export namespace Prisma {
     shipping_fee?: SortOrder
     shipping_payment_type?: SortOrder
     shipping_payment_status?: SortOrder
+    checkoutSessionId?: SortOrder
+    checkoutUrl?: SortOrder
+    paymentAmount?: SortOrder
+    paymentCurrency?: SortOrder
+    paymentStatus?: SortOrder
+    bookingError?: SortOrder
     deliveryStatus?: SortOrder
     deliveryType?: SortOrder
     deliveryInstructions?: SortOrder

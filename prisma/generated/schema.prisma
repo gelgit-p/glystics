@@ -84,6 +84,13 @@ model Delivery {
   shipping_payment_type   String?
   shipping_payment_status String?
   package_status          Json?
+  checkoutSessionId       String? @unique
+  checkoutUrl             String?
+  paymentAmount           String?
+  paymentCurrency         String?
+  paymentStatus           String  @default("NOT_STARTED")
+  bookingDetails          Json?
+  bookingError            String?
 
   deliveryStatus       String?
   deliveryType         String
