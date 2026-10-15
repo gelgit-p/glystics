@@ -225,6 +225,7 @@ export class WebhookController {
           'Shipment cancelled:',
           payload.order_id,
         );
+        await this.syncDeliveryStatus(payload, 'CANCELLED');
         break;
 
       case 'shipment.cod.remitted':
@@ -284,8 +285,13 @@ export class WebhookController {
 
   private async syncDeliveryStatus(
     payload: Record<string, unknown>,
+    statusOverride?: string,
   ): Promise<void> {
-    if (typeof payload.status !== 'string' || !payload.status.trim()) {
+    const status =
+      statusOverride ??
+      (typeof payload.status === 'string' ? payload.status : '');
+
+    if (!status.trim()) {
       console.error(
         'Cannot update delivery: Shipbubble webhook status is missing',
       );
@@ -336,7 +342,7 @@ export class WebhookController {
     const updatedCount =
       await this.deliveryService.syncShipbubbleStatusByOrderId(
         payload.order_id,
-        payload.status,
+        status,
         packageStatus,
       );
 
@@ -348,7 +354,7 @@ export class WebhookController {
     }
 
     console.log(
-      `Updated ${updatedCount} delivery record(s) to ${payload.status.toUpperCase()} for Shipbubble order ${payload.order_id}`,
+      `Updated ${updatedCount} delivery record(s) to ${status.toUpperCase()} for Shipbubble order ${payload.order_id}`,
     );
   }
 
