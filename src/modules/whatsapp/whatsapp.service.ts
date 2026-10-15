@@ -450,6 +450,8 @@ export class WhatsappService {
 
     const templates = response.data?.data ?? [];
 
+    console.log(templates, 'log templates for whatsapp.');
+
     if (!Array.isArray(templates)) {
       throw new BadRequestException(
         'Invalid message templates response from Facebook',
