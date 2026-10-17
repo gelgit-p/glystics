@@ -903,7 +903,7 @@ async getWabaAssignerToUserId(userId: string) {
       ? `234${digitsOnlyPhone.slice(1)}`
       : digitsOnlyPhone;
 
-    return this.sendUtilityMessage({
+    const response = await this.sendUtilityMessage({
       userId: delivery.userId,
       to: recipientPhone,
       templateName: 'order_confirmed',
@@ -918,6 +918,35 @@ async getWabaAssignerToUserId(userId: string) {
         },
       ],
     });
+
+    const whatsappMessage = Array.isArray(response?.messages)
+      ? response.messages[0]
+      : undefined;
+    const templateMessage =
+      `Hi ${firstName}, \n` +
+      `We're getting your order ${delivery.trackingId} ready and will let you know when it's on the way.`;
+
+    await this.prisma.notification.create({
+      data: {
+        userId: delivery.userId,
+        recipientPhone,
+        templateName: 'order_confirmed',
+        templateLanguage: dto.templateLanguage,
+        templateMessage,
+        whatsappMessageId:
+          typeof whatsappMessage?.id === 'string'
+            ? whatsappMessage.id
+            : null,
+        deliveryTrackingId: delivery.trackingId,
+        sendAt: new Date().toISOString(),
+        status:
+          typeof whatsappMessage?.message_status === 'string'
+            ? whatsappMessage.message_status
+            : 'accepted',
+      },
+    });
+
+    return response;
   }
 
   async sendUtilityMessage(dto: SendUtilityMessageDto): Promise<any> {

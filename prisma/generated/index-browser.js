@@ -244,6 +244,22 @@ exports.Prisma.AutomationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  recipientPhone: 'recipientPhone',
+  templateName: 'templateName',
+  templateLanguage: 'templateLanguage',
+  templateMessage: 'templateMessage',
+  whatsappMessageId: 'whatsappMessageId',
+  deliveryTrackingId: 'deliveryTrackingId',
+  sendAt: 'sendAt',
+  ReadAt: 'ReadAt',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -280,7 +296,8 @@ exports.Prisma.ModelName = {
   Token: 'Token',
   Delivery: 'Delivery',
   MessageTemplate: 'MessageTemplate',
-  Automation: 'Automation'
+  Automation: 'Automation',
+  Notification: 'Notification'
 };
 
 /**
