@@ -170,9 +170,9 @@ export class UpdateDeliveryDto {
   @IsString()
   insurance_policy_condition?: string;
 
-         @ApiProperty()
+         @ApiProperty({ example: 0.002 })
   @IsOptional()
-  @IsNumber({ maxDecimalPlaces: 2 })
+  @IsNumber()
   insure_percentage?: number;
 
          @ApiProperty()
