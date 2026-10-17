@@ -422,17 +422,15 @@ export class AutomationService {
         return [];
       }
 
-      const trigger =
-        event.eventName === 'shipment.label.created'
-          ? 'Shipment label created'
-          : event.eventName === 'shipment.cancelled'
-            ? 'Shipment cancelled'
-            : 'Shipment status changes';
       const triggerValue =
-        event.eventName === 'shipment.status.changed'
+        event.eventName === 'shipment.status.changed' ||
+        event.eventName === 'shipment.cancelled'
           ? this.normalizeShipmentStatus(event.status ?? '')
           : null;
-      if (event.eventName === 'shipment.status.changed' && !event.status?.trim()) {
+      if (
+        event.eventName === 'shipment.status.changed' &&
+        !event.status?.trim()
+      ) {
         this.logger.warn(
           `Automation skipped: ${event.eventName} has no status`,
         );
@@ -449,18 +447,30 @@ export class AutomationService {
         where: {
           userId: delivery.userId,
           enabled: true,
-          trigger,
         },
       });
-      const automations =
-        event.eventName === 'shipment.status.changed'
-          ? matchingAutomations.filter(
-              (automation) =>
-                this.normalizeShipmentStatus(
-                  automation.triggerValue ?? '',
-                ) === triggerValue,
-            )
-          : matchingAutomations;
+      const automations = matchingAutomations.filter((automation) => {
+        if (event.eventName === 'shipment.label.created') {
+          return automation.trigger === 'Shipment label created';
+        }
+
+        if (event.eventName === 'shipment.cancelled') {
+          return (
+            automation.trigger === 'Shipment cancelled' ||
+            (automation.trigger === 'Shipment status changes' &&
+              this.normalizeShipmentStatus(
+                automation.triggerValue ?? '',
+              ) === 'Cancelled')
+          );
+        }
+
+        return (
+          automation.trigger === 'Shipment status changes' &&
+          this.normalizeShipmentStatus(
+            automation.triggerValue ?? '',
+          ) === triggerValue
+        );
+      });
       if (!automations.length) {
         this.logger.log(
           `No enabled automation found for user ${delivery.userId} and event ${event.eventName}`,
@@ -477,12 +487,6 @@ export class AutomationService {
 
       for (const automation of automations) {
         try {
-          if (automation.action !== 'Send WhatsApp template') {
-            throw new BadRequestException(
-              `Unsupported automation action: ${automation.action}`,
-            );
-          }
-
           await this.whatsappService.sendAutomationTemplate({
             userId: delivery.userId,
             to: delivery.receiverPhone,
@@ -568,6 +572,7 @@ export class AutomationService {
       in_transit: 'In Transit',
       out_for_delivery: 'Out for Delivery',
       delivered: 'Delivered',
+      completed: 'Completed',
       failed: 'Failed',
       cancelled: 'Cancelled',
     };
