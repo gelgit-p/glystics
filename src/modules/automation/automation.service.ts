@@ -7,25 +7,25 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { CreateAutomationDto, UpdateAutomationDto } from './dto/automation.dto';
+import { WhatsappService } from '../whatsapp/whatsapp.service';
 
-export interface ShipmentStatusChangeEvent {
-  userId: string;
-  deliveryId?: string;
-
-  status: string;
-  previousStatus?: string;
-
-  receiverName: string;
-  receiverPhone: string;
-
-  trackingCode?: string;
+export interface ShipbubbleAutomationEvent {
+  orderId: string;
+  eventName:
+    | 'shipment.label.created'
+    | 'shipment.status.changed'
+    | 'shipment.cancelled';
+  status?: string;
 }
 
 @Injectable()
 export class AutomationService {
   private readonly logger = new Logger(AutomationService.name);
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly whatsappService: WhatsappService,
+  ) {}
 
   async create(data: CreateAutomationDto) {
     try {
@@ -39,6 +39,15 @@ export class AutomationService {
 
       if (!data.trigger) {
         throw new BadRequestException('Automation trigger is required');
+      }
+
+      if (
+        data.trigger === 'Shipment status changes' &&
+        !data.triggerValue?.trim()
+      ) {
+        throw new BadRequestException(
+          'A shipment status is required for status-change automations',
+        );
       }
 
       if (!data.actionTemplate) {
@@ -57,13 +66,19 @@ export class AutomationService {
         );
       }
 
+      await this.validateTemplateSelection(
+        data.userId,
+        data.action,
+        data.actionTemplate,
+      );
+
       return await this.prisma.automation.create({
         data: {
           userId: data.userId,
           name: data.name.trim(),
           trigger: data.trigger,
           triggerValue: data.triggerValue,
-          action: data.action ?? 'Send WhatsApp template',
+          action: data.action,
           actionTemplate: data.actionTemplate,
           enabled: data.enabled ?? true,
         },
@@ -128,7 +143,10 @@ export class AutomationService {
 
       return automation;
     } catch (error) {
-      if (error instanceof NotFoundException) {
+      if (
+        error instanceof NotFoundException ||
+        error instanceof BadRequestException
+      ) {
         throw error;
       }
 
@@ -159,6 +177,27 @@ export class AutomationService {
         );
       }
 
+      const selectedAction = data.action ?? automation.action;
+      const selectedTemplate = data.actionTemplate ?? automation.actionTemplate;
+      const selectedTrigger = data.trigger ?? automation.trigger;
+      const selectedTriggerValue =
+        data.triggerValue !== undefined
+          ? data.triggerValue
+          : automation.triggerValue;
+      if (
+        selectedTrigger === 'Shipment status changes' &&
+        !selectedTriggerValue?.trim()
+      ) {
+        throw new BadRequestException(
+          'A shipment status is required for status-change automations',
+        );
+      }
+      await this.validateTemplateSelection(
+        userId,
+        selectedAction,
+        selectedTemplate,
+      );
+
       return await this.prisma.automation.update({
         where: {
           id,
@@ -175,6 +214,10 @@ export class AutomationService {
           ...(data.triggerValue !== undefined && {
             triggerValue: data.triggerValue,
           }),
+          ...(data.trigger !== undefined &&
+            data.trigger !== 'Shipment status changes' && {
+              triggerValue: null,
+            }),
 
           ...(data.action !== undefined && {
             action: data.action,
@@ -190,7 +233,10 @@ export class AutomationService {
         },
       });
     } catch (error) {
-      if (error instanceof NotFoundException) {
+      if (
+        error instanceof NotFoundException ||
+        error instanceof BadRequestException
+      ) {
         throw error;
       }
 
@@ -302,6 +348,30 @@ export class AutomationService {
     }
   }
 
+  private async validateTemplateSelection(
+    userId: string,
+    templateName: string,
+    templateId: string,
+  ): Promise<void> {
+    const legacyTemplateSelection = templateName === 'Send WhatsApp template';
+    const template = await this.prisma.messageTemplate.findFirst({
+      where: {
+        userId,
+        ...(legacyTemplateSelection
+          ? { name: templateId }
+          : { name: templateName, metaTemplateId: templateId }),
+        status: 'APPROVED',
+      },
+      select: { id: true },
+    });
+
+    if (!template) {
+      throw new BadRequestException(
+        'Selected WhatsApp template is not approved or does not belong to this user',
+      );
+    }
+  }
+
   /**
    * Used by your ShipBubble webhook to find
    * automations matching a shipment status.
@@ -327,176 +397,107 @@ export class AutomationService {
     }
   }
 
-  async handleShipmentStatusChange(
-    event: ShipmentStatusChangeEvent,
-  ) {
+  async handleShipbubbleEvent(event: ShipbubbleAutomationEvent) {
     try {
-      const {
-        userId,
-        status,
-        previousStatus,
-        deliveryId,
-        receiverName,
-        receiverPhone,
-        trackingCode,
-      } = event;
-
-      if (!userId) {
+      const delivery = await this.prisma.delivery.findFirst({
+        where: { shipbubbleOrderId: event.orderId },
+        select: {
+          id: true,
+          userId: true,
+          receiverName: true,
+          receiverPhone: true,
+          trackingId: true,
+        },
+      });
+      if (!delivery) {
         this.logger.warn(
-          'Automation skipped: userId is missing',
+          `Automation skipped: delivery for Shipbubble order ${event.orderId} was not found`,
         );
-
+        return [];
+      }
+      if (!delivery.userId) {
+        this.logger.warn(
+          `Automation skipped: delivery ${delivery.id} has no user`,
+        );
         return [];
       }
 
-      if (!status) {
-        this.logger.warn(
-          'Automation skipped: shipment status is missing',
-        );
-
-        return [];
-      }
-
-      /*
-       * ShipBubble may return values such as:
-       *
-       * picked_up
-       * in_transit
-       * out_for_delivery
-       * delivered
-       * failed
-       *
-       * Your frontend currently stores:
-       *
-       * Picked Up
-       * In Transit
-       * Out for Delivery
-       * Delivered
-       * Failed
-       *
-       * Normalize before querying Prisma.
-       */
+      const trigger =
+        event.eventName === 'shipment.label.created'
+          ? 'Shipment label created'
+          : event.eventName === 'shipment.cancelled'
+            ? 'Shipment cancelled'
+            : 'Shipment status changes';
       const triggerValue =
-        this.normalizeShipmentStatus(status);
-
-      this.logger.log(
-        `Processing shipment status automation: ${status} -> ${triggerValue}`,
-      );
-
-      // Avoid running an automation when nothing actually changed.
-      if (previousStatus) {
-        const normalizedPreviousStatus =
-          this.normalizeShipmentStatus(previousStatus);
-
-        if (normalizedPreviousStatus === triggerValue) {
-          this.logger.log(
-            `Shipment status has not changed. Skipping automations.`,
-          );
-
-          return [];
-        }
+        event.eventName === 'shipment.status.changed'
+          ? this.normalizeShipmentStatus(event.status ?? '')
+          : null;
+      if (event.eventName === 'shipment.status.changed' && !event.status?.trim()) {
+        this.logger.warn(
+          `Automation skipped: ${event.eventName} has no status`,
+        );
+        return [];
       }
+      const messageStatus =
+        event.eventName === 'shipment.cancelled'
+          ? 'Cancelled'
+          : event.eventName === 'shipment.label.created'
+            ? 'Label created'
+            : triggerValue!;
 
-      /*
-       * Find automations belonging to THIS vendor only.
-       *
-       * Example:
-       *
-       * trigger      = "Shipment status changes"
-       * triggerValue = "Picked Up"
-       * enabled      = true
-       */
+      const matchingAutomations = await this.prisma.automation.findMany({
+        where: {
+          userId: delivery.userId,
+          enabled: true,
+          trigger,
+        },
+      });
       const automations =
-        await this.prisma.automation.findMany({
-          where: {
-            userId,
-            enabled: true,
-            trigger: 'Shipment status changes',
-            triggerValue,
-          },
-        });
-
+        event.eventName === 'shipment.status.changed'
+          ? matchingAutomations.filter(
+              (automation) =>
+                this.normalizeShipmentStatus(
+                  automation.triggerValue ?? '',
+                ) === triggerValue,
+            )
+          : matchingAutomations;
       if (!automations.length) {
         this.logger.log(
-          `No enabled automation found for user ${userId} and status "${triggerValue}"`,
+          `No enabled automation found for user ${delivery.userId} and event ${event.eventName}`,
         );
-
         return [];
       }
 
-      this.logger.log(
-        `Found ${automations.length} automation(s) for "${triggerValue}"`,
-      );
-
-      const results: Array<
-        | {
-            success: true;
-            automationId: string;
-            automationName: string;
-            actionTemplate: string;
-            deliveryId: string | undefined;
-            trackingCode: string | undefined;
-            receiverName: string;
-            receiverPhone: string;
-            status: string;
-            totalRuns: number;
-          }
-        | {
-            success: false;
-            automationId: string;
-            automationName: string;
-            error: string;
-          }
-      > = [];
+      const results: Array<{
+        success: boolean;
+        automationId: string;
+        automationName: string;
+        error?: string;
+      }> = [];
 
       for (const automation of automations) {
         try {
-          this.logger.log(
-            `Executing automation: ${automation.name}`,
-          );
-
-          /*
-           * At the moment your Automation model supports
-           * an action string.
-           *
-           * We only execute the WhatsApp action here.
-           */
-          if (
-            automation.action !==
-            'Send WhatsApp template'
-          ) {
-            this.logger.warn(
+          if (automation.action !== 'Send WhatsApp template') {
+            throw new BadRequestException(
               `Unsupported automation action: ${automation.action}`,
             );
-
-            continue;
           }
 
-          /*
-           * TODO:
-           * Call your existing WhatsApp sending function here.
-           *
-           * Example:
-           *
-           * await this.whatsappService.sendTemplate({
-           *   userId,
-           *   to: receiverPhone,
-           *   templateName: automation.actionTemplate,
-           *   variables: {
-           *     customer_name: receiverName,
-           *     delivery_status: triggerValue,
-           *     tracking_code: trackingCode,
-           *   },
-           * });
-           */
-
-          this.logger.log(
-            `Would send WhatsApp template "${automation.actionTemplate}" to ${receiverPhone}`,
-          );
-
-          /*
-           * Only count the run after the action succeeds.
-           */
+          await this.whatsappService.sendAutomationTemplate({
+            userId: delivery.userId,
+            to: delivery.receiverPhone,
+            templateName:
+              automation.action === 'Send WhatsApp template'
+                ? automation.actionTemplate
+                : automation.action,
+            templateId:
+              automation.action === 'Send WhatsApp template'
+                ? undefined
+                : automation.actionTemplate,
+            trackingId: delivery.trackingId,
+            customerName: delivery.receiverName,
+            status: messageStatus,
+          });
           const updatedAutomation =
             await this.prisma.automation.update({
               where: {
@@ -512,21 +513,12 @@ export class AutomationService {
 
           results.push({
             success: true,
-            automationId: automation.id,
-            automationName: automation.name,
-            actionTemplate:
-              automation.actionTemplate,
-            deliveryId,
-            trackingCode,
-            receiverName,
-            receiverPhone,
-            status: triggerValue,
-            totalRuns:
-              updatedAutomation.totalRuns,
+            automationId: updatedAutomation.id,
+            automationName: updatedAutomation.name,
           });
 
           this.logger.log(
-            `Automation "${automation.name}" completed successfully`,
+            `Automation "${automation.name}" sent template "${automation.actionTemplate}" for ${event.eventName}`,
           );
         } catch (error) {
           this.logger.error(
@@ -540,10 +532,7 @@ export class AutomationService {
             success: false,
             automationId: automation.id,
             automationName: automation.name,
-            error:
-              error instanceof Error
-                ? error.message
-                : 'Unknown error',
+            error: error instanceof Error ? error.message : 'Unknown error',
           });
         }
       }
@@ -571,6 +560,8 @@ export class AutomationService {
       .replace(/\s+/g, '_');
 
     const statuses: Record<string, string> = {
+      pending: 'Pending',
+      confirmed: 'Confirmed',
       picked_up: 'Picked Up',
       pickup_scheduled: 'Pickup Scheduled',
       rider_assigned: 'Rider Assigned',
@@ -578,8 +569,9 @@ export class AutomationService {
       out_for_delivery: 'Out for Delivery',
       delivered: 'Delivered',
       failed: 'Failed',
+      cancelled: 'Cancelled',
     };
 
-    return statuses[normalized] ?? status;
+    return statuses[normalized] ?? status.trim();
   }
 }

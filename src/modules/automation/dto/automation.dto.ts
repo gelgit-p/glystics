@@ -1,45 +1,74 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { IsBoolean, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class CreateAutomationDto {
-    @ApiProperty()
-  userId: string;
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  userId!: string;
 
   @ApiProperty()
-  name: string;
+  @IsString()
+  @IsNotEmpty()
+  name!: string;
 
   @ApiProperty()
-  trigger: string;
+  @IsString()
+  @IsNotEmpty()
+  trigger!: string;
 
-  @ApiProperty()
-  triggerValue?: string;
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  triggerValue?: string | null;
 
-  @ApiProperty()
-  action?: string;
+  @ApiProperty({ description: 'Selected WhatsApp template name' })
+  @IsString()
+  @IsNotEmpty()
+  action!: string;
 
-  @ApiProperty()
-  actionTemplate: string;
+  @ApiProperty({ description: 'Selected WhatsApp template Meta ID' })
+  @IsString()
+  @IsNotEmpty()
+  actionTemplate!: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsBoolean()
   enabled?: boolean;
 }
 
 
 export class UpdateAutomationDto {
-    @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
   name?: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
   trigger?: string;
 
-  @ApiProperty()
-  triggerValue?: string;
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  triggerValue?: string | null;
 
-  @ApiProperty()
+  @ApiPropertyOptional({ description: 'Selected WhatsApp template name' })
+  @IsOptional()
+  @IsString()
   action?: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional({ description: 'Selected WhatsApp template Meta ID' })
+  @IsOptional()
+  @IsString()
   actionTemplate?: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsBoolean()
   enabled?: boolean;
 }
