@@ -60,6 +60,7 @@ export class DeliveryService {
       deliveryStatus: data.deliveryStatus ?? 'CREATED',
       trackingId: `SD${Math.floor(10000 + Math.random() * 90000)}`,
       paymentStatus: 'PENDING',
+      bookingStatus: 'BOOKED',
       updatedAt: new Date(),
     },
   });
