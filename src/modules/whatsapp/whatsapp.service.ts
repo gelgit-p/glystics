@@ -5,6 +5,7 @@ import { firstValueFrom } from 'rxjs';
 import { AccessTokenDto, MessageDto, WebhookSubscriptionDto } from './dto/whatsapp.dto';
 import { CreateMessageTemplateDto } from './dto/create-message-template.dto';
 import { SendUtilityMessageDto } from './dto/send-utility-message.dto';
+import { SendOrderConfirmationDto } from './dto/send-order-confirmation.dto';
 import { PrismaService } from 'prisma/prisma.service';
 import { TokenDto } from './dto/token.dto';
 import * as crypto from "crypto";
@@ -856,16 +857,87 @@ async getWabaAssignerToUserId(userId: string) {
   return data;
 }
 
+  async sendOrderConfirmation(dto: SendOrderConfirmationDto): Promise<any> {
+    const [user, delivery] = await Promise.all([
+      this.prisma.user.findUnique({
+        where: { id: dto.userId },
+        select: { fullName: true },
+      }),
+      this.prisma.delivery.findFirst({
+        where: {
+          userId: dto.userId,
+          trackingId: dto.trackingId,
+        },
+        select: {
+          senderPhone: true,
+          trackingId: true,
+        },
+      }),
+    ]);
+
+    if (!user) {
+      throw new NotFoundException(`User with ID ${dto.userId} not found`);
+    }
+    if (!delivery) {
+      throw new NotFoundException(
+        `Delivery with tracking ID ${dto.trackingId} was not found for this user`,
+      );
+    }
+
+    const firstName = user.fullName.trim().split(/\s+/)[0];
+    if (!firstName) {
+      throw new BadRequestException('The user does not have a first name');
+    }
+
+    const digitsOnlyPhone = delivery.senderPhone.replace(/\D/g, '');
+    const recipientPhone = digitsOnlyPhone.startsWith('0')
+      ? `234${digitsOnlyPhone.slice(1)}`
+      : digitsOnlyPhone;
+    if (!recipientPhone) {
+      throw new BadRequestException(
+        'The delivery sender phone number is invalid',
+      );
+    }
+
+    return this.sendUtilityMessage({
+      userId: dto.userId,
+      to: recipientPhone,
+      templateName: 'order_confirmed',
+      templateLanguage: dto.templateLanguage,
+      components: [
+        {
+          type: 'body',
+          parameters: [
+            { type: 'text', text: firstName },
+            { type: 'text', text: delivery.trackingId },
+          ],
+        },
+      ],
+    });
+  }
+
   async sendUtilityMessage(dto: SendUtilityMessageDto): Promise<any> {
     const version = this.configService.get<string>('WHATSAPP_VERSION');
-    const phoneNumberId =
+    let phoneNumberId =
       this.configService.get<string>('WHATSAPP_BUSINESS_PHONE_NUMBER_ID') ||
       '1343947352130201';
 
-      let fetch_access_token = await this.prisma.token.findFirst({
-        orderBy: { createdAt: 'desc' },
+    if (dto.userId) {
+      const user = await this.prisma.user.findUnique({
+        where: { id: dto.userId },
+        select: { selectedPhoneNumberId: true },
       });
-      console.log(fetch_access_token, 'fetch access token');
+      if (!user) {
+        throw new NotFoundException(`User with ID ${dto.userId} not found`);
+      }
+      phoneNumberId = user.selectedPhoneNumberId[0] || phoneNumberId;
+    }
+
+    const fetch_access_token = dto.userId
+      ? await this.prisma.token.findUnique({ where: { userId: dto.userId } })
+      : await this.prisma.token.findFirst({
+          orderBy: { createdAt: 'desc' },
+        });
 
     if(!fetch_access_token) {
       throw new Error('No access token found in the database. Please store a valid token first.');
