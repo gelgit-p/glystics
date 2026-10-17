@@ -144,6 +144,12 @@ $ npx prisma migrate dev && npx prisma migrate deploy && npx prisma db push && p
 
 ## 📦 Deployment
 
+The production start script runs `prisma migrate deploy` before starting the
+server, so database column types stay aligned with the generated Prisma Client.
+If the service uses a custom start command instead of `pnpm run start:prod`,
+run `pnpm exec prisma migrate deploy` as a release/pre-deploy command before
+starting the application.
+
 Check out the [NestJS Deployment Guide](https://docs.nestjs.com/deployment) or use:
 
 ```bash
@@ -166,4 +172,3 @@ $ mau deploy
 ## 👨‍💻 Author
 
 Made with ❤️ by \Olzhas— feel free to contribute or fork.
-

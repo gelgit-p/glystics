@@ -161,7 +161,7 @@ export class UpdateDeliveryDto {
 
        @ApiProperty()
   @IsOptional()
-  @IsNumber()
+       @IsNumber({ maxDecimalPlaces: 2 })
   insuranceAmount?: number;
 
   
@@ -172,12 +172,12 @@ export class UpdateDeliveryDto {
 
          @ApiProperty()
   @IsOptional()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
   insure_percentage?: number;
 
          @ApiProperty()
   @IsOptional()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
   insurance_cost?: number;
 
          @ApiProperty()
