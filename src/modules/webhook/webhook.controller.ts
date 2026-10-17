@@ -98,7 +98,6 @@ export class WebhookController {
     payload: Record<string, unknown>,
   ) {
     const secret =
-      process.env.BACHS_WEBHOOK_SECRET ??
       process.env.LOCAL_BACHS_WEBHOOK_SECRET;
 
     if (
