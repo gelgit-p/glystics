@@ -59,6 +59,7 @@ export class DeliveryService {
       ...(data as Prisma.DeliveryCreateInput),
       deliveryStatus: data.deliveryStatus ?? 'CREATED',
       trackingId: `SD${Math.floor(10000 + Math.random() * 90000)}`,
+      paymentStatus: 'PENDING',
       updatedAt: new Date(),
     },
   });
