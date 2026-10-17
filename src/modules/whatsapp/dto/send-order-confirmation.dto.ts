@@ -5,15 +5,15 @@ export class SendOrderConfirmationDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  userId: string;
+  userId!: string;
 
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  trackingId: string;
+  trackingId!: string;
 
-  @ApiProperty({ example: 'en_US' })
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  templateLanguage: string;
+  templateLanguage!: string;
 }
