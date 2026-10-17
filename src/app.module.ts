@@ -17,6 +17,7 @@ import { TerminusModule } from '@nestjs/terminus';
 import { DeliveryModule } from './modules/delivery/delivery.module';
 import { AutomationModule } from './modules/automation/automation.module';
 import { PaymentModule } from './modules/payment/payment.module';
+import { NotificationModule } from './modules/notification/notifcation.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { PaymentModule } from './modules/payment/payment.module';
     TerminusModule,
     DeliveryModule,
     AutomationModule,
+    NotificationModule,
     PaymentModule,
   ],
   controllers: [AppController, HealthController],
