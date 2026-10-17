@@ -153,4 +153,9 @@ export class UpdateDeliveryDto {
   @IsOptional()
   @IsString()
   deliveryInstructions?: string;
+
+     @ApiProperty()
+  @IsOptional()
+  @IsString()
+  paymentStatus?: string;
 }
