@@ -54,44 +54,52 @@ model Token {
 }
 
 model Delivery {
-  id                      String  @id @default(uuid())
-  userId                  String?
-  trackingId              String
-  senderName              String
-  senderPhone             String
-  senderAddress           String
-  senderLatitude          String?
-  senderLongitude         String?
-  receiverName            String
-  receiverPhone           String
-  receiverAddress         String
-  receiverLatitude        String?
-  receiverLongitude       String?
-  packageName             String
-  packageCategory         String
-  packageWeight           String
-  packageDimensions       String
-  packageValue            String
-  pickupDate              String
-  courier_name            String?
-  courier_email           String?
-  courier_phone           String?
-  shipbubbleOrderId       String?
-  tracking_url            String?
-  package_amount          String?
-  package_weight          String?
-  shipping_fee            String?
-  shipping_payment_type   String?
-  shipping_payment_status String?
-  package_status          Json?
-  checkoutSessionId       String? @unique
-  checkoutUrl             String?
-  paymentAmount           String?
-  paymentCurrency         String?
-  paymentStatus           String
-  bookingStatus           String
-  bookingDetails          Json?
-  bookingError            String?
+  id                         String  @id @default(uuid())
+  userId                     String?
+  trackingId                 String
+  senderName                 String
+  senderPhone                String
+  senderAddress              String
+  senderLatitude             String?
+  senderLongitude            String?
+  receiverName               String
+  receiverPhone              String
+  receiverAddress            String
+  receiverLatitude           String?
+  receiverLongitude          String?
+  packageName                String
+  packageCategory            String
+  packageWeight              String
+  packageDimensions          String
+  packageValue               String
+  pickupDate                 String
+  courier_name               String?
+  courier_email              String?
+  courier_phone              String?
+  shipbubbleOrderId          String?
+  tracking_url               String?
+  package_amount             String?
+  package_weight             String?
+  shipping_fee               String?
+  shipping_payment_type      String?
+  shipping_payment_status    String?
+  package_status             Json?
+  checkoutSessionId          String? @unique
+  checkoutUrl                String?
+  paymentAmount              String?
+  paymentCurrency            String?
+  paymentStatus              String
+  bookingStatus              String
+  bookingDetails             Json?
+  deliveryInsurer            String?
+  deliveryCurrency           String?
+  insuranceAmount            Float?
+  insurance_policy_condition String?
+  insure_percentage          Float?
+  insurance_cost             Float?
+  insuranceCode              String?
+  insurerName                String?
+  bookingError               String?
 
   deliveryStatus       String?
   deliveryType         String
