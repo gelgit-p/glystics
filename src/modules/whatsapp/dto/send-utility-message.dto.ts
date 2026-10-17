@@ -29,6 +29,9 @@ export class UtilityMessageComponentDto {
 }
 
 export class SendUtilityMessageDto {
+  @ApiPropertyOptional({ description: 'User whose WhatsApp credentials should be used' })
+  userId?: string;
+
   @ApiProperty({ description: 'Recipient phone number in international format' })
   to: string;
 

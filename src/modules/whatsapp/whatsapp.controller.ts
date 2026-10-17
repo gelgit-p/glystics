@@ -23,6 +23,7 @@ import {
 import { AccessTokenDto, MessageDto, WebhookSubscriptionDto } from './dto/whatsapp.dto';
 import { CreateMessageTemplateDto } from './dto/create-message-template.dto';
 import { SendUtilityMessageDto } from './dto/send-utility-message.dto';
+import { SendOrderConfirmationDto } from './dto/send-order-confirmation.dto';
 import { TokenDto } from './dto/token.dto';
 
 @Controller('whatsapp')
@@ -90,6 +91,11 @@ export class WhatsappController {
   @Post('send-utility-message')
   async sendUtilityMessage(@Body() dto: SendUtilityMessageDto) {
     return await this.whatsappService.sendUtilityMessage(dto);
+  }
+
+  @Post('send-order-confirmation')
+  async sendOrderConfirmation(@Body() dto: SendOrderConfirmationDto) {
+    return await this.whatsappService.sendOrderConfirmation(dto);
   }
 
   @Post('store-token')
