@@ -18,10 +18,14 @@ import {
 
 import { Response } from 'express';
 import { DeliveryService } from '../delivery/delivery.service';
+import { AutomationService } from '../automation/automation.service';
 
 @Controller()
 export class WebhookController {
-  constructor(private readonly deliveryService: DeliveryService) {}
+  constructor(
+    private readonly deliveryService: DeliveryService,
+    private readonly automationService: AutomationService,
+  ) {}
 
   /**
    * WhatsApp webhook verification
@@ -241,6 +245,7 @@ export class WebhookController {
           payload.order_id,
         );
         await this.syncDeliveryStatus(payload);
+        await this.triggerShipmentAutomation(payload, 'shipment.label.created');
         break;
 
       case 'shipment.status.changed':
@@ -250,6 +255,7 @@ export class WebhookController {
           payload.status,
         );
         await this.syncDeliveryStatus(payload);
+        await this.triggerShipmentAutomation(payload, 'shipment.status.changed');
         break;
 
       case 'shipment.cancelled':
@@ -258,6 +264,7 @@ export class WebhookController {
           payload.order_id,
         );
         await this.syncDeliveryStatus(payload, 'CANCELLED');
+        await this.triggerShipmentAutomation(payload, 'shipment.cancelled');
         break;
 
       case 'shipment.cod.remitted':
@@ -388,6 +395,27 @@ export class WebhookController {
     console.log(
       `Updated ${updatedCount} delivery record(s) to ${status.toUpperCase()} for Shipbubble order ${payload.order_id}`,
     );
+  }
+
+  private async triggerShipmentAutomation(
+    payload: Record<string, unknown>,
+    eventName:
+      | 'shipment.label.created'
+      | 'shipment.status.changed'
+      | 'shipment.cancelled',
+  ): Promise<void> {
+    if (typeof payload.order_id !== 'string' || !payload.order_id) {
+      console.warn(
+        `Cannot run ${eventName} automation: Shipbubble order_id is missing`,
+      );
+      return;
+    }
+
+    await this.automationService.handleShipbubbleEvent({
+      orderId: payload.order_id,
+      eventName,
+      status: typeof payload.status === 'string' ? payload.status : undefined,
+    });
   }
 
   /**

@@ -22,6 +22,16 @@ export interface WhatsappMediaFile {
   originalname: string;
 }
 
+export interface SendAutomationTemplateInput {
+  userId: string;
+  to: string;
+  templateName: string;
+  templateId?: string;
+  trackingId: string;
+  customerName: string;
+  status: string;
+}
+
 
 @Injectable()
 export class WhatsappService {
@@ -856,6 +866,140 @@ async getWabaAssignerToUserId(userId: string) {
 
   return data;
 }
+
+  async sendAutomationTemplate(
+    input: SendAutomationTemplateInput,
+  ): Promise<any> {
+    const template = await this.prisma.messageTemplate.findFirst({
+      where: {
+        userId: input.userId,
+        name: input.templateName,
+        ...(input.templateId ? { metaTemplateId: input.templateId } : {}),
+        status: 'APPROVED',
+      },
+      orderBy: { updatedAt: 'desc' },
+    });
+    if (!template) {
+      throw new NotFoundException(
+        `Approved WhatsApp template "${input.templateName}" was not found for this user`,
+      );
+    }
+
+    const rawComponents: unknown = template.components;
+    const templateComponents = Array.isArray(rawComponents)
+      ? rawComponents.filter(
+          (component): component is Record<string, unknown> =>
+            typeof component === 'object' &&
+            component !== null &&
+            !Array.isArray(component),
+        )
+      : [];
+    const bodyTemplate = templateComponents.find(
+      (component) => component.type === 'BODY',
+    );
+    const bodyText =
+      typeof bodyTemplate?.text === 'string' ? bodyTemplate.text : '';
+    const values = [
+      input.customerName.trim().split(/\s+/)[0],
+      input.trackingId,
+      input.status,
+    ];
+    const variableIndexes = templateComponents.flatMap((component) => {
+      if (
+        (component.type !== 'BODY' && component.type !== 'HEADER') ||
+        typeof component.text !== 'string'
+      ) {
+        return [];
+      }
+      return Array.from(
+        component.text.matchAll(/\{\{(\d+)\}\}/g),
+        (match) => Number(match[1]),
+      );
+    });
+    if (variableIndexes.some((index) => index < 1)) {
+      throw new BadRequestException(
+        `Template "${input.templateName}" contains an invalid positional parameter`,
+      );
+    }
+    const maxVariableIndex = Math.max(0, ...variableIndexes);
+    if (maxVariableIndex > values.length) {
+      throw new BadRequestException(
+        `Template "${input.templateName}" has ${maxVariableIndex} positional parameters; only ${values.length} shipment values are available`,
+      );
+    }
+
+    const components = (['header', 'body'] as const).flatMap((type) => {
+      const sourceType = type.toUpperCase();
+      const source = templateComponents.find(
+        (component) => component.type === sourceType,
+      );
+      if (!source || typeof source.text !== 'string') {
+        return [];
+      }
+
+      const indexes = Array.from(
+        source.text.matchAll(/\{\{(\d+)\}\}/g),
+        (match) => Number(match[1]),
+      );
+      if (!indexes.length) {
+        return [];
+      }
+
+      return [
+        {
+          type,
+          parameters: indexes.map((index) => ({
+            type: 'text' as const,
+            text: values[index - 1],
+          })),
+        },
+      ];
+    });
+    const renderedMessage = bodyText.replace(
+      /\{\{(\d+)\}\}/g,
+      (_placeholder, index: string) => values[Number(index) - 1] ?? '',
+    );
+    const digitsOnlyPhone = input.to.replace(/\D/g, '');
+    const recipientPhone = digitsOnlyPhone.startsWith('0')
+      ? `234${digitsOnlyPhone.slice(1)}`
+      : digitsOnlyPhone;
+    if (!recipientPhone) {
+      throw new BadRequestException('Recipient phone number is invalid');
+    }
+
+    const response = await this.sendUtilityMessage({
+      userId: input.userId,
+      to: recipientPhone,
+      templateName: template.name,
+      templateLanguage: template.language,
+      ...(components.length ? { components } : {}),
+    });
+    const whatsappMessage = Array.isArray(response?.messages)
+      ? response.messages[0]
+      : undefined;
+
+    await this.prisma.notification.create({
+      data: {
+        userId: input.userId,
+        recipientPhone,
+        templateName: template.name,
+        templateLanguage: template.language,
+        templateMessage: renderedMessage || null,
+        whatsappMessageId:
+          typeof whatsappMessage?.id === 'string'
+            ? whatsappMessage.id
+            : null,
+        deliveryTrackingId: input.trackingId,
+        sendAt: new Date().toISOString(),
+        status:
+          typeof whatsappMessage?.message_status === 'string'
+            ? whatsappMessage.message_status
+            : 'accepted',
+      },
+    });
+
+    return response;
+  }
 
   async sendOrderConfirmation(dto: SendOrderConfirmationDto): Promise<any> {
     const delivery = await this.prisma.delivery.findFirst({
