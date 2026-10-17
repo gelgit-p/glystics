@@ -3632,8 +3632,22 @@ export namespace Prisma {
 
   export type AggregateDelivery = {
     _count: DeliveryCountAggregateOutputType | null
+    _avg: DeliveryAvgAggregateOutputType | null
+    _sum: DeliverySumAggregateOutputType | null
     _min: DeliveryMinAggregateOutputType | null
     _max: DeliveryMaxAggregateOutputType | null
+  }
+
+  export type DeliveryAvgAggregateOutputType = {
+    insuranceAmount: number | null
+    insure_percentage: number | null
+    insurance_cost: number | null
+  }
+
+  export type DeliverySumAggregateOutputType = {
+    insuranceAmount: number | null
+    insure_percentage: number | null
+    insurance_cost: number | null
   }
 
   export type DeliveryMinAggregateOutputType = {
@@ -3672,6 +3686,14 @@ export namespace Prisma {
     paymentCurrency: string | null
     paymentStatus: string | null
     bookingStatus: string | null
+    deliveryInsurer: string | null
+    deliveryCurrency: string | null
+    insuranceAmount: number | null
+    insurance_policy_condition: string | null
+    insure_percentage: number | null
+    insurance_cost: number | null
+    insuranceCode: string | null
+    insurerName: string | null
     bookingError: string | null
     deliveryStatus: string | null
     deliveryType: string | null
@@ -3716,6 +3738,14 @@ export namespace Prisma {
     paymentCurrency: string | null
     paymentStatus: string | null
     bookingStatus: string | null
+    deliveryInsurer: string | null
+    deliveryCurrency: string | null
+    insuranceAmount: number | null
+    insurance_policy_condition: string | null
+    insure_percentage: number | null
+    insurance_cost: number | null
+    insuranceCode: string | null
+    insurerName: string | null
     bookingError: string | null
     deliveryStatus: string | null
     deliveryType: string | null
@@ -3762,6 +3792,14 @@ export namespace Prisma {
     paymentStatus: number
     bookingStatus: number
     bookingDetails: number
+    deliveryInsurer: number
+    deliveryCurrency: number
+    insuranceAmount: number
+    insurance_policy_condition: number
+    insure_percentage: number
+    insurance_cost: number
+    insuranceCode: number
+    insurerName: number
     bookingError: number
     deliveryStatus: number
     deliveryType: number
@@ -3771,6 +3809,18 @@ export namespace Prisma {
     _all: number
   }
 
+
+  export type DeliveryAvgAggregateInputType = {
+    insuranceAmount?: true
+    insure_percentage?: true
+    insurance_cost?: true
+  }
+
+  export type DeliverySumAggregateInputType = {
+    insuranceAmount?: true
+    insure_percentage?: true
+    insurance_cost?: true
+  }
 
   export type DeliveryMinAggregateInputType = {
     id?: true
@@ -3808,6 +3858,14 @@ export namespace Prisma {
     paymentCurrency?: true
     paymentStatus?: true
     bookingStatus?: true
+    deliveryInsurer?: true
+    deliveryCurrency?: true
+    insuranceAmount?: true
+    insurance_policy_condition?: true
+    insure_percentage?: true
+    insurance_cost?: true
+    insuranceCode?: true
+    insurerName?: true
     bookingError?: true
     deliveryStatus?: true
     deliveryType?: true
@@ -3852,6 +3910,14 @@ export namespace Prisma {
     paymentCurrency?: true
     paymentStatus?: true
     bookingStatus?: true
+    deliveryInsurer?: true
+    deliveryCurrency?: true
+    insuranceAmount?: true
+    insurance_policy_condition?: true
+    insure_percentage?: true
+    insurance_cost?: true
+    insuranceCode?: true
+    insurerName?: true
     bookingError?: true
     deliveryStatus?: true
     deliveryType?: true
@@ -3898,6 +3964,14 @@ export namespace Prisma {
     paymentStatus?: true
     bookingStatus?: true
     bookingDetails?: true
+    deliveryInsurer?: true
+    deliveryCurrency?: true
+    insuranceAmount?: true
+    insurance_policy_condition?: true
+    insure_percentage?: true
+    insurance_cost?: true
+    insuranceCode?: true
+    insurerName?: true
     bookingError?: true
     deliveryStatus?: true
     deliveryType?: true
@@ -3945,6 +4019,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: DeliveryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DeliverySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: DeliveryMinAggregateInputType
@@ -3975,6 +4061,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: DeliveryCountAggregateInputType | true
+    _avg?: DeliveryAvgAggregateInputType
+    _sum?: DeliverySumAggregateInputType
     _min?: DeliveryMinAggregateInputType
     _max?: DeliveryMaxAggregateInputType
   }
@@ -4017,6 +4105,14 @@ export namespace Prisma {
     paymentStatus: string
     bookingStatus: string
     bookingDetails: JsonValue | null
+    deliveryInsurer: string | null
+    deliveryCurrency: string | null
+    insuranceAmount: number | null
+    insurance_policy_condition: string | null
+    insure_percentage: number | null
+    insurance_cost: number | null
+    insuranceCode: string | null
+    insurerName: string | null
     bookingError: string | null
     deliveryStatus: string | null
     deliveryType: string
@@ -4024,6 +4120,8 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     _count: DeliveryCountAggregateOutputType | null
+    _avg: DeliveryAvgAggregateOutputType | null
+    _sum: DeliverySumAggregateOutputType | null
     _min: DeliveryMinAggregateOutputType | null
     _max: DeliveryMaxAggregateOutputType | null
   }
@@ -4080,6 +4178,14 @@ export namespace Prisma {
     paymentStatus?: boolean
     bookingStatus?: boolean
     bookingDetails?: boolean
+    deliveryInsurer?: boolean
+    deliveryCurrency?: boolean
+    insuranceAmount?: boolean
+    insurance_policy_condition?: boolean
+    insure_percentage?: boolean
+    insurance_cost?: boolean
+    insuranceCode?: boolean
+    insurerName?: boolean
     bookingError?: boolean
     deliveryStatus?: boolean
     deliveryType?: boolean
@@ -4126,6 +4232,14 @@ export namespace Prisma {
     paymentStatus?: boolean
     bookingStatus?: boolean
     bookingDetails?: boolean
+    deliveryInsurer?: boolean
+    deliveryCurrency?: boolean
+    insuranceAmount?: boolean
+    insurance_policy_condition?: boolean
+    insure_percentage?: boolean
+    insurance_cost?: boolean
+    insuranceCode?: boolean
+    insurerName?: boolean
     bookingError?: boolean
     deliveryStatus?: boolean
     deliveryType?: boolean
@@ -4172,6 +4286,14 @@ export namespace Prisma {
     paymentStatus?: boolean
     bookingStatus?: boolean
     bookingDetails?: boolean
+    deliveryInsurer?: boolean
+    deliveryCurrency?: boolean
+    insuranceAmount?: boolean
+    insurance_policy_condition?: boolean
+    insure_percentage?: boolean
+    insurance_cost?: boolean
+    insuranceCode?: boolean
+    insurerName?: boolean
     bookingError?: boolean
     deliveryStatus?: boolean
     deliveryType?: boolean
@@ -4218,6 +4340,14 @@ export namespace Prisma {
     paymentStatus?: boolean
     bookingStatus?: boolean
     bookingDetails?: boolean
+    deliveryInsurer?: boolean
+    deliveryCurrency?: boolean
+    insuranceAmount?: boolean
+    insurance_policy_condition?: boolean
+    insure_percentage?: boolean
+    insurance_cost?: boolean
+    insuranceCode?: boolean
+    insurerName?: boolean
     bookingError?: boolean
     deliveryStatus?: boolean
     deliveryType?: boolean
@@ -4226,7 +4356,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type DeliveryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "trackingId" | "senderName" | "senderPhone" | "senderAddress" | "senderLatitude" | "senderLongitude" | "receiverName" | "receiverPhone" | "receiverAddress" | "receiverLatitude" | "receiverLongitude" | "packageName" | "packageCategory" | "packageWeight" | "packageDimensions" | "packageValue" | "pickupDate" | "courier_name" | "courier_email" | "courier_phone" | "shipbubbleOrderId" | "tracking_url" | "package_amount" | "package_weight" | "shipping_fee" | "shipping_payment_type" | "shipping_payment_status" | "package_status" | "checkoutSessionId" | "checkoutUrl" | "paymentAmount" | "paymentCurrency" | "paymentStatus" | "bookingStatus" | "bookingDetails" | "bookingError" | "deliveryStatus" | "deliveryType" | "deliveryInstructions" | "createdAt" | "updatedAt", ExtArgs["result"]["delivery"]>
+  export type DeliveryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "trackingId" | "senderName" | "senderPhone" | "senderAddress" | "senderLatitude" | "senderLongitude" | "receiverName" | "receiverPhone" | "receiverAddress" | "receiverLatitude" | "receiverLongitude" | "packageName" | "packageCategory" | "packageWeight" | "packageDimensions" | "packageValue" | "pickupDate" | "courier_name" | "courier_email" | "courier_phone" | "shipbubbleOrderId" | "tracking_url" | "package_amount" | "package_weight" | "shipping_fee" | "shipping_payment_type" | "shipping_payment_status" | "package_status" | "checkoutSessionId" | "checkoutUrl" | "paymentAmount" | "paymentCurrency" | "paymentStatus" | "bookingStatus" | "bookingDetails" | "deliveryInsurer" | "deliveryCurrency" | "insuranceAmount" | "insurance_policy_condition" | "insure_percentage" | "insurance_cost" | "insuranceCode" | "insurerName" | "bookingError" | "deliveryStatus" | "deliveryType" | "deliveryInstructions" | "createdAt" | "updatedAt", ExtArgs["result"]["delivery"]>
 
   export type $DeliveryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Delivery"
@@ -4269,6 +4399,14 @@ export namespace Prisma {
       paymentStatus: string
       bookingStatus: string
       bookingDetails: Prisma.JsonValue | null
+      deliveryInsurer: string | null
+      deliveryCurrency: string | null
+      insuranceAmount: number | null
+      insurance_policy_condition: string | null
+      insure_percentage: number | null
+      insurance_cost: number | null
+      insuranceCode: string | null
+      insurerName: string | null
       bookingError: string | null
       deliveryStatus: string | null
       deliveryType: string
@@ -4735,6 +4873,14 @@ export namespace Prisma {
     readonly paymentStatus: FieldRef<"Delivery", 'String'>
     readonly bookingStatus: FieldRef<"Delivery", 'String'>
     readonly bookingDetails: FieldRef<"Delivery", 'Json'>
+    readonly deliveryInsurer: FieldRef<"Delivery", 'String'>
+    readonly deliveryCurrency: FieldRef<"Delivery", 'String'>
+    readonly insuranceAmount: FieldRef<"Delivery", 'Float'>
+    readonly insurance_policy_condition: FieldRef<"Delivery", 'String'>
+    readonly insure_percentage: FieldRef<"Delivery", 'Float'>
+    readonly insurance_cost: FieldRef<"Delivery", 'Float'>
+    readonly insuranceCode: FieldRef<"Delivery", 'String'>
+    readonly insurerName: FieldRef<"Delivery", 'String'>
     readonly bookingError: FieldRef<"Delivery", 'String'>
     readonly deliveryStatus: FieldRef<"Delivery", 'String'>
     readonly deliveryType: FieldRef<"Delivery", 'String'>
@@ -7556,6 +7702,14 @@ export namespace Prisma {
     paymentStatus: 'paymentStatus',
     bookingStatus: 'bookingStatus',
     bookingDetails: 'bookingDetails',
+    deliveryInsurer: 'deliveryInsurer',
+    deliveryCurrency: 'deliveryCurrency',
+    insuranceAmount: 'insuranceAmount',
+    insurance_policy_condition: 'insurance_policy_condition',
+    insure_percentage: 'insure_percentage',
+    insurance_cost: 'insurance_cost',
+    insuranceCode: 'insuranceCode',
+    insurerName: 'insurerName',
     bookingError: 'bookingError',
     deliveryStatus: 'deliveryStatus',
     deliveryType: 'deliveryType',
@@ -7708,20 +7862,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -7732,6 +7872,20 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
   /**
    * Deep Input Types
@@ -7994,6 +8148,14 @@ export namespace Prisma {
     paymentStatus?: StringFilter<"Delivery"> | string
     bookingStatus?: StringFilter<"Delivery"> | string
     bookingDetails?: JsonNullableFilter<"Delivery">
+    deliveryInsurer?: StringNullableFilter<"Delivery"> | string | null
+    deliveryCurrency?: StringNullableFilter<"Delivery"> | string | null
+    insuranceAmount?: FloatNullableFilter<"Delivery"> | number | null
+    insurance_policy_condition?: StringNullableFilter<"Delivery"> | string | null
+    insure_percentage?: FloatNullableFilter<"Delivery"> | number | null
+    insurance_cost?: FloatNullableFilter<"Delivery"> | number | null
+    insuranceCode?: StringNullableFilter<"Delivery"> | string | null
+    insurerName?: StringNullableFilter<"Delivery"> | string | null
     bookingError?: StringNullableFilter<"Delivery"> | string | null
     deliveryStatus?: StringNullableFilter<"Delivery"> | string | null
     deliveryType?: StringFilter<"Delivery"> | string
@@ -8040,6 +8202,14 @@ export namespace Prisma {
     paymentStatus?: SortOrder
     bookingStatus?: SortOrder
     bookingDetails?: SortOrderInput | SortOrder
+    deliveryInsurer?: SortOrderInput | SortOrder
+    deliveryCurrency?: SortOrderInput | SortOrder
+    insuranceAmount?: SortOrderInput | SortOrder
+    insurance_policy_condition?: SortOrderInput | SortOrder
+    insure_percentage?: SortOrderInput | SortOrder
+    insurance_cost?: SortOrderInput | SortOrder
+    insuranceCode?: SortOrderInput | SortOrder
+    insurerName?: SortOrderInput | SortOrder
     bookingError?: SortOrderInput | SortOrder
     deliveryStatus?: SortOrderInput | SortOrder
     deliveryType?: SortOrder
@@ -8089,6 +8259,14 @@ export namespace Prisma {
     paymentStatus?: StringFilter<"Delivery"> | string
     bookingStatus?: StringFilter<"Delivery"> | string
     bookingDetails?: JsonNullableFilter<"Delivery">
+    deliveryInsurer?: StringNullableFilter<"Delivery"> | string | null
+    deliveryCurrency?: StringNullableFilter<"Delivery"> | string | null
+    insuranceAmount?: FloatNullableFilter<"Delivery"> | number | null
+    insurance_policy_condition?: StringNullableFilter<"Delivery"> | string | null
+    insure_percentage?: FloatNullableFilter<"Delivery"> | number | null
+    insurance_cost?: FloatNullableFilter<"Delivery"> | number | null
+    insuranceCode?: StringNullableFilter<"Delivery"> | string | null
+    insurerName?: StringNullableFilter<"Delivery"> | string | null
     bookingError?: StringNullableFilter<"Delivery"> | string | null
     deliveryStatus?: StringNullableFilter<"Delivery"> | string | null
     deliveryType?: StringFilter<"Delivery"> | string
@@ -8135,6 +8313,14 @@ export namespace Prisma {
     paymentStatus?: SortOrder
     bookingStatus?: SortOrder
     bookingDetails?: SortOrderInput | SortOrder
+    deliveryInsurer?: SortOrderInput | SortOrder
+    deliveryCurrency?: SortOrderInput | SortOrder
+    insuranceAmount?: SortOrderInput | SortOrder
+    insurance_policy_condition?: SortOrderInput | SortOrder
+    insure_percentage?: SortOrderInput | SortOrder
+    insurance_cost?: SortOrderInput | SortOrder
+    insuranceCode?: SortOrderInput | SortOrder
+    insurerName?: SortOrderInput | SortOrder
     bookingError?: SortOrderInput | SortOrder
     deliveryStatus?: SortOrderInput | SortOrder
     deliveryType?: SortOrder
@@ -8142,8 +8328,10 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: DeliveryCountOrderByAggregateInput
+    _avg?: DeliveryAvgOrderByAggregateInput
     _max?: DeliveryMaxOrderByAggregateInput
     _min?: DeliveryMinOrderByAggregateInput
+    _sum?: DeliverySumOrderByAggregateInput
   }
 
   export type DeliveryScalarWhereWithAggregatesInput = {
@@ -8187,6 +8375,14 @@ export namespace Prisma {
     paymentStatus?: StringWithAggregatesFilter<"Delivery"> | string
     bookingStatus?: StringWithAggregatesFilter<"Delivery"> | string
     bookingDetails?: JsonNullableWithAggregatesFilter<"Delivery">
+    deliveryInsurer?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
+    deliveryCurrency?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
+    insuranceAmount?: FloatNullableWithAggregatesFilter<"Delivery"> | number | null
+    insurance_policy_condition?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
+    insure_percentage?: FloatNullableWithAggregatesFilter<"Delivery"> | number | null
+    insurance_cost?: FloatNullableWithAggregatesFilter<"Delivery"> | number | null
+    insuranceCode?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
+    insurerName?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
     bookingError?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
     deliveryStatus?: StringNullableWithAggregatesFilter<"Delivery"> | string | null
     deliveryType?: StringWithAggregatesFilter<"Delivery"> | string
@@ -8693,6 +8889,14 @@ export namespace Prisma {
     paymentStatus: string
     bookingStatus: string
     bookingDetails?: NullableJsonNullValueInput | InputJsonValue
+    deliveryInsurer?: string | null
+    deliveryCurrency?: string | null
+    insuranceAmount?: number | null
+    insurance_policy_condition?: string | null
+    insure_percentage?: number | null
+    insurance_cost?: number | null
+    insuranceCode?: string | null
+    insurerName?: string | null
     bookingError?: string | null
     deliveryStatus?: string | null
     deliveryType: string
@@ -8739,6 +8943,14 @@ export namespace Prisma {
     paymentStatus: string
     bookingStatus: string
     bookingDetails?: NullableJsonNullValueInput | InputJsonValue
+    deliveryInsurer?: string | null
+    deliveryCurrency?: string | null
+    insuranceAmount?: number | null
+    insurance_policy_condition?: string | null
+    insure_percentage?: number | null
+    insurance_cost?: number | null
+    insuranceCode?: string | null
+    insurerName?: string | null
     bookingError?: string | null
     deliveryStatus?: string | null
     deliveryType: string
@@ -8785,6 +8997,14 @@ export namespace Prisma {
     paymentStatus?: StringFieldUpdateOperationsInput | string
     bookingStatus?: StringFieldUpdateOperationsInput | string
     bookingDetails?: NullableJsonNullValueInput | InputJsonValue
+    deliveryInsurer?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryCurrency?: NullableStringFieldUpdateOperationsInput | string | null
+    insuranceAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    insurance_policy_condition?: NullableStringFieldUpdateOperationsInput | string | null
+    insure_percentage?: NullableFloatFieldUpdateOperationsInput | number | null
+    insurance_cost?: NullableFloatFieldUpdateOperationsInput | number | null
+    insuranceCode?: NullableStringFieldUpdateOperationsInput | string | null
+    insurerName?: NullableStringFieldUpdateOperationsInput | string | null
     bookingError?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryStatus?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryType?: StringFieldUpdateOperationsInput | string
@@ -8831,6 +9051,14 @@ export namespace Prisma {
     paymentStatus?: StringFieldUpdateOperationsInput | string
     bookingStatus?: StringFieldUpdateOperationsInput | string
     bookingDetails?: NullableJsonNullValueInput | InputJsonValue
+    deliveryInsurer?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryCurrency?: NullableStringFieldUpdateOperationsInput | string | null
+    insuranceAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    insurance_policy_condition?: NullableStringFieldUpdateOperationsInput | string | null
+    insure_percentage?: NullableFloatFieldUpdateOperationsInput | number | null
+    insurance_cost?: NullableFloatFieldUpdateOperationsInput | number | null
+    insuranceCode?: NullableStringFieldUpdateOperationsInput | string | null
+    insurerName?: NullableStringFieldUpdateOperationsInput | string | null
     bookingError?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryStatus?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryType?: StringFieldUpdateOperationsInput | string
@@ -8877,6 +9105,14 @@ export namespace Prisma {
     paymentStatus: string
     bookingStatus: string
     bookingDetails?: NullableJsonNullValueInput | InputJsonValue
+    deliveryInsurer?: string | null
+    deliveryCurrency?: string | null
+    insuranceAmount?: number | null
+    insurance_policy_condition?: string | null
+    insure_percentage?: number | null
+    insurance_cost?: number | null
+    insuranceCode?: string | null
+    insurerName?: string | null
     bookingError?: string | null
     deliveryStatus?: string | null
     deliveryType: string
@@ -8923,6 +9159,14 @@ export namespace Prisma {
     paymentStatus?: StringFieldUpdateOperationsInput | string
     bookingStatus?: StringFieldUpdateOperationsInput | string
     bookingDetails?: NullableJsonNullValueInput | InputJsonValue
+    deliveryInsurer?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryCurrency?: NullableStringFieldUpdateOperationsInput | string | null
+    insuranceAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    insurance_policy_condition?: NullableStringFieldUpdateOperationsInput | string | null
+    insure_percentage?: NullableFloatFieldUpdateOperationsInput | number | null
+    insurance_cost?: NullableFloatFieldUpdateOperationsInput | number | null
+    insuranceCode?: NullableStringFieldUpdateOperationsInput | string | null
+    insurerName?: NullableStringFieldUpdateOperationsInput | string | null
     bookingError?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryStatus?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryType?: StringFieldUpdateOperationsInput | string
@@ -8969,6 +9213,14 @@ export namespace Prisma {
     paymentStatus?: StringFieldUpdateOperationsInput | string
     bookingStatus?: StringFieldUpdateOperationsInput | string
     bookingDetails?: NullableJsonNullValueInput | InputJsonValue
+    deliveryInsurer?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryCurrency?: NullableStringFieldUpdateOperationsInput | string | null
+    insuranceAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    insurance_policy_condition?: NullableStringFieldUpdateOperationsInput | string | null
+    insure_percentage?: NullableFloatFieldUpdateOperationsInput | number | null
+    insurance_cost?: NullableFloatFieldUpdateOperationsInput | number | null
+    insuranceCode?: NullableStringFieldUpdateOperationsInput | string | null
+    insurerName?: NullableStringFieldUpdateOperationsInput | string | null
     bookingError?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryStatus?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryType?: StringFieldUpdateOperationsInput | string
@@ -9468,6 +9720,17 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type DeliveryCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
@@ -9506,12 +9769,26 @@ export namespace Prisma {
     paymentStatus?: SortOrder
     bookingStatus?: SortOrder
     bookingDetails?: SortOrder
+    deliveryInsurer?: SortOrder
+    deliveryCurrency?: SortOrder
+    insuranceAmount?: SortOrder
+    insurance_policy_condition?: SortOrder
+    insure_percentage?: SortOrder
+    insurance_cost?: SortOrder
+    insuranceCode?: SortOrder
+    insurerName?: SortOrder
     bookingError?: SortOrder
     deliveryStatus?: SortOrder
     deliveryType?: SortOrder
     deliveryInstructions?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type DeliveryAvgOrderByAggregateInput = {
+    insuranceAmount?: SortOrder
+    insure_percentage?: SortOrder
+    insurance_cost?: SortOrder
   }
 
   export type DeliveryMaxOrderByAggregateInput = {
@@ -9550,6 +9827,14 @@ export namespace Prisma {
     paymentCurrency?: SortOrder
     paymentStatus?: SortOrder
     bookingStatus?: SortOrder
+    deliveryInsurer?: SortOrder
+    deliveryCurrency?: SortOrder
+    insuranceAmount?: SortOrder
+    insurance_policy_condition?: SortOrder
+    insure_percentage?: SortOrder
+    insurance_cost?: SortOrder
+    insuranceCode?: SortOrder
+    insurerName?: SortOrder
     bookingError?: SortOrder
     deliveryStatus?: SortOrder
     deliveryType?: SortOrder
@@ -9594,12 +9879,26 @@ export namespace Prisma {
     paymentCurrency?: SortOrder
     paymentStatus?: SortOrder
     bookingStatus?: SortOrder
+    deliveryInsurer?: SortOrder
+    deliveryCurrency?: SortOrder
+    insuranceAmount?: SortOrder
+    insurance_policy_condition?: SortOrder
+    insure_percentage?: SortOrder
+    insurance_cost?: SortOrder
+    insuranceCode?: SortOrder
+    insurerName?: SortOrder
     bookingError?: SortOrder
     deliveryStatus?: SortOrder
     deliveryType?: SortOrder
     deliveryInstructions?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type DeliverySumOrderByAggregateInput = {
+    insuranceAmount?: SortOrder
+    insure_percentage?: SortOrder
+    insurance_cost?: SortOrder
   }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -9626,6 +9925,22 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedJsonNullableFilter<$PrismaModel>
     _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
   export type JsonFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -9950,6 +10265,14 @@ export namespace Prisma {
     deleteMany?: AutomationScalarWhereInput | AutomationScalarWhereInput[]
   }
 
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type UserCreateNestedOneWithoutMessageTemplatesInput = {
     create?: XOR<UserCreateWithoutMessageTemplatesInput, UserUncheckedCreateWithoutMessageTemplatesInput>
     connectOrCreate?: UserCreateOrConnectWithoutMessageTemplatesInput
@@ -10111,6 +10434,17 @@ export namespace Prisma {
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -10133,6 +10467,22 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
   export type NestedJsonFilter<$PrismaModel = never> =
     | PatchUndefined<

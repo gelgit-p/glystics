@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class UpdateDeliveryDto {
   @ApiProperty()
@@ -158,4 +158,35 @@ export class UpdateDeliveryDto {
   @IsOptional()
   @IsString()
   paymentStatus?: string;
+
+       @ApiProperty()
+  @IsOptional()
+  @IsNumber()
+  insuranceAmount?: number;
+
+  
+       @ApiProperty()
+  @IsOptional()
+  @IsString()
+  insurance_policy_condition?: string;
+
+         @ApiProperty()
+  @IsOptional()
+  @IsNumber()
+  insure_percentage?: number;
+
+         @ApiProperty()
+  @IsOptional()
+  @IsNumber()
+  insurance_cost?: number;
+
+         @ApiProperty()
+  @IsOptional()
+  @IsString()
+  insuranceCode?: string;
+
+         @ApiProperty()
+  @IsOptional()
+  @IsString()
+  insurerName?: string;
 }

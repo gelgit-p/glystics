@@ -115,6 +115,8 @@ export class DeliveryService {
       throw new ConflictException('This delivery already has a completed payment');
     }
 
+    const insuranceAmount = delivery.insuranceAmount ?? 0;
+    const totalAmount = this.addMoneyAmounts(data.amount, insuranceAmount);
     const bookingDetails: Prisma.InputJsonObject = {
       request_token: data.request_token,
       courier_id: data.courier_id,
@@ -129,7 +131,7 @@ export class DeliveryService {
       save_payment_method: false,
       pricing: {
         currency: data.currency.toUpperCase(),
-        amount: data.amount,
+        amount: totalAmount,
         price_type: 'fixed',
       },
       billing_currency: data.currency.toUpperCase(),
@@ -151,11 +153,19 @@ export class DeliveryService {
       data: {
         checkoutSessionId: checkout.checkout_id,
         checkoutUrl: checkout.checkout_url,
-        paymentAmount: data.amount,
+        paymentAmount: totalAmount,
         paymentCurrency: data.currency.toUpperCase(),
         paymentStatus: 'PENDING',
         bookingStatus: 'NOT_STARTED',
         bookingDetails,
+        deliveryInsurer: delivery.insurerName,
+        deliveryCurrency: data.currency.toUpperCase(),
+        insuranceAmount: delivery.insuranceAmount,
+        insurance_policy_condition: delivery.insurance_policy_condition,
+        insure_percentage: delivery.insure_percentage,
+        insurance_cost: delivery.insurance_cost,
+        insuranceCode: data.insurance_code ?? delivery.insuranceCode,
+        insurerName: delivery.insurerName,
         bookingError: null,
         deliveryStatus: 'PAYMENT_PENDING',
         updatedAt: new Date(),
@@ -426,5 +436,22 @@ async getDeliveryByTrackingId(trackingId: string) {
     return typeof value === 'object' && value !== null && !Array.isArray(value)
       ? value as Record<string, unknown>
       : null;
+  }
+
+  private addMoneyAmounts(amount: string, additionalAmount: number): string {
+    const baseMatch = /^(\d+)(?:\.(\d{1,2}))?$/.exec(amount);
+    if (!baseMatch || !Number.isFinite(additionalAmount) || additionalAmount < 0) {
+      throw new BadRequestException('Payment amount is invalid');
+    }
+
+    const baseMinor =
+      BigInt(baseMatch[1]) * 100n +
+      BigInt((baseMatch[2] ?? '').padEnd(2, '0'));
+    const additionalMinor = BigInt(Math.round(additionalAmount * 100));
+    const totalMinor = baseMinor + additionalMinor;
+    const whole = totalMinor / 100n;
+    const fraction = (totalMinor % 100n).toString().padStart(2, '0');
+
+    return `${whole}.${fraction}`;
   }
 }
