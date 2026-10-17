@@ -152,6 +152,7 @@ export class DeliveryService {
         paymentAmount: data.amount,
         paymentCurrency: data.currency.toUpperCase(),
         paymentStatus: 'PENDING',
+        bookingStatus: 'NOT_STARTED',
         bookingDetails,
         bookingError: null,
         deliveryStatus: 'PAYMENT_PENDING',
@@ -217,10 +218,12 @@ export class DeliveryService {
     const claim = await this.prisma.delivery.updateMany({
       where: {
         id: delivery.id,
-        paymentStatus: { in: ['PENDING', 'BOOKING_FAILED'] },
+        paymentStatus: { in: ['PENDING', 'PAID'] },
+        bookingStatus: { in: ['NOT_STARTED', 'FAILED'] },
       },
       data: {
-        paymentStatus: 'PROCESSING',
+        paymentStatus: 'PAID',
+        bookingStatus: 'PROCESSING',
         bookingError: null,
         updatedAt: new Date(),
       },
@@ -255,6 +258,7 @@ export class DeliveryService {
         where: { id: delivery.id },
         data: {
           paymentStatus: 'PAID',
+          bookingStatus: 'BOOKED',
           deliveryStatus:
             typeof shipment.status === 'string'
               ? shipment.status.toUpperCase()
@@ -297,7 +301,8 @@ export class DeliveryService {
       await this.prisma.delivery.update({
         where: { id: delivery.id },
         data: {
-          paymentStatus: 'BOOKING_FAILED',
+          paymentStatus: 'PAID',
+          bookingStatus: 'FAILED',
           deliveryStatus: 'BOOKING_FAILED',
           bookingError: message,
           updatedAt: new Date(),
@@ -333,7 +338,7 @@ async getDeliveriesByUserId(userId: string) {
 }
 
 async getDeliveryByTrackingId(trackingId: string) {
-  const delivery = await this.prisma.delivery.findFirstOrThrow({
+  let delivery = await this.prisma.delivery.findFirst({
     where: { trackingId },
   });
 
@@ -341,6 +346,50 @@ async getDeliveryByTrackingId(trackingId: string) {
     throw new NotFoundException(
       `Delivery with tracking ID ${trackingId} was not found`,
     );
+  }
+
+  if (
+    delivery.checkoutSessionId &&
+    delivery.bookingDetails &&
+    (delivery.paymentStatus === 'PENDING' ||
+      (delivery.paymentStatus === 'PAID' &&
+        delivery.bookingStatus === 'FAILED'))
+  ) {
+    const paymentsResponse = await this.bachsService.getPayments(50);
+    const payments = this.asRecord(paymentsResponse)?.items;
+    if (!Array.isArray(payments)) {
+      throw new InternalServerErrorException(
+        'Bachs payments response did not include a valid items array',
+      );
+    }
+
+    const expectedCheckoutId = delivery.checkoutSessionId;
+    const matchingPayment = payments.find((payment: unknown) => {
+      const entry = this.asRecord(payment);
+      const source = this.asRecord(entry?.source);
+      const paymentCheckoutId = source?.checkout_id;
+      return (
+        (entry?.reference === trackingId ||
+          source?.reference === trackingId) &&
+        typeof entry?.status === 'string' &&
+        entry.status.toLowerCase() === 'succeeded' &&
+        (typeof paymentCheckoutId !== 'string' ||
+          paymentCheckoutId === expectedCheckoutId)
+      );
+    });
+
+    if (matchingPayment) {
+      const entry = this.asRecord(matchingPayment);
+      const source = this.asRecord(entry?.source);
+      const checkoutId =
+        typeof source?.checkout_id === 'string'
+          ? source.checkout_id
+          : undefined;
+      await this.completePaidCheckout(trackingId, checkoutId);
+      delivery = await this.prisma.delivery.findUniqueOrThrow({
+        where: { id: delivery.id },
+      });
+    }
   }
 
   return delivery;

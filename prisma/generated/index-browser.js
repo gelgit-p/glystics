@@ -194,6 +194,7 @@ exports.Prisma.DeliveryScalarFieldEnum = {
   paymentAmount: 'paymentAmount',
   paymentCurrency: 'paymentCurrency',
   paymentStatus: 'paymentStatus',
+  bookingStatus: 'bookingStatus',
   bookingDetails: 'bookingDetails',
   bookingError: 'bookingError',
   deliveryStatus: 'deliveryStatus',
