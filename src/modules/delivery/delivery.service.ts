@@ -351,6 +351,26 @@ async getDeliveryByTrackingId(trackingId: string) {
     return deliveries;
   }
 
+  async getDeliveryStatistics() {
+    const totalDeliveries = await this.prisma.delivery.count();
+    const paidDeliveries = await this.prisma.delivery.count({
+      where: { deliveryStatus: 'DEL' },
+    });
+    const pendingDeliveries = await this.prisma.delivery.count({
+      where: { deliveryStatus: 'PENDING' },
+    });
+    const failedDeliveries = await this.prisma.delivery.count({
+      where: { deliveryStatus: 'BOOKING_FAILED' },
+    });
+
+    return {
+      totalDeliveries,
+      paidDeliveries,
+      pendingDeliveries,
+      failedDeliveries,
+    };
+  }
+
   private asRecord(value: unknown): Record<string, unknown> | null {
     return typeof value === 'object' && value !== null && !Array.isArray(value)
       ? value as Record<string, unknown>

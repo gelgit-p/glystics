@@ -452,6 +452,41 @@ async getPaymentMethods(): Promise<any> {
     }
   }
 
+  async getPayments(limit = 50): Promise<any> {
+    if (!Number.isSafeInteger(limit) || limit < 1) {
+      throw new HttpException(
+        'limit must be a positive integer',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const token = this.configService.get<string>('BACHS_API_KEY');
+    if (!token) {
+      throw new HttpException(
+        'BACHS_API_KEY is not configured',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+
+    try {
+      const response = await axios.get(`${this.bachsBaseUrl}/payments`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: { limit },
+      });
+
+      return response.data;
+    } catch (error: any) {
+      const status =
+        error.response?.status || HttpStatus.INTERNAL_SERVER_ERROR;
+      const message =
+        error.response?.data || 'Failed to fetch payments from Bachs API';
+
+      throw new HttpException(message, status);
+    }
+  }
+
   async getPaymentRails(): Promise<any> {
     try {
       const response = await axios.get(`${this.bachsBaseUrl}/payment-methods/rails`)
