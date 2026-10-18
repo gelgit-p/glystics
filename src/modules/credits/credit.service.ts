@@ -544,63 +544,11 @@ export class CreditsService {
   }
 
   private getConfiguredPackages(): ConfiguredPackage[] {
-    const configured = this.configService.get<string>('CREDIT_PACKAGES');
-    let parsed: unknown;
-    if (configured) {
-      try {
-        parsed = JSON.parse(configured);
-      } catch {
-        throw new ServiceUnavailableException(
-          'CREDIT_PACKAGES must be valid JSON',
-        );
-      }
-    } else if (this.configService.get<string>('NODE_ENV') !== 'production') {
-      parsed = [
-        { name: 'Starter', priceNaira: 500, credits: 50, bonusCredits: 0 },
-        { name: 'Growth', priceNaira: 2000, credits: 220, bonusCredits: 20 },
-        { name: 'Business', priceNaira: 5000, credits: 600, bonusCredits: 100 },
-      ];
-    } else {
-      throw new ServiceUnavailableException(
-        'CREDIT_PACKAGES must be configured in production',
-      );
-    }
-
-    if (!Array.isArray(parsed) || parsed.length === 0) {
-      throw new ServiceUnavailableException(
-        'CREDIT_PACKAGES must be a non-empty JSON array',
-      );
-    }
-    const names = new Set<string>();
-    return parsed.map((value, index) => {
-      const item = this.asRecord(value);
-      const priceNaira = Number(item?.priceNaira);
-      const credits = Number(item?.credits);
-      const bonusCredits = Number(item?.bonusCredits ?? 0);
-      const name = typeof item?.name === 'string' ? item.name.trim() : '';
-      if (
-        !name ||
-        names.has(name) ||
-        !Number.isSafeInteger(priceNaira) ||
-        priceNaira <= 0 ||
-        !Number.isSafeInteger(credits) ||
-        credits <= 0 ||
-        !Number.isSafeInteger(bonusCredits) ||
-        bonusCredits < 0 ||
-        priceNaira > Math.floor(Number.MAX_SAFE_INTEGER / 100)
-      ) {
-        throw new ServiceUnavailableException(
-          `CREDIT_PACKAGES item ${index + 1} is invalid`,
-        );
-      }
-      names.add(name);
-      return {
-        name,
-        priceKobo: priceNaira * 100,
-        credits,
-        bonusCredits,
-      };
-    });
+    return [
+      { name: 'Starter', priceKobo: 50_000, credits: 50, bonusCredits: 0 },
+      { name: 'Growth', priceKobo: 200_000, credits: 220, bonusCredits: 0 },
+      { name: 'Business', priceKobo: 500_000, credits: 600, bonusCredits: 0 },
+    ];
   }
 
   private getLowBalanceThreshold() {
