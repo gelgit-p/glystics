@@ -82,6 +82,7 @@ export class CreditsService {
       walletId: wallet.id,
       businessName: user?.businessName ?? '',
       balance: wallet.balance,
+      points: wallet.points,
       creditsUsedThisMonth: Math.abs(usage._sum.amount ?? 0),
       hasPurchasedCredits: Boolean(successfulPurchase),
       lowBalance: wallet.balance <= lowBalanceThreshold,
