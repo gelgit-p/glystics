@@ -119,10 +119,14 @@ export class AuthService {
     await this.userService.update(user.id, {
       hashedRefresh,
     });
+    const safeUser = await this.userService.findById(user.id);
+    if (!safeUser) {
+      throw new BadRequestException('User not found');
+    }
     return {
       accessToken,
       refreshToken,
-      user,
+      user: safeUser,
     };
   }
 
@@ -166,10 +170,14 @@ export class AuthService {
         hashedRefresh: newHashedRefresh,
       });
 
+      const safeUser = await this.userService.findById(user.id);
+      if (!safeUser) {
+        throw new BadRequestException('User not found');
+      }
       return {
         accessToken: newAccessToken,
         refreshToken: newRefreshToken,
-        user,
+        user: safeUser,
       };
     } catch {
       throw new BadRequestException('Invalid or expired refresh token');

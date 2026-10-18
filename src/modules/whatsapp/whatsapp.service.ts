@@ -151,8 +151,6 @@ export class WhatsappService {
           },
         }),
       );
-      console.log(response.data, 'response data');
-
       const accessToken = response.data?.access_token;
       if (!accessToken) {
         throw new Error('Facebook Graph API response did not include access_token');
@@ -168,8 +166,6 @@ export class WhatsappService {
     const version = this.configService.get<string>('WHATSAPP_VERSION');
     const appId = this.configService.get<string>('WHATSAPP_APP_ID');
     const appSecret = this.configService.get<string>('WHATSAPP_APP_SECRET');
-    console.log(accessToken, version, appId, appSecret, 'app_details');
-
     if (!accessToken || !version || !appId || !appSecret) {
       throw new Error(
         'accessToken, WHATSAPP_VERSION, WHATSAPP_APP_ID, and WHATSAPP_APP_SECRET are required',
@@ -208,11 +204,19 @@ export class WhatsappService {
     }
   }
 
-  async getSettings(phoneNumberId: string): Promise<any> {
-
-    const fetch_access_token = await this.prisma.token.findFirst({
-      orderBy: { createdAt: 'desc' },
-    });
+  async getSettings(phoneNumberId: string, userId: string): Promise<any> {
+    const [fetch_access_token, user] = await Promise.all([
+      this.prisma.token.findUnique({ where: { userId } }),
+      this.prisma.user.findUnique({
+        where: { id: userId },
+        select: { selectedPhoneNumberId: true },
+      }),
+    ]);
+    if (!user?.selectedPhoneNumberId.includes(phoneNumberId)) {
+      throw new BadRequestException(
+        'Phone number does not belong to the authenticated user',
+      );
+    }
     const accessToken = fetch_access_token?.facebookLongLivedAccessToken;
 
     if (!accessToken) {
@@ -231,7 +235,6 @@ export class WhatsappService {
         }),
       );
 
-      console.log(response, 'debug token response');
       return response.data;
     } catch (error: any) {
       throw error.response?.data || error.message;
@@ -239,9 +242,9 @@ export class WhatsappService {
 
   }
 
-  async debugToken(): Promise<any> {
-    const fetch_access_token = await this.prisma.token.findFirst({
-      orderBy: { createdAt: 'desc' },
+  async debugToken(userId: string): Promise<any> {
+    const fetch_access_token = await this.prisma.token.findUnique({
+      where: { userId },
     });
     const accessToken = fetch_access_token?.facebookLongLivedAccessToken;
 
@@ -261,19 +264,21 @@ export class WhatsappService {
         }),
       );
 
-      console.log(response, 'debug token response');
       return response.data;
     } catch (error: any) {
       throw error.response?.data || error.message;
     }
   }
 
-  async getMessagingLimit(): Promise<any> {
-    const systemUserId =
-      process.env.FB_SYSTEM_USER_ID || process.env.WHATSAPP_APP_ID;
-    const fetch_access_token = await this.prisma.token.findFirst({
-      orderBy: { createdAt: 'desc' },
-    });
+  async getMessagingLimit(userId: string): Promise<any> {
+    const [fetch_access_token, user] = await Promise.all([
+      this.prisma.token.findUnique({ where: { userId } }),
+      this.prisma.user.findUnique({
+        where: { id: userId },
+        select: { selectedWabaId: true },
+      }),
+    ]);
+    const systemUserId = user?.selectedWabaId;
     const accessToken = fetch_access_token?.facebookLongLivedAccessToken;
 
     if (!systemUserId) {
@@ -355,7 +360,10 @@ export class WhatsappService {
     }
   }
 
-  async createMessageTemplate(dto: CreateMessageTemplateDto): Promise<any> {
+  async createMessageTemplate(
+    dto: CreateMessageTemplateDto,
+    userId: string,
+  ): Promise<any> {
     const version = this.configService.get<string>('WHATSAPP_VERSION');
 
     if (!version) {
@@ -364,9 +372,24 @@ export class WhatsappService {
       );
     }
 
-                      let fetch_access_token = await this.prisma.token.findFirst({
-        orderBy: { createdAt: 'desc' },
-      });
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { selectedWabaId: true },
+    });
+    if (!user) {
+      throw new NotFoundException(`User with ID ${userId} not found`);
+    }
+    if (user.selectedWabaId !== dto.wabaId) {
+      throw new BadRequestException('WABA does not belong to the authenticated user');
+    }
+    const fetch_access_token = await this.prisma.token.findUnique({
+      where: { userId },
+    });
+    const accessToken =
+      fetch_access_token?.facebookLongLivedAccessToken?.trim();
+    if (!accessToken) {
+      throw new UnauthorizedException('No WhatsApp access token is configured for this user');
+    }
 
     const endpoint = `https://graph.facebook.com/v23.0/${dto.wabaId}/message_templates`;
 
@@ -374,7 +397,7 @@ export class WhatsappService {
       const response = await firstValueFrom(
         this.httpService.post(endpoint, dto, {
           headers: {
-            Authorization: `Bearer ${fetch_access_token?.facebookLongLivedAccessToken}`,
+            Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
           },
         }),
@@ -696,14 +719,14 @@ async getAllMessageTemplates(userId: string): Promise<{ data: any[]; count: numb
   }
 }
 
-async getMessageTemplateStatus(templateId: string): Promise<any> {
+async getMessageTemplateStatus(
+  templateId: string,
+  userId: string,
+): Promise<any> {
     const version = this.configService.get<string>('WHATSAPP_VERSION');
-    // const accessToken = this.configService.get<string>(
-    //   'WHATSAPP_LONG_LIVED_ACCESS_TOKEN',
-    // );
-              let fetch_access_token = await this.prisma.token.findFirst({
-        orderBy: { createdAt: 'desc' },
-      });
+    const fetch_access_token = await this.prisma.token.findUnique({
+      where: { userId },
+    });
 
     if (!templateId || !version || !fetch_access_token?.facebookLongLivedAccessToken) {
       throw new Error(
@@ -729,12 +752,22 @@ async getMessageTemplateStatus(templateId: string): Promise<any> {
     }
   }
 
-  async sendMessage(dto: MessageDto): Promise<any> {
-
-          let fetch_access_token = await this.prisma.token.findFirst({
-        orderBy: { createdAt: 'desc' },
-      });
-    const url = `${this.baseUrl}/messages`;
+  async sendMessage(dto: MessageDto, userId: string): Promise<any> {
+    const [tokenRecord, user] = await Promise.all([
+      this.prisma.token.findUnique({ where: { userId } }),
+      this.prisma.user.findUnique({
+        where: { id: userId },
+        select: { selectedPhoneNumberId: true },
+      }),
+    ]);
+    const accessToken = tokenRecord?.facebookLongLivedAccessToken?.trim();
+    const phoneNumberId = user?.selectedPhoneNumberId[0]?.trim();
+    if (!accessToken || !phoneNumberId) {
+      throw new UnauthorizedException(
+        'WhatsApp credentials are not configured for this user',
+      );
+    }
+    const url = `${this.graph}/${phoneNumberId}/messages`;
     
     const body = {
       messaging_product: 'whatsapp',
@@ -744,33 +777,51 @@ async getMessageTemplateStatus(templateId: string): Promise<any> {
     };
 
     const headers = {
-      Authorization: `Bearer ${fetch_access_token?.facebookLongLivedAccessToken}`,
+      Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     };
 
+    const usageTransaction = await this.creditsService.spend(userId, {
+      service: 'WHATSAPP',
+      idempotencyKey: randomUUID(),
+    });
     try {
       const response = await firstValueFrom(
         this.httpService.post(url, body, { headers }),
       );
       return response.data;
     } catch (error: any) {
-        console.log(error, 'log error')
+      await this.creditsService.refundUsage(
+        userId,
+        usageTransaction.id,
+        'Automatic refund for a failed WhatsApp message',
+      );
       throw error.response?.data || error.message;
     }
   }
 
   async uploadMedia(
+    userId: string,
     phoneNumberId: string,
     file: WhatsappMediaFile,
   ): Promise<any> {
     const version = this.configService.get<string>('WHATSAPP_VERSION');
-    const tokenRecord = await this.prisma.token.findFirst({
-      orderBy: { createdAt: 'desc' },
-    });
+    const [tokenRecord, user] = await Promise.all([
+      this.prisma.token.findUnique({ where: { userId } }),
+      this.prisma.user.findUnique({
+        where: { id: userId },
+        select: { selectedPhoneNumberId: true },
+      }),
+    ]);
     const accessToken = tokenRecord?.facebookLongLivedAccessToken;
 
     if (!phoneNumberId || !version) {
       throw new Error('phoneNumberId and WHATSAPP_VERSION are required');
+    }
+    if (!user?.selectedPhoneNumberId.includes(phoneNumberId)) {
+      throw new BadRequestException(
+        'Phone number does not belong to the authenticated user',
+      );
     }
     if (!file?.buffer || !file.mimetype || !file.originalname) {
       throw new Error('An image file is required');
@@ -823,10 +874,8 @@ async getMessageTemplateStatus(templateId: string): Promise<any> {
 
 
 async getWabaAssignerToUserId(userId: string) {
-  const user = await this.prisma.user.findFirst({
-    where: {
-      metaUserId: userId,
-    },
+  const user = await this.prisma.user.findUnique({
+    where: { id: userId },
     select: {
       id: true,
       metaUserId: true,
@@ -836,7 +885,7 @@ async getWabaAssignerToUserId(userId: string) {
 
   if (!user) {
     throw new NotFoundException(
-      `No user found with Meta user ID: ${userId}`,
+      `No user found with ID: ${userId}`,
     );
   }
 
@@ -1338,10 +1387,14 @@ async getWabaAssignerToUserId(userId: string) {
   }
 }
 
-  async editTokenById(id: string, dto: TokenDto): Promise<void> {
+  async editTokenById(
+    id: string,
+    userId: string,
+    dto: TokenDto,
+  ): Promise<void> {
     try {
       await this.prisma.token.update({
-        where: { id },
+        where: { id, userId },
         data: {
           facebookAccessToken: dto.facebookAccessToken,
           facebookLongLivedAccessToken: dto.facebookLongLivedAccessToken,
@@ -1353,10 +1406,10 @@ async getWabaAssignerToUserId(userId: string) {
     }
   }
 
-  async getTokens(): Promise<any> {
+  async getTokens(userId: string): Promise<any> {
     try {
-      const tokenRecord = await this.prisma.token.findFirst({
-        orderBy: { createdAt: 'desc' },
+      const tokenRecord = await this.prisma.token.findUnique({
+        where: { userId },
       });
 
       if (!tokenRecord) {

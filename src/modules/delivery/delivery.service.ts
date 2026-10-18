@@ -83,15 +83,24 @@ export class DeliveryService {
   });
 }
 
-  async update(id: string, data: Prisma.DeliveryUpdateInput) {
+  async update(
+    id: string,
+    data: Prisma.DeliveryUpdateInput,
+    userId?: string,
+  ) {
     try {
-      return await this.prisma.delivery.update({
-        where: { id },
+      const result = await this.prisma.delivery.updateMany({
+        where: { id, ...(userId ? { userId } : {}) },
         data: {
           ...data,
+          ...(userId ? { userId } : {}),
           updatedAt: new Date(),
         },
       });
+      if (!result.count) {
+        throw new NotFoundException(`Delivery with id ${id} was not found`);
+      }
+      return this.prisma.delivery.findUniqueOrThrow({ where: { id } });
     } catch (error) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
@@ -106,13 +115,14 @@ export class DeliveryService {
 
   async createCheckoutSession(
     deliveryId: string,
+    userId: string,
     data: CreateDeliveryCheckoutDto,
   ) {
     const delivery = await this.prisma.delivery.findUnique({
       where: { id: deliveryId },
     });
 
-    if (!delivery) {
+    if (!delivery || delivery.userId !== userId) {
       throw new NotFoundException(`Delivery with id ${deliveryId} was not found`);
     }
 
@@ -482,9 +492,10 @@ async getDeliveryByTrackingId(trackingId: string) {
   return delivery;
 }
 
-  async getDeliveries() {
-    const deliveries = await this.prisma.delivery.findMany();
-    return deliveries;
+  async getDeliveries(userId?: string) {
+    return this.prisma.delivery.findMany({
+      where: userId ? { userId } : undefined,
+    });
   }
 
   async getDeliveryStatistics() {
