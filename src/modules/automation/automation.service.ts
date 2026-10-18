@@ -407,6 +407,8 @@ export class AutomationService {
           receiverName: true,
           receiverPhone: true,
           trackingId: true,
+          pickupDate: true,
+          tracking_url: true,
         },
       });
       if (!delivery) {
@@ -501,6 +503,8 @@ export class AutomationService {
             trackingId: delivery.trackingId,
             customerName: delivery.receiverName,
             status: messageStatus,
+            pickupDate: delivery.pickupDate,
+            trackingUrl: delivery.tracking_url ?? undefined,
           });
           const updatedAutomation =
             await this.prisma.automation.update({

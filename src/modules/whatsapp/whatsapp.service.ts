@@ -30,6 +30,8 @@ export interface SendAutomationTemplateInput {
   trackingId: string;
   customerName: string;
   status: string;
+  pickupDate?: string;
+  trackingUrl?: string;
 }
 
 
@@ -899,65 +901,119 @@ async getWabaAssignerToUserId(userId: string) {
     );
     const bodyText =
       typeof bodyTemplate?.text === 'string' ? bodyTemplate.text : '';
-    const values = [
-      input.customerName.trim().split(/\s+/)[0],
-      input.trackingId,
-      input.status,
-    ];
-    const variableIndexes = templateComponents.flatMap((component) => {
-      if (
-        (component.type !== 'BODY' && component.type !== 'HEADER') ||
-        typeof component.text !== 'string'
-      ) {
-        return [];
-      }
-      return Array.from(
-        component.text.matchAll(/\{\{(\d+)\}\}/g),
-        (match) => Number(match[1]),
-      );
-    });
-    if (variableIndexes.some((index) => index < 1)) {
-      throw new BadRequestException(
-        `Template "${input.templateName}" contains an invalid positional parameter`,
-      );
-    }
-    const maxVariableIndex = Math.max(0, ...variableIndexes);
-    if (maxVariableIndex > values.length) {
-      throw new BadRequestException(
-        `Template "${input.templateName}" has ${maxVariableIndex} positional parameters; only ${values.length} shipment values are available`,
-      );
-    }
+    const firstName = input.customerName.trim().split(/\s+/)[0];
+    const values = [firstName, input.trackingId, input.status];
+    const namedValues: Record<string, string> = {
+      name: firstName,
+      firstname: firstName,
+      customername: firstName,
+      recipientname: firstName,
+      trackingid: input.trackingId,
+      orderid: input.trackingId,
+      reference: input.trackingId,
+      date: input.pickupDate ?? '',
+      pickupdate: input.pickupDate ?? '',
+      deliverydate: input.pickupDate ?? '',
+      status: input.status,
+      shipmentstatus: input.status,
+      trackinglink: input.trackingUrl ?? '',
+      trackingurl: input.trackingUrl ?? '',
+      link: input.trackingUrl ?? '',
+      url: input.trackingUrl ?? '',
+    };
+    const resolveValue = (placeholder: string) => {
+      const normalizedPlaceholder = placeholder
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, '');
+      const index = Number(placeholder);
+      const isPositionalPlaceholder =
+        /^\d+$/.test(placeholder) && Number.isInteger(index) && index > 0;
 
-    const components = (['header', 'body'] as const).flatMap((type) => {
-      const sourceType = type.toUpperCase();
+      if (isPositionalPlaceholder) {
+        return values[index - 1];
+      }
+
+      return namedValues[normalizedPlaceholder] || undefined;
+    };
+    const getParameters = (text: string, componentName: string) => {
+      const placeholders = Array.from(
+        text.matchAll(/\{\{\s*([^{}]+?)\s*\}\}/g),
+        (match) => match[1].trim(),
+      );
+
+      return placeholders.map((placeholder) => {
+        const value = resolveValue(placeholder);
+        if (value === undefined) {
+          throw new BadRequestException(
+            `Template "${input.templateName}" has an unsupported ${componentName} parameter "{{${placeholder}}}"`,
+          );
+        }
+
+        return {
+          type: 'text' as const,
+          ...(!/^\d+$/.test(placeholder)
+            ? { parameter_name: placeholder }
+            : {}),
+          text: value,
+        };
+      });
+    };
+
+    const components: NonNullable<SendUtilityMessageDto['components']> = [];
+    for (const type of ['HEADER', 'BODY'] as const) {
       const source = templateComponents.find(
-        (component) => component.type === sourceType,
+        (component) => component.type === type,
       );
-      if (!source || typeof source.text !== 'string') {
-        return [];
+      if (typeof source?.text !== 'string') {
+        continue;
       }
 
-      const indexes = Array.from(
-        source.text.matchAll(/\{\{(\d+)\}\}/g),
-        (match) => Number(match[1]),
-      );
-      if (!indexes.length) {
-        return [];
+      const parameters = getParameters(source.text, type);
+      if (parameters.length) {
+        components.push({
+          type: type.toLowerCase() as 'header' | 'body',
+          parameters,
+        });
+      }
+    }
+
+    for (const templateComponent of templateComponents) {
+      if (templateComponent.type !== 'BUTTONS') {
+        continue;
       }
 
-      return [
-        {
-          type,
-          parameters: indexes.map((index) => ({
-            type: 'text' as const,
-            text: values[index - 1],
-          })),
-        },
-      ];
-    });
+      const buttons = Array.isArray(templateComponent.buttons)
+        ? templateComponent.buttons.filter(
+            (button): button is Record<string, unknown> =>
+              typeof button === 'object' &&
+              button !== null &&
+              !Array.isArray(button),
+          )
+        : [];
+      buttons.forEach((button, index) => {
+        if (
+          button.type !== 'URL' ||
+          typeof button.url !== 'string'
+        ) {
+          return;
+        }
+        const parameters = getParameters(button.url, `button ${index + 1}`);
+        if (parameters.length) {
+          components.push({
+            type: 'button',
+            sub_type: 'url',
+            index: String(index),
+            parameters,
+          });
+        }
+      });
+    }
+
     const renderedMessage = bodyText.replace(
-      /\{\{(\d+)\}\}/g,
-      (_placeholder, index: string) => values[Number(index) - 1] ?? '',
+      /\{\{\s*([^{}]+?)\s*\}\}/g,
+      (placeholder, variable: string) => {
+        return resolveValue(variable.trim()) ?? placeholder;
+      },
     );
     const digitsOnlyPhone = input.to.replace(/\D/g, '');
     const recipientPhone = digitsOnlyPhone.startsWith('0')
@@ -1094,6 +1150,7 @@ async getWabaAssignerToUserId(userId: string) {
   }
 
   async sendUtilityMessage(dto: SendUtilityMessageDto): Promise<any> {
+    console.log(dto, 'sendUtilityMessageDto');
     const version = this.configService.get<string>('WHATSAPP_VERSION');
     let phoneNumberId =
       this.configService.get<string>('WHATSAPP_BUSINESS_PHONE_NUMBER_ID');
