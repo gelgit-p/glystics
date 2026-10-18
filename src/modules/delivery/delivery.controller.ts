@@ -35,7 +35,6 @@ export class DeliveryController {
   }
 
   @Get('analytics')
-  @UseGuards(AuthGuard('jwt'))
   getAnalytics(@Req() request: Request & { user: { id: string } }) {
     return this.deliveryService.getAnalytics(request.user.id);
   }
