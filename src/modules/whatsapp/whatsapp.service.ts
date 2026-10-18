@@ -1096,8 +1096,7 @@ async getWabaAssignerToUserId(userId: string) {
   async sendUtilityMessage(dto: SendUtilityMessageDto): Promise<any> {
     const version = this.configService.get<string>('WHATSAPP_VERSION');
     let phoneNumberId =
-      this.configService.get<string>('WHATSAPP_BUSINESS_PHONE_NUMBER_ID') ||
-      '1343947352130201';
+      this.configService.get<string>('WHATSAPP_BUSINESS_PHONE_NUMBER_ID');
 
     if (dto.userId) {
       const user = await this.prisma.user.findUnique({
@@ -1107,7 +1106,7 @@ async getWabaAssignerToUserId(userId: string) {
       if (!user) {
         throw new NotFoundException(`User with ID ${dto.userId} not found`);
       }
-      phoneNumberId = user.selectedPhoneNumberId[0] || phoneNumberId;
+      phoneNumberId = user.selectedPhoneNumberId[0]?.trim();
     }
 
     const fetch_access_token = dto.userId
@@ -1116,13 +1115,23 @@ async getWabaAssignerToUserId(userId: string) {
           orderBy: { createdAt: 'desc' },
         });
 
-    if(!fetch_access_token) {
-      throw new Error('No access token found in the database. Please store a valid token first.');
+    const accessToken =
+      fetch_access_token?.facebookLongLivedAccessToken?.trim();
+    if (!accessToken) {
+      throw new UnauthorizedException(
+        'No WhatsApp access token is configured for this user',
+      );
     }
 
-    if (!version || !phoneNumberId) {
-      throw new Error(
-        'WHATSAPP_VERSION and WHATSAPP_BUSINESS_PHONE_NUMBER_ID are required',
+    if (!version) {
+      throw new BadRequestException('WHATSAPP_VERSION is required');
+    }
+
+    if (!phoneNumberId) {
+      throw new BadRequestException(
+        dto.userId
+          ? 'A WhatsApp phone number must be selected for this user'
+          : 'WHATSAPP_BUSINESS_PHONE_NUMBER_ID is required',
       );
     }
 
@@ -1145,16 +1154,68 @@ async getWabaAssignerToUserId(userId: string) {
       const response = await firstValueFrom(
         this.httpService.post(endpoint, body, {
           headers: {
-            Authorization: `Bearer ${fetch_access_token.facebookLongLivedAccessToken}`,
+            Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
           },
         }),
       );
 
       return response.data;
-    } catch (error: any) {
-      console.log(error, 'log error')
-      throw error.response?.data || error.message;
+    } catch (error: unknown) {
+      const axiosError = error as {
+        message?: string;
+        response?: {
+          status?: number;
+          data?: unknown;
+        };
+      };
+      const responseData =
+        typeof axiosError.response?.data === 'object' &&
+        axiosError.response.data !== null
+          ? (axiosError.response.data as Record<string, unknown>)
+          : undefined;
+      const graphError =
+        typeof responseData?.error === 'object' &&
+        responseData.error !== null
+          ? (responseData.error as Record<string, unknown>)
+          : responseData;
+      const graphMessage =
+        typeof graphError?.message === 'string'
+          ? graphError.message
+          : axiosError.message ?? 'Unknown WhatsApp API error';
+      const graphCode =
+        typeof graphError?.code === 'number' ||
+        typeof graphError?.code === 'string'
+          ? graphError.code
+          : undefined;
+      const traceId =
+        typeof graphError?.fbtrace_id === 'string'
+          ? graphError.fbtrace_id
+          : undefined;
+
+      console.error(
+        'WhatsApp Graph API message send failed',
+        JSON.stringify(
+          {
+            status: axiosError.response?.status,
+            message: graphMessage,
+            code: graphCode,
+            fbtrace_id: traceId,
+          },
+          null,
+          2,
+        ),
+      );
+
+      const diagnostics = [
+        graphCode !== undefined ? `code ${graphCode}` : undefined,
+        traceId ? `trace ID ${traceId}` : undefined,
+      ].filter((value): value is string => Boolean(value));
+      throw new BadRequestException(
+        `WhatsApp Graph API rejected the message: ${graphMessage}${
+          diagnostics.length ? ` (${diagnostics.join(', ')})` : ''
+        }`,
+      );
     }
   }
 
