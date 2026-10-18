@@ -193,7 +193,7 @@ export class WhatsappController {
    * POST http://localhost:3000/whatsapp/webhook
    */
   @Post('webhook')
-  handleWebhook(@Body() body: any, @Res() res: Response) {
+  async handleWebhook(@Body() body: any, @Res() res: Response) {
     // Check if the payload comes from a WhatsApp event
     if (body.object === 'whatsapp_business_account') {
       const entries = body.entry;
@@ -216,8 +216,18 @@ export class WhatsappController {
 
           // Check if there are status updates (sent, delivered, read)
           if (value.statuses && value.statuses.length > 0) {
-            const statusUpdate = value.statuses[0];
-            console.log(`Message status update: ID ${statusUpdate.id} is now ${statusUpdate.status}`);
+            for (const statusUpdate of value.statuses) {
+              if (
+                typeof statusUpdate.id === 'string' &&
+                typeof statusUpdate.status === 'string'
+              ) {
+                await this.whatsappService.updateMessageDeliveryStatus(
+                  statusUpdate.id,
+                  statusUpdate.status,
+                );
+                console.log(`Message status update: ID ${statusUpdate.id} is now ${statusUpdate.status}`);
+              }
+            }
           }
         }
       }

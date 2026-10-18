@@ -20,6 +20,7 @@ import { Response } from 'express';
 import { DeliveryService } from '../delivery/delivery.service';
 import { AutomationService } from '../automation/automation.service';
 import { CreditsService } from '../credits/credit.service';
+import { WhatsappService } from '../whatsapp/whatsapp.service';
 
 @Controller()
 export class WebhookController {
@@ -27,6 +28,7 @@ export class WebhookController {
     private readonly deliveryService: DeliveryService,
     private readonly automationService: AutomationService,
     private readonly creditsService: CreditsService,
+    private readonly whatsappService: WhatsappService,
   ) {}
 
   /**
@@ -76,14 +78,38 @@ export class WebhookController {
    * WhatsApp webhook receiver
    */
   @Post('whatsapp/webhook')
-  receive(
-    @Body()
-    payload: Record<string, unknown>,
-  ) {
+  async receive(@Body() payload: Record<string, unknown>) {
     console.log(
       'WhatsApp webhook received:',
       JSON.stringify(payload, null, 2),
     );
+
+    const entries = Array.isArray(payload.entry) ? payload.entry : [];
+    for (const entry of entries) {
+      if (typeof entry !== 'object' || entry === null) continue;
+      const changes = (entry as Record<string, unknown>).changes;
+      if (!Array.isArray(changes)) continue;
+      for (const change of changes) {
+        if (typeof change !== 'object' || change === null) continue;
+        const value = (change as Record<string, unknown>).value;
+        if (typeof value !== 'object' || value === null) continue;
+        const statuses = (value as Record<string, unknown>).statuses;
+        if (!Array.isArray(statuses)) continue;
+        for (const update of statuses) {
+          if (typeof update !== 'object' || update === null) continue;
+          const statusUpdate = update as Record<string, unknown>;
+          if (
+            typeof statusUpdate.id === 'string' &&
+            typeof statusUpdate.status === 'string'
+          ) {
+            await this.whatsappService.updateMessageDeliveryStatus(
+              statusUpdate.id,
+              statusUpdate.status,
+            );
+          }
+        }
+      }
+    }
 
     return {
       received: true,
