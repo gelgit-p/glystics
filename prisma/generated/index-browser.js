@@ -233,6 +233,7 @@ exports.Prisma.CreditWalletScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   balance: 'balance',
+  points: 'points',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

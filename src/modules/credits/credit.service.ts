@@ -471,7 +471,10 @@ export class CreditsService {
       const totalCredits = purchase.credits + purchase.bonusCredits;
       const wallet = await tx.creditWallet.update({
         where: { id: purchase.walletId },
-        data: { balance: { increment: totalCredits } },
+        data: {
+          balance: { increment: totalCredits },
+          points: { increment: purchase.credits },
+        },
       });
       await tx.creditTransaction.create({
         data: {

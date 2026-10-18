@@ -145,6 +145,7 @@ model CreditWallet {
   id        String   @id @default(cuid())
   userId    String   @unique
   balance   Int      @default(0)
+  points    Int      @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
