@@ -567,13 +567,8 @@ export class AutomationService {
       pending: 'Pending',
       confirmed: 'Confirmed',
       picked_up: 'Picked Up',
-      pickup_scheduled: 'Pickup Scheduled',
-      rider_assigned: 'Rider Assigned',
       in_transit: 'In Transit',
-      out_for_delivery: 'Out for Delivery',
-      delivered: 'Delivered',
       completed: 'Completed',
-      failed: 'Failed',
       cancelled: 'Cancelled',
     };
 
