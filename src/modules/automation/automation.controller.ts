@@ -7,8 +7,11 @@ import {
   Patch,
   Post,
   Put,
-  Query,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
 
 import {
   AutomationService,
@@ -16,6 +19,7 @@ import {
 import { CreateAutomationDto, UpdateAutomationDto } from './dto/automation.dto';
 
 @Controller('automations')
+@UseGuards(AuthGuard('jwt'))
 export class AutomationController {
   constructor(
     private readonly automationService: AutomationService,
@@ -28,10 +32,11 @@ export class AutomationController {
    */
   @Post()
   async create(
+    @Req() request: Request & { user: { id: string } },
     @Body() body: CreateAutomationDto,
   ) {
     const automation =
-      await this.automationService.create(body);
+      await this.automationService.create({ ...body, userId: request.user.id });
 
     return {
       success: true,
@@ -47,10 +52,10 @@ export class AutomationController {
    */
   @Get()
   async findAll(
-    @Query('userId') userId: string,
+    @Req() request: Request & { user: { id: string } },
   ) {
     const automations =
-      await this.automationService.findAll(userId);
+      await this.automationService.findAll(request.user.id);
 
     return {
       success: true,
@@ -65,13 +70,13 @@ export class AutomationController {
    */
   @Get(':id')
   async findOne(
+    @Req() request: Request & { user: { id: string } },
     @Param('id') id: string,
-    @Query('userId') userId: string,
   ) {
     const automation =
       await this.automationService.findOne(
         id,
-        userId,
+        request.user.id,
       );
 
     return {
@@ -87,14 +92,14 @@ export class AutomationController {
    */
   @Put(':id')
   async update(
+    @Req() request: Request & { user: { id: string } },
     @Param('id') id: string,
-    @Query('userId') userId: string,
     @Body() body: UpdateAutomationDto,
   ) {
     const automation =
       await this.automationService.update(
         id,
-        userId,
+        request.user.id,
         body,
       );
 
@@ -112,13 +117,13 @@ export class AutomationController {
    */
   @Patch(':id/toggle')
   async toggle(
+    @Req() request: Request & { user: { id: string } },
     @Param('id') id: string,
-    @Query('userId') userId: string,
   ) {
     const automation =
       await this.automationService.toggle(
         id,
-        userId,
+        request.user.id,
       );
 
     return {
@@ -137,12 +142,12 @@ export class AutomationController {
    */
   @Delete(':id')
   async delete(
+    @Req() request: Request & { user: { id: string } },
     @Param('id') id: string,
-    @Query('userId') userId: string,
   ) {
     return this.automationService.delete(
       id,
-      userId,
+      request.user.id,
     );
   }
 }

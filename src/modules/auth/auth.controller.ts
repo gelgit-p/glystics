@@ -2,9 +2,7 @@ import {
   Body,
   Controller,
   Get,
-  Param,
   Post,
-  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -29,7 +27,7 @@ export class AuthController {
   async signup(@Body() data: SignupInput): Promise<boolean> {
     await this.authService.signup(data);
     return true;
-  }f
+  }
 
 //   @Get('confirm-email')
 //   confirmEmail(@Query('token') token: string) {
@@ -48,22 +46,25 @@ export class AuthController {
 
 
   @Post('update-user/:id')
+  @UseGuards(AuthGuard('jwt'))
   async updateUser(
-    @Param('id') id: string,
+    @Req() request: AuthenticatedRequest,
     @Body() data: UpdateInput,
   ) {
-    await this.userService.update(id, data);
-    return this.userService.findById(id);
+    await this.userService.update(request.user.id, data);
+    return this.userService.findById(request.user.id);
   }
 
-    @Get(':id')
-  findById(@Param('id') id: string) {
-    return this.userService.findById(id);
+  @Get('me')
+  @UseGuards(AuthGuard('jwt'))
+  findCurrentUser(@Req() request: AuthenticatedRequest) {
+    return this.userService.findById(request.user.id);
   }
 
-  @Get('by-email')
-  findByEmail(@Query('email') email: string) {
-    return this.userService.findByEmail(email);
+  @Get(':id')
+  @UseGuards(AuthGuard('jwt'))
+  findById(@Req() request: AuthenticatedRequest) {
+    return this.userService.findById(request.user.id);
   }
 
   @UseGuards(AuthGuard('jwt'))

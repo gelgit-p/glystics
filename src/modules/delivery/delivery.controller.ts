@@ -35,22 +35,30 @@ export class DeliveryController {
   }
 
   @Get('analytics')
+  @UseGuards(AuthGuard('jwt'))
   getAnalytics(@Req() request: Request & { user: { id: string } }) {
     return this.deliveryService.getAnalytics(request.user.id);
   }
 
   @Post(':id/checkout-session')
+  @UseGuards(AuthGuard('jwt'))
   createCheckoutSession(
+    @Req() request: Request & { user: { id: string } },
     @Param('id') id: string,
     @Body() data: CreateDeliveryCheckoutDto,
   ) {
-    return this.deliveryService.createCheckoutSession(id, data);
+    return this.deliveryService.createCheckoutSession(
+      id,
+      request.user.id,
+      data,
+    );
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.OK)
-  getDeliveriesByUserId(@Param('id') id: string) {
-    return this.deliveryService.getDeliveriesByUserId(id);
+  getDeliveriesByUserId(@Req() request: Request & { user: { id: string } }) {
+    return this.deliveryService.getDeliveriesByUserId(request.user.id);
   }
 
   @Get('tracking/:trackingId')
@@ -59,12 +67,18 @@ export class DeliveryController {
   }
 
   @Get()
-  getDeliveries() {
-    return this.deliveryService.getDeliveries();
+  @UseGuards(AuthGuard('jwt'))
+  getDeliveries(@Req() request: Request & { user: { id: string } }) {
+    return this.deliveryService.getDeliveriesByUserId(request.user.id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() data: UpdateDeliveryDto) {
-    return this.deliveryService.update(id, data);
+  @UseGuards(AuthGuard('jwt'))
+  update(
+    @Req() request: Request & { user: { id: string } },
+    @Param('id') id: string,
+    @Body() data: UpdateDeliveryDto,
+  ) {
+    return this.deliveryService.update(id, data, request.user.id);
   }
 }

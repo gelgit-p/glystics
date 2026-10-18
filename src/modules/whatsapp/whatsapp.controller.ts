@@ -37,6 +37,7 @@ export class WhatsappController {
   ) { }
 
   @Get('access-token')
+  @UseGuards(AuthGuard('jwt'))
   async getAccessToken(@Query() dto: AccessTokenDto): Promise<string> {
     return await this.whatsappService.getAccessToken(dto);
   }
@@ -46,49 +47,82 @@ export class WhatsappController {
    * POST http://localhost:3000/whatsapp/send
    */
   @Post('send')
+  @UseGuards(AuthGuard('jwt'))
   async sendMessage(
+    @Req() request: Request & { user: { id: string } },
     @Body() dto: MessageDto,
   ) {
-    return await this.whatsappService.sendMessage(dto);
+    return await this.whatsappService.sendMessage(dto, request.user.id);
   }
 
   @Post('media')
+  @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(FileInterceptor('file'))
   async uploadMedia(
+    @Req() request: Request & { user: { id: string } },
     @Body('phoneNumberId') phoneNumberId: string,
     @UploadedFile() file: WhatsappMediaFile,
   ) {
-    return await this.whatsappService.uploadMedia(phoneNumberId, file);
+    return await this.whatsappService.uploadMedia(
+      request.user.id,
+      phoneNumberId,
+      file,
+    );
   }
 
   @Get('long-lived-token')
+  @UseGuards(AuthGuard('jwt'))
   async getLongLivedToken(
+    @Req() request: Request & { user: { id: string } },
     @Query('access_token') accessToken: string,
-    @Query('user_id') userId: string,
   ): Promise<any> {
-    return await this.whatsappService.getLongLivedToken(accessToken, userId);
+    return await this.whatsappService.getLongLivedToken(
+      accessToken,
+      request.user.id,
+    );
   }
 
 
 
   @Post('message-templates')
-  async createMessageTemplate(@Body() dto: CreateMessageTemplateDto) {
-    return await this.whatsappService.createMessageTemplate(dto);
+  @UseGuards(AuthGuard('jwt'))
+  async createMessageTemplate(
+    @Req() request: Request & { user: { id: string } },
+    @Body() dto: CreateMessageTemplateDto,
+  ) {
+    return await this.whatsappService.createMessageTemplate(
+      dto,
+      request.user.id,
+    );
   }
 
   @Get('message-templates/:userId')
-  async getMessageTemplates(@Param('userId') userId: string, @Query('status') status: string) {
-    return await this.whatsappService.getMessageTemplates(userId, status);
+  @UseGuards(AuthGuard('jwt'))
+  async getMessageTemplates(
+    @Req() request: Request & { user: { id: string } },
+    @Query('status') status: string,
+  ) {
+    return await this.whatsappService.getMessageTemplates(request.user.id, status);
   }
 
   @Get('message-templates/:userId/all')
-  async getAllMessageTemplates(@Param('userId') userId: string) {
-    return await this.whatsappService.getAllMessageTemplates(userId);
+  @UseGuards(AuthGuard('jwt'))
+  async getAllMessageTemplates(
+    @Req() request: Request & { user: { id: string } },
+  ) {
+    return await this.whatsappService.getAllMessageTemplates(request.user.id);
   }
 
   @Get('message-templates/:templateId/status')
-  async getMessageTemplateStatus(@Param('templateId') templateId: string) {
-    return await this.whatsappService.getMessageTemplateStatus(templateId);
+  @UseGuards(AuthGuard('jwt'))
+  async getMessageTemplateStatus(
+    @Req() request: Request & { user: { id: string } },
+    @Param('templateId') templateId: string,
+  ) {
+    return await this.whatsappService.getMessageTemplateStatus(
+      templateId,
+      request.user.id,
+    );
   }
 
   @Post('send-utility-message')
@@ -116,55 +150,98 @@ export class WhatsappController {
   }
 
   @Post('store-token')
-  async storeToken(@Body() dto: TokenDto) {
-    return await this.whatsappService.saveToken(dto);
+  @UseGuards(AuthGuard('jwt'))
+  async storeToken(
+    @Req() request: Request & { user: { id: string } },
+    @Body() dto: TokenDto,
+  ) {
+    return await this.whatsappService.saveToken({
+      ...dto,
+      userId: request.user.id,
+    });
   }
 
   @Post('subscribe')
-  async subscribeToWebhooks(@Query() dto: WebhookSubscriptionDto) {
-    return await this.whatsappService.subscribeToWebhooks(dto);
+  @UseGuards(AuthGuard('jwt'))
+  async subscribeToWebhooks(
+    @Req() request: Request & { user: { id: string } },
+    @Query() dto: WebhookSubscriptionDto,
+  ) {
+    return await this.whatsappService.subscribeToWebhooks({
+      ...dto,
+      userId: request.user.id,
+    });
   }
 
   @Delete('unsubscribe')
-  async unsubscribeToWebhooks(@Query() dto: WebhookSubscriptionDto) {
-    return await this.whatsappService.subscribeToWebhooks(dto);
+  @UseGuards(AuthGuard('jwt'))
+  async unsubscribeToWebhooks(
+    @Req() request: Request & { user: { id: string } },
+    @Query() dto: WebhookSubscriptionDto,
+  ) {
+    return await this.whatsappService.subscribeToWebhooks({
+      ...dto,
+      userId: request.user.id,
+    });
   }
 
   @Get('get-subscriptions')
-  async getWabaSubscriptions(@Query('userId') userId: string) {
-    return await this.whatsappService.getAllWabaSubscriptions(userId);
+  @UseGuards(AuthGuard('jwt'))
+  async getWabaSubscriptions(
+    @Req() request: Request & { user: { id: string } },
+  ) {
+    return await this.whatsappService.getAllWabaSubscriptions(request.user.id);
   }
 
   @Get('tokens')
-  async getTokens() {
-    return await this.whatsappService.getTokens();
+  @UseGuards(AuthGuard('jwt'))
+  async getTokens(@Req() request: Request & { user: { id: string } }) {
+    return await this.whatsappService.getTokens(request.user.id);
   }
 
   @Get('messaging-limit')
-  async getMessagingLimit() {
-    return await this.whatsappService.getMessagingLimit();
+  @UseGuards(AuthGuard('jwt'))
+  async getMessagingLimit(
+    @Req() request: Request & { user: { id: string } },
+  ) {
+    return await this.whatsappService.getMessagingLimit(request.user.id);
   }
 
   @Get('debug-token')
-  async debugToken() {
-    return await this.whatsappService.debugToken();
+  @UseGuards(AuthGuard('jwt'))
+  async debugToken(@Req() request: Request & { user: { id: string } }) {
+    return await this.whatsappService.debugToken(request.user.id);
   }
 
   @Get(':userId/waba')
-  async getWaba(@Param('userId') userId: string) {
-    return this.whatsappService.getWabaAssignerToUserId(userId);
+  @UseGuards(AuthGuard('jwt'))
+  async getWaba(@Req() request: Request & { user: { id: string } }) {
+    return this.whatsappService.getWabaAssignerToUserId(request.user.id);
   }
 
 
     @Get(':phoneNumberId/settings')
-  async getPhoneSettings(@Param('phoneNumberId') phoneNumberId: string) {
-    return this.whatsappService.getSettings(phoneNumberId);
-  }
+    @UseGuards(AuthGuard('jwt'))
+    async getPhoneSettings(
+      @Req() request: Request & { user: { id: string } },
+      @Param('phoneNumberId') phoneNumberId: string,
+    ) {
+      return this.whatsappService.getSettings(phoneNumberId, request.user.id);
+    }
 
 
   @Put('tokens/:id')
-  async editTokenById(@Param('id') id: string, @Body() dto: TokenDto) {
-    return await this.whatsappService.editTokenById(id, dto);
+  @UseGuards(AuthGuard('jwt'))
+  async editTokenById(
+    @Req() request: Request & { user: { id: string } },
+    @Param('id') id: string,
+    @Body() dto: TokenDto,
+  ) {
+    return await this.whatsappService.editTokenById(
+      id,
+      request.user.id,
+      dto,
+    );
   }
 
   /**

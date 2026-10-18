@@ -26,7 +26,7 @@ type AuthenticatedRequest = Request & {
 };
 
 @Controller('credits')
-// @UseGuards(AuthGuard('jwt'))
+@UseGuards(AuthGuard('jwt'))
 @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
 export class CreditController {
   constructor(

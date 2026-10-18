@@ -27,7 +27,7 @@ export class AutomationService {
     private readonly whatsappService: WhatsappService,
   ) {}
 
-  async create(data: CreateAutomationDto) {
+  async create(data: CreateAutomationDto & { userId: string }) {
     try {
       if (!data.userId) {
         throw new BadRequestException('User ID is required');
