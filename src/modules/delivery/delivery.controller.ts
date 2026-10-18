@@ -54,6 +54,18 @@ export class DeliveryController {
     );
   }
 
+  @Post(':id/checkout-session/regenerate')
+  @UseGuards(AuthGuard('jwt'))
+  regenerateCheckoutSession(
+    @Req() request: Request & { user: { id: string } },
+    @Param('id') id: string,
+  ) {
+    return this.deliveryService.regenerateCheckoutSession(
+      id,
+      request.user.id,
+    );
+  }
+
   @Get(':id')
   @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.OK)
