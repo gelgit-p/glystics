@@ -201,7 +201,7 @@ export class CreditsService {
       throw new NotFoundException('Credit purchase not found');
     }
     if (purchase.status === 'PAID') {
-      return { purchase, credited: false };
+      return { purchase, credited: false, status: 'PAID' as const };
     }
     if (purchase.status !== 'PENDING' || !purchase.checkoutSessionId) {
       throw new ConflictException(
@@ -212,8 +212,64 @@ export class CreditsService {
     const session = await this.bachsService.getCheckoutSessionById(
       purchase.checkoutSessionId,
     );
-    this.assertVerifiedPayment(session, purchase);
-    return this.creditPaidPurchase(purchase.id);
+    const providerStatus = this.getCheckoutStatus(session);
+
+    if (
+      [
+        'failed',
+        'cancelled',
+        'canceled',
+        'expired',
+        'declined',
+        'rejected',
+      ].includes(providerStatus)
+    ) {
+      const status =
+        providerStatus === 'cancelled' ||
+        providerStatus === 'canceled' ||
+        providerStatus === 'expired'
+          ? 'CANCELLED'
+          : 'FAILED';
+      await this.prisma.creditPurchase.updateMany({
+        where: { id: purchase.id, status: 'PENDING' },
+        data: { status },
+      });
+      const current = await this.prisma.creditPurchase.findUniqueOrThrow({
+        where: { id: purchase.id },
+      });
+      return {
+        purchase: current,
+        credited: false,
+        status: current.status,
+      };
+    }
+
+    if (
+      ['paid', 'succeeded', 'success', 'completed'].includes(providerStatus)
+    ) {
+      this.assertVerifiedPayment(session, purchase);
+      const result = await this.creditPaidPurchase(purchase.id);
+      return { ...result, status: 'PAID' as const };
+    }
+
+    if (
+      !providerStatus ||
+      [
+        'pending',
+        'created',
+        'open',
+        'processing',
+        'unpaid',
+        'requires_action',
+        'requires_payment_method',
+      ].includes(providerStatus)
+    ) {
+      return { purchase, credited: false, status: 'PENDING' as const };
+    }
+
+    throw new BadRequestException(
+      `Bachs returned an unsupported checkout status: ${providerStatus}`,
+    );
   }
 
   async processPaymentWebhook(
@@ -524,6 +580,15 @@ export class CreditsService {
         'Bachs checkout ID does not match this purchase',
       );
     }
+  }
+
+  private getCheckoutStatus(response: unknown): string {
+    const record = this.asRecord(response);
+    const nested = this.asRecord(record?.data) ?? record;
+    const payment = this.asRecord(nested?.object) ?? nested;
+    return typeof payment?.status === 'string'
+      ? payment.status.trim().toLowerCase()
+      : '';
   }
 
   private async syncPackages() {
