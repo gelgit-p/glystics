@@ -22,6 +22,11 @@ describe('CreditsService', () => {
     const prisma = {
       creditPurchase: {
         findFirst: jest.fn().mockResolvedValue(purchase),
+        updateMany: jest.fn().mockResolvedValue({ count: 1 }),
+        findUniqueOrThrow: jest.fn().mockResolvedValue({
+          ...purchase,
+          status: 'FAILED',
+        }),
       },
       $transaction: jest.fn(),
     } as unknown as PrismaService;
@@ -68,6 +73,40 @@ describe('CreditsService', () => {
     await expect(
       service.verifyPurchase('user-id', purchase.paymentReference),
     ).rejects.toBeInstanceOf(BadRequestException);
+    expect(prisma.$transaction).not.toHaveBeenCalled();
+  });
+
+  it('returns a pending state while Bachs has not completed payment', async () => {
+    const { service, prisma, bachsService } = createService();
+    jest.spyOn(bachsService, 'getCheckoutSessionById').mockResolvedValue({
+      status: 'pending',
+    });
+
+    await expect(
+      service.verifyPurchase('user-id', purchase.paymentReference),
+    ).resolves.toMatchObject({
+      status: 'PENDING',
+      credited: false,
+    });
+    expect(prisma.$transaction).not.toHaveBeenCalled();
+  });
+
+  it('returns a failed state when Bachs reports a failed checkout', async () => {
+    const { service, prisma, bachsService } = createService();
+    jest.spyOn(bachsService, 'getCheckoutSessionById').mockResolvedValue({
+      status: 'failed',
+    });
+
+    await expect(
+      service.verifyPurchase('user-id', purchase.paymentReference),
+    ).resolves.toMatchObject({
+      status: 'FAILED',
+      credited: false,
+    });
+    expect(prisma.creditPurchase.updateMany).toHaveBeenCalledWith({
+      where: { id: purchase.id, status: 'PENDING' },
+      data: { status: 'FAILED' },
+    });
     expect(prisma.$transaction).not.toHaveBeenCalled();
   });
 
