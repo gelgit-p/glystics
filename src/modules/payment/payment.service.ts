@@ -9,14 +9,19 @@ import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
 export class BachsService {
-  private readonly bachsBaseUrl = 'https://sandbox-api.bachs.io/v1';
+  private readonly bachsBaseUrl: string;
   private readonly secretKey = process.env.BACHS_API_KEY;
   private readonly logger = new Logger(BachsService.name);
 
   constructor(
     private prisma: PrismaService,
     private configService: ConfigService,
-  ) {}
+  ) {
+    this.bachsBaseUrl = (
+      this.configService.get<string>('BACHS_BASE_URL') ??
+      'https://sandbox-api.bachs.io/v1'
+    ).replace(/\/+$/, '');
+  }
 
   async createCustomer(dto: BachsCustomerDto): Promise<any> {
     const token = this.configService.get<string>('BACHS_API_KEY');

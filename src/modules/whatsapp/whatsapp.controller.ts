@@ -8,12 +8,15 @@ import {
   HttpStatus,
   Param,
   Put,
+  Req,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
   Delete,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Response } from 'express';
+import { Request, Response } from 'express';
+import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import 'multer';
 import {
@@ -89,13 +92,27 @@ export class WhatsappController {
   }
 
   @Post('send-utility-message')
-  async sendUtilityMessage(@Body() dto: SendUtilityMessageDto) {
-    return await this.whatsappService.sendUtilityMessage(dto);
+  @UseGuards(AuthGuard('jwt'))
+  async sendUtilityMessage(
+    @Req() request: Request & { user: { id: string } },
+    @Body() dto: SendUtilityMessageDto,
+  ) {
+    return await this.whatsappService.sendUtilityMessage({
+      ...dto,
+      userId: request.user.id,
+    });
   }
 
   @Post('send-order-confirmation')
-  async sendOrderConfirmation(@Body() dto: SendOrderConfirmationDto) {
-    return await this.whatsappService.sendOrderConfirmation(dto);
+  @UseGuards(AuthGuard('jwt'))
+  async sendOrderConfirmation(
+    @Req() request: Request & { user: { id: string } },
+    @Body() dto: SendOrderConfirmationDto,
+  ) {
+    return await this.whatsappService.sendOrderConfirmation({
+      ...dto,
+      userId: request.user.id,
+    });
   }
 
   @Post('store-token')

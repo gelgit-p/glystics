@@ -13,6 +13,7 @@ import { BachsCreateCheckoutSessionDto } from '../payment/payment.dto';
 import { CreateShipmentDto } from '../shipbubble/dto/create-shipment.dto';
 import { CreateDeliveryCheckoutDto } from './dto/create-delivery-checkout.dto';
 import { UpdateDeliveryDto } from './dto/update-delivery.dto';
+import { CreditsService } from '../credits/credit.service';
 
 @Injectable()
 export class DeliveryService {
@@ -20,6 +21,7 @@ export class DeliveryService {
     private readonly prisma: PrismaService,
     private readonly bachsService: BachsService,
     private readonly shipbubbleService: ShipbubbleService,
+    private readonly creditsService: CreditsService,
   ) {}
 
 
@@ -54,15 +56,30 @@ export class DeliveryService {
     );
   }
 
-  return this.prisma.delivery.create({
-    data: {
-      ...(data as Prisma.DeliveryCreateInput),
-      deliveryStatus: data.deliveryStatus ?? 'CREATED',
-      trackingId: `SD${Math.floor(10000 + Math.random() * 90000)}`,
-      paymentStatus: 'PENDING',
-      bookingStatus: 'BOOKED',
-      updatedAt: new Date(),
-    },
+  const userId = data.userId;
+  if (!userId) {
+    throw new BadRequestException('User ID is required');
+  }
+  const trackingId = `SD${Math.floor(10000 + Math.random() * 90000)}`;
+  return this.prisma.$transaction(async (tx) => {
+    await this.creditsService.spendWithinTransaction(tx, {
+      userId,
+      credits: this.creditsService.getServicePrice('DELIVERY'),
+      description: `Delivery creation (${trackingId})`,
+      idempotencyKey: `delivery:${trackingId}`,
+      metadata: { service: 'DELIVERY', trackingId },
+    });
+
+    return tx.delivery.create({
+      data: {
+        ...(data as Prisma.DeliveryCreateInput),
+        deliveryStatus: data.deliveryStatus ?? 'CREATED',
+        trackingId,
+        paymentStatus: 'PENDING',
+        bookingStatus: 'BOOKED',
+        updatedAt: new Date(),
+      },
+    });
   });
 }
 
