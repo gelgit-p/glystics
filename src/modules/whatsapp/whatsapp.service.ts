@@ -354,11 +354,8 @@ export class WhatsappService {
 
   async createMessageTemplate(dto: CreateMessageTemplateDto): Promise<any> {
     const version = this.configService.get<string>('WHATSAPP_VERSION');
-    const businessAccountId = this.configService.get<string>(
-      'WABA_ID',
-    );
 
-    if (!version || !businessAccountId) {
+    if (!version) {
       throw new Error(
         'WHATSAPP_VERSION and WABA_ID are required',
       );
@@ -368,7 +365,7 @@ export class WhatsappService {
         orderBy: { createdAt: 'desc' },
       });
 
-    const endpoint = `https://graph.facebook.com/v23.0/${businessAccountId}/message_templates`;
+    const endpoint = `https://graph.facebook.com/v23.0/${dto.wabaId}/message_templates`;
 
     try {
       const response = await firstValueFrom(
