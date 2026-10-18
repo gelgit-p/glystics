@@ -21,8 +21,14 @@ export class UtilityMessageParameterDto {
 }
 
 export class UtilityMessageComponentDto {
-  @ApiProperty({ enum: ['header', 'body'] })
-  type: 'header' | 'body';
+  @ApiProperty({ enum: ['header', 'body', 'button'] })
+  type: 'header' | 'body' | 'button';
+
+  @ApiPropertyOptional({ enum: ['url', 'quick_reply'] })
+  sub_type?: 'url' | 'quick_reply';
+
+  @ApiPropertyOptional()
+  index?: string;
 
   @ApiProperty({ type: [UtilityMessageParameterDto] })
   parameters: UtilityMessageParameterDto[];
