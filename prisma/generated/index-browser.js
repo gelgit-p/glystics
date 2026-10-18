@@ -229,6 +229,54 @@ exports.Prisma.MessageTemplateScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CreditWalletScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  balance: 'balance',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CreditTransactionScalarFieldEnum = {
+  id: 'id',
+  walletId: 'walletId',
+  type: 'type',
+  amount: 'amount',
+  balanceAfter: 'balanceAfter',
+  description: 'description',
+  reference: 'reference',
+  idempotencyKey: 'idempotencyKey',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CreditPackageScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  priceKobo: 'priceKobo',
+  credits: 'credits',
+  bonusCredits: 'bonusCredits',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CreditPurchaseScalarFieldEnum = {
+  id: 'id',
+  walletId: 'walletId',
+  packageId: 'packageId',
+  amountKobo: 'amountKobo',
+  credits: 'credits',
+  bonusCredits: 'bonusCredits',
+  paymentReference: 'paymentReference',
+  checkoutSessionId: 'checkoutSessionId',
+  checkoutUrl: 'checkoutUrl',
+  status: 'status',
+  paidAt: 'paidAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.AutomationScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -289,13 +337,30 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
+exports.CreditTransactionType = exports.$Enums.CreditTransactionType = {
+  PURCHASE: 'PURCHASE',
+  BONUS: 'BONUS',
+  USAGE: 'USAGE',
+  REFUND: 'REFUND',
+  ADMIN_ADJUSTMENT: 'ADMIN_ADJUSTMENT'
+};
 
+exports.CreditPurchaseStatus = exports.$Enums.CreditPurchaseStatus = {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
   Token: 'Token',
   Delivery: 'Delivery',
   MessageTemplate: 'MessageTemplate',
+  CreditWallet: 'CreditWallet',
+  CreditTransaction: 'CreditTransaction',
+  CreditPackage: 'CreditPackage',
+  CreditPurchase: 'CreditPurchase',
   Automation: 'Automation',
   Notification: 'Notification'
 };

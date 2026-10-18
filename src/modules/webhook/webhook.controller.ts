@@ -19,12 +19,14 @@ import {
 import { Response } from 'express';
 import { DeliveryService } from '../delivery/delivery.service';
 import { AutomationService } from '../automation/automation.service';
+import { CreditsService } from '../credits/credit.service';
 
 @Controller()
 export class WebhookController {
   constructor(
     private readonly deliveryService: DeliveryService,
     private readonly automationService: AutomationService,
+    private readonly creditsService: CreditsService,
   ) {}
 
   /**
@@ -150,6 +152,14 @@ export class WebhookController {
         throw new BadRequestException(
           'Bachs checkout.completed webhook is missing its checkout reference',
         );
+      }
+
+      const creditedPurchase = await this.creditsService.processPaymentWebhook(
+        reference,
+        checkoutId,
+      );
+      if (creditedPurchase) {
+        return { received: true };
       }
 
       await this.deliveryService.completePaidCheckout(reference, checkoutId);

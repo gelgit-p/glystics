@@ -9,6 +9,8 @@ import { SendOrderConfirmationDto } from './dto/send-order-confirmation.dto';
 import { PrismaService } from 'prisma/prisma.service';
 import { TokenDto } from './dto/token.dto';
 import * as crypto from "crypto";
+import { randomUUID } from 'node:crypto';
+import { CreditsService } from '../credits/credit.service';
 
 
 interface GenerateOptions {
@@ -43,7 +45,8 @@ export class WhatsappService {
   constructor(
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
-    private readonly prisma: PrismaService
+    private readonly prisma: PrismaService,
+    private readonly creditsService: CreditsService,
   ) {
     const phoneNumberId = this.configService.get<string>('WHATSAPP_PHONE_NUMBER_ID');
     const version = this.configService.get<string>('WHATSAPP_VERSION');
@@ -1204,6 +1207,13 @@ async getWabaAssignerToUserId(userId: string) {
       },
     };
 
+    const usageTransaction = dto.userId
+      ? await this.creditsService.spend(dto.userId, {
+          service: 'WHATSAPP',
+          idempotencyKey: randomUUID(),
+        })
+      : undefined;
+
     try {
       const response = await firstValueFrom(
         this.httpService.post(endpoint, body, {
@@ -1260,6 +1270,21 @@ async getWabaAssignerToUserId(userId: string) {
           2,
         ),
       );
+
+      if (usageTransaction && dto.userId) {
+        try {
+          await this.creditsService.refundUsage(
+            dto.userId,
+            usageTransaction.id,
+            'Automatic refund for a failed WhatsApp message',
+          );
+        } catch (refundError) {
+          console.error(
+            'Failed to refund credits for a rejected WhatsApp message',
+            refundError,
+          );
+        }
+      }
 
       const diagnostics = [
         graphCode !== undefined ? `code ${graphCode}` : undefined,

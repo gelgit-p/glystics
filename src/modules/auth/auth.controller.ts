@@ -48,11 +48,12 @@ export class AuthController {
 
 
   @Post('update-user/:id')
-  updateUser(
+  async updateUser(
     @Param('id') id: string,
     @Body() data: UpdateInput,
   ) {
-    return this.userService.update(id, data);
+    await this.userService.update(id, data);
+    return this.userService.findById(id);
   }
 
     @Get(':id')

@@ -3,9 +3,10 @@ import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import { WhatsappService } from './whatsapp.service';
 import { WhatsappController } from './whatsapp.controller';
+import { CreditModule } from '../credits/credit.module';
 
 @Module({
-  imports: [HttpModule, ConfigModule],
+  imports: [HttpModule, ConfigModule, CreditModule],
   controllers: [WhatsappController],
   providers: [WhatsappService],
   exports: [WhatsappService],

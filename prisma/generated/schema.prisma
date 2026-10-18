@@ -39,6 +39,7 @@ model User {
   hashedRefresh         String?
   messageTemplates      MessageTemplate[]
   automations           Automation[]
+  creditWallet          CreditWallet?
 }
 
 model Token {
@@ -140,6 +141,69 @@ model MessageTemplate {
   @@map("message_templates")
 }
 
+model CreditWallet {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  balance   Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user         User                @relation(fields: [userId], references: [id])
+  transactions CreditTransaction[]
+  purchases    CreditPurchase[]
+}
+
+model CreditTransaction {
+  id             String                @id @default(cuid())
+  walletId       String
+  type           CreditTransactionType
+  amount         Int
+  balanceAfter   Int
+  description    String
+  reference      String?               @unique
+  idempotencyKey String?               @unique
+  metadata       Json?
+  createdAt      DateTime              @default(now())
+
+  wallet CreditWallet @relation(fields: [walletId], references: [id])
+
+  @@index([walletId, createdAt])
+}
+
+model CreditPackage {
+  id           String   @id @default(cuid())
+  name         String   @unique
+  priceKobo    Int
+  credits      Int
+  bonusCredits Int      @default(0)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  purchases CreditPurchase[]
+}
+
+model CreditPurchase {
+  id                String               @id @default(cuid())
+  walletId          String
+  packageId         String
+  amountKobo        Int
+  credits           Int
+  bonusCredits      Int                  @default(0)
+  paymentReference  String               @unique
+  checkoutSessionId String?              @unique
+  checkoutUrl       String?
+  status            CreditPurchaseStatus @default(PENDING)
+  paidAt            DateTime?
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+
+  wallet  CreditWallet  @relation(fields: [walletId], references: [id])
+  package CreditPackage @relation(fields: [packageId], references: [id])
+
+  @@index([walletId, status])
+}
+
 model Automation {
   id     String @id @default(cuid())
   userId String
@@ -187,4 +251,19 @@ model Notification {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum CreditTransactionType {
+  PURCHASE
+  BONUS
+  USAGE
+  REFUND
+  ADMIN_ADJUSTMENT
+}
+
+enum CreditPurchaseStatus {
+  PENDING
+  PAID
+  FAILED
+  CANCELLED
 }

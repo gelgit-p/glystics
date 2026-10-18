@@ -10,6 +10,23 @@ export class UserService {
     try {
       return await this.prisma.user.findUnique({
         where: { id },
+        select: {
+          id: true,
+          email: true,
+          emailConfirmed: true,
+          businessName: true,
+          fullName: true,
+          selectedWabaId: true,
+          displayPhoneNumber: true,
+          selectedFacebookBusinessId: true,
+          selectedFacebookBusinessName: true,
+          selectedPhoneNumberQualityRating: true,
+          selectedPhoneNumberVerifiedName: true,
+          webhookStatus: true,
+          selectedPhoneNumberId: true,
+          facebookConnectStatus: true,
+          createdAt: true,
+        },
       });
     } catch (error) {
       console.error(`Failed to find user with ID ${id}:`, error);
