@@ -5,6 +5,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
+import { randomUUID } from 'node:crypto';
 import { Prisma } from 'prisma/generated';
 import { PrismaService } from 'prisma/prisma.service';
 import { BachsService } from '../payment/payment.service';
@@ -151,6 +152,7 @@ export class DeliveryService {
       insurance_code: data.insurance_code ?? null,
       is_cod_label: false,
       duties_paid: false,
+      checkoutReference: delivery.trackingId,
     };
     const checkoutPayload: BachsCreateCheckoutSessionDto = {
       expires_in_minutes: 60,
@@ -206,14 +208,135 @@ export class DeliveryService {
     };
   }
 
-  async completePaidCheckout(reference: string, checkoutId?: string) {
-    const delivery = await this.prisma.delivery.findFirst({
-      where: { trackingId: reference },
+  async regenerateCheckoutSession(deliveryId: string, userId: string) {
+    const delivery = await this.prisma.delivery.findUnique({
+      where: { id: deliveryId },
     });
+
+    if (!delivery || delivery.userId !== userId) {
+      throw new NotFoundException(`Delivery with id ${deliveryId} was not found`);
+    }
+
+    if (
+      delivery.paymentStatus !== 'PENDING' ||
+      delivery.deliveryStatus !== 'PAYMENT_PENDING' ||
+      delivery.bookingStatus !== 'NOT_STARTED'
+    ) {
+      throw new ConflictException(
+        'A new payment link can only be generated for a delivery awaiting payment',
+      );
+    }
+
+    const booking = this.asRecord(delivery.bookingDetails);
+    if (
+      !booking ||
+      typeof booking.request_token !== 'string' ||
+      typeof booking.courier_id !== 'string' ||
+      typeof booking.service_code !== 'string' ||
+      !delivery.paymentAmount ||
+      !delivery.paymentCurrency
+    ) {
+      throw new BadRequestException(
+        'Stored payment and courier details are incomplete',
+      );
+    }
+
+    const amount = this.addMoneyAmounts(delivery.paymentAmount, 0);
+    const currency = delivery.paymentCurrency.toUpperCase();
+    const reference = `${delivery.trackingId}-${randomUUID()
+      .replaceAll('-', '')
+      .slice(0, 12)}`;
+    const checkoutPayload: BachsCreateCheckoutSessionDto = {
+      expires_in_minutes: 60,
+      customer_creation: 'if_required',
+      save_payment_method: false,
+      pricing: {
+        currency,
+        amount,
+        price_type: 'fixed',
+      },
+      billing_currency: currency,
+      reference,
+    };
+    const checkout =
+      await this.bachsService.createCheckoutSession(checkoutPayload);
+
+    if (
+      typeof checkout?.checkout_id !== 'string' ||
+      typeof checkout?.checkout_url !== 'string'
+    ) {
+      throw new InternalServerErrorException(
+        'Bachs checkout response did not include checkout_id and checkout_url',
+      );
+    }
+
+    const bookingDetails: Prisma.InputJsonObject = {
+      request_token: booking.request_token,
+      courier_id: booking.courier_id,
+      service_code: booking.service_code,
+      insurance_code:
+        typeof booking.insurance_code === 'string'
+          ? booking.insurance_code
+          : null,
+      is_cod_label: false,
+      duties_paid: false,
+      checkoutReference: reference,
+    };
+    const result = await this.prisma.delivery.updateMany({
+      where: {
+        id: deliveryId,
+        userId,
+        paymentStatus: 'PENDING',
+        bookingStatus: 'NOT_STARTED',
+        checkoutSessionId: delivery.checkoutSessionId,
+      },
+      data: {
+        checkoutSessionId: checkout.checkout_id,
+        checkoutUrl: checkout.checkout_url,
+        bookingDetails,
+        updatedAt: new Date(),
+      },
+    });
+
+    if (!result.count) {
+      throw new ConflictException(
+        'The delivery payment changed while the new link was being generated. Refresh and try again.',
+      );
+    }
+
+    return {
+      checkout_id: checkout.checkout_id,
+      checkout_url: checkout.checkout_url,
+      reference,
+    };
+  }
+
+  async completePaidCheckout(reference: string, checkoutId?: string) {
+    const delivery =
+      (await this.prisma.delivery.findFirst({
+        where: {
+          bookingDetails: {
+            path: ['checkoutReference'],
+            equals: reference,
+          },
+        },
+      })) ??
+      (await this.prisma.delivery.findFirst({
+        where: { trackingId: reference },
+      }));
 
     if (!delivery) {
       throw new NotFoundException(
         `No delivery found for checkout reference ${reference}`,
+      );
+    }
+
+    const booking = delivery.bookingDetails;
+    const currentReference =
+      this.asRecord(booking)?.checkoutReference ?? delivery.trackingId;
+    if (currentReference !== reference) {
+      throw new BadRequestException(
+        'Checkout reference does not match the active delivery payment link',
       );
     }
 
@@ -229,14 +352,14 @@ export class DeliveryService {
       );
     }
 
-    const booking = delivery.bookingDetails;
+    const bookingDetails = delivery.bookingDetails;
     if (
-      typeof booking !== 'object' ||
-      booking === null ||
-      Array.isArray(booking) ||
-      typeof booking.request_token !== 'string' ||
-      typeof booking.courier_id !== 'string' ||
-      typeof booking.service_code !== 'string'
+      typeof bookingDetails !== 'object' ||
+      bookingDetails === null ||
+      Array.isArray(bookingDetails) ||
+      typeof bookingDetails.request_token !== 'string' ||
+      typeof bookingDetails.courier_id !== 'string' ||
+      typeof bookingDetails.service_code !== 'string'
     ) {
       throw new BadRequestException(
         'Stored courier booking details are invalid',
@@ -244,11 +367,11 @@ export class DeliveryService {
     }
 
     const bookingRequest: CreateShipmentDto = {
-      request_token: booking.request_token,
-      courier_id: booking.courier_id,
-      service_code: booking.service_code,
-      ...(typeof booking.insurance_code === 'string'
-        ? { insurance_code: booking.insurance_code }
+      request_token: bookingDetails.request_token,
+      courier_id: bookingDetails.courier_id,
+      service_code: bookingDetails.service_code,
+      ...(typeof bookingDetails.insurance_code === 'string'
+        ? { insurance_code: bookingDetails.insurance_code }
         : {}),
       is_cod_label: false,
       duties_paid: false,
@@ -259,6 +382,7 @@ export class DeliveryService {
         id: delivery.id,
         paymentStatus: { in: ['PENDING', 'PAID'] },
         bookingStatus: { in: ['NOT_STARTED', 'FAILED'] },
+        checkoutSessionId: delivery.checkoutSessionId,
       },
       data: {
         paymentStatus: 'PAID',
@@ -460,14 +584,17 @@ async getDeliveryByTrackingId(trackingId: string) {
       );
     }
 
+    const checkoutReference =
+      this.asRecord(delivery.bookingDetails)?.checkoutReference ??
+      delivery.trackingId;
     const expectedCheckoutId = delivery.checkoutSessionId;
     const matchingPayment = payments.find((payment: unknown) => {
       const entry = this.asRecord(payment);
       const source = this.asRecord(entry?.source);
       const paymentCheckoutId = source?.checkout_id;
       return (
-        (entry?.reference === trackingId ||
-          source?.reference === trackingId) &&
+        (entry?.reference === checkoutReference ||
+          source?.reference === checkoutReference) &&
         typeof entry?.status === 'string' &&
         entry.status.toLowerCase() === 'succeeded' &&
         (typeof paymentCheckoutId !== 'string' ||
@@ -482,7 +609,12 @@ async getDeliveryByTrackingId(trackingId: string) {
         typeof source?.checkout_id === 'string'
           ? source.checkout_id
           : undefined;
-      await this.completePaidCheckout(trackingId, checkoutId);
+      await this.completePaidCheckout(
+        typeof checkoutReference === 'string'
+          ? checkoutReference
+          : trackingId,
+        checkoutId,
+      );
       delivery = await this.prisma.delivery.findUniqueOrThrow({
         where: { id: delivery.id },
       });
