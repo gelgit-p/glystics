@@ -110,6 +110,57 @@ describe('CreditsService', () => {
     expect(prisma.$transaction).not.toHaveBeenCalled();
   });
 
+  it('adds one point per purchased credit only after payment is verified', async () => {
+    const { service, prisma, bachsService } = createService();
+    const purchaseWithCredits = {
+      ...purchase,
+      credits: 50,
+      bonusCredits: 10,
+    };
+    jest
+      .spyOn(prisma.creditPurchase, 'findFirst')
+      .mockResolvedValue(purchaseWithCredits as never);
+    jest.spyOn(bachsService, 'getCheckoutSessionById').mockResolvedValue({
+      status: 'paid',
+      reference: purchase.paymentReference,
+      currency: 'NGN',
+      amount: '500.00',
+      checkout_id: purchase.checkoutSessionId,
+    });
+
+    const updateWallet = jest.fn().mockResolvedValue({
+      id: purchase.walletId,
+      balance: 60,
+      points: 50,
+    });
+    const transaction = {
+      creditPurchase: {
+        findUniqueOrThrow: jest
+          .fn()
+          .mockResolvedValueOnce(purchaseWithCredits)
+          .mockResolvedValue({ ...purchaseWithCredits, status: 'PAID' }),
+        updateMany: jest.fn().mockResolvedValue({ count: 1 }),
+      },
+      creditWallet: { update: updateWallet },
+      creditTransaction: { create: jest.fn().mockResolvedValue({}) },
+    };
+    (prisma.$transaction as jest.Mock).mockImplementation(
+      (callback: (tx: unknown) => Promise<unknown>) =>
+        callback(transaction),
+    );
+
+    await expect(
+      service.verifyPurchase('user-id', purchase.paymentReference),
+    ).resolves.toMatchObject({ status: 'PAID', credited: true });
+    expect(updateWallet).toHaveBeenCalledWith({
+      where: { id: purchase.walletId },
+      data: {
+        balance: { increment: 60 },
+        points: { increment: 50 },
+      },
+    });
+  });
+
   it('returns the existing usage transaction for a repeated idempotency key', async () => {
     const { service } = createService();
     const existingTransaction = { id: 'usage-id' };

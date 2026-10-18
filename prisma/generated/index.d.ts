@@ -7021,16 +7021,19 @@ export namespace Prisma {
 
   export type CreditWalletAvgAggregateOutputType = {
     balance: number | null
+    points: number | null
   }
 
   export type CreditWalletSumAggregateOutputType = {
     balance: number | null
+    points: number | null
   }
 
   export type CreditWalletMinAggregateOutputType = {
     id: string | null
     userId: string | null
     balance: number | null
+    points: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -7039,6 +7042,7 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     balance: number | null
+    points: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -7047,6 +7051,7 @@ export namespace Prisma {
     id: number
     userId: number
     balance: number
+    points: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -7055,16 +7060,19 @@ export namespace Prisma {
 
   export type CreditWalletAvgAggregateInputType = {
     balance?: true
+    points?: true
   }
 
   export type CreditWalletSumAggregateInputType = {
     balance?: true
+    points?: true
   }
 
   export type CreditWalletMinAggregateInputType = {
     id?: true
     userId?: true
     balance?: true
+    points?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -7073,6 +7081,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     balance?: true
+    points?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -7081,6 +7090,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     balance?: true
+    points?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -7176,6 +7186,7 @@ export namespace Prisma {
     id: string
     userId: string
     balance: number
+    points: number
     createdAt: Date
     updatedAt: Date
     _count: CreditWalletCountAggregateOutputType | null
@@ -7203,6 +7214,7 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     balance?: boolean
+    points?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -7215,6 +7227,7 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     balance?: boolean
+    points?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -7224,6 +7237,7 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     balance?: boolean
+    points?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -7233,11 +7247,12 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     balance?: boolean
+    points?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type CreditWalletOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "balance" | "createdAt" | "updatedAt", ExtArgs["result"]["creditWallet"]>
+  export type CreditWalletOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "balance" | "points" | "createdAt" | "updatedAt", ExtArgs["result"]["creditWallet"]>
   export type CreditWalletInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     transactions?: boolean | CreditWallet$transactionsArgs<ExtArgs>
@@ -7262,6 +7277,7 @@ export namespace Prisma {
       id: string
       userId: string
       balance: number
+      points: number
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["creditWallet"]>
@@ -7693,6 +7709,7 @@ export namespace Prisma {
     readonly id: FieldRef<"CreditWallet", 'String'>
     readonly userId: FieldRef<"CreditWallet", 'String'>
     readonly balance: FieldRef<"CreditWallet", 'Int'>
+    readonly points: FieldRef<"CreditWallet", 'Int'>
     readonly createdAt: FieldRef<"CreditWallet", 'DateTime'>
     readonly updatedAt: FieldRef<"CreditWallet", 'DateTime'>
   }
@@ -14097,6 +14114,7 @@ export namespace Prisma {
     id: 'id',
     userId: 'userId',
     balance: 'balance',
+    points: 'points',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -14961,6 +14979,7 @@ export namespace Prisma {
     id?: StringFilter<"CreditWallet"> | string
     userId?: StringFilter<"CreditWallet"> | string
     balance?: IntFilter<"CreditWallet"> | number
+    points?: IntFilter<"CreditWallet"> | number
     createdAt?: DateTimeFilter<"CreditWallet"> | Date | string
     updatedAt?: DateTimeFilter<"CreditWallet"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -14972,6 +14991,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     balance?: SortOrder
+    points?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -14986,6 +15006,7 @@ export namespace Prisma {
     OR?: CreditWalletWhereInput[]
     NOT?: CreditWalletWhereInput | CreditWalletWhereInput[]
     balance?: IntFilter<"CreditWallet"> | number
+    points?: IntFilter<"CreditWallet"> | number
     createdAt?: DateTimeFilter<"CreditWallet"> | Date | string
     updatedAt?: DateTimeFilter<"CreditWallet"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -14997,6 +15018,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     balance?: SortOrder
+    points?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: CreditWalletCountOrderByAggregateInput
@@ -15013,6 +15035,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"CreditWallet"> | string
     userId?: StringWithAggregatesFilter<"CreditWallet"> | string
     balance?: IntWithAggregatesFilter<"CreditWallet"> | number
+    points?: IntWithAggregatesFilter<"CreditWallet"> | number
     createdAt?: DateTimeWithAggregatesFilter<"CreditWallet"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"CreditWallet"> | Date | string
   }
@@ -16225,6 +16248,7 @@ export namespace Prisma {
   export type CreditWalletCreateInput = {
     id?: string
     balance?: number
+    points?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutCreditWalletInput
@@ -16236,6 +16260,7 @@ export namespace Prisma {
     id?: string
     userId: string
     balance?: number
+    points?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     transactions?: CreditTransactionUncheckedCreateNestedManyWithoutWalletInput
@@ -16245,6 +16270,7 @@ export namespace Prisma {
   export type CreditWalletUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     balance?: IntFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutCreditWalletNestedInput
@@ -16256,6 +16282,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     balance?: IntFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     transactions?: CreditTransactionUncheckedUpdateManyWithoutWalletNestedInput
@@ -16266,6 +16293,7 @@ export namespace Prisma {
     id?: string
     userId: string
     balance?: number
+    points?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -16273,6 +16301,7 @@ export namespace Prisma {
   export type CreditWalletUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     balance?: IntFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16281,6 +16310,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     balance?: IntFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17422,18 +17452,21 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     balance?: SortOrder
+    points?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type CreditWalletAvgOrderByAggregateInput = {
     balance?: SortOrder
+    points?: SortOrder
   }
 
   export type CreditWalletMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     balance?: SortOrder
+    points?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -17442,12 +17475,14 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     balance?: SortOrder
+    points?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type CreditWalletSumOrderByAggregateInput = {
     balance?: SortOrder
+    points?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -18531,6 +18566,7 @@ export namespace Prisma {
   export type CreditWalletCreateWithoutUserInput = {
     id?: string
     balance?: number
+    points?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     transactions?: CreditTransactionCreateNestedManyWithoutWalletInput
@@ -18540,6 +18576,7 @@ export namespace Prisma {
   export type CreditWalletUncheckedCreateWithoutUserInput = {
     id?: string
     balance?: number
+    points?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     transactions?: CreditTransactionUncheckedCreateNestedManyWithoutWalletInput
@@ -18635,6 +18672,7 @@ export namespace Prisma {
   export type CreditWalletUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     balance?: IntFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     transactions?: CreditTransactionUpdateManyWithoutWalletNestedInput
@@ -18644,6 +18682,7 @@ export namespace Prisma {
   export type CreditWalletUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     balance?: IntFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     transactions?: CreditTransactionUncheckedUpdateManyWithoutWalletNestedInput
@@ -19058,6 +19097,7 @@ export namespace Prisma {
   export type CreditWalletCreateWithoutTransactionsInput = {
     id?: string
     balance?: number
+    points?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutCreditWalletInput
@@ -19068,6 +19108,7 @@ export namespace Prisma {
     id?: string
     userId: string
     balance?: number
+    points?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     purchases?: CreditPurchaseUncheckedCreateNestedManyWithoutWalletInput
@@ -19092,6 +19133,7 @@ export namespace Prisma {
   export type CreditWalletUpdateWithoutTransactionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     balance?: IntFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutCreditWalletNestedInput
@@ -19102,6 +19144,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     balance?: IntFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     purchases?: CreditPurchaseUncheckedUpdateManyWithoutWalletNestedInput
@@ -19166,6 +19209,7 @@ export namespace Prisma {
   export type CreditWalletCreateWithoutPurchasesInput = {
     id?: string
     balance?: number
+    points?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutCreditWalletInput
@@ -19176,6 +19220,7 @@ export namespace Prisma {
     id?: string
     userId: string
     balance?: number
+    points?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     transactions?: CreditTransactionUncheckedCreateNestedManyWithoutWalletInput
@@ -19227,6 +19272,7 @@ export namespace Prisma {
   export type CreditWalletUpdateWithoutPurchasesInput = {
     id?: StringFieldUpdateOperationsInput | string
     balance?: IntFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutCreditWalletNestedInput
@@ -19237,6 +19283,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     balance?: IntFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     transactions?: CreditTransactionUncheckedUpdateManyWithoutWalletNestedInput
