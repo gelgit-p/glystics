@@ -1298,6 +1298,24 @@ async getWabaAssignerToUserId(userId: string) {
     }
   }
 
+  async updateMessageDeliveryStatus(messageId: string, status: string) {
+    const normalizedStatus = status.trim().toLowerCase();
+    if (!['sent', 'delivered', 'read', 'failed'].includes(normalizedStatus)) {
+      return 0;
+    }
+
+    const result = await this.prisma.notification.updateMany({
+      where: { whatsappMessageId: messageId },
+      data: {
+        status: normalizedStatus,
+        ...(normalizedStatus === 'read'
+          ? { ReadAt: new Date().toISOString() }
+          : {}),
+      },
+    });
+    return result.count;
+  }
+
   async saveToken(dto: TokenDto): Promise<void> {
   try {
     await this.prisma.token.upsert({

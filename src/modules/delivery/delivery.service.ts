@@ -366,6 +366,64 @@ async getDeliveriesByUserId(userId: string) {
   });
 }
 
+async getAnalytics(userId: string) {
+  const [deliveries, messages] = await Promise.all([
+    this.prisma.delivery.groupBy({
+      by: ['deliveryStatus'],
+      where: { userId },
+      _count: { _all: true },
+    }),
+    this.prisma.notification.groupBy({
+      by: ['status'],
+      where: { userId },
+      _count: { _all: true },
+    }),
+  ]);
+
+  const analytics = {
+    total_deliveries: 0,
+    delivered: 0,
+    in_transit: 0,
+    failed: 0,
+    whatsapp_messages: 0,
+    whatsapp_delivered: 0,
+    whatsapp_failed: 0,
+  };
+
+  for (const entry of deliveries) {
+    const count = entry._count._all;
+    const status = (entry.deliveryStatus ?? '')
+      .trim()
+      .toUpperCase()
+      .replace(/[\s-]+/g, '_');
+    analytics.total_deliveries += count;
+
+    if (status === 'DELIVERED') {
+      analytics.delivered += count;
+    } else if (status === 'IN_TRANSIT' || status === 'TRANSIT') {
+      analytics.in_transit += count;
+    } else if (
+      ['FAILED', 'BOOKING_FAILED', 'CANCELLED', 'CANCELED'].includes(status)
+    ) {
+      analytics.failed += count;
+    }
+  }
+
+  for (const entry of messages) {
+    const count = entry._count._all;
+    const status = (entry.status ?? '').trim().toLowerCase();
+    analytics.whatsapp_messages += count;
+
+    if (['accepted', 'sent', 'delivered', 'read'].includes(status)) {
+      analytics.whatsapp_delivered += count;
+    } else if (status === 'failed') {
+      analytics.whatsapp_failed += count;
+    }
+  }
+
+  return analytics;
+}
+
 async getDeliveryByTrackingId(trackingId: string) {
   let delivery = await this.prisma.delivery.findFirst({
     where: { trackingId },
