@@ -34,12 +34,14 @@ model User {
   webhookStatus                    Boolean @default(false)
 
   selectedPhoneNumberId String[]
-  facebookConnectStatus Boolean  @default(false)
-  createdAt             DateTime @default(now())
+  facebookConnectStatus Boolean           @default(false)
+  createdAt             DateTime          @default(now())
   hashedRefresh         String?
+  messageTemplates      MessageTemplate[]
+  automations           Automation[]
+  creditWallet          CreditWallet?
 }
 
-// 4. Tokens model for Facebook API integration
 model Token {
   id                           String   @id @default(uuid())
   userId                       String   @unique
@@ -53,20 +55,54 @@ model Token {
 }
 
 model Delivery {
-  id                   String         @id @default(uuid())
-  senderName           String
-  senderPhone          String
-  senderAddress        String
-  receiverName         String
-  receiverPhone        String
-  receiverAddress      String
-  packageName          String
-  packageCategory      String
-  packageWeight        String
-  packageDimensions    String
-  packageValue         String
-  pickupDate           String
-  deliveryStatus       DeliveryStatus
+  id                         String  @id @default(uuid())
+  userId                     String?
+  trackingId                 String
+  senderName                 String
+  senderPhone                String
+  senderAddress              String
+  senderLatitude             String?
+  senderLongitude            String?
+  receiverName               String
+  receiverPhone              String
+  receiverAddress            String
+  receiverLatitude           String?
+  receiverLongitude          String?
+  packageName                String
+  packageCategory            String
+  packageWeight              String
+  packageDimensions          String
+  packageValue               String
+  pickupDate                 String
+  courier_name               String?
+  courier_email              String?
+  courier_phone              String?
+  shipbubbleOrderId          String?
+  tracking_url               String?
+  package_amount             String?
+  package_weight             String?
+  shipping_fee               String?
+  shipping_payment_type      String?
+  shipping_payment_status    String?
+  package_status             Json?
+  checkoutSessionId          String? @unique
+  checkoutUrl                String?
+  paymentAmount              String?
+  paymentCurrency            String?
+  paymentStatus              String
+  bookingStatus              String
+  bookingDetails             Json?
+  deliveryInsurer            String?
+  deliveryCurrency           String?
+  insuranceAmount            Float?
+  insurance_policy_condition String?
+  insure_percentage          Float?
+  insurance_cost             Float?
+  insuranceCode              String?
+  insurerName                String?
+  bookingError               String?
+
+  deliveryStatus       String?
   deliveryType         String
   deliveryInstructions String?
 
@@ -74,8 +110,161 @@ model Delivery {
   updatedAt DateTime @default(now())
 }
 
-enum DeliveryStatus {
-  DELIVERED
-  IN_TRANSIT
+model MessageTemplate {
+  id String @id @default(uuid())
+
+  // Meta template ID
+  metaTemplateId String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name             String
+  language         String
+  status           String
+  category         String
+  previousCategory String?
+  parameterFormat  String?
+
+  // Stores HEADER, BODY, FOOTER, BUTTONS, CAROUSEL, etc.
+  components Json
+
+  disableIosAutofill          Boolean @default(false)
+  isPrimaryDeviceDeliveryOnly Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, metaTemplateId])
+  @@index([userId])
+  @@index([name])
+  @@map("message_templates")
+}
+
+model CreditWallet {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  balance   Int      @default(0)
+  points    Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user         User                @relation(fields: [userId], references: [id])
+  transactions CreditTransaction[]
+  purchases    CreditPurchase[]
+}
+
+model CreditTransaction {
+  id             String                @id @default(cuid())
+  walletId       String
+  type           CreditTransactionType
+  amount         Int
+  balanceAfter   Int
+  description    String
+  reference      String?               @unique
+  idempotencyKey String?               @unique
+  metadata       Json?
+  createdAt      DateTime              @default(now())
+
+  wallet CreditWallet @relation(fields: [walletId], references: [id])
+
+  @@index([walletId, createdAt])
+}
+
+model CreditPackage {
+  id           String   @id @default(cuid())
+  name         String   @unique
+  priceKobo    Int
+  credits      Int
+  bonusCredits Int      @default(0)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  purchases CreditPurchase[]
+}
+
+model CreditPurchase {
+  id                String               @id @default(cuid())
+  walletId          String
+  packageId         String
+  amountKobo        Int
+  credits           Int
+  bonusCredits      Int                  @default(0)
+  paymentReference  String               @unique
+  checkoutSessionId String?              @unique
+  checkoutUrl       String?
+  status            CreditPurchaseStatus @default(PENDING)
+  paidAt            DateTime?
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+
+  wallet  CreditWallet  @relation(fields: [walletId], references: [id])
+  package CreditPackage @relation(fields: [packageId], references: [id])
+
+  @@index([walletId, status])
+}
+
+model Automation {
+  id     String @id @default(cuid())
+  userId String
+
+  // Display name
+  name String
+
+  // WHEN
+  trigger      String
+  triggerValue String?
+
+  // THEN
+  action         String
+  actionTemplate String
+
+  // State
+  enabled Boolean @default(true)
+
+  // Execution statistics
+  totalRuns     Int       @default(0)
+  lastTriggered DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, enabled])
+  @@index([trigger, triggerValue])
+}
+
+model Notification {
+  id                 String  @id @default(uuid())
+  userId             String
+  recipientPhone     String
+  templateName       String
+  templateLanguage   String
+  templateMessage    String?
+  whatsappMessageId  String?
+  deliveryTrackingId String?
+  sendAt             String?
+  ReadAt             String?
+  status             String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum CreditTransactionType {
+  PURCHASE
+  BONUS
+  USAGE
+  REFUND
+  ADMIN_ADJUSTMENT
+}
+
+enum CreditPurchaseStatus {
+  PENDING
+  PAID
   FAILED
+  CANCELLED
 }

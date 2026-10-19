@@ -1,13 +1,16 @@
-import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, HttpException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
 import { AccessTokenDto, MessageDto, WebhookSubscriptionDto } from './dto/whatsapp.dto';
 import { CreateMessageTemplateDto } from './dto/create-message-template.dto';
 import { SendUtilityMessageDto } from './dto/send-utility-message.dto';
+import { SendOrderConfirmationDto } from './dto/send-order-confirmation.dto';
 import { PrismaService } from 'prisma/prisma.service';
 import { TokenDto } from './dto/token.dto';
 import * as crypto from "crypto";
+import { randomUUID } from 'node:crypto';
+import { CreditsService } from '../credits/credit.service';
 
 
 interface GenerateOptions {
@@ -21,6 +24,18 @@ export interface WhatsappMediaFile {
   originalname: string;
 }
 
+export interface SendAutomationTemplateInput {
+  userId: string;
+  to: string;
+  templateName: string;
+  templateId?: string;
+  trackingId: string;
+  customerName: string;
+  status: string;
+  pickupDate?: string;
+  trackingUrl?: string;
+}
+
 
 @Injectable()
 export class WhatsappService {
@@ -30,7 +45,8 @@ export class WhatsappService {
   constructor(
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
-    private readonly prisma: PrismaService
+    private readonly prisma: PrismaService,
+    private readonly creditsService: CreditsService,
   ) {
     const phoneNumberId = this.configService.get<string>('WHATSAPP_PHONE_NUMBER_ID');
     const version = this.configService.get<string>('WHATSAPP_VERSION');
@@ -116,12 +132,10 @@ export class WhatsappService {
   //  Exchange the token code for a business token
   async getAccessToken(dto: AccessTokenDto): Promise<string> {
     const endpoint = 'https://graph.facebook.com/v25.0/oauth/access_token';
-    // const appId = this.configService.get<string>('WHATSAPP_APP_ID');
-    // const appSecret = this.configService.get<string>('WHATSAPP_APP_SECRET');
 
     if (!dto.appId || !dto.appSecret) {
       throw new Error(
-        'WHATSAPP_APP_ID and WHATSAPP_APP_SECRET are required',
+        'appId and appSecret are required',
       );
     }
 
@@ -135,8 +149,6 @@ export class WhatsappService {
           },
         }),
       );
-      console.log(response.data, 'response data');
-
       const accessToken = response.data?.access_token;
       if (!accessToken) {
         throw new Error('Facebook Graph API response did not include access_token');
@@ -148,15 +160,21 @@ export class WhatsappService {
     }
   }
 
-  async getLongLivedToken(accessToken: string, userId: string): Promise<string> {
+  async getLongLivedToken(
+    accessToken: string,
+    userId: string,
+    appId: string,
+    appSecret: string,
+  ): Promise<any> {
     const version = this.configService.get<string>('WHATSAPP_VERSION');
-    const appId = this.configService.get<string>('WHATSAPP_APP_ID');
-    const appSecret = this.configService.get<string>('WHATSAPP_APP_SECRET');
-    console.log(accessToken, version, appId, appSecret, 'app_details');
-
-    if (!accessToken || !version || !appId || !appSecret) {
-      throw new Error(
-        'accessToken, WHATSAPP_VERSION, WHATSAPP_APP_ID, and WHATSAPP_APP_SECRET are required',
+    if (!accessToken || !appId || !appSecret) {
+      throw new BadRequestException(
+        'accessToken, appId, and appSecret are required',
+      );
+    }
+    if (!version) {
+      throw new InternalServerErrorException(
+        'WHATSAPP_VERSION is not configured',
       );
     }
 
@@ -186,15 +204,53 @@ export class WhatsappService {
       await this.saveToken({userId: userId, facebookAccessToken: accessToken, facebookLongLivedAccessToken: longLivedToken })
 
 
-      return longLivedToken;
+      return { accessToken: longLivedToken };
     } catch (error: any) {
       throw error.response?.data || error.message;
     }
   }
 
-  async debugToken(): Promise<any> {
-    const fetch_access_token = await this.prisma.token.findFirst({
-      orderBy: { createdAt: 'desc' },
+  async getSettings(phoneNumberId: string, userId: string): Promise<any> {
+    const [fetch_access_token, user] = await Promise.all([
+      this.prisma.token.findUnique({ where: { userId } }),
+      this.prisma.user.findUnique({
+        where: { id: userId },
+        select: { selectedPhoneNumberId: true },
+      }),
+    ]);
+    if (!user?.selectedPhoneNumberId.includes(phoneNumberId)) {
+      throw new BadRequestException(
+        'Phone number does not belong to the authenticated user',
+      );
+    }
+    const accessToken = fetch_access_token?.facebookLongLivedAccessToken;
+
+    if (!accessToken) {
+      throw new Error(
+        'No Facebook access token found in the database. Please store a valid token first.',
+      );
+    }
+
+    try {
+      const response = await firstValueFrom(
+        this.httpService.get(`https://graph.facebook.com/${phoneNumberId}/settings`, {
+          params: {
+            input_token: accessToken,
+            access_token: accessToken,
+          },
+        }),
+      );
+
+      return response.data;
+    } catch (error: any) {
+      throw error.response?.data || error.message;
+    }
+
+  }
+
+  async debugToken(userId: string): Promise<any> {
+    const fetch_access_token = await this.prisma.token.findUnique({
+      where: { userId },
     });
     const accessToken = fetch_access_token?.facebookLongLivedAccessToken;
 
@@ -214,19 +270,21 @@ export class WhatsappService {
         }),
       );
 
-      console.log(response, 'debug token response');
       return response.data;
     } catch (error: any) {
       throw error.response?.data || error.message;
     }
   }
 
-  async getMessagingLimit(): Promise<any> {
-    const systemUserId =
-      process.env.FB_SYSTEM_USER_ID || process.env.WHATSAPP_APP_ID;
-    const fetch_access_token = await this.prisma.token.findFirst({
-      orderBy: { createdAt: 'desc' },
-    });
+  async getMessagingLimit(userId: string): Promise<any> {
+    const [fetch_access_token, user] = await Promise.all([
+      this.prisma.token.findUnique({ where: { userId } }),
+      this.prisma.user.findUnique({
+        where: { id: userId },
+        select: { selectedWabaId: true },
+      }),
+    ]);
+    const systemUserId = user?.selectedWabaId;
     const accessToken = fetch_access_token?.facebookLongLivedAccessToken;
 
     if (!systemUserId) {
@@ -308,29 +366,44 @@ export class WhatsappService {
     }
   }
 
-  async createMessageTemplate(dto: CreateMessageTemplateDto): Promise<any> {
+  async createMessageTemplate(
+    dto: CreateMessageTemplateDto,
+    userId: string,
+  ): Promise<any> {
     const version = this.configService.get<string>('WHATSAPP_VERSION');
-    const businessAccountId = this.configService.get<string>(
-      'WABA_ID',
-    );
 
-    if (!version || !businessAccountId) {
+    if (!version) {
       throw new Error(
         'WHATSAPP_VERSION and WABA_ID are required',
       );
     }
 
-                      let fetch_access_token = await this.prisma.token.findFirst({
-        orderBy: { createdAt: 'desc' },
-      });
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { selectedWabaId: true },
+    });
+    if (!user) {
+      throw new NotFoundException(`User with ID ${userId} not found`);
+    }
+    if (user.selectedWabaId !== dto.wabaId) {
+      throw new BadRequestException('WABA does not belong to the authenticated user');
+    }
+    const fetch_access_token = await this.prisma.token.findUnique({
+      where: { userId },
+    });
+    const accessToken =
+      fetch_access_token?.facebookLongLivedAccessToken?.trim();
+    if (!accessToken) {
+      throw new UnauthorizedException('No WhatsApp access token is configured for this user');
+    }
 
-    const endpoint = `https://graph.facebook.com/v23.0/${businessAccountId}/message_templates`;
+    const endpoint = `https://graph.facebook.com/v23.0/${dto.wabaId}/message_templates`;
 
     try {
       const response = await firstValueFrom(
         this.httpService.post(endpoint, dto, {
           headers: {
-            Authorization: `Bearer ${fetch_access_token?.facebookLongLivedAccessToken}`,
+            Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
           },
         }),
@@ -342,49 +415,324 @@ export class WhatsappService {
     }
   }
 
-  async getMessageTemplates(): Promise<any> {
-    const version = this.configService.get<string>('WHATSAPP_VERSION');
-    const businessAccountId = this.configService.get<string>('WABA_ID');
-    // const accessToken = this.configService.get<string>(
-    //   'WHATSAPP_LONG_LIVED_ACCESS_TOKEN',
-    // );
+  async getMessageTemplates(userId: string, status?: string): Promise<any> {
+  try {
+    const version =
+      this.configService.get<string>('WHATSAPP_VERSION');
 
-      let fetch_access_token = await this.prisma.token.findFirst({
-        orderBy: { createdAt: 'desc' },
-      });
-
-    if (!version || !businessAccountId || !fetch_access_token?.facebookLongLivedAccessToken) {
-      throw new Error(
-        'WHATSAPP_VERSION, WABA_ID, and WHATSAPP_LONG_LIVED_ACCESS_TOKEN are required',
+    if (!version) {
+      throw new BadRequestException(
+        'WHATSAPP_VERSION is required',
       );
     }
 
-    const endpoint = `https://graph.facebook.com/${version}/${businessAccountId}/message_templates`;
+    if (!userId) {
+      throw new BadRequestException(
+        'User ID is required',
+      );
+    }
 
-    try {
-      const response = await firstValueFrom(
-        this.httpService.get(endpoint, {
-          headers: {
-            Authorization: `Bearer ${fetch_access_token?.facebookLongLivedAccessToken}`,
-            // ${fetch_access_token?.facebookAccessToken}`,
+    // Get current user
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException(
+        `User with ID ${userId} not found`,
+      );
+    }
+
+    // Prefer the WABA selected during Embedded Signup.
+    const businessAccountId =
+      user.selectedWabaId ||
+      this.configService.get<string>('WABA_ID');
+
+    if (!businessAccountId) {
+      throw new BadRequestException(
+        'No WhatsApp Business Account is connected to this user',
+      );
+    }
+
+    // Get this user's Facebook token
+    const token = await this.prisma.token.findUnique({
+      where: {
+        userId,
+      },
+    });
+
+    if (!token?.facebookLongLivedAccessToken) {
+      throw new BadRequestException(
+        'Facebook long-lived access token not found for this user',
+      );
+    }
+
+    const endpoint =
+      `https://graph.facebook.com/${version}/${businessAccountId}/message_templates?status=${status}`;
+
+       const queryParams: any = {
+      fields: 'name,status,language,category,quality_score,previous_category,parameter_format,components,disable_ios_autofill,is_primary_device_delivery_only',
+    };
+
+      if (status) {
+      queryParams.status = status.toUpperCase(); // Ensure it matches Meta formatting (e.g., 'APPROVED')
+    }
+
+    const response = await firstValueFrom(
+      this.httpService.get(endpoint, {
+        headers: {
+          Authorization:
+            `Bearer ${token.facebookLongLivedAccessToken}`,
+        },
+        params: queryParams,
+      }),
+    );
+
+    const templates = response.data?.data ?? [];
+
+    console.log(templates, 'log templates for whatsapp.');
+
+    if (!Array.isArray(templates)) {
+      throw new BadRequestException(
+        'Invalid message templates response from Facebook',
+      );
+    }
+
+    /**
+     * Remove duplicate templates returned by Meta.
+     * metaTemplateId is used as the unique identifier.
+     */
+    const uniqueTemplates = Array.from(
+      new Map(
+        templates
+          .filter((template: any) => template?.id)
+          .map((template: any) => [
+            String(template.id),
+            template,
+          ]),
+      ).values(),
+    ) as any[];
+
+    /**
+     * Upsert means:
+     *
+     * - Existing template -> update it
+     * - New template      -> create it
+     *
+     * Therefore the same Meta template will not be
+     * inserted multiple times for the same user.
+     */
+    const savedTemplates = await Promise.all(
+      uniqueTemplates.map(async (template: any) => {
+        return this.prisma.messageTemplate.upsert({
+          where: {
+            userId_metaTemplateId: {
+              userId,
+              metaTemplateId: String(template.id),
+            },
           },
-        }),
-      );
 
-      return response.data;
-    } catch (error: any) {
-      throw error.response?.data || error.message;
+          update: {
+            name: template.name,
+            language: template.language,
+            status: template.status,
+            category: template.category,
+
+            previousCategory:
+              template.previous_category ?? null,
+
+            parameterFormat:
+              template.parameter_format ?? null,
+
+            components:
+              template.components ?? [],
+
+            disableIosAutofill:
+              template.disable_ios_autofill ?? false,
+
+            isPrimaryDeviceDeliveryOnly:
+              template.is_primary_device_delivery_only ??
+              false,
+          },
+
+          create: {
+            metaTemplateId: String(template.id),
+            userId,
+
+            name: template.name,
+            language: template.language,
+            status: template.status,
+            category: template.category,
+
+            previousCategory:
+              template.previous_category ?? null,
+
+            parameterFormat:
+              template.parameter_format ?? null,
+
+            components:
+              template.components ?? [],
+
+            disableIosAutofill:
+              template.disable_ios_autofill ?? false,
+
+            isPrimaryDeviceDeliveryOnly:
+              template.is_primary_device_delivery_only ??
+              false,
+          },
+        });
+      }),
+    );
+
+    return {
+      data: uniqueTemplates,
+      paging: response.data?.paging,
+      savedTemplates: savedTemplates.length,
+    };
+  } catch (error: any) {
+    console.error(
+      'Get message templates error:',
+      error.response?.data || error,
+    );
+
+    if (error instanceof HttpException) {
+      throw error;
     }
+
+    throw new InternalServerErrorException(
+      error.response?.data?.error?.message ||
+        error.message ||
+        'Failed to fetch message templates',
+    );
+  }
+}
+
+async getAllMessageTemplates(userId: string): Promise<{ data: any[]; count: number }> {
+  const version = this.configService.get<string>('WHATSAPP_VERSION');
+
+  if (!version) {
+    throw new BadRequestException('WHATSAPP_VERSION is required');
   }
 
-  async getMessageTemplateStatus(templateId: string): Promise<any> {
+  if (!userId) {
+    throw new BadRequestException('User ID is required');
+  }
+
+  try {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new NotFoundException(`User with ID ${userId} not found`);
+    }
+
+    const businessAccountId =
+      user.selectedWabaId ||
+      this.configService.get<string>('WABA_ID');
+
+    if (!businessAccountId) {
+      throw new BadRequestException(
+        'No WhatsApp Business Account is connected to this user',
+      );
+    }
+
+    const token = await this.prisma.token.findUnique({
+      where: { userId },
+    });
+
+    if (!token?.facebookLongLivedAccessToken) {
+      throw new BadRequestException(
+        'Facebook long-lived access token not found for this user',
+      );
+    }
+
+    const endpoint =
+      `https://graph.facebook.com/${version}/${businessAccountId}/message_templates`;
+    const headers = {
+      Authorization: `Bearer ${token.facebookLongLivedAccessToken}`,
+    };
+    const params = {
+      fields:
+        'name,status,language,category,quality_score,previous_category,parameter_format,components,disable_ios_autofill,is_primary_device_delivery_only',
+      limit: '100',
+    };
+
+    const templates: any[] = [];
+    const seenIds = new Set<string>();
+    const seenPageUrls = new Set<string>();
+    let nextUrl: string | undefined;
+
+    do {
+      const requestUrl = nextUrl ?? endpoint;
+      if (seenPageUrls.has(requestUrl)) {
+        throw new BadRequestException(
+          'Facebook returned a repeated message templates pagination URL',
+        );
+      }
+      seenPageUrls.add(requestUrl);
+
+      const response = await firstValueFrom(this.httpService.get(requestUrl, {
+        headers,
+        ...(nextUrl ? {} : { params }),
+      }));
+      const pageTemplates = response.data?.data;
+
+      if (!Array.isArray(pageTemplates)) {
+        throw new BadRequestException(
+          'Invalid message templates response from Facebook',
+        );
+      }
+
+      for (const template of pageTemplates) {
+        if (template?.id) {
+          const id = String(template.id);
+          if (!seenIds.has(id)) {
+            seenIds.add(id);
+            templates.push(template);
+          }
+        }
+      }
+
+      nextUrl = response.data?.paging?.next;
+      if (nextUrl) {
+        const parsedNextUrl = new URL(nextUrl);
+        const parsedEndpoint = new URL(endpoint);
+        if (
+          parsedNextUrl.origin !== parsedEndpoint.origin ||
+          parsedNextUrl.pathname !== parsedEndpoint.pathname
+        ) {
+          throw new BadRequestException(
+            'Facebook returned an invalid message templates pagination URL',
+          );
+        }
+      }
+    } while (nextUrl);
+
+    return { data: templates, count: templates.length };
+  } catch (error: any) {
+    if (error instanceof HttpException) {
+      throw error;
+    }
+
+    throw new InternalServerErrorException(
+      error.response?.data?.error?.message ||
+        error.message ||
+        'Failed to fetch all message templates',
+    );
+  }
+}
+
+async getMessageTemplateStatus(
+  templateId: string,
+  userId: string,
+): Promise<any> {
     const version = this.configService.get<string>('WHATSAPP_VERSION');
-    // const accessToken = this.configService.get<string>(
-    //   'WHATSAPP_LONG_LIVED_ACCESS_TOKEN',
-    // );
-              let fetch_access_token = await this.prisma.token.findFirst({
-        orderBy: { createdAt: 'desc' },
-      });
+    const fetch_access_token = await this.prisma.token.findUnique({
+      where: { userId },
+    });
 
     if (!templateId || !version || !fetch_access_token?.facebookLongLivedAccessToken) {
       throw new Error(
@@ -410,12 +758,22 @@ export class WhatsappService {
     }
   }
 
-  async sendMessage(dto: MessageDto): Promise<any> {
-
-          let fetch_access_token = await this.prisma.token.findFirst({
-        orderBy: { createdAt: 'desc' },
-      });
-    const url = `${this.baseUrl}/messages`;
+  async sendMessage(dto: MessageDto, userId: string): Promise<any> {
+    const [tokenRecord, user] = await Promise.all([
+      this.prisma.token.findUnique({ where: { userId } }),
+      this.prisma.user.findUnique({
+        where: { id: userId },
+        select: { selectedPhoneNumberId: true },
+      }),
+    ]);
+    const accessToken = tokenRecord?.facebookLongLivedAccessToken?.trim();
+    const phoneNumberId = user?.selectedPhoneNumberId[0]?.trim();
+    if (!accessToken || !phoneNumberId) {
+      throw new UnauthorizedException(
+        'WhatsApp credentials are not configured for this user',
+      );
+    }
+    const url = `${this.graph}/${phoneNumberId}/messages`;
     
     const body = {
       messaging_product: 'whatsapp',
@@ -425,33 +783,51 @@ export class WhatsappService {
     };
 
     const headers = {
-      Authorization: `Bearer ${fetch_access_token?.facebookLongLivedAccessToken}`,
+      Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     };
 
+    const usageTransaction = await this.creditsService.spend(userId, {
+      service: 'WHATSAPP',
+      idempotencyKey: randomUUID(),
+    });
     try {
       const response = await firstValueFrom(
         this.httpService.post(url, body, { headers }),
       );
       return response.data;
     } catch (error: any) {
-        console.log(error, 'log error')
+      await this.creditsService.refundUsage(
+        userId,
+        usageTransaction.id,
+        'Automatic refund for a failed WhatsApp message',
+      );
       throw error.response?.data || error.message;
     }
   }
 
   async uploadMedia(
+    userId: string,
     phoneNumberId: string,
     file: WhatsappMediaFile,
   ): Promise<any> {
     const version = this.configService.get<string>('WHATSAPP_VERSION');
-    const tokenRecord = await this.prisma.token.findFirst({
-      orderBy: { createdAt: 'desc' },
-    });
+    const [tokenRecord, user] = await Promise.all([
+      this.prisma.token.findUnique({ where: { userId } }),
+      this.prisma.user.findUnique({
+        where: { id: userId },
+        select: { selectedPhoneNumberId: true },
+      }),
+    ]);
     const accessToken = tokenRecord?.facebookLongLivedAccessToken;
 
     if (!phoneNumberId || !version) {
       throw new Error('phoneNumberId and WHATSAPP_VERSION are required');
+    }
+    if (!user?.selectedPhoneNumberId.includes(phoneNumberId)) {
+      throw new BadRequestException(
+        'Phone number does not belong to the authenticated user',
+      );
     }
     if (!file?.buffer || !file.mimetype || !file.originalname) {
       throw new Error('An image file is required');
@@ -504,10 +880,8 @@ export class WhatsappService {
 
 
 async getWabaAssignerToUserId(userId: string) {
-  const user = await this.prisma.user.findFirst({
-    where: {
-      metaUserId: userId,
-    },
+  const user = await this.prisma.user.findUnique({
+    where: { id: userId },
     select: {
       id: true,
       metaUserId: true,
@@ -517,7 +891,7 @@ async getWabaAssignerToUserId(userId: string) {
 
   if (!user) {
     throw new NotFoundException(
-      `No user found with Meta user ID: ${userId}`,
+      `No user found with ID: ${userId}`,
     );
   }
 
@@ -550,24 +924,326 @@ async getWabaAssignerToUserId(userId: string) {
   return data;
 }
 
-  async sendUtilityMessage(dto: SendUtilityMessageDto): Promise<any> {
-    const version = this.configService.get<string>('WHATSAPP_VERSION');
-    const phoneNumberId =
-      this.configService.get<string>('WHATSAPP_BUSINESS_PHONE_NUMBER_ID') ||
-      '1343947352130201';
-
-      let fetch_access_token = await this.prisma.token.findFirst({
-        orderBy: { createdAt: 'desc' },
-      });
-      console.log(fetch_access_token, 'fetch access token');
-
-    if(!fetch_access_token) {
-      throw new Error('No access token found in the database. Please store a valid token first.');
+  async sendAutomationTemplate(
+    input: SendAutomationTemplateInput,
+  ): Promise<any> {
+    const template = await this.prisma.messageTemplate.findFirst({
+      where: {
+        userId: input.userId,
+        name: input.templateName,
+        ...(input.templateId ? { metaTemplateId: input.templateId } : {}),
+        status: 'APPROVED',
+      },
+      orderBy: { updatedAt: 'desc' },
+    });
+    if (!template) {
+      throw new NotFoundException(
+        `Approved WhatsApp template "${input.templateName}" was not found for this user`,
+      );
     }
 
-    if (!version || !phoneNumberId) {
-      throw new Error(
-        'WHATSAPP_VERSION and WHATSAPP_BUSINESS_PHONE_NUMBER_ID are required',
+    const rawComponents: unknown = template.components;
+    const templateComponents = Array.isArray(rawComponents)
+      ? rawComponents.filter(
+          (component): component is Record<string, unknown> =>
+            typeof component === 'object' &&
+            component !== null &&
+            !Array.isArray(component),
+        )
+      : [];
+    const bodyTemplate = templateComponents.find(
+      (component) => component.type === 'BODY',
+    );
+    const bodyText =
+      typeof bodyTemplate?.text === 'string' ? bodyTemplate.text : '';
+    const firstName = input.customerName.trim().split(/\s+/)[0];
+    const values = [firstName, input.trackingId, input.status];
+    const namedValues: Record<string, string> = {
+      name: firstName,
+      firstname: firstName,
+      customername: firstName,
+      recipientname: firstName,
+      trackingid: input.trackingId,
+      orderid: input.trackingId,
+      reference: input.trackingId,
+      date: input.pickupDate ?? '',
+      pickupdate: input.pickupDate ?? '',
+      deliverydate: input.pickupDate ?? '',
+      status: input.status,
+      shipmentstatus: input.status,
+      trackinglink: input.trackingUrl ?? '',
+      trackingurl: input.trackingUrl ?? '',
+      link: input.trackingUrl ?? '',
+      url: input.trackingUrl ?? '',
+    };
+    const resolveValue = (placeholder: string) => {
+      const normalizedPlaceholder = placeholder
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, '');
+      const index = Number(placeholder);
+      const isPositionalPlaceholder =
+        /^\d+$/.test(placeholder) && Number.isInteger(index) && index > 0;
+
+      if (isPositionalPlaceholder) {
+        return values[index - 1];
+      }
+
+      return namedValues[normalizedPlaceholder] || undefined;
+    };
+    const getParameters = (text: string, componentName: string) => {
+      const placeholders = Array.from(
+        text.matchAll(/\{\{\s*([^{}]+?)\s*\}\}/g),
+        (match) => match[1].trim(),
+      );
+
+      return placeholders.map((placeholder) => {
+        const value = resolveValue(placeholder);
+        if (value === undefined) {
+          throw new BadRequestException(
+            `Template "${input.templateName}" has an unsupported ${componentName} parameter "{{${placeholder}}}"`,
+          );
+        }
+
+        return {
+          type: 'text' as const,
+          ...(!/^\d+$/.test(placeholder)
+            ? { parameter_name: placeholder }
+            : {}),
+          text: value,
+        };
+      });
+    };
+
+    const components: NonNullable<SendUtilityMessageDto['components']> = [];
+    for (const type of ['HEADER', 'BODY'] as const) {
+      const source = templateComponents.find(
+        (component) => component.type === type,
+      );
+      if (typeof source?.text !== 'string') {
+        continue;
+      }
+
+      const parameters = getParameters(source.text, type);
+      if (parameters.length) {
+        components.push({
+          type: type.toLowerCase() as 'header' | 'body',
+          parameters,
+        });
+      }
+    }
+
+    for (const templateComponent of templateComponents) {
+      if (templateComponent.type !== 'BUTTONS') {
+        continue;
+      }
+
+      const buttons = Array.isArray(templateComponent.buttons)
+        ? templateComponent.buttons.filter(
+            (button): button is Record<string, unknown> =>
+              typeof button === 'object' &&
+              button !== null &&
+              !Array.isArray(button),
+          )
+        : [];
+      buttons.forEach((button, index) => {
+        if (
+          button.type !== 'URL' ||
+          typeof button.url !== 'string'
+        ) {
+          return;
+        }
+        const parameters = getParameters(button.url, `button ${index + 1}`);
+        if (parameters.length) {
+          components.push({
+            type: 'button',
+            sub_type: 'url',
+            index: String(index),
+            parameters,
+          });
+        }
+      });
+    }
+
+    const renderedMessage = bodyText.replace(
+      /\{\{\s*([^{}]+?)\s*\}\}/g,
+      (placeholder, variable: string) => {
+        return resolveValue(variable.trim()) ?? placeholder;
+      },
+    );
+    const digitsOnlyPhone = input.to.replace(/\D/g, '');
+    const recipientPhone = digitsOnlyPhone.startsWith('0')
+      ? `234${digitsOnlyPhone.slice(1)}`
+      : digitsOnlyPhone;
+    if (!recipientPhone) {
+      throw new BadRequestException('Recipient phone number is invalid');
+    }
+
+    const response = await this.sendUtilityMessage({
+      userId: input.userId,
+      to: recipientPhone,
+      templateName: template.name,
+      templateLanguage: template.language,
+      ...(components.length ? { components } : {}),
+    });
+    const whatsappMessage = Array.isArray(response?.messages)
+      ? response.messages[0]
+      : undefined;
+
+    await this.prisma.notification.create({
+      data: {
+        userId: input.userId,
+        recipientPhone,
+        templateName: template.name,
+        templateLanguage: template.language,
+        templateMessage: renderedMessage || null,
+        whatsappMessageId:
+          typeof whatsappMessage?.id === 'string'
+            ? whatsappMessage.id
+            : null,
+        deliveryTrackingId: input.trackingId,
+        sendAt: new Date().toISOString(),
+        status:
+          typeof whatsappMessage?.message_status === 'string'
+            ? whatsappMessage.message_status
+            : 'accepted',
+      },
+    });
+
+    return response;
+  }
+
+  async sendOrderConfirmation(dto: SendOrderConfirmationDto): Promise<any> {
+    const delivery = await this.prisma.delivery.findFirst({
+      where: {
+        userId: dto.userId,
+        trackingId: dto.trackingId,
+      },
+      select: {
+        userId: true,
+        receiverPhone: true,
+        trackingId: true,
+      },
+    });
+    if (!delivery) {
+      throw new NotFoundException(
+        `Delivery with tracking ID ${dto.trackingId} was not found`,
+      );
+    }
+    if (!delivery.userId) {
+      throw new BadRequestException(
+        `Delivery ${dto.trackingId} is not associated with a user`,
+      );
+    }
+
+    const user = await this.prisma.user.findUnique({
+      where: { id: delivery.userId },
+      select: { fullName: true },
+    });
+    if (!user) {
+      throw new NotFoundException(`User with ID ${delivery.userId} not found`);
+    }
+
+    const firstName = user.fullName.trim().split(/\s+/)[0];
+    if (!firstName) {
+      throw new BadRequestException('The user does not have a first name');
+    }
+
+    const digitsOnlyPhone = delivery.receiverPhone.replace(/\D/g, '');
+    if (!digitsOnlyPhone) {
+      throw new BadRequestException(
+        'The delivery receiver phone number is invalid',
+      );
+    }
+    const recipientPhone = digitsOnlyPhone.startsWith('0')
+      ? `234${digitsOnlyPhone.slice(1)}`
+      : digitsOnlyPhone;
+
+    const response = await this.sendUtilityMessage({
+      userId: delivery.userId,
+      to: recipientPhone,
+      templateName: 'order_confirmed',
+      templateLanguage: dto.templateLanguage,
+      components: [
+        {
+          type: 'body',
+          parameters: [
+            { type: 'text', text: firstName },
+            { type: 'text', text: delivery.trackingId },
+          ],
+        },
+      ],
+    });
+
+    const whatsappMessage = Array.isArray(response?.messages)
+      ? response.messages[0]
+      : undefined;
+    const templateMessage =
+      `Hi ${firstName}, \n` +
+      `We're getting your order ${delivery.trackingId} ready and will let you know when it's on the way.`;
+
+    await this.prisma.notification.create({
+      data: {
+        userId: delivery.userId,
+        recipientPhone,
+        templateName: 'order_confirmed',
+        templateLanguage: dto.templateLanguage,
+        templateMessage,
+        whatsappMessageId:
+          typeof whatsappMessage?.id === 'string'
+            ? whatsappMessage.id
+            : null,
+        deliveryTrackingId: delivery.trackingId,
+        sendAt: new Date().toISOString(),
+        status:
+          typeof whatsappMessage?.message_status === 'string'
+            ? whatsappMessage.message_status
+            : 'accepted',
+      },
+    });
+
+    return response;
+  }
+
+  async sendUtilityMessage(dto: SendUtilityMessageDto): Promise<any> {
+    console.log(dto, 'sendUtilityMessageDto');
+    const version = this.configService.get<string>('WHATSAPP_VERSION');
+    let phoneNumberId =
+      this.configService.get<string>('WHATSAPP_BUSINESS_PHONE_NUMBER_ID');
+
+    if (dto.userId) {
+      const user = await this.prisma.user.findUnique({
+        where: { id: dto.userId },
+        select: { selectedPhoneNumberId: true },
+      });
+      if (!user) {
+        throw new NotFoundException(`User with ID ${dto.userId} not found`);
+      }
+      phoneNumberId = user.selectedPhoneNumberId[0]?.trim();
+    }
+
+    const fetch_access_token = dto.userId
+      ? await this.prisma.token.findUnique({ where: { userId: dto.userId } })
+      : await this.prisma.token.findFirst({
+          orderBy: { createdAt: 'desc' },
+        });
+
+    const accessToken =
+      fetch_access_token?.facebookLongLivedAccessToken?.trim();
+    if (!accessToken) {
+      throw new UnauthorizedException(
+        'No WhatsApp access token is configured for this user',
+      );
+    }
+
+    if (!version) {
+      throw new BadRequestException('WHATSAPP_VERSION is required');
+    }
+
+    if (!phoneNumberId) {
+      throw new BadRequestException(
+        dto.userId
+          ? 'A WhatsApp phone number must be selected for this user'
+          : 'WHATSAPP_BUSINESS_PHONE_NUMBER_ID is required',
       );
     }
 
@@ -586,21 +1262,113 @@ async getWabaAssignerToUserId(userId: string) {
       },
     };
 
+    const usageTransaction = dto.userId
+      ? await this.creditsService.spend(dto.userId, {
+          service: 'WHATSAPP',
+          idempotencyKey: randomUUID(),
+        })
+      : undefined;
+
     try {
       const response = await firstValueFrom(
         this.httpService.post(endpoint, body, {
           headers: {
-            Authorization: `Bearer ${fetch_access_token.facebookLongLivedAccessToken}`,
+            Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
           },
         }),
       );
 
       return response.data;
-    } catch (error: any) {
-      console.log(error, 'log error')
-      throw error.response?.data || error.message;
+    } catch (error: unknown) {
+      const axiosError = error as {
+        message?: string;
+        response?: {
+          status?: number;
+          data?: unknown;
+        };
+      };
+      const responseData =
+        typeof axiosError.response?.data === 'object' &&
+        axiosError.response.data !== null
+          ? (axiosError.response.data as Record<string, unknown>)
+          : undefined;
+      const graphError =
+        typeof responseData?.error === 'object' &&
+        responseData.error !== null
+          ? (responseData.error as Record<string, unknown>)
+          : responseData;
+      const graphMessage =
+        typeof graphError?.message === 'string'
+          ? graphError.message
+          : axiosError.message ?? 'Unknown WhatsApp API error';
+      const graphCode =
+        typeof graphError?.code === 'number' ||
+        typeof graphError?.code === 'string'
+          ? graphError.code
+          : undefined;
+      const traceId =
+        typeof graphError?.fbtrace_id === 'string'
+          ? graphError.fbtrace_id
+          : undefined;
+
+      console.error(
+        'WhatsApp Graph API message send failed',
+        JSON.stringify(
+          {
+            status: axiosError.response?.status,
+            message: graphMessage,
+            code: graphCode,
+            fbtrace_id: traceId,
+          },
+          null,
+          2,
+        ),
+      );
+
+      if (usageTransaction && dto.userId) {
+        try {
+          await this.creditsService.refundUsage(
+            dto.userId,
+            usageTransaction.id,
+            'Automatic refund for a failed WhatsApp message',
+          );
+        } catch (refundError) {
+          console.error(
+            'Failed to refund credits for a rejected WhatsApp message',
+            refundError,
+          );
+        }
+      }
+
+      const diagnostics = [
+        graphCode !== undefined ? `code ${graphCode}` : undefined,
+        traceId ? `trace ID ${traceId}` : undefined,
+      ].filter((value): value is string => Boolean(value));
+      throw new BadRequestException(
+        `WhatsApp Graph API rejected the message: ${graphMessage}${
+          diagnostics.length ? ` (${diagnostics.join(', ')})` : ''
+        }`,
+      );
     }
+  }
+
+  async updateMessageDeliveryStatus(messageId: string, status: string) {
+    const normalizedStatus = status.trim().toLowerCase();
+    if (!['sent', 'delivered', 'read', 'failed'].includes(normalizedStatus)) {
+      return 0;
+    }
+
+    const result = await this.prisma.notification.updateMany({
+      where: { whatsappMessageId: messageId },
+      data: {
+        status: normalizedStatus,
+        ...(normalizedStatus === 'read'
+          ? { ReadAt: new Date().toISOString() }
+          : {}),
+      },
+    });
+    return result.count;
   }
 
   async saveToken(dto: TokenDto): Promise<void> {
@@ -625,10 +1393,14 @@ async getWabaAssignerToUserId(userId: string) {
   }
 }
 
-  async editTokenById(id: string, dto: TokenDto): Promise<void> {
+  async editTokenById(
+    id: string,
+    userId: string,
+    dto: TokenDto,
+  ): Promise<void> {
     try {
       await this.prisma.token.update({
-        where: { id },
+        where: { id, userId },
         data: {
           facebookAccessToken: dto.facebookAccessToken,
           facebookLongLivedAccessToken: dto.facebookLongLivedAccessToken,
@@ -640,10 +1412,10 @@ async getWabaAssignerToUserId(userId: string) {
     }
   }
 
-  async getTokens(): Promise<any> {
+  async getTokens(userId: string): Promise<any> {
     try {
-      const tokenRecord = await this.prisma.token.findFirst({
-        orderBy: { createdAt: 'desc' },
+      const tokenRecord = await this.prisma.token.findUnique({
+        where: { userId },
       });
 
       if (!tokenRecord) {

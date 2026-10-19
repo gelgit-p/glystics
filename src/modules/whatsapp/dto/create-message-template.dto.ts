@@ -37,6 +37,9 @@ export class MessageTemplateComponentDto {
 
 export class CreateMessageTemplateDto {
   @ApiProperty()
+  wabaId: string;
+
+  @ApiProperty()
   name: string;
 
   @ApiProperty()

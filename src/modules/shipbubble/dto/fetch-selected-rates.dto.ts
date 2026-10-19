@@ -1,3 +1,3 @@
-export class FetchSelectedRatesDto {
-	[key: string]: unknown;
-}
+import { FetchRatesDto } from './fetch-rates.dto';
+
+export class FetchSelectedRatesDto extends FetchRatesDto {}

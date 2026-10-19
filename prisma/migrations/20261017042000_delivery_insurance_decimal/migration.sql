@@ -1,0 +1,7 @@
+ALTER TABLE "Delivery"
+ALTER COLUMN "insuranceAmount" TYPE DOUBLE PRECISION
+USING "insuranceAmount"::DOUBLE PRECISION,
+ALTER COLUMN "insure_percentage" TYPE DOUBLE PRECISION
+USING "insure_percentage"::DOUBLE PRECISION,
+ALTER COLUMN "insurance_cost" TYPE DOUBLE PRECISION
+USING "insurance_cost"::DOUBLE PRECISION;

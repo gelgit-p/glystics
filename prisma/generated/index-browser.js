@@ -160,18 +160,51 @@ exports.Prisma.TokenScalarFieldEnum = {
 
 exports.Prisma.DeliveryScalarFieldEnum = {
   id: 'id',
+  userId: 'userId',
+  trackingId: 'trackingId',
   senderName: 'senderName',
   senderPhone: 'senderPhone',
   senderAddress: 'senderAddress',
+  senderLatitude: 'senderLatitude',
+  senderLongitude: 'senderLongitude',
   receiverName: 'receiverName',
   receiverPhone: 'receiverPhone',
   receiverAddress: 'receiverAddress',
+  receiverLatitude: 'receiverLatitude',
+  receiverLongitude: 'receiverLongitude',
   packageName: 'packageName',
   packageCategory: 'packageCategory',
   packageWeight: 'packageWeight',
   packageDimensions: 'packageDimensions',
   packageValue: 'packageValue',
   pickupDate: 'pickupDate',
+  courier_name: 'courier_name',
+  courier_email: 'courier_email',
+  courier_phone: 'courier_phone',
+  shipbubbleOrderId: 'shipbubbleOrderId',
+  tracking_url: 'tracking_url',
+  package_amount: 'package_amount',
+  package_weight: 'package_weight',
+  shipping_fee: 'shipping_fee',
+  shipping_payment_type: 'shipping_payment_type',
+  shipping_payment_status: 'shipping_payment_status',
+  package_status: 'package_status',
+  checkoutSessionId: 'checkoutSessionId',
+  checkoutUrl: 'checkoutUrl',
+  paymentAmount: 'paymentAmount',
+  paymentCurrency: 'paymentCurrency',
+  paymentStatus: 'paymentStatus',
+  bookingStatus: 'bookingStatus',
+  bookingDetails: 'bookingDetails',
+  deliveryInsurer: 'deliveryInsurer',
+  deliveryCurrency: 'deliveryCurrency',
+  insuranceAmount: 'insuranceAmount',
+  insurance_policy_condition: 'insurance_policy_condition',
+  insure_percentage: 'insure_percentage',
+  insurance_cost: 'insurance_cost',
+  insuranceCode: 'insuranceCode',
+  insurerName: 'insurerName',
+  bookingError: 'bookingError',
   deliveryStatus: 'deliveryStatus',
   deliveryType: 'deliveryType',
   deliveryInstructions: 'deliveryInstructions',
@@ -179,9 +212,115 @@ exports.Prisma.DeliveryScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.MessageTemplateScalarFieldEnum = {
+  id: 'id',
+  metaTemplateId: 'metaTemplateId',
+  userId: 'userId',
+  name: 'name',
+  language: 'language',
+  status: 'status',
+  category: 'category',
+  previousCategory: 'previousCategory',
+  parameterFormat: 'parameterFormat',
+  components: 'components',
+  disableIosAutofill: 'disableIosAutofill',
+  isPrimaryDeviceDeliveryOnly: 'isPrimaryDeviceDeliveryOnly',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CreditWalletScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  balance: 'balance',
+  points: 'points',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CreditTransactionScalarFieldEnum = {
+  id: 'id',
+  walletId: 'walletId',
+  type: 'type',
+  amount: 'amount',
+  balanceAfter: 'balanceAfter',
+  description: 'description',
+  reference: 'reference',
+  idempotencyKey: 'idempotencyKey',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CreditPackageScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  priceKobo: 'priceKobo',
+  credits: 'credits',
+  bonusCredits: 'bonusCredits',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CreditPurchaseScalarFieldEnum = {
+  id: 'id',
+  walletId: 'walletId',
+  packageId: 'packageId',
+  amountKobo: 'amountKobo',
+  credits: 'credits',
+  bonusCredits: 'bonusCredits',
+  paymentReference: 'paymentReference',
+  checkoutSessionId: 'checkoutSessionId',
+  checkoutUrl: 'checkoutUrl',
+  status: 'status',
+  paidAt: 'paidAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AutomationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  trigger: 'trigger',
+  triggerValue: 'triggerValue',
+  action: 'action',
+  actionTemplate: 'actionTemplate',
+  enabled: 'enabled',
+  totalRuns: 'totalRuns',
+  lastTriggered: 'lastTriggered',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  recipientPhone: 'recipientPhone',
+  templateName: 'templateName',
+  templateLanguage: 'templateLanguage',
+  templateMessage: 'templateMessage',
+  whatsappMessageId: 'whatsappMessageId',
+  deliveryTrackingId: 'deliveryTrackingId',
+  sendAt: 'sendAt',
+  ReadAt: 'ReadAt',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -193,16 +332,38 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-exports.DeliveryStatus = exports.$Enums.DeliveryStatus = {
-  DELIVERED: 'DELIVERED',
-  IN_TRANSIT: 'IN_TRANSIT',
-  FAILED: 'FAILED'
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+exports.CreditTransactionType = exports.$Enums.CreditTransactionType = {
+  PURCHASE: 'PURCHASE',
+  BONUS: 'BONUS',
+  USAGE: 'USAGE',
+  REFUND: 'REFUND',
+  ADMIN_ADJUSTMENT: 'ADMIN_ADJUSTMENT'
+};
+
+exports.CreditPurchaseStatus = exports.$Enums.CreditPurchaseStatus = {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED'
 };
 
 exports.Prisma.ModelName = {
   User: 'User',
   Token: 'Token',
-  Delivery: 'Delivery'
+  Delivery: 'Delivery',
+  MessageTemplate: 'MessageTemplate',
+  CreditWallet: 'CreditWallet',
+  CreditTransaction: 'CreditTransaction',
+  CreditPackage: 'CreditPackage',
+  CreditPurchase: 'CreditPurchase',
+  Automation: 'Automation',
+  Notification: 'Notification'
 };
 
 /**

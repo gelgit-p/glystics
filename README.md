@@ -136,11 +136,19 @@ $ npm run test:e2e
 
 # Check test coverage
 $ npm run test:cov
+
+$ npx prisma migrate dev && npx prisma migrate deploy && npx prisma db push && pnpm run start:dev
 ```
 
 ---
 
 ## 📦 Deployment
+
+The production start script runs `prisma migrate deploy` before starting the
+server, so database column types stay aligned with the generated Prisma Client.
+If the service uses a custom start command instead of `pnpm run start:prod`,
+run `pnpm exec prisma migrate deploy` as a release/pre-deploy command before
+starting the application.
 
 Check out the [NestJS Deployment Guide](https://docs.nestjs.com/deployment) or use:
 
@@ -165,7 +173,5 @@ $ mau deploy
 
 Made with ❤️ by \Olzhas— feel free to contribute or fork.
 
-{
-  access_token: '1094705089173300|3Iz96_8rO9uBrZmQCyE6GXofTBU',
-  token_type: 'bearer'
-} response data
+1343947352130201
+1306783259184340

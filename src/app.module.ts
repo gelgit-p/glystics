@@ -8,9 +8,6 @@ import { UserModule } from './modules/user/user.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { LoggerMiddleware } from './common/logger.middleware';
-// import { ThrottlerModule } from '@nestjs/throttler';
-// import { APP_GUARD } from '@nestjs/core';
-// import { GqlThrottlerGuard } from './modules/auth/guards/gql-throttler-guard';
 import { ShipbubbleModule } from './modules/shipbubble/shipbubble.module';
 import { WebhookModule } from './modules/webhook/webhook.module';
 import { InstagramModule } from './modules/instagram/instagram.module';
@@ -18,6 +15,10 @@ import { WhatsappModule } from './modules/whatsapp/whatsapp.module';
 import { HealthController } from './health.controller';
 import { TerminusModule } from '@nestjs/terminus';
 import { DeliveryModule } from './modules/delivery/delivery.module';
+import { AutomationModule } from './modules/automation/automation.module';
+import { PaymentModule } from './modules/payment/payment.module';
+import { NotificationModule } from './modules/notification/notifcation.module';
+import { CreditModule } from './modules/credits/credit.module';
 
 @Module({
   imports: [
@@ -28,14 +29,6 @@ import { DeliveryModule } from './modules/delivery/delivery.module';
         return { req, res };
       },
     }),
-    // ThrottlerModule.forRoot({
-    //   throttlers: [
-    //     {
-    //       ttl: 60,
-    //       limit: 0,
-    //     },
-    //   ],
-    // }),
     AuthModule,
     PrismaModule,
     UserModule,
@@ -45,6 +38,10 @@ import { DeliveryModule } from './modules/delivery/delivery.module';
     InstagramModule,
     TerminusModule,
     DeliveryModule,
+    AutomationModule,
+    NotificationModule,
+    PaymentModule,
+    CreditModule,
   ],
   controllers: [AppController, HealthController],
   providers: [

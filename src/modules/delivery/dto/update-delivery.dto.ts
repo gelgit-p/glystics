@@ -1,11 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class UpdateDeliveryDto {
   @ApiProperty()
   @IsOptional()
   @IsString()
   senderName?: string;
+
+    @ApiProperty()
+  @IsOptional()
+    @IsString()
+    userId?: string;
 
    @ApiProperty()
   @IsOptional()
@@ -16,6 +21,18 @@ export class UpdateDeliveryDto {
   @IsOptional()
   @IsString()
   senderAddress?: string;
+
+
+    @ApiProperty()
+  @IsOptional()
+    @IsString()
+    senderLatitude?: string;
+
+        @ApiProperty()
+  @IsOptional()
+    @IsString()
+    senderLongitude?: string;
+
 
    @ApiProperty()
   @IsOptional()
@@ -31,6 +48,16 @@ export class UpdateDeliveryDto {
   @IsOptional()
   @IsString()
   receiverAddress?: string;
+
+     @ApiProperty()
+  @IsOptional()
+  @IsString()
+  receiverLatitude?: string;
+
+       @ApiProperty()
+  @IsOptional()
+  @IsString()
+  receiverLongitude?: string;
 
    @ApiProperty()
   @IsOptional()
@@ -62,13 +89,104 @@ export class UpdateDeliveryDto {
   @IsString()
   pickupDate?: string;
 
-   @ApiProperty()
+     @ApiProperty()
   @IsOptional()
   @IsString()
+  courier_name?: string;
+
+       @ApiProperty()
+  @IsOptional()
+  @IsString()
+  courier_email?: string;
+
+         @ApiProperty()
+  @IsOptional()
+  @IsString()
+  courier_phone?: string;
+
+           @ApiProperty()
+  @IsOptional()
+  @IsString()
+  shipbubbleOrderId?: string;
+
+             @ApiProperty()
+  @IsOptional()
+  @IsString()
+  tracking_url?: string;
+
+               @ApiProperty()
+  @IsOptional()
+  @IsString()
+  package_amount?: string;
+
+                 @ApiProperty()
+  @IsOptional()
+  @IsString()
+  package_weight?: string;
+
+                   @ApiProperty()
+  @IsOptional()
+  @IsString()
+  shipping_fee?: string;
+
+                     @ApiProperty()
+  @IsOptional()
+  @IsString()
+  shipping_payment_type?: string;
+
+                       @ApiProperty()
+  @IsOptional()
+  @IsString()
+  shipping_payment_status?: string;
+
+                       @ApiProperty({ required: false, default: 'CREATED' })
+  @IsOptional()
+  @IsString()
+                       deliveryStatus?: string;
+
+                        @ApiProperty()
+                       @IsOptional()
+                       @IsString()
   deliveryType?: string;
 
    @ApiProperty()
   @IsOptional()
   @IsString()
   deliveryInstructions?: string;
+
+     @ApiProperty()
+  @IsOptional()
+  @IsString()
+  paymentStatus?: string;
+
+       @ApiProperty()
+  @IsOptional()
+       @IsNumber({ maxDecimalPlaces: 2 })
+  insuranceAmount?: number;
+
+  
+       @ApiProperty()
+  @IsOptional()
+  @IsString()
+  insurance_policy_condition?: string;
+
+         @ApiProperty({ example: 0.002 })
+  @IsOptional()
+  @IsNumber()
+  insure_percentage?: number;
+
+         @ApiProperty()
+  @IsOptional()
+  @IsNumber({ maxDecimalPlaces: 2 })
+  insurance_cost?: number;
+
+         @ApiProperty()
+  @IsOptional()
+  @IsString()
+  insuranceCode?: string;
+
+         @ApiProperty()
+  @IsOptional()
+  @IsString()
+  insurerName?: string;
 }

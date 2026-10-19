@@ -2,9 +2,7 @@ import {
   Body,
   Controller,
   Get,
-  Param,
   Post,
-  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -48,21 +46,25 @@ export class AuthController {
 
 
   @Post('update-user/:id')
-  updateUser(
-    @Param('id') id: string,
+  @UseGuards(AuthGuard('jwt'))
+  async updateUser(
+    @Req() request: AuthenticatedRequest,
     @Body() data: UpdateInput,
   ) {
-    return this.userService.update(id, data);
+    await this.userService.update(request.user.id, data);
+    return this.userService.findById(request.user.id);
   }
 
-    @Get(':id')
-  findById(@Param('id') id: string) {
-    return this.userService.findById(id);
+  @Get('me')
+  @UseGuards(AuthGuard('jwt'))
+  findCurrentUser(@Req() request: AuthenticatedRequest) {
+    return this.userService.findById(request.user.id);
   }
 
-  @Get('by-email')
-  findByEmail(@Query('email') email: string) {
-    return this.userService.findByEmail(email);
+  @Get(':id')
+  @UseGuards(AuthGuard('jwt'))
+  findById(@Req() request: AuthenticatedRequest) {
+    return this.userService.findById(request.user.id);
   }
 
   @UseGuards(AuthGuard('jwt'))

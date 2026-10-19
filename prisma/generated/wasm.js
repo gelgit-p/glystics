@@ -132,18 +132,51 @@ exports.Prisma.TokenScalarFieldEnum = {
 
 exports.Prisma.DeliveryScalarFieldEnum = {
   id: 'id',
+  userId: 'userId',
+  trackingId: 'trackingId',
   senderName: 'senderName',
   senderPhone: 'senderPhone',
   senderAddress: 'senderAddress',
+  senderLatitude: 'senderLatitude',
+  senderLongitude: 'senderLongitude',
   receiverName: 'receiverName',
   receiverPhone: 'receiverPhone',
   receiverAddress: 'receiverAddress',
+  receiverLatitude: 'receiverLatitude',
+  receiverLongitude: 'receiverLongitude',
   packageName: 'packageName',
   packageCategory: 'packageCategory',
   packageWeight: 'packageWeight',
   packageDimensions: 'packageDimensions',
   packageValue: 'packageValue',
   pickupDate: 'pickupDate',
+  courier_name: 'courier_name',
+  courier_email: 'courier_email',
+  courier_phone: 'courier_phone',
+  shipbubbleOrderId: 'shipbubbleOrderId',
+  tracking_url: 'tracking_url',
+  package_amount: 'package_amount',
+  package_weight: 'package_weight',
+  shipping_fee: 'shipping_fee',
+  shipping_payment_type: 'shipping_payment_type',
+  shipping_payment_status: 'shipping_payment_status',
+  package_status: 'package_status',
+  checkoutSessionId: 'checkoutSessionId',
+  checkoutUrl: 'checkoutUrl',
+  paymentAmount: 'paymentAmount',
+  paymentCurrency: 'paymentCurrency',
+  paymentStatus: 'paymentStatus',
+  bookingStatus: 'bookingStatus',
+  bookingDetails: 'bookingDetails',
+  deliveryInsurer: 'deliveryInsurer',
+  deliveryCurrency: 'deliveryCurrency',
+  insuranceAmount: 'insuranceAmount',
+  insurance_policy_condition: 'insurance_policy_condition',
+  insure_percentage: 'insure_percentage',
+  insurance_cost: 'insurance_cost',
+  insuranceCode: 'insuranceCode',
+  insurerName: 'insurerName',
+  bookingError: 'bookingError',
   deliveryStatus: 'deliveryStatus',
   deliveryType: 'deliveryType',
   deliveryInstructions: 'deliveryInstructions',
@@ -151,9 +184,115 @@ exports.Prisma.DeliveryScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.MessageTemplateScalarFieldEnum = {
+  id: 'id',
+  metaTemplateId: 'metaTemplateId',
+  userId: 'userId',
+  name: 'name',
+  language: 'language',
+  status: 'status',
+  category: 'category',
+  previousCategory: 'previousCategory',
+  parameterFormat: 'parameterFormat',
+  components: 'components',
+  disableIosAutofill: 'disableIosAutofill',
+  isPrimaryDeviceDeliveryOnly: 'isPrimaryDeviceDeliveryOnly',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CreditWalletScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  balance: 'balance',
+  points: 'points',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CreditTransactionScalarFieldEnum = {
+  id: 'id',
+  walletId: 'walletId',
+  type: 'type',
+  amount: 'amount',
+  balanceAfter: 'balanceAfter',
+  description: 'description',
+  reference: 'reference',
+  idempotencyKey: 'idempotencyKey',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CreditPackageScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  priceKobo: 'priceKobo',
+  credits: 'credits',
+  bonusCredits: 'bonusCredits',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CreditPurchaseScalarFieldEnum = {
+  id: 'id',
+  walletId: 'walletId',
+  packageId: 'packageId',
+  amountKobo: 'amountKobo',
+  credits: 'credits',
+  bonusCredits: 'bonusCredits',
+  paymentReference: 'paymentReference',
+  checkoutSessionId: 'checkoutSessionId',
+  checkoutUrl: 'checkoutUrl',
+  status: 'status',
+  paidAt: 'paidAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AutomationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  trigger: 'trigger',
+  triggerValue: 'triggerValue',
+  action: 'action',
+  actionTemplate: 'actionTemplate',
+  enabled: 'enabled',
+  totalRuns: 'totalRuns',
+  lastTriggered: 'lastTriggered',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  recipientPhone: 'recipientPhone',
+  templateName: 'templateName',
+  templateLanguage: 'templateLanguage',
+  templateMessage: 'templateMessage',
+  whatsappMessageId: 'whatsappMessageId',
+  deliveryTrackingId: 'deliveryTrackingId',
+  sendAt: 'sendAt',
+  ReadAt: 'ReadAt',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -165,16 +304,38 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-exports.DeliveryStatus = exports.$Enums.DeliveryStatus = {
-  DELIVERED: 'DELIVERED',
-  IN_TRANSIT: 'IN_TRANSIT',
-  FAILED: 'FAILED'
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+exports.CreditTransactionType = exports.$Enums.CreditTransactionType = {
+  PURCHASE: 'PURCHASE',
+  BONUS: 'BONUS',
+  USAGE: 'USAGE',
+  REFUND: 'REFUND',
+  ADMIN_ADJUSTMENT: 'ADMIN_ADJUSTMENT'
+};
+
+exports.CreditPurchaseStatus = exports.$Enums.CreditPurchaseStatus = {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED'
 };
 
 exports.Prisma.ModelName = {
   User: 'User',
   Token: 'Token',
-  Delivery: 'Delivery'
+  Delivery: 'Delivery',
+  MessageTemplate: 'MessageTemplate',
+  CreditWallet: 'CreditWallet',
+  CreditTransaction: 'CreditTransaction',
+  CreditPackage: 'CreditPackage',
+  CreditPurchase: 'CreditPurchase',
+  Automation: 'Automation',
+  Notification: 'Notification'
 };
 /**
  * Create the Client
@@ -187,7 +348,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/michaeoketunde/Documents/Projects/glystics/api/prisma/generated",
+      "value": "/Users/michaeoketunde/Documents/Projects/dispatchly/api/prisma/generated",
       "fromEnvVar": null
     },
     "config": {
@@ -201,7 +362,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/michaeoketunde/Documents/Projects/glystics/api/prisma/schema.prisma",
+    "sourceFilePath": "/Users/michaeoketunde/Documents/Projects/dispatchly/api/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -215,7 +376,6 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -224,13 +384,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// 1. Configure the Prisma Client generator\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated\"\n}\n\n// 2. Configure the PostgreSQL database connection\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\n// 3. User model for authentication and profiles\nmodel User {\n  id                               String  @id @default(uuid())\n  email                            String  @unique\n  password                         String\n  emailConfirmed                   Boolean @default(false)\n  emailConfirmToken                String?\n  businessName                     String\n  fullName                         String\n  metaUserId                       String?\n  appId                            String?\n  appSecret                        String?\n  facebookAcceessToken             String?\n  grantedScopes                    String?\n  accessTokenExpiresIn             String?\n  selectedWabaId                   String?\n  displayPhoneNumber               String?\n  selectedFacebookBusinessId       String?\n  selectedFacebookBusinessName     String?\n  selectedPhoneNumberQualityRating String?\n  selectedPhoneNumberVerifiedName  String?\n  webhookStatus                    Boolean @default(false)\n\n  selectedPhoneNumberId String[]\n  facebookConnectStatus Boolean  @default(false)\n  createdAt             DateTime @default(now())\n  hashedRefresh         String?\n}\n\n// 4. Tokens model for Facebook API integration\nmodel Token {\n  id                           String   @id @default(uuid())\n  userId                       String   @unique\n  facebookAccessToken          String?  @map(\"facebook_access_token\")\n  facebookLongLivedAccessToken String?  @map(\"facebook_long_lived_access_token\")\n  expiresIn                    String?\n  dataAccessExpirationTime     String?\n  createdAt                    DateTime @default(now())\n\n  @@map(\"tokens\")\n}\n\nmodel Delivery {\n  id                   String         @id @default(uuid())\n  senderName           String\n  senderPhone          String\n  senderAddress        String\n  receiverName         String\n  receiverPhone        String\n  receiverAddress      String\n  packageName          String\n  packageCategory      String\n  packageWeight        String\n  packageDimensions    String\n  packageValue         String\n  pickupDate           String\n  deliveryStatus       DeliveryStatus\n  deliveryType         String\n  deliveryInstructions String?\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @default(now())\n}\n\nenum DeliveryStatus {\n  DELIVERED\n  IN_TRANSIT\n  FAILED\n}\n",
-  "inlineSchemaHash": "b1b48cfc37ca2524147d338b35eeb122ead3b8e4ac4fb040b9bdbe8bd0cc54be",
+  "inlineSchema": "// 1. Configure the Prisma Client generator\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated\"\n}\n\n// 2. Configure the PostgreSQL database connection\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\n// 3. User model for authentication and profiles\nmodel User {\n  id                               String  @id @default(uuid())\n  email                            String  @unique\n  password                         String\n  emailConfirmed                   Boolean @default(false)\n  emailConfirmToken                String?\n  businessName                     String\n  fullName                         String\n  metaUserId                       String?\n  appId                            String?\n  appSecret                        String?\n  facebookAcceessToken             String?\n  grantedScopes                    String?\n  accessTokenExpiresIn             String?\n  selectedWabaId                   String?\n  displayPhoneNumber               String?\n  selectedFacebookBusinessId       String?\n  selectedFacebookBusinessName     String?\n  selectedPhoneNumberQualityRating String?\n  selectedPhoneNumberVerifiedName  String?\n  webhookStatus                    Boolean @default(false)\n\n  selectedPhoneNumberId String[]\n  facebookConnectStatus Boolean           @default(false)\n  createdAt             DateTime          @default(now())\n  hashedRefresh         String?\n  messageTemplates      MessageTemplate[]\n  automations           Automation[]\n  creditWallet          CreditWallet?\n}\n\nmodel Token {\n  id                           String   @id @default(uuid())\n  userId                       String   @unique\n  facebookAccessToken          String?  @map(\"facebook_access_token\")\n  facebookLongLivedAccessToken String?  @map(\"facebook_long_lived_access_token\")\n  expiresIn                    String?\n  dataAccessExpirationTime     String?\n  createdAt                    DateTime @default(now())\n\n  @@map(\"tokens\")\n}\n\nmodel Delivery {\n  id                         String  @id @default(uuid())\n  userId                     String?\n  trackingId                 String\n  senderName                 String\n  senderPhone                String\n  senderAddress              String\n  senderLatitude             String?\n  senderLongitude            String?\n  receiverName               String\n  receiverPhone              String\n  receiverAddress            String\n  receiverLatitude           String?\n  receiverLongitude          String?\n  packageName                String\n  packageCategory            String\n  packageWeight              String\n  packageDimensions          String\n  packageValue               String\n  pickupDate                 String\n  courier_name               String?\n  courier_email              String?\n  courier_phone              String?\n  shipbubbleOrderId          String?\n  tracking_url               String?\n  package_amount             String?\n  package_weight             String?\n  shipping_fee               String?\n  shipping_payment_type      String?\n  shipping_payment_status    String?\n  package_status             Json?\n  checkoutSessionId          String? @unique\n  checkoutUrl                String?\n  paymentAmount              String?\n  paymentCurrency            String?\n  paymentStatus              String\n  bookingStatus              String\n  bookingDetails             Json?\n  deliveryInsurer            String?\n  deliveryCurrency           String?\n  insuranceAmount            Float?\n  insurance_policy_condition String?\n  insure_percentage          Float?\n  insurance_cost             Float?\n  insuranceCode              String?\n  insurerName                String?\n  bookingError               String?\n\n  deliveryStatus       String?\n  deliveryType         String\n  deliveryInstructions String?\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @default(now())\n}\n\nmodel MessageTemplate {\n  id String @id @default(uuid())\n\n  // Meta template ID\n  metaTemplateId String\n\n  userId String\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  name             String\n  language         String\n  status           String\n  category         String\n  previousCategory String?\n  parameterFormat  String?\n\n  // Stores HEADER, BODY, FOOTER, BUTTONS, CAROUSEL, etc.\n  components Json\n\n  disableIosAutofill          Boolean @default(false)\n  isPrimaryDeviceDeliveryOnly Boolean @default(false)\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@unique([userId, metaTemplateId])\n  @@index([userId])\n  @@index([name])\n  @@map(\"message_templates\")\n}\n\nmodel CreditWallet {\n  id        String   @id @default(cuid())\n  userId    String   @unique\n  balance   Int      @default(0)\n  points    Int      @default(0)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  user         User                @relation(fields: [userId], references: [id])\n  transactions CreditTransaction[]\n  purchases    CreditPurchase[]\n}\n\nmodel CreditTransaction {\n  id             String                @id @default(cuid())\n  walletId       String\n  type           CreditTransactionType\n  amount         Int\n  balanceAfter   Int\n  description    String\n  reference      String?               @unique\n  idempotencyKey String?               @unique\n  metadata       Json?\n  createdAt      DateTime              @default(now())\n\n  wallet CreditWallet @relation(fields: [walletId], references: [id])\n\n  @@index([walletId, createdAt])\n}\n\nmodel CreditPackage {\n  id           String   @id @default(cuid())\n  name         String   @unique\n  priceKobo    Int\n  credits      Int\n  bonusCredits Int      @default(0)\n  isActive     Boolean  @default(true)\n  createdAt    DateTime @default(now())\n  updatedAt    DateTime @updatedAt\n\n  purchases CreditPurchase[]\n}\n\nmodel CreditPurchase {\n  id                String               @id @default(cuid())\n  walletId          String\n  packageId         String\n  amountKobo        Int\n  credits           Int\n  bonusCredits      Int                  @default(0)\n  paymentReference  String               @unique\n  checkoutSessionId String?              @unique\n  checkoutUrl       String?\n  status            CreditPurchaseStatus @default(PENDING)\n  paidAt            DateTime?\n  createdAt         DateTime             @default(now())\n  updatedAt         DateTime             @updatedAt\n\n  wallet  CreditWallet  @relation(fields: [walletId], references: [id])\n  package CreditPackage @relation(fields: [packageId], references: [id])\n\n  @@index([walletId, status])\n}\n\nmodel Automation {\n  id     String @id @default(cuid())\n  userId String\n\n  // Display name\n  name String\n\n  // WHEN\n  trigger      String\n  triggerValue String?\n\n  // THEN\n  action         String\n  actionTemplate String\n\n  // State\n  enabled Boolean @default(true)\n\n  // Execution statistics\n  totalRuns     Int       @default(0)\n  lastTriggered DateTime?\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@index([userId])\n  @@index([userId, enabled])\n  @@index([trigger, triggerValue])\n}\n\nmodel Notification {\n  id                 String  @id @default(uuid())\n  userId             String\n  recipientPhone     String\n  templateName       String\n  templateLanguage   String\n  templateMessage    String?\n  whatsappMessageId  String?\n  deliveryTrackingId String?\n  sendAt             String?\n  ReadAt             String?\n  status             String?\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nenum CreditTransactionType {\n  PURCHASE\n  BONUS\n  USAGE\n  REFUND\n  ADMIN_ADJUSTMENT\n}\n\nenum CreditPurchaseStatus {\n  PENDING\n  PAID\n  FAILED\n  CANCELLED\n}\n",
+  "inlineSchemaHash": "817264aaaff4d2487ded60b0b7bb5f0d9216c1cc77da6090b1f5905a384cd3a6",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailConfirmed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"emailConfirmToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"businessName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"metaUserId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"appId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"appSecret\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"facebookAcceessToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"grantedScopes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"accessTokenExpiresIn\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"selectedWabaId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"displayPhoneNumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"selectedFacebookBusinessId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"selectedFacebookBusinessName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"selectedPhoneNumberQualityRating\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"selectedPhoneNumberVerifiedName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"webhookStatus\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"selectedPhoneNumberId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"facebookConnectStatus\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"hashedRefresh\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"Token\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"facebookAccessToken\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"facebook_access_token\"},{\"name\":\"facebookLongLivedAccessToken\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"facebook_long_lived_access_token\"},{\"name\":\"expiresIn\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dataAccessExpirationTime\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"tokens\"},\"Delivery\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"senderName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"senderPhone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"senderAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"receiverName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"receiverPhone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"receiverAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"packageName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"packageCategory\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"packageWeight\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"packageDimensions\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"packageValue\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"pickupDate\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deliveryStatus\",\"kind\":\"enum\",\"type\":\"DeliveryStatus\"},{\"name\":\"deliveryType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deliveryInstructions\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailConfirmed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"emailConfirmToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"businessName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"metaUserId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"appId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"appSecret\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"facebookAcceessToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"grantedScopes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"accessTokenExpiresIn\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"selectedWabaId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"displayPhoneNumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"selectedFacebookBusinessId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"selectedFacebookBusinessName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"selectedPhoneNumberQualityRating\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"selectedPhoneNumberVerifiedName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"webhookStatus\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"selectedPhoneNumberId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"facebookConnectStatus\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"hashedRefresh\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"messageTemplates\",\"kind\":\"object\",\"type\":\"MessageTemplate\",\"relationName\":\"MessageTemplateToUser\"},{\"name\":\"automations\",\"kind\":\"object\",\"type\":\"Automation\",\"relationName\":\"AutomationToUser\"},{\"name\":\"creditWallet\",\"kind\":\"object\",\"type\":\"CreditWallet\",\"relationName\":\"CreditWalletToUser\"}],\"dbName\":null},\"Token\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"facebookAccessToken\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"facebook_access_token\"},{\"name\":\"facebookLongLivedAccessToken\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"facebook_long_lived_access_token\"},{\"name\":\"expiresIn\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dataAccessExpirationTime\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"tokens\"},\"Delivery\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"trackingId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"senderName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"senderPhone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"senderAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"senderLatitude\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"senderLongitude\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"receiverName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"receiverPhone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"receiverAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"receiverLatitude\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"receiverLongitude\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"packageName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"packageCategory\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"packageWeight\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"packageDimensions\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"packageValue\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"pickupDate\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"courier_name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"courier_email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"courier_phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"shipbubbleOrderId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tracking_url\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"package_amount\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"package_weight\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"shipping_fee\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"shipping_payment_type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"shipping_payment_status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"package_status\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"checkoutSessionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"checkoutUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"paymentAmount\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"paymentCurrency\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"paymentStatus\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bookingStatus\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bookingDetails\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"deliveryInsurer\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deliveryCurrency\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"insuranceAmount\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"insurance_policy_condition\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"insure_percentage\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"insurance_cost\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"insuranceCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"insurerName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bookingError\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deliveryStatus\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deliveryType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deliveryInstructions\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"MessageTemplate\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"metaTemplateId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"MessageTemplateToUser\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"language\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"category\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"previousCategory\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parameterFormat\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"components\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"disableIosAutofill\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"isPrimaryDeviceDeliveryOnly\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"message_templates\"},\"CreditWallet\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"balance\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"points\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"CreditWalletToUser\"},{\"name\":\"transactions\",\"kind\":\"object\",\"type\":\"CreditTransaction\",\"relationName\":\"CreditTransactionToCreditWallet\"},{\"name\":\"purchases\",\"kind\":\"object\",\"type\":\"CreditPurchase\",\"relationName\":\"CreditPurchaseToCreditWallet\"}],\"dbName\":null},\"CreditTransaction\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"walletId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"CreditTransactionType\"},{\"name\":\"amount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"balanceAfter\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reference\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"idempotencyKey\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"metadata\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"wallet\",\"kind\":\"object\",\"type\":\"CreditWallet\",\"relationName\":\"CreditTransactionToCreditWallet\"}],\"dbName\":null},\"CreditPackage\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"priceKobo\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"credits\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"bonusCredits\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"purchases\",\"kind\":\"object\",\"type\":\"CreditPurchase\",\"relationName\":\"CreditPackageToCreditPurchase\"}],\"dbName\":null},\"CreditPurchase\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"walletId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"packageId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"amountKobo\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"credits\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"bonusCredits\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"paymentReference\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"checkoutSessionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"checkoutUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"CreditPurchaseStatus\"},{\"name\":\"paidAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"wallet\",\"kind\":\"object\",\"type\":\"CreditWallet\",\"relationName\":\"CreditPurchaseToCreditWallet\"},{\"name\":\"package\",\"kind\":\"object\",\"type\":\"CreditPackage\",\"relationName\":\"CreditPackageToCreditPurchase\"}],\"dbName\":null},\"Automation\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"trigger\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"triggerValue\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"action\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"actionTemplate\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"enabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"totalRuns\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"lastTriggered\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AutomationToUser\"}],\"dbName\":null},\"Notification\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"recipientPhone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"templateName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"templateLanguage\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"templateMessage\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"whatsappMessageId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"deliveryTrackingId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sendAt\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ReadAt\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

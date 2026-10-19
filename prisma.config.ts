@@ -7,7 +7,8 @@ export default defineConfig({
 
   // Configuration for your database connection
   datasource: {
-    url: env("DATABASE_URL"),
+    // url: env("DATABASE_URL"),
+    url: process.env.DATABASE_URL ?? '',
     //  shadowDatabaseUrl: env("SHADOW_DATABASE_URL"), 
   },
 
