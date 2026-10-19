@@ -13,6 +13,8 @@ import {
   UseGuards,
   UseInterceptors,
   Delete,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Request, Response } from 'express';
@@ -23,7 +25,7 @@ import {
   WhatsappMediaFile,
   WhatsappService,
 } from './whatsapp.service';
-import { AccessTokenDto, MessageDto, WebhookSubscriptionDto } from './dto/whatsapp.dto';
+import { AccessTokenDto, LongLivedTokenDto, MessageDto, WebhookSubscriptionDto } from './dto/whatsapp.dto';
 import { CreateMessageTemplateDto } from './dto/create-message-template.dto';
 import { SendUtilityMessageDto } from './dto/send-utility-message.dto';
 import { SendOrderConfirmationDto } from './dto/send-order-confirmation.dto';
@@ -70,15 +72,18 @@ export class WhatsappController {
     );
   }
 
-  @Get('long-lived-token')
+  @Post('long-lived-token')
   @UseGuards(AuthGuard('jwt'))
+  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   async getLongLivedToken(
     @Req() request: Request & { user: { id: string } },
-    @Query('access_token') accessToken: string,
+    @Body() dto: LongLivedTokenDto,
   ): Promise<any> {
     return await this.whatsappService.getLongLivedToken(
-      accessToken,
+      dto.accessToken,
       request.user.id,
+      dto.appId,
+      dto.appSecret,
     );
   }
 
