@@ -132,12 +132,10 @@ export class WhatsappService {
   //  Exchange the token code for a business token
   async getAccessToken(dto: AccessTokenDto): Promise<string> {
     const endpoint = 'https://graph.facebook.com/v25.0/oauth/access_token';
-    // const appId = this.configService.get<string>('WHATSAPP_APP_ID');
-    // const appSecret = this.configService.get<string>('WHATSAPP_APP_SECRET');
 
     if (!dto.appId || !dto.appSecret) {
       throw new Error(
-        'WHATSAPP_APP_ID and WHATSAPP_APP_SECRET are required',
+        'appId and appSecret are required',
       );
     }
 
@@ -162,13 +160,21 @@ export class WhatsappService {
     }
   }
 
-  async getLongLivedToken(accessToken: string, userId: string): Promise<any> {
+  async getLongLivedToken(
+    accessToken: string,
+    userId: string,
+    appId: string,
+    appSecret: string,
+  ): Promise<any> {
     const version = this.configService.get<string>('WHATSAPP_VERSION');
-    const appId = this.configService.get<string>('WHATSAPP_APP_ID');
-    const appSecret = this.configService.get<string>('WHATSAPP_APP_SECRET');
-    if (!accessToken || !version || !appId || !appSecret) {
-      throw new Error(
-        'accessToken, WHATSAPP_VERSION, WHATSAPP_APP_ID, and WHATSAPP_APP_SECRET are required',
+    if (!accessToken || !appId || !appSecret) {
+      throw new BadRequestException(
+        'accessToken, appId, and appSecret are required',
+      );
+    }
+    if (!version) {
+      throw new InternalServerErrorException(
+        'WHATSAPP_VERSION is not configured',
       );
     }
 

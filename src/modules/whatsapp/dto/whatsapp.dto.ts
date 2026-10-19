@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsOptional } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class MessageDto {
     @ApiProperty({ description: 'The recipient phone number in international format' })
@@ -14,6 +14,23 @@ export class AccessTokenDto {
     appId: string;
 
         @ApiProperty()
+    appSecret: string;
+}
+
+export class LongLivedTokenDto {
+    @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
+    accessToken: string;
+
+    @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
+    appId: string;
+
+    @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
     appSecret: string;
 }
 

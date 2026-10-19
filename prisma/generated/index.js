@@ -349,7 +349,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/michaeoketunde/Documents/Projects/glystics/api/prisma/generated",
+      "value": "/Users/michaeoketunde/Documents/Projects/dispatchly/api/prisma/generated",
       "fromEnvVar": null
     },
     "config": {
@@ -363,7 +363,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/michaeoketunde/Documents/Projects/glystics/api/prisma/schema.prisma",
+    "sourceFilePath": "/Users/michaeoketunde/Documents/Projects/dispatchly/api/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -377,7 +377,6 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
