@@ -973,6 +973,7 @@ async getWabaAssignerToUserId(userId: string) {
       deliverydate: input.pickupDate ?? '',
       status: input.status,
       shipmentstatus: input.status,
+      trackingink: input.trackingUrl ?? '',
       trackinglink: input.trackingUrl ?? '',
       trackingurl: input.trackingUrl ?? '',
       link: input.trackingUrl ?? '',
@@ -990,7 +991,9 @@ async getWabaAssignerToUserId(userId: string) {
         return values[index - 1];
       }
 
-      return namedValues[normalizedPlaceholder] || undefined;
+      return Object.hasOwn(namedValues, normalizedPlaceholder)
+        ? namedValues[normalizedPlaceholder]
+        : undefined;
     };
     const getParameters = (text: string, componentName: string) => {
       const placeholders = Array.from(
