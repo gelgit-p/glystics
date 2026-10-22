@@ -31,6 +31,7 @@ export interface SendAutomationTemplateInput {
   templateId?: string;
   trackingId: string;
   customerName: string;
+  receiverAddress: string;
   status: string;
   pickupDate?: string;
   trackingUrl?: string;
@@ -963,6 +964,7 @@ async getWabaAssignerToUserId(userId: string) {
       firstname: firstName,
       customername: firstName,
       recipientname: firstName,
+      address: input.receiverAddress,
       trackingid: input.trackingId,
       orderid: input.trackingId,
       reference: input.trackingId,
