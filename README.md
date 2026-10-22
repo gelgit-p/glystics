@@ -175,3 +175,6 @@ Made with ❤️ by \Olzhas— feel free to contribute or fork.
 
 1343947352130201
 1306783259184340
+
+## fly deploy command
+ fly deploy -a glystics
