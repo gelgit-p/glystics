@@ -960,10 +960,10 @@ async getWabaAssignerToUserId(userId: string) {
     const firstName = input.customerName.trim().split(/\s+/)[0];
     const values = [firstName, input.trackingId, input.status];
     const namedValues: Record<string, string> = {
-      name: firstName,
+      name: input.customerName,
       firstname: firstName,
-      customername: firstName,
-      recipientname: firstName,
+      customer_name: input.customerName,
+      recipient_name: input.customerName,
       address: input.receiverAddress,
       trackingid: input.trackingId,
       orderid: input.trackingId,
@@ -973,15 +973,22 @@ async getWabaAssignerToUserId(userId: string) {
       deliverydate: input.pickupDate ?? '',
       status: input.status,
       shipmentstatus: input.status,
-      trackinglink: input.trackingUrl ?? '',
-      trackingurl: input.trackingUrl ?? '',
+      tracking_ink: input.trackingUrl ?? '',
+      tracking_link: input.trackingUrl ?? '',
+      tracking_url: input.trackingUrl ?? '',
       link: input.trackingUrl ?? '',
       url: input.trackingUrl ?? '',
     };
+    const normalizeParameterName = (name: string) =>
+      name.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const normalizedNamedValues = new Map(
+      Object.entries(namedValues).map(([name, value]) => [
+        normalizeParameterName(name),
+        value,
+      ]),
+    );
     const resolveValue = (placeholder: string) => {
-      const normalizedPlaceholder = placeholder
-        .toLowerCase()
-        .replace(/[^a-z0-9]/g, '');
+      const normalizedPlaceholder = normalizeParameterName(placeholder);
       const index = Number(placeholder);
       const isPositionalPlaceholder =
         /^\d+$/.test(placeholder) && Number.isInteger(index) && index > 0;
@@ -990,7 +997,7 @@ async getWabaAssignerToUserId(userId: string) {
         return values[index - 1];
       }
 
-      return namedValues[normalizedPlaceholder] || undefined;
+      return normalizedNamedValues.get(normalizedPlaceholder);
     };
     const getParameters = (text: string, componentName: string) => {
       const placeholders = Array.from(
