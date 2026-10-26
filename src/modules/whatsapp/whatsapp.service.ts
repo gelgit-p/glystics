@@ -164,9 +164,15 @@ export class WhatsappService {
   async getLongLivedToken(
     accessToken: string,
     userId: string,
-    appId: string,
-    appSecret: string,
+    requestedAppId?: string,
+    requestedAppSecret?: string,
   ): Promise<any> {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { appId: true, appSecret: true },
+    });
+    const appId = requestedAppId?.trim() || user?.appId;
+    const appSecret = requestedAppSecret?.trim() || user?.appSecret;
     const version = this.configService.get<string>('WHATSAPP_VERSION');
     if (!accessToken || !appId || !appSecret) {
       throw new BadRequestException(

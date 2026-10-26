@@ -23,14 +23,14 @@ export class LongLivedTokenDto {
     @IsNotEmpty()
     accessToken: string;
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
+    @IsOptional()
     @IsString()
-    @IsNotEmpty()
     appId: string;
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
+    @IsOptional()
     @IsString()
-    @IsNotEmpty()
     appSecret: string;
 }
 

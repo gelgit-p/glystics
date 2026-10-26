@@ -16,6 +16,7 @@ export class UserService {
           emailConfirmed: true,
           businessName: true,
           fullName: true,
+          appId: true,
           selectedWabaId: true,
           displayPhoneNumber: true,
           selectedFacebookBusinessId: true,

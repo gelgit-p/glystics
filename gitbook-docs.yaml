@@ -1,0 +1,13 @@
+
+$schema: https://api.gitbook.com/gitbook-docs.yaml
+
+site:
+  title: Glystics
+  structure:
+    - type: space
+      key: space-glystics
+      title: Glystics
+      path: glystics
+      default: true
+      content:
+        directory: ./
