@@ -319,6 +319,7 @@ export class WhatsappService {
 
   async subscribeToWebhooks(dto: WebhookSubscriptionDto) {
     // fetch accessToken with userId
+    console.log(dto, 'dto for subscribe to webhooks');
     let find_acess_token = await this.prisma.user.findFirst({
       where: {id: dto.userId}
     })
