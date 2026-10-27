@@ -22,8 +22,13 @@ import { ShipbubbleService } from '../shipbubble/shipbubble.service';
 import { DeliveryService } from '../delivery/delivery.service';
 import { normalizeShipbubbleRates } from './quote-ranking';
 import {
+  buildWhatsAppQuoteMessage,
+  parseQuoteSelection,
+} from './quote-message';
+import {
   ApproveDraftDto,
   RejectDraftDto,
+  SendQuoteToCustomerDto,
   SenderProfileDto,
   UpdateDraftDto,
 } from './dto/ai-delivery.dto';
@@ -266,6 +271,20 @@ export class AiDeliveryService {
     });
     try {
       const text = msg.body ?? '';
+      // If a quote offer is outstanding, a bare number is a customer selection,
+      // not a new AI extraction/update. This must run before the model.
+      const pendingSelection = await this.tryHandleCustomerQuoteSelection(conv, text);
+      if (pendingSelection.handled) {
+        await this.prisma.aiMessage.update({
+          where: { id: msg.id },
+          data: { processingState: 'PROCESSED', processingError: null },
+        });
+        await this.prisma.aiConversation.update({
+          where: { id: conv.id },
+          data: { lastMessageAt: new Date() },
+        });
+        return;
+      }
       const [history, draft] = await Promise.all([
         this.prisma.aiMessage.findMany({
           where: { conversationId: conv.id },
@@ -275,7 +294,7 @@ export class AiDeliveryService {
         this.prisma.deliveryDraft.findFirst({
           where: {
             conversationId: conv.id,
-            status: { in: ['COLLECTING', 'READY', 'QUOTED'] },
+            status: { in: ['COLLECTING', 'READY', 'QUOTED', 'AWAITING_CUSTOMER_SELECTION', 'CUSTOMER_SELECTED'] },
           },
           orderBy: { createdAt: 'desc' },
         }),
@@ -448,6 +467,35 @@ export class AiDeliveryService {
     return pending.length;
   }
 
+  /**
+   * Sends a WhatsApp text and persists it as an OUTBOUND AiMessage.
+   * Returns the persisted message / provider id so quote offers can be tracked.
+   * Throws on provider failure — callers decide whether that is fatal.
+   */
+  async sendOutboundWhatsApp(
+    userId: string,
+    to: string,
+    text: string,
+    conversationId: string,
+  ) {
+    const res = await this.whatsapp.sendMessage({ to, text }, userId);
+    const waId = rec(res)?.messages?.[0]?.id;
+    const outbound = await this.prisma.aiMessage.create({
+      data: {
+        conversationId,
+        waMessageId:
+          typeof waId === 'string'
+            ? waId
+            : `out-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+        direction: 'OUTBOUND',
+        body: text,
+        processingState: 'PROCESSED',
+      },
+    });
+    await this.audit(userId, 'AI', 'whatsapp.reply_sent', 'AiConversation', conversationId, {});
+    return { outbound, waMessageId: outbound.waMessageId, providerResponse: res };
+  }
+
   private async sendReply(
     userId: string,
     to: string,
@@ -455,28 +503,7 @@ export class AiDeliveryService {
     conversationId: string,
   ) {
     try {
-      const res = await this.whatsapp.sendMessage({ to, text }, userId);
-      const waId = rec(res)?.messages?.[0]?.id;
-      await this.prisma.aiMessage.create({
-        data: {
-          conversationId,
-          waMessageId:
-            typeof waId === 'string'
-              ? waId
-              : `out-${Date.now()}-${Math.random().toString(36).slice(2)}`,
-          direction: 'OUTBOUND',
-          body: text,
-          processingState: 'PROCESSED',
-        },
-      });
-      await this.audit(
-        userId,
-        'AI',
-        'whatsapp.reply_sent',
-        'AiConversation',
-        conversationId,
-        {},
-      );
+      await this.sendOutboundWhatsApp(userId, to, text, conversationId);
     } catch (e) {
       // No 24h-window / credit / credential failures should crash processing; staff can reply from inbox.
       this.logger.warn(
@@ -518,7 +545,7 @@ export class AiDeliveryService {
         this.prisma.deliveryDraft.count({
           where: {
             userId,
-            status: { in: ['READY', 'QUOTED', 'AWAITING_APPROVAL'] },
+            status: { in: ['READY', 'QUOTED', 'AWAITING_APPROVAL', 'AWAITING_CUSTOMER_SELECTION', 'CUSTOMER_SELECTED'] },
           },
         }),
         this.prisma.aiAuditEvent.count({ where: { userId } }),
@@ -596,7 +623,7 @@ export class AiDeliveryService {
     if (!Object.keys(patch).length) return draft;
     const merged = { ...this.draftToFields(draft as Record<string, any>), ...patch };
     const missing = computeMissingFields(merged);
-    const status = draft.status === 'QUOTED' ? 'QUOTED' : missing.length ? 'COLLECTING' : 'READY';
+    const status = ['QUOTED', 'AWAITING_CUSTOMER_SELECTION', 'CUSTOMER_SELECTED'].includes(draft.status) ? draft.status : missing.length ? 'COLLECTING' : 'READY';
     const updated = await this.prisma.deliveryDraft.update({
       where: { id: draft.id },
       data: { ...patch, missingFields: missing, status },
@@ -634,8 +661,8 @@ export class AiDeliveryService {
         ...dto,
         missingFields: missing,
         status:
-          draft.status === 'QUOTED' && !missing.length
-            ? 'QUOTED'
+          ['QUOTED', 'AWAITING_CUSTOMER_SELECTION', 'CUSTOMER_SELECTED'].includes(draft.status) && !missing.length
+            ? draft.status
             : missing.length
               ? 'COLLECTING'
               : 'READY',
@@ -650,7 +677,7 @@ export class AiDeliveryService {
     return this.prisma.deliveryDraft.findMany({
       where: {
         userId,
-        status: { in: ['READY', 'QUOTED', 'AWAITING_APPROVAL'] },
+        status: { in: ['READY', 'QUOTED', 'AWAITING_APPROVAL', 'AWAITING_CUSTOMER_SELECTION', 'CUSTOMER_SELECTED'] },
       },
       orderBy: { updatedAt: 'asc' },
       include: {
@@ -837,11 +864,128 @@ export class AiDeliveryService {
     };
   }
 
+  // ---- Customer WhatsApp quote offer + numeric selection ----
+  async buildQuoteOffer(userId: string, draftId: string) {
+    const draft = await this.getDraft(userId, draftId);
+    if (!draft.quotes?.length) {
+      throw new BadRequestException('Fetch Shipbubble quotes before sending options to the customer');
+    }
+    if (!draft.conversation?.customerWaId) {
+      throw new BadRequestException('Draft is not linked to a WhatsApp conversation/customer');
+    }
+    const message = buildWhatsAppQuoteMessage(draft, draft.quotes);
+    return { draft, message, quotes: draft.quotes };
+  }
+
+  async sendQuoteToCustomer(userId: string, draftId: string, dto: SendQuoteToCustomerDto = {}) {
+    const { draft, message: builtMessage } = await this.buildQuoteOffer(userId, draftId);
+    const message = dto.message?.trim() ? dto.message.trim() : builtMessage;
+    if (!message.includes('number')) {
+      throw new BadRequestException('Quote message must tell the customer to reply with an option number');
+    }
+    // Reset any previous customer selection when a fresh offer is sent.
+    await this.prisma.deliveryDraft.update({
+      where: { id: draftId },
+      data: {
+        status: 'AWAITING_CUSTOMER_SELECTION',
+        customerSelectedQuoteId: null,
+        customerSelectionAt: null,
+        quoteOfferSentAt: new Date(),
+      },
+    });
+    try {
+      const sent = await this.sendOutboundWhatsApp(
+        userId,
+        draft.conversation.customerWaId,
+        message,
+        draft.conversationId!,
+      );
+      const updated = await this.prisma.deliveryDraft.update({
+        where: { id: draftId },
+        data: {
+          status: 'AWAITING_CUSTOMER_SELECTION',
+          quoteOfferMessageId: sent.waMessageId,
+          quoteOfferSentAt: new Date(),
+        },
+      });
+      await this.audit(userId, 'USER', 'quote.sent_to_customer', 'DeliveryDraft', draftId, {
+        quoteCount: draft.quotes.length,
+        waMessageId: sent.waMessageId,
+      });
+      return { sent: true, draft: updated, message, waMessageId: sent.waMessageId };
+    } catch (error) {
+      // Offer did not reach WhatsApp — do not leave the draft waiting for a selection.
+      await this.prisma.deliveryDraft.update({
+        where: { id: draftId },
+        data: { status: 'QUOTED' },
+      }).catch(() => undefined);
+      await this.audit(userId, 'SYSTEM', 'quote.send_to_customer_failed', 'DeliveryDraft', draftId, {
+        error: error instanceof Error ? error.message.slice(0, 300) : 'send failed',
+      });
+      throw new BadRequestException(
+        'Could not send quote to customer on WhatsApp. Check WhatsApp connection, credits, and the 24-hour customer service window, then try again.',
+      );
+    }
+  }
+
+  private async tryHandleCustomerQuoteSelection(
+    conv: { id: string; userId: string; customerWaId: string },
+    text: string,
+  ): Promise<{ handled: boolean }> {
+    const draft = await this.prisma.deliveryDraft.findFirst({
+      where: {
+        conversationId: conv.id,
+        status: 'AWAITING_CUSTOMER_SELECTION',
+      },
+      orderBy: { updatedAt: 'desc' },
+      include: { quotes: { orderBy: { score: 'asc' } } },
+    });
+    if (!draft) return { handled: false };
+    if (!draft.quotes.length) return { handled: false };
+
+    const selection = parseQuoteSelection(text, draft.quotes.length);
+    if (selection === null) {
+      // Not a valid option number; keep waiting and remind the customer.
+      await this.sendReply(
+        conv.userId,
+        conv.customerWaId,
+        `Please reply with a number between 1 and ${draft.quotes.length} to choose your delivery option.`,
+        conv.id,
+      );
+      await this.audit(conv.userId, 'AI', 'quote.invalid_selection_reply', 'DeliveryDraft', draft.id, {});
+      return { handled: true };
+    }
+
+    const quote = draft.quotes[selection - 1];
+    await this.prisma.deliveryDraft.update({
+      where: { id: draft.id },
+      data: {
+        status: 'CUSTOMER_SELECTED',
+        customerSelectedQuoteId: quote.id,
+        customerSelectionAt: new Date(),
+      },
+    });
+    await this.sendReply(
+      conv.userId,
+      conv.customerWaId,
+      `✅ You selected option ${selection}: ${quote.courierName} — ${quote.currency} ${Number(quote.amount).toLocaleString('en-NG')}.\n\nOur team will now confirm and send the next step/payment link.`,
+      conv.id,
+    );
+    await this.audit(conv.userId, 'AI', 'quote.customer_selected', 'DeliveryDraft', draft.id, {
+      quoteId: quote.id,
+      selection,
+    });
+    return { handled: true };
+  }
+
   // ---- Approval: the ONLY path from AI draft to a real delivery. Reuses credits+checkout+booking. ----
   async approve(userId: string, draftId: string, dto: ApproveDraftDto) {
     const draft = await this.getDraft(userId, draftId);
+    const effectiveQuoteId =
+      dto.quoteId ?? (draft as any).customerSelectedQuoteId;
     const idempotencyKey =
-      dto.idempotencyKey ?? `approve:${draftId}:${dto.quoteId}`;
+      dto.idempotencyKey ??
+      `approve:${draftId}:${effectiveQuoteId ?? 'none'}`;
     const existing = await this.prisma.approval.findUnique({
       where: { idempotencyKey },
     });
@@ -855,7 +999,13 @@ export class AiDeliveryService {
       throw new ConflictException('Draft was rejected');
     if (draft.deliveryId)
       return { deliveryId: draft.deliveryId, alreadyProcessed: true };
-    const quote = draft.quotes.find((q) => q.id === dto.quoteId);
+    if (draft.status === 'AWAITING_CUSTOMER_SELECTION') {
+      throw new ConflictException('Waiting for the customer to select a quote option on WhatsApp');
+    }
+    if (!effectiveQuoteId) {
+      throw new BadRequestException('Select a quote, or wait for the customer to select one on WhatsApp');
+    }
+    const quote = draft.quotes.find((q) => q.id === effectiveQuoteId);
     if (!quote)
       throw new BadRequestException(
         'Selected quote does not belong to this draft',

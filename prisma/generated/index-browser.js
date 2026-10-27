@@ -368,6 +368,10 @@ exports.Prisma.DeliveryDraftScalarFieldEnum = {
   extracted: 'extracted',
   missingFields: 'missingFields',
   confidence: 'confidence',
+  customerSelectedQuoteId: 'customerSelectedQuoteId',
+  quoteOfferSentAt: 'quoteOfferSentAt',
+  quoteOfferMessageId: 'quoteOfferMessageId',
+  customerSelectionAt: 'customerSelectionAt',
   deliveryId: 'deliveryId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

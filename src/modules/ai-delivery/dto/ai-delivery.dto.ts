@@ -100,7 +100,8 @@ export class UpdateDraftDto {
 }
 
 export class ApproveDraftDto {
-  @ApiProperty() @IsString() @IsNotEmpty() quoteId!: string;
+  @ApiPropertyOptional({ description: 'Optional when the customer already selected a quote on WhatsApp' })
+  @IsOptional() @IsString() quoteId?: string;
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
@@ -132,6 +133,12 @@ export class AdminSetDetectionDto {
   @ApiProperty()
   @IsBoolean()
   aiDeliveryDetectionEnabled!: boolean;
+}
+
+export class SendQuoteToCustomerDto {
+  @ApiPropertyOptional({ description: 'Optional exact message text. If omitted, backend builds the numbered quote message from stored quotes.' })
+  @IsOptional() @IsString() @MaxLength(4000)
+  message?: string;
 }
 
 export class RejectDraftDto {

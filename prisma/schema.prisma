@@ -334,6 +334,10 @@ model DeliveryDraft {
   extracted       Json?
   missingFields   String[]
   confidence      Float?
+  customerSelectedQuoteId String?
+  quoteOfferSentAt DateTime?
+  quoteOfferMessageId String?
+  customerSelectionAt DateTime?
   deliveryId      String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt

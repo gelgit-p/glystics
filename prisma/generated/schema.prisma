@@ -307,41 +307,45 @@ model AiMessage {
 }
 
 model DeliveryDraft {
-  id                   String          @id @default(uuid())
-  userId               String
-  conversationId       String?
-  status               String          @default("COLLECTING")
-  senderName           String?
-  senderPhone          String?
-  senderAddress        String?
-  senderEmail          String?
-  receiverName         String?
-  receiverPhone        String?
-  receiverAddress      String?
-  receiverEmail        String?
-  packageName          String?
-  packageDescription   String?
-  packageCategory      String?
-  packageCategoryId    Int?
-  packageWeight        String?
-  packageValue         String?
-  packageQuantity      Int?
-  length               Float?
-  width                Float?
-  height               Float?
-  pickupDate           String?
-  deliveryType         String?
-  deliveryInstructions String?
-  extracted            Json?
-  missingFields        String[]
-  confidence           Float?
-  deliveryId           String?
-  createdAt            DateTime        @default(now())
-  updatedAt            DateTime        @updatedAt
-  user                 User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  conversation         AiConversation? @relation(fields: [conversationId], references: [id], onDelete: SetNull)
-  quotes               ProviderQuote[]
-  approvals            Approval[]
+  id                      String          @id @default(uuid())
+  userId                  String
+  conversationId          String?
+  status                  String          @default("COLLECTING")
+  senderName              String?
+  senderPhone             String?
+  senderAddress           String?
+  senderEmail             String?
+  receiverName            String?
+  receiverPhone           String?
+  receiverAddress         String?
+  receiverEmail           String?
+  packageName             String?
+  packageDescription      String?
+  packageCategory         String?
+  packageCategoryId       Int?
+  packageWeight           String?
+  packageValue            String?
+  packageQuantity         Int?
+  length                  Float?
+  width                   Float?
+  height                  Float?
+  pickupDate              String?
+  deliveryType            String?
+  deliveryInstructions    String?
+  extracted               Json?
+  missingFields           String[]
+  confidence              Float?
+  customerSelectedQuoteId String?
+  quoteOfferSentAt        DateTime?
+  quoteOfferMessageId     String?
+  customerSelectionAt     DateTime?
+  deliveryId              String?
+  createdAt               DateTime        @default(now())
+  updatedAt               DateTime        @updatedAt
+  user                    User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conversation            AiConversation? @relation(fields: [conversationId], references: [id], onDelete: SetNull)
+  quotes                  ProviderQuote[]
+  approvals               Approval[]
 
   @@index([userId, status])
   @@index([conversationId])

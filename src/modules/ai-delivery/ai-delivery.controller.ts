@@ -21,6 +21,7 @@ import {
   AdminSetRoleDto,
   ApproveDraftDto,
   RejectDraftDto,
+  SendQuoteToCustomerDto,
   SenderProfileDto,
   SimulateInboundDto,
   UpdateAiSettingsDto,
@@ -69,6 +70,16 @@ export class AiDeliveryController {
   }
   @Post('drafts/:id/quotes') quotes(@Req() r: Authed, @Param('id') id: string) {
     return this.service.fetchQuotes(r.user.id, id);
+  }
+  @Get('drafts/:id/quote-offer') quoteOffer(@Req() r: Authed, @Param('id') id: string) {
+    return this.service.buildQuoteOffer(r.user.id, id).then((x) => ({ message: x.message, quotes: x.quotes }));
+  }
+  @Post('drafts/:id/send-quote') sendQuote(
+    @Req() r: Authed,
+    @Param('id') id: string,
+    @Body() dto: SendQuoteToCustomerDto,
+  ) {
+    return this.service.sendQuoteToCustomer(r.user.id, id, dto);
   }
   @Get('approvals') approvals(@Req() r: Authed) {
     return this.service.listApprovals(r.user.id);

@@ -17222,6 +17222,10 @@ export namespace Prisma {
     deliveryType: string | null
     deliveryInstructions: string | null
     confidence: number | null
+    customerSelectedQuoteId: string | null
+    quoteOfferSentAt: Date | null
+    quoteOfferMessageId: string | null
+    customerSelectionAt: Date | null
     deliveryId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -17254,6 +17258,10 @@ export namespace Prisma {
     deliveryType: string | null
     deliveryInstructions: string | null
     confidence: number | null
+    customerSelectedQuoteId: string | null
+    quoteOfferSentAt: Date | null
+    quoteOfferMessageId: string | null
+    customerSelectionAt: Date | null
     deliveryId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -17288,6 +17296,10 @@ export namespace Prisma {
     extracted: number
     missingFields: number
     confidence: number
+    customerSelectedQuoteId: number
+    quoteOfferSentAt: number
+    quoteOfferMessageId: number
+    customerSelectionAt: number
     deliveryId: number
     createdAt: number
     updatedAt: number
@@ -17340,6 +17352,10 @@ export namespace Prisma {
     deliveryType?: true
     deliveryInstructions?: true
     confidence?: true
+    customerSelectedQuoteId?: true
+    quoteOfferSentAt?: true
+    quoteOfferMessageId?: true
+    customerSelectionAt?: true
     deliveryId?: true
     createdAt?: true
     updatedAt?: true
@@ -17372,6 +17388,10 @@ export namespace Prisma {
     deliveryType?: true
     deliveryInstructions?: true
     confidence?: true
+    customerSelectedQuoteId?: true
+    quoteOfferSentAt?: true
+    quoteOfferMessageId?: true
+    customerSelectionAt?: true
     deliveryId?: true
     createdAt?: true
     updatedAt?: true
@@ -17406,6 +17426,10 @@ export namespace Prisma {
     extracted?: true
     missingFields?: true
     confidence?: true
+    customerSelectedQuoteId?: true
+    quoteOfferSentAt?: true
+    quoteOfferMessageId?: true
+    customerSelectionAt?: true
     deliveryId?: true
     createdAt?: true
     updatedAt?: true
@@ -17527,6 +17551,10 @@ export namespace Prisma {
     extracted: JsonValue | null
     missingFields: string[]
     confidence: number | null
+    customerSelectedQuoteId: string | null
+    quoteOfferSentAt: Date | null
+    quoteOfferMessageId: string | null
+    customerSelectionAt: Date | null
     deliveryId: string | null
     createdAt: Date
     updatedAt: Date
@@ -17580,6 +17608,10 @@ export namespace Prisma {
     extracted?: boolean
     missingFields?: boolean
     confidence?: boolean
+    customerSelectedQuoteId?: boolean
+    quoteOfferSentAt?: boolean
+    quoteOfferMessageId?: boolean
+    customerSelectionAt?: boolean
     deliveryId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -17619,6 +17651,10 @@ export namespace Prisma {
     extracted?: boolean
     missingFields?: boolean
     confidence?: boolean
+    customerSelectedQuoteId?: boolean
+    quoteOfferSentAt?: boolean
+    quoteOfferMessageId?: boolean
+    customerSelectionAt?: boolean
     deliveryId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -17655,6 +17691,10 @@ export namespace Prisma {
     extracted?: boolean
     missingFields?: boolean
     confidence?: boolean
+    customerSelectedQuoteId?: boolean
+    quoteOfferSentAt?: boolean
+    quoteOfferMessageId?: boolean
+    customerSelectionAt?: boolean
     deliveryId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -17691,12 +17731,16 @@ export namespace Prisma {
     extracted?: boolean
     missingFields?: boolean
     confidence?: boolean
+    customerSelectedQuoteId?: boolean
+    quoteOfferSentAt?: boolean
+    quoteOfferMessageId?: boolean
+    customerSelectionAt?: boolean
     deliveryId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type DeliveryDraftOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "conversationId" | "status" | "senderName" | "senderPhone" | "senderAddress" | "senderEmail" | "receiverName" | "receiverPhone" | "receiverAddress" | "receiverEmail" | "packageName" | "packageDescription" | "packageCategory" | "packageCategoryId" | "packageWeight" | "packageValue" | "packageQuantity" | "length" | "width" | "height" | "pickupDate" | "deliveryType" | "deliveryInstructions" | "extracted" | "missingFields" | "confidence" | "deliveryId" | "createdAt" | "updatedAt", ExtArgs["result"]["deliveryDraft"]>
+  export type DeliveryDraftOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "conversationId" | "status" | "senderName" | "senderPhone" | "senderAddress" | "senderEmail" | "receiverName" | "receiverPhone" | "receiverAddress" | "receiverEmail" | "packageName" | "packageDescription" | "packageCategory" | "packageCategoryId" | "packageWeight" | "packageValue" | "packageQuantity" | "length" | "width" | "height" | "pickupDate" | "deliveryType" | "deliveryInstructions" | "extracted" | "missingFields" | "confidence" | "customerSelectedQuoteId" | "quoteOfferSentAt" | "quoteOfferMessageId" | "customerSelectionAt" | "deliveryId" | "createdAt" | "updatedAt", ExtArgs["result"]["deliveryDraft"]>
   export type DeliveryDraftInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     conversation?: boolean | DeliveryDraft$conversationArgs<ExtArgs>
@@ -17750,6 +17794,10 @@ export namespace Prisma {
       extracted: Prisma.JsonValue | null
       missingFields: string[]
       confidence: number | null
+      customerSelectedQuoteId: string | null
+      quoteOfferSentAt: Date | null
+      quoteOfferMessageId: string | null
+      customerSelectionAt: Date | null
       deliveryId: string | null
       createdAt: Date
       updatedAt: Date
@@ -18208,6 +18256,10 @@ export namespace Prisma {
     readonly extracted: FieldRef<"DeliveryDraft", 'Json'>
     readonly missingFields: FieldRef<"DeliveryDraft", 'String[]'>
     readonly confidence: FieldRef<"DeliveryDraft", 'Float'>
+    readonly customerSelectedQuoteId: FieldRef<"DeliveryDraft", 'String'>
+    readonly quoteOfferSentAt: FieldRef<"DeliveryDraft", 'DateTime'>
+    readonly quoteOfferMessageId: FieldRef<"DeliveryDraft", 'String'>
+    readonly customerSelectionAt: FieldRef<"DeliveryDraft", 'DateTime'>
     readonly deliveryId: FieldRef<"DeliveryDraft", 'String'>
     readonly createdAt: FieldRef<"DeliveryDraft", 'DateTime'>
     readonly updatedAt: FieldRef<"DeliveryDraft", 'DateTime'>
@@ -23442,6 +23494,10 @@ export namespace Prisma {
     extracted: 'extracted',
     missingFields: 'missingFields',
     confidence: 'confidence',
+    customerSelectedQuoteId: 'customerSelectedQuoteId',
+    quoteOfferSentAt: 'quoteOfferSentAt',
+    quoteOfferMessageId: 'quoteOfferMessageId',
+    customerSelectionAt: 'customerSelectionAt',
     deliveryId: 'deliveryId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -25030,6 +25086,10 @@ export namespace Prisma {
     extracted?: JsonNullableFilter<"DeliveryDraft">
     missingFields?: StringNullableListFilter<"DeliveryDraft">
     confidence?: FloatNullableFilter<"DeliveryDraft"> | number | null
+    customerSelectedQuoteId?: StringNullableFilter<"DeliveryDraft"> | string | null
+    quoteOfferSentAt?: DateTimeNullableFilter<"DeliveryDraft"> | Date | string | null
+    quoteOfferMessageId?: StringNullableFilter<"DeliveryDraft"> | string | null
+    customerSelectionAt?: DateTimeNullableFilter<"DeliveryDraft"> | Date | string | null
     deliveryId?: StringNullableFilter<"DeliveryDraft"> | string | null
     createdAt?: DateTimeFilter<"DeliveryDraft"> | Date | string
     updatedAt?: DateTimeFilter<"DeliveryDraft"> | Date | string
@@ -25068,6 +25128,10 @@ export namespace Prisma {
     extracted?: SortOrderInput | SortOrder
     missingFields?: SortOrder
     confidence?: SortOrderInput | SortOrder
+    customerSelectedQuoteId?: SortOrderInput | SortOrder
+    quoteOfferSentAt?: SortOrderInput | SortOrder
+    quoteOfferMessageId?: SortOrderInput | SortOrder
+    customerSelectionAt?: SortOrderInput | SortOrder
     deliveryId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -25109,6 +25173,10 @@ export namespace Prisma {
     extracted?: JsonNullableFilter<"DeliveryDraft">
     missingFields?: StringNullableListFilter<"DeliveryDraft">
     confidence?: FloatNullableFilter<"DeliveryDraft"> | number | null
+    customerSelectedQuoteId?: StringNullableFilter<"DeliveryDraft"> | string | null
+    quoteOfferSentAt?: DateTimeNullableFilter<"DeliveryDraft"> | Date | string | null
+    quoteOfferMessageId?: StringNullableFilter<"DeliveryDraft"> | string | null
+    customerSelectionAt?: DateTimeNullableFilter<"DeliveryDraft"> | Date | string | null
     deliveryId?: StringNullableFilter<"DeliveryDraft"> | string | null
     createdAt?: DateTimeFilter<"DeliveryDraft"> | Date | string
     updatedAt?: DateTimeFilter<"DeliveryDraft"> | Date | string
@@ -25147,6 +25215,10 @@ export namespace Prisma {
     extracted?: SortOrderInput | SortOrder
     missingFields?: SortOrder
     confidence?: SortOrderInput | SortOrder
+    customerSelectedQuoteId?: SortOrderInput | SortOrder
+    quoteOfferSentAt?: SortOrderInput | SortOrder
+    quoteOfferMessageId?: SortOrderInput | SortOrder
+    customerSelectionAt?: SortOrderInput | SortOrder
     deliveryId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -25189,6 +25261,10 @@ export namespace Prisma {
     extracted?: JsonNullableWithAggregatesFilter<"DeliveryDraft">
     missingFields?: StringNullableListFilter<"DeliveryDraft">
     confidence?: FloatNullableWithAggregatesFilter<"DeliveryDraft"> | number | null
+    customerSelectedQuoteId?: StringNullableWithAggregatesFilter<"DeliveryDraft"> | string | null
+    quoteOfferSentAt?: DateTimeNullableWithAggregatesFilter<"DeliveryDraft"> | Date | string | null
+    quoteOfferMessageId?: StringNullableWithAggregatesFilter<"DeliveryDraft"> | string | null
+    customerSelectionAt?: DateTimeNullableWithAggregatesFilter<"DeliveryDraft"> | Date | string | null
     deliveryId?: StringNullableWithAggregatesFilter<"DeliveryDraft"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"DeliveryDraft"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"DeliveryDraft"> | Date | string
@@ -27120,6 +27196,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
     confidence?: number | null
+    customerSelectedQuoteId?: string | null
+    quoteOfferSentAt?: Date | string | null
+    quoteOfferMessageId?: string | null
+    customerSelectionAt?: Date | string | null
     deliveryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -27158,6 +27238,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
     confidence?: number | null
+    customerSelectedQuoteId?: string | null
+    quoteOfferSentAt?: Date | string | null
+    quoteOfferMessageId?: string | null
+    customerSelectionAt?: Date | string | null
     deliveryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -27192,6 +27276,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
     confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    customerSelectedQuoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteOfferSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quoteOfferMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    customerSelectionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27230,6 +27318,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
     confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    customerSelectedQuoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteOfferSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quoteOfferMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    customerSelectionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27266,6 +27358,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
     confidence?: number | null
+    customerSelectedQuoteId?: string | null
+    quoteOfferSentAt?: Date | string | null
+    quoteOfferMessageId?: string | null
+    customerSelectionAt?: Date | string | null
     deliveryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -27298,6 +27394,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
     confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    customerSelectedQuoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteOfferSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quoteOfferMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    customerSelectionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27332,6 +27432,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
     confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    customerSelectedQuoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteOfferSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quoteOfferMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    customerSelectionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28964,6 +29068,10 @@ export namespace Prisma {
     extracted?: SortOrder
     missingFields?: SortOrder
     confidence?: SortOrder
+    customerSelectedQuoteId?: SortOrder
+    quoteOfferSentAt?: SortOrder
+    quoteOfferMessageId?: SortOrder
+    customerSelectionAt?: SortOrder
     deliveryId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -29005,6 +29113,10 @@ export namespace Prisma {
     deliveryType?: SortOrder
     deliveryInstructions?: SortOrder
     confidence?: SortOrder
+    customerSelectedQuoteId?: SortOrder
+    quoteOfferSentAt?: SortOrder
+    quoteOfferMessageId?: SortOrder
+    customerSelectionAt?: SortOrder
     deliveryId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -29037,6 +29149,10 @@ export namespace Prisma {
     deliveryType?: SortOrder
     deliveryInstructions?: SortOrder
     confidence?: SortOrder
+    customerSelectedQuoteId?: SortOrder
+    quoteOfferSentAt?: SortOrder
+    quoteOfferMessageId?: SortOrder
+    customerSelectionAt?: SortOrder
     deliveryId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -30523,6 +30639,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
     confidence?: number | null
+    customerSelectedQuoteId?: string | null
+    quoteOfferSentAt?: Date | string | null
+    quoteOfferMessageId?: string | null
+    customerSelectionAt?: Date | string | null
     deliveryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -30559,6 +30679,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
     confidence?: number | null
+    customerSelectedQuoteId?: string | null
+    quoteOfferSentAt?: Date | string | null
+    quoteOfferMessageId?: string | null
+    customerSelectionAt?: Date | string | null
     deliveryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -30755,6 +30879,10 @@ export namespace Prisma {
     extracted?: JsonNullableFilter<"DeliveryDraft">
     missingFields?: StringNullableListFilter<"DeliveryDraft">
     confidence?: FloatNullableFilter<"DeliveryDraft"> | number | null
+    customerSelectedQuoteId?: StringNullableFilter<"DeliveryDraft"> | string | null
+    quoteOfferSentAt?: DateTimeNullableFilter<"DeliveryDraft"> | Date | string | null
+    quoteOfferMessageId?: StringNullableFilter<"DeliveryDraft"> | string | null
+    customerSelectionAt?: DateTimeNullableFilter<"DeliveryDraft"> | Date | string | null
     deliveryId?: StringNullableFilter<"DeliveryDraft"> | string | null
     createdAt?: DateTimeFilter<"DeliveryDraft"> | Date | string
     updatedAt?: DateTimeFilter<"DeliveryDraft"> | Date | string
@@ -31749,6 +31877,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
     confidence?: number | null
+    customerSelectedQuoteId?: string | null
+    quoteOfferSentAt?: Date | string | null
+    quoteOfferMessageId?: string | null
+    customerSelectionAt?: Date | string | null
     deliveryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31785,6 +31917,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
     confidence?: number | null
+    customerSelectedQuoteId?: string | null
+    quoteOfferSentAt?: Date | string | null
+    quoteOfferMessageId?: string | null
+    customerSelectionAt?: Date | string | null
     deliveryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32396,6 +32532,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
     confidence?: number | null
+    customerSelectedQuoteId?: string | null
+    quoteOfferSentAt?: Date | string | null
+    quoteOfferMessageId?: string | null
+    customerSelectionAt?: Date | string | null
     deliveryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32433,6 +32573,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
     confidence?: number | null
+    customerSelectedQuoteId?: string | null
+    quoteOfferSentAt?: Date | string | null
+    quoteOfferMessageId?: string | null
+    customerSelectionAt?: Date | string | null
     deliveryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32482,6 +32626,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
     confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    customerSelectedQuoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteOfferSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quoteOfferMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    customerSelectionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32519,6 +32667,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
     confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    customerSelectedQuoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteOfferSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quoteOfferMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    customerSelectionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32552,6 +32704,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
     confidence?: number | null
+    customerSelectedQuoteId?: string | null
+    quoteOfferSentAt?: Date | string | null
+    quoteOfferMessageId?: string | null
+    customerSelectionAt?: Date | string | null
     deliveryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32589,6 +32745,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
     confidence?: number | null
+    customerSelectedQuoteId?: string | null
+    quoteOfferSentAt?: Date | string | null
+    quoteOfferMessageId?: string | null
+    customerSelectionAt?: Date | string | null
     deliveryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32638,6 +32798,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
     confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    customerSelectedQuoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteOfferSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quoteOfferMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    customerSelectionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32675,6 +32839,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
     confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    customerSelectedQuoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteOfferSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quoteOfferMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    customerSelectionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32749,6 +32917,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
     confidence?: number | null
+    customerSelectedQuoteId?: string | null
+    quoteOfferSentAt?: Date | string | null
+    quoteOfferMessageId?: string | null
+    customerSelectionAt?: Date | string | null
     deliveryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32905,6 +33077,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
     confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    customerSelectedQuoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteOfferSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quoteOfferMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    customerSelectionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32941,6 +33117,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
     confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    customerSelectedQuoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteOfferSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quoteOfferMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    customerSelectionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32976,6 +33156,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
     confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    customerSelectedQuoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteOfferSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quoteOfferMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    customerSelectionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33190,6 +33374,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
     confidence?: number | null
+    customerSelectedQuoteId?: string | null
+    quoteOfferSentAt?: Date | string | null
+    quoteOfferMessageId?: string | null
+    customerSelectionAt?: Date | string | null
     deliveryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -33261,6 +33449,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
     confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    customerSelectedQuoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteOfferSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quoteOfferMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    customerSelectionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33297,6 +33489,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
     confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    customerSelectedQuoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteOfferSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quoteOfferMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    customerSelectionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33332,6 +33528,10 @@ export namespace Prisma {
     extracted?: NullableJsonNullValueInput | InputJsonValue
     missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
     confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    customerSelectedQuoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    quoteOfferSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quoteOfferMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    customerSelectionAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
