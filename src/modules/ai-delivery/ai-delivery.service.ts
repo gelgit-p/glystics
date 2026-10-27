@@ -294,7 +294,7 @@ export class AiDeliveryService {
         this.prisma.deliveryDraft.findFirst({
           where: {
             conversationId: conv.id,
-            status: { in: ['COLLECTING', 'READY', 'QUOTED', 'AWAITING_CUSTOMER_SELECTION', 'CUSTOMER_SELECTED'] },
+            status: { in: ['COLLECTING', 'READY', 'QUOTED', 'AWAITING_CUSTOMER_SELECTION', 'CUSTOMER_SELECTED', 'PAYMENT_LINK_SENT'] },
           },
           orderBy: { createdAt: 'desc' },
         }),
@@ -545,7 +545,7 @@ export class AiDeliveryService {
         this.prisma.deliveryDraft.count({
           where: {
             userId,
-            status: { in: ['READY', 'QUOTED', 'AWAITING_APPROVAL', 'AWAITING_CUSTOMER_SELECTION', 'CUSTOMER_SELECTED'] },
+            status: { in: ['READY', 'QUOTED', 'AWAITING_APPROVAL', 'AWAITING_CUSTOMER_SELECTION', 'CUSTOMER_SELECTED', 'PAYMENT_LINK_SENT'] },
           },
         }),
         this.prisma.aiAuditEvent.count({ where: { userId } }),
@@ -623,7 +623,7 @@ export class AiDeliveryService {
     if (!Object.keys(patch).length) return draft;
     const merged = { ...this.draftToFields(draft as Record<string, any>), ...patch };
     const missing = computeMissingFields(merged);
-    const status = ['QUOTED', 'AWAITING_CUSTOMER_SELECTION', 'CUSTOMER_SELECTED'].includes(draft.status) ? draft.status : missing.length ? 'COLLECTING' : 'READY';
+    const status = ['QUOTED', 'AWAITING_CUSTOMER_SELECTION', 'CUSTOMER_SELECTED', 'PAYMENT_LINK_SENT'].includes(draft.status) ? draft.status : missing.length ? 'COLLECTING' : 'READY';
     const updated = await this.prisma.deliveryDraft.update({
       where: { id: draft.id },
       data: { ...patch, missingFields: missing, status },
@@ -661,7 +661,7 @@ export class AiDeliveryService {
         ...dto,
         missingFields: missing,
         status:
-          ['QUOTED', 'AWAITING_CUSTOMER_SELECTION', 'CUSTOMER_SELECTED'].includes(draft.status) && !missing.length
+          ['QUOTED', 'AWAITING_CUSTOMER_SELECTION', 'CUSTOMER_SELECTED', 'PAYMENT_LINK_SENT'].includes(draft.status) && !missing.length
             ? draft.status
             : missing.length
               ? 'COLLECTING'
@@ -677,7 +677,7 @@ export class AiDeliveryService {
     return this.prisma.deliveryDraft.findMany({
       where: {
         userId,
-        status: { in: ['READY', 'QUOTED', 'AWAITING_APPROVAL', 'AWAITING_CUSTOMER_SELECTION', 'CUSTOMER_SELECTED'] },
+        status: { in: ['READY', 'QUOTED', 'AWAITING_APPROVAL', 'AWAITING_CUSTOMER_SELECTION', 'CUSTOMER_SELECTED', 'PAYMENT_LINK_SENT'] },
       },
       orderBy: { updatedAt: 'asc' },
       include: {
@@ -965,17 +965,114 @@ export class AiDeliveryService {
         customerSelectionAt: new Date(),
       },
     });
-    await this.sendReply(
-      conv.userId,
-      conv.customerWaId,
-      `✅ You selected option ${selection}: ${quote.courierName} — ${quote.currency} ${Number(quote.amount).toLocaleString('en-NG')}.\n\nOur team will now confirm and send the next step/payment link.`,
-      conv.id,
-    );
     await this.audit(conv.userId, 'AI', 'quote.customer_selected', 'DeliveryDraft', draft.id, {
       quoteId: quote.id,
       selection,
     });
+    // End-to-end in chat: create delivery/checkout and text the payment link now.
+    // Owner dashboard no longer needs to open/redirect the checkout.
+    try {
+      const result: any = await this.sendPaymentLinkToCustomer(conv.userId, draft.id, selection);
+      // sendPaymentLinkToCustomer's message does not include the option number;
+      // the customer already knows their choice from the confirmation audit trail.
+      void result;
+    } catch (error) {
+      this.logger.warn(`Payment link generation failed for draft ${draft.id}: ${error instanceof Error ? error.message : error}`);
+      await this.sendReply(
+        conv.userId,
+        conv.customerWaId,
+        `✅ You selected option ${selection}: ${quote.courierName} — ${quote.currency} ${Number(quote.amount).toLocaleString('en-NG', { maximumFractionDigits: 2 })}.\n\nOur team will confirm shortly and send your payment link.`,
+        conv.id,
+      );
+      await this.audit(conv.userId, 'SYSTEM', 'payment_link.generation_failed', 'DeliveryDraft', draft.id, {
+        quoteId: quote.id,
+        selection,
+      });
+    }
     return { handled: true };
+  }
+
+  private paymentLinkMessage(input: {
+    courierName: string;
+    currency: string;
+    amount: number;
+    checkoutUrl: string;
+    trackingId?: string;
+    selection?: number;
+  }): string {
+    return [
+      ...(input.selection
+        ? [`✅ You selected option ${input.selection}: ${input.courierName} — ${input.currency} ${Number(input.amount).toLocaleString('en-NG', { maximumFractionDigits: 2 })}.`]
+        : [`✅ Your delivery option is confirmed: ${input.courierName} — ${input.currency} ${Number(input.amount).toLocaleString('en-NG', { maximumFractionDigits: 2 })}.`]),
+      '',
+      'Please complete payment using this secure link:',
+      input.checkoutUrl,
+      '',
+      ...(input.trackingId ? [`Tracking ID: ${input.trackingId}`] : []),
+      'Your shipment will be booked after payment is confirmed.',
+    ].join('\n');
+  }
+
+  /**
+   * After a customer selects a quote (or owner approves), create delivery+checkout
+   * via approve() and send the checkout URL to the customer in WhatsApp as text.
+   * Idempotent: if a PENDING checkout already exists for the linked delivery, reuse its URL.
+   */
+  async sendPaymentLinkToCustomer(userId: string, draftId: string, selection?: number) {
+    let draft = await this.getDraft(userId, draftId);
+    if (!(draft as any).customerSelectedQuoteId && !(draft as any).deliveryId) {
+      throw new BadRequestException('Customer has not selected a quote option yet');
+    }
+
+    // Reuse an existing pending checkout instead of creating duplicate deliveries/charges.
+    if ((draft as any).deliveryId) {
+      const delivery = await this.prisma.delivery.findFirst({ where: { id: (draft as any).deliveryId, userId } });
+      if (delivery?.checkoutUrl && delivery.paymentStatus === 'PENDING') {
+        if (!draft.conversation?.customerWaId) throw new BadRequestException('Draft is not linked to a WhatsApp customer');
+        const quote = draft.quotes.find((q: any) => q.id === (draft as any).customerSelectedQuoteId) ?? draft.quotes[0];
+        const message = this.paymentLinkMessage({
+          courierName: quote?.courierName ?? delivery.courier_name ?? 'selected courier',
+          currency: quote?.currency ?? delivery.paymentCurrency ?? 'NGN',
+          amount: quote?.amount ?? Number(delivery.paymentAmount ?? 0),
+          checkoutUrl: delivery.checkoutUrl,
+          trackingId: delivery.trackingId,
+          selection,
+        });
+        await this.sendOutboundWhatsApp(userId, draft.conversation.customerWaId, message, draft.conversationId!);
+        await this.prisma.deliveryDraft.update({ where: { id: draftId }, data: { status: 'PAYMENT_LINK_SENT' } });
+        await this.audit(userId, 'AI', 'payment_link.resent_to_customer', 'DeliveryDraft', draftId, { deliveryId: delivery.id });
+        return { sent: true, reusedCheckout: true, deliveryId: delivery.id, trackingId: delivery.trackingId, checkoutUrl: delivery.checkoutUrl, message };
+      }
+    }
+
+    // Creates delivery (credits) + Bachs checkout. Booking still only after payment webhook.
+    const approved: any = await this.approve(userId, draftId, {
+      quoteId: (draft as any).customerSelectedQuoteId ?? undefined,
+    });
+    draft = await this.getDraft(userId, draftId);
+    const checkoutUrl = approved?.checkout?.checkout_url;
+    if (!checkoutUrl) {
+      throw new BadRequestException('Checkout was created without a payment URL. Open the delivery in the dashboard to regenerate the payment link.');
+    }
+    if (!draft.conversation?.customerWaId) {
+      throw new BadRequestException('Draft is not linked to a WhatsApp customer, so the payment link could not be sent in chat');
+    }
+    const quote = draft.quotes.find((q: any) => q.id === ((draft as any).customerSelectedQuoteId ?? approved?.approval?.selectedQuoteId)) ?? draft.quotes[0];
+    const message = this.paymentLinkMessage({
+      courierName: quote?.courierName ?? 'selected courier',
+      currency: quote?.currency ?? approved?.checkout?.currency ?? 'NGN',
+      amount: quote?.amount ?? 0,
+      checkoutUrl,
+      trackingId: approved?.trackingId,
+      selection,
+    });
+    await this.sendOutboundWhatsApp(userId, draft.conversation.customerWaId, message, draft.conversationId!);
+    await this.prisma.deliveryDraft.update({ where: { id: draftId }, data: { status: 'PAYMENT_LINK_SENT' } });
+    await this.audit(userId, 'AI', 'payment_link.sent_to_customer', 'DeliveryDraft', draftId, {
+      deliveryId: approved.deliveryId,
+      trackingId: approved.trackingId,
+    });
+    return { sent: true, reusedCheckout: false, deliveryId: approved.deliveryId, trackingId: approved.trackingId, checkoutUrl, message };
   }
 
   // ---- Approval: the ONLY path from AI draft to a real delivery. Reuses credits+checkout+booking. ----

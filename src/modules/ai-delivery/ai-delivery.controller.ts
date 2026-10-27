@@ -74,6 +74,9 @@ export class AiDeliveryController {
   @Get('drafts/:id/quote-offer') quoteOffer(@Req() r: Authed, @Param('id') id: string) {
     return this.service.buildQuoteOffer(r.user.id, id).then((x) => ({ message: x.message, quotes: x.quotes }));
   }
+  @Post('drafts/:id/send-payment-link') sendPaymentLink(@Req() r: Authed, @Param('id') id: string) {
+    return this.service.sendPaymentLinkToCustomer(r.user.id, id);
+  }
   @Post('drafts/:id/send-quote') sendQuote(
     @Req() r: Authed,
     @Param('id') id: string,
