@@ -11,6 +11,7 @@ import { TokenDto } from './dto/token.dto';
 import * as crypto from "crypto";
 import { randomUUID } from 'node:crypto';
 import { CreditsService } from '../credits/credit.service';
+import { WebhookLogService } from './webhook-log.service';
 
 
 interface GenerateOptions {
@@ -48,6 +49,7 @@ export class WhatsappService {
     private readonly configService: ConfigService,
     private readonly prisma: PrismaService,
     private readonly creditsService: CreditsService,
+    private readonly webhookLogService: WebhookLogService,
   ) {
     const phoneNumberId = this.configService.get<string>('WHATSAPP_PHONE_NUMBER_ID');
     const version = this.configService.get<string>('WHATSAPP_VERSION');
@@ -318,55 +320,84 @@ export class WhatsappService {
   }
 
   async subscribeToWebhooks(dto: WebhookSubscriptionDto) {
-    // fetch accessToken with userId
-    console.log(dto, 'dto for subscribe to webhooks');
-    let find_acess_token = await this.prisma.user.findFirst({
-      where: {id: dto.userId}
-    })
-        const endpoint = `https://graph.facebook.com/v25.0/${find_acess_token?.selectedFacebookBusinessId}/subscribed_apps`;
-        const body = {
-          override_callback_uri: dto.override_callback_uri,
-          verify_token: dto.verify_token
-        }
-
+    if (!dto.userId) throw new BadRequestException('Authenticated user is required');
+    const user = await this.prisma.user.findUnique({
+      where: { id: dto.userId },
+      select: { selectedFacebookBusinessId: true, facebookAcceessToken: true },
+    });
+    if (!user?.selectedFacebookBusinessId || !user.facebookAcceessToken) {
+      throw new BadRequestException('Connect Facebook and select a business before subscribing to WhatsApp webhooks');
+    }
+    const endpoint = `https://graph.facebook.com/v25.0/${user.selectedFacebookBusinessId}/subscribed_apps`;
+    // Never persist the supplied verify_token.
+    const body: Record<string, string> = {};
+    if (dto.override_callback_uri) body.override_callback_uri = dto.override_callback_uri;
+    if (dto.verify_token) body.verify_token = dto.verify_token;
     try {
       const response = await firstValueFrom(
         this.httpService.post(endpoint, body, {
           headers: {
-            Authorization: `Bearer ${find_acess_token?.facebookAcceessToken}`,
+            Authorization: 'Bearer ' + user.facebookAcceessToken,
             'Content-Type': 'application/json',
           },
         }),
       );
-
+      await this.webhookLogService.log({
+        userId: dto.userId, source: 'WHATSAPP', direction: 'SUBSCRIPTION',
+        eventType: 'whatsapp.webhook.subscribed', status: 'SUBSCRIBED',
+        summary: `Subscribed WABA ${user.selectedFacebookBusinessId} to webhook callbacks`,
+        payload: { override_callback_uri: dto.override_callback_uri ?? null },
+      });
+      await this.prisma.user.update({ where: { id: dto.userId }, data: { webhookStatus: true } }).catch(() => undefined);
       return response.data;
     } catch (error: any) {
-      throw error.response?.data || error.message;
+      const providerError = error?.response?.data?.error?.message ?? error?.response?.data?.message ?? error?.message ?? 'WhatsApp webhook subscription failed';
+      await this.webhookLogService.log({
+        userId: dto.userId, source: 'WHATSAPP', direction: 'SUBSCRIPTION',
+        eventType: 'whatsapp.webhook.subscribed', status: 'FAILED',
+        summary: 'WhatsApp webhook subscription failed', error: String(providerError),
+        payload: { override_callback_uri: dto.override_callback_uri ?? null },
+      });
+      throw new BadRequestException(String(providerError));
     }
   }
 
-    async getAllWabaSubscriptions(userId: string) {
-    // fetch accessToken with userId
-    let find_acess_token = await this.prisma.user.findFirst({
-      where: {id: userId}
-    })
-        const endpoint = `https://graph.facebook.com/v25.0/${find_acess_token?.selectedFacebookBusinessId}/subscribed_apps`;
-
+  async getAllWabaSubscriptions(userId: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { selectedFacebookBusinessId: true, facebookAcceessToken: true },
+    });
+    if (!user?.selectedFacebookBusinessId || !user.facebookAcceessToken) {
+      return { data: [], subscriptions: [], warning: 'Connect Facebook and select a business to load WhatsApp webhook subscriptions' };
+    }
+    const endpoint = `https://graph.facebook.com/v25.0/${user.selectedFacebookBusinessId}/subscribed_apps`;
     try {
       const response = await firstValueFrom(
-        this.httpService.post(endpoint, {
-          headers: {
-            Authorization: `Bearer ${find_acess_token?.facebookAcceessToken}`,
-            'Content-Type': 'application/json',
-          },
+        this.httpService.get(endpoint, {
+          headers: { Authorization: 'Bearer ' + user.facebookAcceessToken },
         }),
       );
-
+      await this.webhookLogService.log({
+        userId, source: 'WHATSAPP', direction: 'SUBSCRIPTION',
+        eventType: 'whatsapp.webhook.subscriptions_checked', status: 'CHECKED',
+        summary: 'Loaded WhatsApp webhook subscriptions from Meta',
+      });
       return response.data;
     } catch (error: any) {
-      throw error.response?.data || error.message;
+      const providerError = error?.response?.data?.error?.message ?? error?.message ?? 'Failed to load WhatsApp webhook subscriptions';
+      await this.webhookLogService.log({
+        userId, source: 'WHATSAPP', direction: 'SUBSCRIPTION',
+        eventType: 'whatsapp.webhook.subscriptions_checked', status: 'FAILED',
+        summary: 'Failed to load WhatsApp webhook subscriptions', error: String(providerError),
+      });
+      throw new BadRequestException(String(providerError));
     }
   }
+
+  async getWebhookLogs(userId: string, source?: string, status?: string, limit?: number) {
+    return this.webhookLogService.listForUser(userId, { source, status, limit });
+  }
+
 
   async createMessageTemplate(
     dto: CreateMessageTemplateDto,

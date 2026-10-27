@@ -404,6 +404,21 @@ exports.Prisma.ApprovalScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.WebhookEventLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  source: 'source',
+  eventType: 'eventType',
+  direction: 'direction',
+  status: 'status',
+  externalId: 'externalId',
+  phoneNumberId: 'phoneNumberId',
+  summary: 'summary',
+  payload: 'payload',
+  error: 'error',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.AiAuditEventScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -480,6 +495,7 @@ exports.Prisma.ModelName = {
   DeliveryDraft: 'DeliveryDraft',
   ProviderQuote: 'ProviderQuote',
   Approval: 'Approval',
+  WebhookEventLog: 'WebhookEventLog',
   AiAuditEvent: 'AiAuditEvent'
 };
 

@@ -89,6 +89,11 @@ export type ProviderQuote = $Result.DefaultSelection<Prisma.$ProviderQuotePayloa
  */
 export type Approval = $Result.DefaultSelection<Prisma.$ApprovalPayload>
 /**
+ * Model WebhookEventLog
+ * 
+ */
+export type WebhookEventLog = $Result.DefaultSelection<Prisma.$WebhookEventLogPayload>
+/**
  * Model AiAuditEvent
  * 
  */
@@ -407,6 +412,16 @@ export class PrismaClient<
     * ```
     */
   get approval(): Prisma.ApprovalDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.webhookEventLog`: Exposes CRUD operations for the **WebhookEventLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WebhookEventLogs
+    * const webhookEventLogs = await prisma.webhookEventLog.findMany()
+    * ```
+    */
+  get webhookEventLog(): Prisma.WebhookEventLogDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.aiAuditEvent`: Exposes CRUD operations for the **AiAuditEvent** model.
@@ -873,6 +888,7 @@ export namespace Prisma {
     DeliveryDraft: 'DeliveryDraft',
     ProviderQuote: 'ProviderQuote',
     Approval: 'Approval',
+    WebhookEventLog: 'WebhookEventLog',
     AiAuditEvent: 'AiAuditEvent'
   };
 
@@ -892,7 +908,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "token" | "delivery" | "messageTemplate" | "creditWallet" | "creditTransaction" | "creditPackage" | "creditPurchase" | "automation" | "notification" | "aiConversation" | "aiMessage" | "deliveryDraft" | "providerQuote" | "approval" | "aiAuditEvent"
+      modelProps: "user" | "token" | "delivery" | "messageTemplate" | "creditWallet" | "creditTransaction" | "creditPackage" | "creditPurchase" | "automation" | "notification" | "aiConversation" | "aiMessage" | "deliveryDraft" | "providerQuote" | "approval" | "webhookEventLog" | "aiAuditEvent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2006,6 +2022,80 @@ export namespace Prisma {
           }
         }
       }
+      WebhookEventLog: {
+        payload: Prisma.$WebhookEventLogPayload<ExtArgs>
+        fields: Prisma.WebhookEventLogFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WebhookEventLogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookEventLogPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WebhookEventLogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookEventLogPayload>
+          }
+          findFirst: {
+            args: Prisma.WebhookEventLogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookEventLogPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WebhookEventLogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookEventLogPayload>
+          }
+          findMany: {
+            args: Prisma.WebhookEventLogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookEventLogPayload>[]
+          }
+          create: {
+            args: Prisma.WebhookEventLogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookEventLogPayload>
+          }
+          createMany: {
+            args: Prisma.WebhookEventLogCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WebhookEventLogCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookEventLogPayload>[]
+          }
+          delete: {
+            args: Prisma.WebhookEventLogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookEventLogPayload>
+          }
+          update: {
+            args: Prisma.WebhookEventLogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookEventLogPayload>
+          }
+          deleteMany: {
+            args: Prisma.WebhookEventLogDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WebhookEventLogUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WebhookEventLogUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookEventLogPayload>[]
+          }
+          upsert: {
+            args: Prisma.WebhookEventLogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookEventLogPayload>
+          }
+          aggregate: {
+            args: Prisma.WebhookEventLogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWebhookEventLog>
+          }
+          groupBy: {
+            args: Prisma.WebhookEventLogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WebhookEventLogGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WebhookEventLogCountArgs<ExtArgs>
+            result: $Utils.Optional<WebhookEventLogCountAggregateOutputType> | number
+          }
+        }
+      }
       AiAuditEvent: {
         payload: Prisma.$AiAuditEventPayload<ExtArgs>
         fields: Prisma.AiAuditEventFieldRefs
@@ -2191,6 +2281,7 @@ export namespace Prisma {
     deliveryDraft?: DeliveryDraftOmit
     providerQuote?: ProviderQuoteOmit
     approval?: ApprovalOmit
+    webhookEventLog?: WebhookEventLogOmit
     aiAuditEvent?: AiAuditEventOmit
   }
 
@@ -20943,6 +21034,1088 @@ export namespace Prisma {
 
 
   /**
+   * Model WebhookEventLog
+   */
+
+  export type AggregateWebhookEventLog = {
+    _count: WebhookEventLogCountAggregateOutputType | null
+    _min: WebhookEventLogMinAggregateOutputType | null
+    _max: WebhookEventLogMaxAggregateOutputType | null
+  }
+
+  export type WebhookEventLogMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    source: string | null
+    eventType: string | null
+    direction: string | null
+    status: string | null
+    externalId: string | null
+    phoneNumberId: string | null
+    summary: string | null
+    error: string | null
+    createdAt: Date | null
+  }
+
+  export type WebhookEventLogMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    source: string | null
+    eventType: string | null
+    direction: string | null
+    status: string | null
+    externalId: string | null
+    phoneNumberId: string | null
+    summary: string | null
+    error: string | null
+    createdAt: Date | null
+  }
+
+  export type WebhookEventLogCountAggregateOutputType = {
+    id: number
+    userId: number
+    source: number
+    eventType: number
+    direction: number
+    status: number
+    externalId: number
+    phoneNumberId: number
+    summary: number
+    payload: number
+    error: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type WebhookEventLogMinAggregateInputType = {
+    id?: true
+    userId?: true
+    source?: true
+    eventType?: true
+    direction?: true
+    status?: true
+    externalId?: true
+    phoneNumberId?: true
+    summary?: true
+    error?: true
+    createdAt?: true
+  }
+
+  export type WebhookEventLogMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    source?: true
+    eventType?: true
+    direction?: true
+    status?: true
+    externalId?: true
+    phoneNumberId?: true
+    summary?: true
+    error?: true
+    createdAt?: true
+  }
+
+  export type WebhookEventLogCountAggregateInputType = {
+    id?: true
+    userId?: true
+    source?: true
+    eventType?: true
+    direction?: true
+    status?: true
+    externalId?: true
+    phoneNumberId?: true
+    summary?: true
+    payload?: true
+    error?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type WebhookEventLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WebhookEventLog to aggregate.
+     */
+    where?: WebhookEventLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebhookEventLogs to fetch.
+     */
+    orderBy?: WebhookEventLogOrderByWithRelationInput | WebhookEventLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WebhookEventLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebhookEventLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebhookEventLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WebhookEventLogs
+    **/
+    _count?: true | WebhookEventLogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WebhookEventLogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WebhookEventLogMaxAggregateInputType
+  }
+
+  export type GetWebhookEventLogAggregateType<T extends WebhookEventLogAggregateArgs> = {
+        [P in keyof T & keyof AggregateWebhookEventLog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWebhookEventLog[P]>
+      : GetScalarType<T[P], AggregateWebhookEventLog[P]>
+  }
+
+
+
+
+  export type WebhookEventLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WebhookEventLogWhereInput
+    orderBy?: WebhookEventLogOrderByWithAggregationInput | WebhookEventLogOrderByWithAggregationInput[]
+    by: WebhookEventLogScalarFieldEnum[] | WebhookEventLogScalarFieldEnum
+    having?: WebhookEventLogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WebhookEventLogCountAggregateInputType | true
+    _min?: WebhookEventLogMinAggregateInputType
+    _max?: WebhookEventLogMaxAggregateInputType
+  }
+
+  export type WebhookEventLogGroupByOutputType = {
+    id: string
+    userId: string | null
+    source: string
+    eventType: string
+    direction: string
+    status: string
+    externalId: string | null
+    phoneNumberId: string | null
+    summary: string | null
+    payload: JsonValue | null
+    error: string | null
+    createdAt: Date
+    _count: WebhookEventLogCountAggregateOutputType | null
+    _min: WebhookEventLogMinAggregateOutputType | null
+    _max: WebhookEventLogMaxAggregateOutputType | null
+  }
+
+  type GetWebhookEventLogGroupByPayload<T extends WebhookEventLogGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WebhookEventLogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WebhookEventLogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WebhookEventLogGroupByOutputType[P]>
+            : GetScalarType<T[P], WebhookEventLogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WebhookEventLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    source?: boolean
+    eventType?: boolean
+    direction?: boolean
+    status?: boolean
+    externalId?: boolean
+    phoneNumberId?: boolean
+    summary?: boolean
+    payload?: boolean
+    error?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["webhookEventLog"]>
+
+  export type WebhookEventLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    source?: boolean
+    eventType?: boolean
+    direction?: boolean
+    status?: boolean
+    externalId?: boolean
+    phoneNumberId?: boolean
+    summary?: boolean
+    payload?: boolean
+    error?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["webhookEventLog"]>
+
+  export type WebhookEventLogSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    source?: boolean
+    eventType?: boolean
+    direction?: boolean
+    status?: boolean
+    externalId?: boolean
+    phoneNumberId?: boolean
+    summary?: boolean
+    payload?: boolean
+    error?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["webhookEventLog"]>
+
+  export type WebhookEventLogSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    source?: boolean
+    eventType?: boolean
+    direction?: boolean
+    status?: boolean
+    externalId?: boolean
+    phoneNumberId?: boolean
+    summary?: boolean
+    payload?: boolean
+    error?: boolean
+    createdAt?: boolean
+  }
+
+  export type WebhookEventLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "source" | "eventType" | "direction" | "status" | "externalId" | "phoneNumberId" | "summary" | "payload" | "error" | "createdAt", ExtArgs["result"]["webhookEventLog"]>
+
+  export type $WebhookEventLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WebhookEventLog"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string | null
+      source: string
+      eventType: string
+      direction: string
+      status: string
+      externalId: string | null
+      phoneNumberId: string | null
+      summary: string | null
+      payload: Prisma.JsonValue | null
+      error: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["webhookEventLog"]>
+    composites: {}
+  }
+
+  type WebhookEventLogGetPayload<S extends boolean | null | undefined | WebhookEventLogDefaultArgs> = $Result.GetResult<Prisma.$WebhookEventLogPayload, S>
+
+  type WebhookEventLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WebhookEventLogFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WebhookEventLogCountAggregateInputType | true
+    }
+
+  export interface WebhookEventLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WebhookEventLog'], meta: { name: 'WebhookEventLog' } }
+    /**
+     * Find zero or one WebhookEventLog that matches the filter.
+     * @param {WebhookEventLogFindUniqueArgs} args - Arguments to find a WebhookEventLog
+     * @example
+     * // Get one WebhookEventLog
+     * const webhookEventLog = await prisma.webhookEventLog.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WebhookEventLogFindUniqueArgs>(args: SelectSubset<T, WebhookEventLogFindUniqueArgs<ExtArgs>>): Prisma__WebhookEventLogClient<$Result.GetResult<Prisma.$WebhookEventLogPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WebhookEventLog that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WebhookEventLogFindUniqueOrThrowArgs} args - Arguments to find a WebhookEventLog
+     * @example
+     * // Get one WebhookEventLog
+     * const webhookEventLog = await prisma.webhookEventLog.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WebhookEventLogFindUniqueOrThrowArgs>(args: SelectSubset<T, WebhookEventLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WebhookEventLogClient<$Result.GetResult<Prisma.$WebhookEventLogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WebhookEventLog that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookEventLogFindFirstArgs} args - Arguments to find a WebhookEventLog
+     * @example
+     * // Get one WebhookEventLog
+     * const webhookEventLog = await prisma.webhookEventLog.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WebhookEventLogFindFirstArgs>(args?: SelectSubset<T, WebhookEventLogFindFirstArgs<ExtArgs>>): Prisma__WebhookEventLogClient<$Result.GetResult<Prisma.$WebhookEventLogPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WebhookEventLog that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookEventLogFindFirstOrThrowArgs} args - Arguments to find a WebhookEventLog
+     * @example
+     * // Get one WebhookEventLog
+     * const webhookEventLog = await prisma.webhookEventLog.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WebhookEventLogFindFirstOrThrowArgs>(args?: SelectSubset<T, WebhookEventLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__WebhookEventLogClient<$Result.GetResult<Prisma.$WebhookEventLogPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WebhookEventLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookEventLogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WebhookEventLogs
+     * const webhookEventLogs = await prisma.webhookEventLog.findMany()
+     * 
+     * // Get first 10 WebhookEventLogs
+     * const webhookEventLogs = await prisma.webhookEventLog.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const webhookEventLogWithIdOnly = await prisma.webhookEventLog.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WebhookEventLogFindManyArgs>(args?: SelectSubset<T, WebhookEventLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebhookEventLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a WebhookEventLog.
+     * @param {WebhookEventLogCreateArgs} args - Arguments to create a WebhookEventLog.
+     * @example
+     * // Create one WebhookEventLog
+     * const WebhookEventLog = await prisma.webhookEventLog.create({
+     *   data: {
+     *     // ... data to create a WebhookEventLog
+     *   }
+     * })
+     * 
+     */
+    create<T extends WebhookEventLogCreateArgs>(args: SelectSubset<T, WebhookEventLogCreateArgs<ExtArgs>>): Prisma__WebhookEventLogClient<$Result.GetResult<Prisma.$WebhookEventLogPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many WebhookEventLogs.
+     * @param {WebhookEventLogCreateManyArgs} args - Arguments to create many WebhookEventLogs.
+     * @example
+     * // Create many WebhookEventLogs
+     * const webhookEventLog = await prisma.webhookEventLog.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WebhookEventLogCreateManyArgs>(args?: SelectSubset<T, WebhookEventLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many WebhookEventLogs and returns the data saved in the database.
+     * @param {WebhookEventLogCreateManyAndReturnArgs} args - Arguments to create many WebhookEventLogs.
+     * @example
+     * // Create many WebhookEventLogs
+     * const webhookEventLog = await prisma.webhookEventLog.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many WebhookEventLogs and only return the `id`
+     * const webhookEventLogWithIdOnly = await prisma.webhookEventLog.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WebhookEventLogCreateManyAndReturnArgs>(args?: SelectSubset<T, WebhookEventLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebhookEventLogPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a WebhookEventLog.
+     * @param {WebhookEventLogDeleteArgs} args - Arguments to delete one WebhookEventLog.
+     * @example
+     * // Delete one WebhookEventLog
+     * const WebhookEventLog = await prisma.webhookEventLog.delete({
+     *   where: {
+     *     // ... filter to delete one WebhookEventLog
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WebhookEventLogDeleteArgs>(args: SelectSubset<T, WebhookEventLogDeleteArgs<ExtArgs>>): Prisma__WebhookEventLogClient<$Result.GetResult<Prisma.$WebhookEventLogPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one WebhookEventLog.
+     * @param {WebhookEventLogUpdateArgs} args - Arguments to update one WebhookEventLog.
+     * @example
+     * // Update one WebhookEventLog
+     * const webhookEventLog = await prisma.webhookEventLog.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WebhookEventLogUpdateArgs>(args: SelectSubset<T, WebhookEventLogUpdateArgs<ExtArgs>>): Prisma__WebhookEventLogClient<$Result.GetResult<Prisma.$WebhookEventLogPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more WebhookEventLogs.
+     * @param {WebhookEventLogDeleteManyArgs} args - Arguments to filter WebhookEventLogs to delete.
+     * @example
+     * // Delete a few WebhookEventLogs
+     * const { count } = await prisma.webhookEventLog.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WebhookEventLogDeleteManyArgs>(args?: SelectSubset<T, WebhookEventLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WebhookEventLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookEventLogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WebhookEventLogs
+     * const webhookEventLog = await prisma.webhookEventLog.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WebhookEventLogUpdateManyArgs>(args: SelectSubset<T, WebhookEventLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WebhookEventLogs and returns the data updated in the database.
+     * @param {WebhookEventLogUpdateManyAndReturnArgs} args - Arguments to update many WebhookEventLogs.
+     * @example
+     * // Update many WebhookEventLogs
+     * const webhookEventLog = await prisma.webhookEventLog.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more WebhookEventLogs and only return the `id`
+     * const webhookEventLogWithIdOnly = await prisma.webhookEventLog.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WebhookEventLogUpdateManyAndReturnArgs>(args: SelectSubset<T, WebhookEventLogUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebhookEventLogPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one WebhookEventLog.
+     * @param {WebhookEventLogUpsertArgs} args - Arguments to update or create a WebhookEventLog.
+     * @example
+     * // Update or create a WebhookEventLog
+     * const webhookEventLog = await prisma.webhookEventLog.upsert({
+     *   create: {
+     *     // ... data to create a WebhookEventLog
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WebhookEventLog we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WebhookEventLogUpsertArgs>(args: SelectSubset<T, WebhookEventLogUpsertArgs<ExtArgs>>): Prisma__WebhookEventLogClient<$Result.GetResult<Prisma.$WebhookEventLogPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of WebhookEventLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookEventLogCountArgs} args - Arguments to filter WebhookEventLogs to count.
+     * @example
+     * // Count the number of WebhookEventLogs
+     * const count = await prisma.webhookEventLog.count({
+     *   where: {
+     *     // ... the filter for the WebhookEventLogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends WebhookEventLogCountArgs>(
+      args?: Subset<T, WebhookEventLogCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WebhookEventLogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WebhookEventLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookEventLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WebhookEventLogAggregateArgs>(args: Subset<T, WebhookEventLogAggregateArgs>): Prisma.PrismaPromise<GetWebhookEventLogAggregateType<T>>
+
+    /**
+     * Group by WebhookEventLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookEventLogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WebhookEventLogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WebhookEventLogGroupByArgs['orderBy'] }
+        : { orderBy?: WebhookEventLogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WebhookEventLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWebhookEventLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WebhookEventLog model
+   */
+  readonly fields: WebhookEventLogFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WebhookEventLog.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WebhookEventLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WebhookEventLog model
+   */
+  interface WebhookEventLogFieldRefs {
+    readonly id: FieldRef<"WebhookEventLog", 'String'>
+    readonly userId: FieldRef<"WebhookEventLog", 'String'>
+    readonly source: FieldRef<"WebhookEventLog", 'String'>
+    readonly eventType: FieldRef<"WebhookEventLog", 'String'>
+    readonly direction: FieldRef<"WebhookEventLog", 'String'>
+    readonly status: FieldRef<"WebhookEventLog", 'String'>
+    readonly externalId: FieldRef<"WebhookEventLog", 'String'>
+    readonly phoneNumberId: FieldRef<"WebhookEventLog", 'String'>
+    readonly summary: FieldRef<"WebhookEventLog", 'String'>
+    readonly payload: FieldRef<"WebhookEventLog", 'Json'>
+    readonly error: FieldRef<"WebhookEventLog", 'String'>
+    readonly createdAt: FieldRef<"WebhookEventLog", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WebhookEventLog findUnique
+   */
+  export type WebhookEventLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEventLog
+     */
+    select?: WebhookEventLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEventLog
+     */
+    omit?: WebhookEventLogOmit<ExtArgs> | null
+    /**
+     * Filter, which WebhookEventLog to fetch.
+     */
+    where: WebhookEventLogWhereUniqueInput
+  }
+
+  /**
+   * WebhookEventLog findUniqueOrThrow
+   */
+  export type WebhookEventLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEventLog
+     */
+    select?: WebhookEventLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEventLog
+     */
+    omit?: WebhookEventLogOmit<ExtArgs> | null
+    /**
+     * Filter, which WebhookEventLog to fetch.
+     */
+    where: WebhookEventLogWhereUniqueInput
+  }
+
+  /**
+   * WebhookEventLog findFirst
+   */
+  export type WebhookEventLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEventLog
+     */
+    select?: WebhookEventLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEventLog
+     */
+    omit?: WebhookEventLogOmit<ExtArgs> | null
+    /**
+     * Filter, which WebhookEventLog to fetch.
+     */
+    where?: WebhookEventLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebhookEventLogs to fetch.
+     */
+    orderBy?: WebhookEventLogOrderByWithRelationInput | WebhookEventLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WebhookEventLogs.
+     */
+    cursor?: WebhookEventLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebhookEventLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebhookEventLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WebhookEventLogs.
+     */
+    distinct?: WebhookEventLogScalarFieldEnum | WebhookEventLogScalarFieldEnum[]
+  }
+
+  /**
+   * WebhookEventLog findFirstOrThrow
+   */
+  export type WebhookEventLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEventLog
+     */
+    select?: WebhookEventLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEventLog
+     */
+    omit?: WebhookEventLogOmit<ExtArgs> | null
+    /**
+     * Filter, which WebhookEventLog to fetch.
+     */
+    where?: WebhookEventLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebhookEventLogs to fetch.
+     */
+    orderBy?: WebhookEventLogOrderByWithRelationInput | WebhookEventLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WebhookEventLogs.
+     */
+    cursor?: WebhookEventLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebhookEventLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebhookEventLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WebhookEventLogs.
+     */
+    distinct?: WebhookEventLogScalarFieldEnum | WebhookEventLogScalarFieldEnum[]
+  }
+
+  /**
+   * WebhookEventLog findMany
+   */
+  export type WebhookEventLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEventLog
+     */
+    select?: WebhookEventLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEventLog
+     */
+    omit?: WebhookEventLogOmit<ExtArgs> | null
+    /**
+     * Filter, which WebhookEventLogs to fetch.
+     */
+    where?: WebhookEventLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebhookEventLogs to fetch.
+     */
+    orderBy?: WebhookEventLogOrderByWithRelationInput | WebhookEventLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WebhookEventLogs.
+     */
+    cursor?: WebhookEventLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebhookEventLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebhookEventLogs.
+     */
+    skip?: number
+    distinct?: WebhookEventLogScalarFieldEnum | WebhookEventLogScalarFieldEnum[]
+  }
+
+  /**
+   * WebhookEventLog create
+   */
+  export type WebhookEventLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEventLog
+     */
+    select?: WebhookEventLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEventLog
+     */
+    omit?: WebhookEventLogOmit<ExtArgs> | null
+    /**
+     * The data needed to create a WebhookEventLog.
+     */
+    data: XOR<WebhookEventLogCreateInput, WebhookEventLogUncheckedCreateInput>
+  }
+
+  /**
+   * WebhookEventLog createMany
+   */
+  export type WebhookEventLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many WebhookEventLogs.
+     */
+    data: WebhookEventLogCreateManyInput | WebhookEventLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * WebhookEventLog createManyAndReturn
+   */
+  export type WebhookEventLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEventLog
+     */
+    select?: WebhookEventLogSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEventLog
+     */
+    omit?: WebhookEventLogOmit<ExtArgs> | null
+    /**
+     * The data used to create many WebhookEventLogs.
+     */
+    data: WebhookEventLogCreateManyInput | WebhookEventLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * WebhookEventLog update
+   */
+  export type WebhookEventLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEventLog
+     */
+    select?: WebhookEventLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEventLog
+     */
+    omit?: WebhookEventLogOmit<ExtArgs> | null
+    /**
+     * The data needed to update a WebhookEventLog.
+     */
+    data: XOR<WebhookEventLogUpdateInput, WebhookEventLogUncheckedUpdateInput>
+    /**
+     * Choose, which WebhookEventLog to update.
+     */
+    where: WebhookEventLogWhereUniqueInput
+  }
+
+  /**
+   * WebhookEventLog updateMany
+   */
+  export type WebhookEventLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update WebhookEventLogs.
+     */
+    data: XOR<WebhookEventLogUpdateManyMutationInput, WebhookEventLogUncheckedUpdateManyInput>
+    /**
+     * Filter which WebhookEventLogs to update
+     */
+    where?: WebhookEventLogWhereInput
+    /**
+     * Limit how many WebhookEventLogs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * WebhookEventLog updateManyAndReturn
+   */
+  export type WebhookEventLogUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEventLog
+     */
+    select?: WebhookEventLogSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEventLog
+     */
+    omit?: WebhookEventLogOmit<ExtArgs> | null
+    /**
+     * The data used to update WebhookEventLogs.
+     */
+    data: XOR<WebhookEventLogUpdateManyMutationInput, WebhookEventLogUncheckedUpdateManyInput>
+    /**
+     * Filter which WebhookEventLogs to update
+     */
+    where?: WebhookEventLogWhereInput
+    /**
+     * Limit how many WebhookEventLogs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * WebhookEventLog upsert
+   */
+  export type WebhookEventLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEventLog
+     */
+    select?: WebhookEventLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEventLog
+     */
+    omit?: WebhookEventLogOmit<ExtArgs> | null
+    /**
+     * The filter to search for the WebhookEventLog to update in case it exists.
+     */
+    where: WebhookEventLogWhereUniqueInput
+    /**
+     * In case the WebhookEventLog found by the `where` argument doesn't exist, create a new WebhookEventLog with this data.
+     */
+    create: XOR<WebhookEventLogCreateInput, WebhookEventLogUncheckedCreateInput>
+    /**
+     * In case the WebhookEventLog was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WebhookEventLogUpdateInput, WebhookEventLogUncheckedUpdateInput>
+  }
+
+  /**
+   * WebhookEventLog delete
+   */
+  export type WebhookEventLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEventLog
+     */
+    select?: WebhookEventLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEventLog
+     */
+    omit?: WebhookEventLogOmit<ExtArgs> | null
+    /**
+     * Filter which WebhookEventLog to delete.
+     */
+    where: WebhookEventLogWhereUniqueInput
+  }
+
+  /**
+   * WebhookEventLog deleteMany
+   */
+  export type WebhookEventLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WebhookEventLogs to delete
+     */
+    where?: WebhookEventLogWhereInput
+    /**
+     * Limit how many WebhookEventLogs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * WebhookEventLog without action
+   */
+  export type WebhookEventLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebhookEventLog
+     */
+    select?: WebhookEventLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebhookEventLog
+     */
+    omit?: WebhookEventLogOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model AiAuditEvent
    */
 
@@ -22312,6 +23485,24 @@ export namespace Prisma {
   };
 
   export type ApprovalScalarFieldEnum = (typeof ApprovalScalarFieldEnum)[keyof typeof ApprovalScalarFieldEnum]
+
+
+  export const WebhookEventLogScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    source: 'source',
+    eventType: 'eventType',
+    direction: 'direction',
+    status: 'status',
+    externalId: 'externalId',
+    phoneNumberId: 'phoneNumberId',
+    summary: 'summary',
+    payload: 'payload',
+    error: 'error',
+    createdAt: 'createdAt'
+  };
+
+  export type WebhookEventLogScalarFieldEnum = (typeof WebhookEventLogScalarFieldEnum)[keyof typeof WebhookEventLogScalarFieldEnum]
 
 
   export const AiAuditEventScalarFieldEnum: {
@@ -24188,6 +25379,93 @@ export namespace Prisma {
     idempotencyKey?: StringWithAggregatesFilter<"Approval"> | string
     deliveryId?: StringNullableWithAggregatesFilter<"Approval"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Approval"> | Date | string
+  }
+
+  export type WebhookEventLogWhereInput = {
+    AND?: WebhookEventLogWhereInput | WebhookEventLogWhereInput[]
+    OR?: WebhookEventLogWhereInput[]
+    NOT?: WebhookEventLogWhereInput | WebhookEventLogWhereInput[]
+    id?: StringFilter<"WebhookEventLog"> | string
+    userId?: StringNullableFilter<"WebhookEventLog"> | string | null
+    source?: StringFilter<"WebhookEventLog"> | string
+    eventType?: StringFilter<"WebhookEventLog"> | string
+    direction?: StringFilter<"WebhookEventLog"> | string
+    status?: StringFilter<"WebhookEventLog"> | string
+    externalId?: StringNullableFilter<"WebhookEventLog"> | string | null
+    phoneNumberId?: StringNullableFilter<"WebhookEventLog"> | string | null
+    summary?: StringNullableFilter<"WebhookEventLog"> | string | null
+    payload?: JsonNullableFilter<"WebhookEventLog">
+    error?: StringNullableFilter<"WebhookEventLog"> | string | null
+    createdAt?: DateTimeFilter<"WebhookEventLog"> | Date | string
+  }
+
+  export type WebhookEventLogOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    source?: SortOrder
+    eventType?: SortOrder
+    direction?: SortOrder
+    status?: SortOrder
+    externalId?: SortOrderInput | SortOrder
+    phoneNumberId?: SortOrderInput | SortOrder
+    summary?: SortOrderInput | SortOrder
+    payload?: SortOrderInput | SortOrder
+    error?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type WebhookEventLogWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: WebhookEventLogWhereInput | WebhookEventLogWhereInput[]
+    OR?: WebhookEventLogWhereInput[]
+    NOT?: WebhookEventLogWhereInput | WebhookEventLogWhereInput[]
+    userId?: StringNullableFilter<"WebhookEventLog"> | string | null
+    source?: StringFilter<"WebhookEventLog"> | string
+    eventType?: StringFilter<"WebhookEventLog"> | string
+    direction?: StringFilter<"WebhookEventLog"> | string
+    status?: StringFilter<"WebhookEventLog"> | string
+    externalId?: StringNullableFilter<"WebhookEventLog"> | string | null
+    phoneNumberId?: StringNullableFilter<"WebhookEventLog"> | string | null
+    summary?: StringNullableFilter<"WebhookEventLog"> | string | null
+    payload?: JsonNullableFilter<"WebhookEventLog">
+    error?: StringNullableFilter<"WebhookEventLog"> | string | null
+    createdAt?: DateTimeFilter<"WebhookEventLog"> | Date | string
+  }, "id">
+
+  export type WebhookEventLogOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    source?: SortOrder
+    eventType?: SortOrder
+    direction?: SortOrder
+    status?: SortOrder
+    externalId?: SortOrderInput | SortOrder
+    phoneNumberId?: SortOrderInput | SortOrder
+    summary?: SortOrderInput | SortOrder
+    payload?: SortOrderInput | SortOrder
+    error?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: WebhookEventLogCountOrderByAggregateInput
+    _max?: WebhookEventLogMaxOrderByAggregateInput
+    _min?: WebhookEventLogMinOrderByAggregateInput
+  }
+
+  export type WebhookEventLogScalarWhereWithAggregatesInput = {
+    AND?: WebhookEventLogScalarWhereWithAggregatesInput | WebhookEventLogScalarWhereWithAggregatesInput[]
+    OR?: WebhookEventLogScalarWhereWithAggregatesInput[]
+    NOT?: WebhookEventLogScalarWhereWithAggregatesInput | WebhookEventLogScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"WebhookEventLog"> | string
+    userId?: StringNullableWithAggregatesFilter<"WebhookEventLog"> | string | null
+    source?: StringWithAggregatesFilter<"WebhookEventLog"> | string
+    eventType?: StringWithAggregatesFilter<"WebhookEventLog"> | string
+    direction?: StringWithAggregatesFilter<"WebhookEventLog"> | string
+    status?: StringWithAggregatesFilter<"WebhookEventLog"> | string
+    externalId?: StringNullableWithAggregatesFilter<"WebhookEventLog"> | string | null
+    phoneNumberId?: StringNullableWithAggregatesFilter<"WebhookEventLog"> | string | null
+    summary?: StringNullableWithAggregatesFilter<"WebhookEventLog"> | string | null
+    payload?: JsonNullableWithAggregatesFilter<"WebhookEventLog">
+    error?: StringNullableWithAggregatesFilter<"WebhookEventLog"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"WebhookEventLog"> | Date | string
   }
 
   export type AiAuditEventWhereInput = {
@@ -26274,6 +27552,111 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type WebhookEventLogCreateInput = {
+    id?: string
+    userId?: string | null
+    source: string
+    eventType: string
+    direction?: string
+    status: string
+    externalId?: string | null
+    phoneNumberId?: string | null
+    summary?: string | null
+    payload?: NullableJsonNullValueInput | InputJsonValue
+    error?: string | null
+    createdAt?: Date | string
+  }
+
+  export type WebhookEventLogUncheckedCreateInput = {
+    id?: string
+    userId?: string | null
+    source: string
+    eventType: string
+    direction?: string
+    status: string
+    externalId?: string | null
+    phoneNumberId?: string | null
+    summary?: string | null
+    payload?: NullableJsonNullValueInput | InputJsonValue
+    error?: string | null
+    createdAt?: Date | string
+  }
+
+  export type WebhookEventLogUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    direction?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumberId?: NullableStringFieldUpdateOperationsInput | string | null
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    payload?: NullableJsonNullValueInput | InputJsonValue
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebhookEventLogUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    direction?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumberId?: NullableStringFieldUpdateOperationsInput | string | null
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    payload?: NullableJsonNullValueInput | InputJsonValue
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebhookEventLogCreateManyInput = {
+    id?: string
+    userId?: string | null
+    source: string
+    eventType: string
+    direction?: string
+    status: string
+    externalId?: string | null
+    phoneNumberId?: string | null
+    summary?: string | null
+    payload?: NullableJsonNullValueInput | InputJsonValue
+    error?: string | null
+    createdAt?: Date | string
+  }
+
+  export type WebhookEventLogUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    direction?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumberId?: NullableStringFieldUpdateOperationsInput | string | null
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    payload?: NullableJsonNullValueInput | InputJsonValue
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebhookEventLogUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: StringFieldUpdateOperationsInput | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    direction?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    externalId?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumberId?: NullableStringFieldUpdateOperationsInput | string | null
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    payload?: NullableJsonNullValueInput | InputJsonValue
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type AiAuditEventCreateInput = {
     id?: string
     userId?: string | null
@@ -27812,6 +29195,49 @@ export namespace Prisma {
     note?: SortOrder
     idempotencyKey?: SortOrder
     deliveryId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type WebhookEventLogCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    source?: SortOrder
+    eventType?: SortOrder
+    direction?: SortOrder
+    status?: SortOrder
+    externalId?: SortOrder
+    phoneNumberId?: SortOrder
+    summary?: SortOrder
+    payload?: SortOrder
+    error?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type WebhookEventLogMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    source?: SortOrder
+    eventType?: SortOrder
+    direction?: SortOrder
+    status?: SortOrder
+    externalId?: SortOrder
+    phoneNumberId?: SortOrder
+    summary?: SortOrder
+    error?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type WebhookEventLogMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    source?: SortOrder
+    eventType?: SortOrder
+    direction?: SortOrder
+    status?: SortOrder
+    externalId?: SortOrder
+    phoneNumberId?: SortOrder
+    summary?: SortOrder
+    error?: SortOrder
     createdAt?: SortOrder
   }
 

@@ -385,6 +385,25 @@ model Approval {
   @@index([userId, decision])
 }
 
+model WebhookEventLog {
+  id            String   @id @default(uuid())
+  userId        String?
+  source        String // WHATSAPP | SHIPBUBBLE | BACHS
+  eventType     String
+  direction     String   @default("INBOUND") // INBOUND webhook, SUBSCRIPTION management action
+  status        String // RECEIVED | PROCESSED | DUPLICATE | IGNORED | FAILED | VERIFIED | SUBSCRIBED | CHECKED
+  externalId    String?
+  phoneNumberId String?
+  summary       String?
+  payload       Json?
+  error         String?
+  createdAt     DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([source, createdAt])
+  @@index([externalId])
+}
+
 model AiAuditEvent {
   id         String   @id @default(uuid())
   userId     String?

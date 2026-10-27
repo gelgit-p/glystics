@@ -22,6 +22,7 @@ import { AutomationService } from '../automation/automation.service';
 import { CreditsService } from '../credits/credit.service';
 import { WhatsappService } from '../whatsapp/whatsapp.service';
 import { AiDeliveryService } from '../ai-delivery/ai-delivery.service';
+import { WebhookLogService } from '../whatsapp/webhook-log.service';
 
 @Controller()
 export class WebhookController {
@@ -31,6 +32,7 @@ export class WebhookController {
     private readonly creditsService: CreditsService,
     private readonly whatsappService: WhatsappService,
     private readonly aiDeliveryService: AiDeliveryService,
+    private readonly webhookLogService: WebhookLogService,
   ) {}
 
   private verifyWhatsappSignature(rawBody: Buffer | undefined, signature?: string): boolean {
@@ -75,6 +77,12 @@ export class WebhookController {
       token === verifyToken
     ) {
       console.log('WEBHOOK VERIFIED');
+      void this.webhookLogService.log({
+        source: 'WHATSAPP',
+        eventType: 'whatsapp.webhook.verification',
+        status: 'VERIFIED',
+        summary: 'WhatsApp webhook verification challenge accepted',
+      });
 
       return res.status(200).send(challenge);
     }
@@ -82,6 +90,13 @@ export class WebhookController {
     console.log(
       'WEBHOOK VERIFICATION FAILED',
     );
+    void this.webhookLogService.log({
+      source: 'WHATSAPP',
+      eventType: 'whatsapp.webhook.verification',
+      status: 'FAILED',
+      summary: 'WhatsApp webhook verification failed',
+      error: 'Verification token mismatch',
+    });
 
     return res.status(403).send('Forbidden');
   }
@@ -97,6 +112,13 @@ export class WebhookController {
   ) {
     // Fail closed when WHATSAPP_APP_SECRET is configured; log-only in local dev without it.
     if (process.env.WHATSAPP_APP_SECRET && !this.verifyWhatsappSignature(rawBody, signature)) {
+      await this.webhookLogService.log({
+        source: 'WHATSAPP',
+        eventType: 'whatsapp.webhook',
+        status: 'FAILED',
+        summary: 'Rejected WhatsApp webhook with invalid signature',
+        error: 'Invalid x-hub-signature-256',
+      });
       throw new UnauthorizedException('Invalid WhatsApp webhook signature');
     }
 
@@ -119,6 +141,14 @@ export class WebhookController {
             const statusUpdate = update as Record<string, unknown>;
             if (typeof statusUpdate.id === 'string' && typeof statusUpdate.status === 'string') {
               await this.whatsappService.updateMessageDeliveryStatus(statusUpdate.id, statusUpdate.status);
+              await this.webhookLogService.log({
+                source: 'WHATSAPP',
+                eventType: `whatsapp.message.${statusUpdate.status}`,
+                status: 'PROCESSED',
+                externalId: statusUpdate.id,
+                summary: `WhatsApp message ${statusUpdate.id} is ${statusUpdate.status}`,
+                payload: statusUpdate,
+              });
             }
           }
         }
@@ -131,6 +161,14 @@ export class WebhookController {
           const tenant = phoneNumberId ? await this.aiDeliveryService.resolveTenant(phoneNumberId) : null;
           if (!tenant) {
             console.warn(`WhatsApp inbound ignored: no tenant for phone_number_id=${phoneNumberId}`);
+            await this.webhookLogService.log({
+              source: 'WHATSAPP',
+              eventType: 'whatsapp.message.received',
+              status: 'IGNORED',
+              phoneNumberId,
+              summary: `No tenant configured for WhatsApp phone_number_id ${phoneNumberId}`,
+              payload: messages,
+            });
             continue;
           }
           for (const m of messages) {
@@ -140,6 +178,18 @@ export class WebhookController {
             const text = typeof msg.text === 'object' && msg.text !== null ? (msg.text as Record<string, unknown>).body : undefined;
             const conversation = await this.aiDeliveryService.getOrCreateConversation(tenant.id, phoneNumberId, msg.from);
             const saved = await this.aiDeliveryService.recordInbound(conversation.id, msg.id, typeof text === 'string' ? text : undefined, msg);
+            await this.webhookLogService.log({
+              userId: tenant.id,
+              source: 'WHATSAPP',
+              eventType: 'whatsapp.message.received',
+              status: saved ? 'RECEIVED' : 'DUPLICATE',
+              externalId: msg.id,
+              phoneNumberId,
+              summary: saved
+                ? `Inbound WhatsApp message from ${msg.from}`
+                : `Duplicate WhatsApp webhook ignored for message ${msg.id}`,
+              payload: msg,
+            });
             if (saved) {
               // Return 200 fast; processing continues async and is recoverable via AiMessage state.
               setImmediate(() => void this.aiDeliveryService.processInboundMessage(saved.id).catch(() => undefined));
@@ -220,6 +270,14 @@ export class WebhookController {
         reference,
         checkoutId,
       );
+      await this.webhookLogService.log({
+        source: 'BACHS',
+        eventType: 'checkout.completed',
+        status: 'RECEIVED',
+        externalId: checkoutId ?? reference,
+        summary: `Bachs checkout completed for reference ${reference}`,
+        payload,
+      });
       if (creditedPurchase) {
         return { received: true };
       }
@@ -310,6 +368,17 @@ export class WebhookController {
     /**
      * Handle different Shipbubble events.
      */
+    await this.webhookLogService.log({
+      source: 'SHIPBUBBLE',
+      eventType:
+        typeof payload.event === 'string' ? payload.event : 'shipbubble.webhook',
+      status: 'RECEIVED',
+      externalId:
+        typeof payload.order_id === 'string' ? payload.order_id : null,
+      summary: `Received Shipbubble event ${String(payload.event ?? 'unknown')}`,
+      payload,
+    });
+
     switch (payload.event) {
       case 'shipment.label.created':
         console.log(
@@ -384,6 +453,17 @@ export class WebhookController {
           payload.event,
         );
     }
+
+    await this.webhookLogService.log({
+      source: 'SHIPBUBBLE',
+      eventType:
+        typeof payload.event === 'string' ? payload.event : 'shipbubble.webhook',
+      status: 'PROCESSED',
+      externalId:
+        typeof payload.order_id === 'string' ? payload.order_id : null,
+      summary: `Processed Shipbubble event ${String(payload.event ?? 'unknown')} for order ${String(payload.order_id ?? 'unknown')}`,
+      payload,
+    });
 
     /**
      * Shipbubble requires HTTP 200 within

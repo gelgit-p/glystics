@@ -198,6 +198,22 @@ export class WhatsappController {
     return await this.whatsappService.getAllWabaSubscriptions(request.user.id);
   }
 
+  @Get('webhook-logs')
+  @UseGuards(AuthGuard('jwt'))
+  async getWebhookLogs(
+    @Req() request: Request & { user: { id: string } },
+    @Query('source') source?: string,
+    @Query('status') status?: string,
+    @Query('limit') limit?: string,
+  ) {
+    return this.whatsappService.getWebhookLogs(
+      request.user.id,
+      source,
+      status,
+      limit ? Number(limit) : undefined,
+    );
+  }
+
   @Get('tokens')
   @UseGuards(AuthGuard('jwt'))
   async getTokens(@Req() request: Request & { user: { id: string } }) {
