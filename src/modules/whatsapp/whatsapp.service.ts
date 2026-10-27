@@ -319,16 +319,40 @@ export class WhatsappService {
     }
   }
 
+  private facebookTokenExpiredMessage(providerMessage: string): string {
+    return `Facebook access token expired or is invalid. Reconnect Facebook in WhatsApp settings to generate a new long-lived token, then subscribe again. Meta said: ${providerMessage}`;
+  }
+
+  private isFacebookTokenExpired(error: any, providerMessage: string): boolean {
+    const code = error?.response?.data?.error?.code;
+    const type = String(error?.response?.data?.error?.type ?? '');
+    return code === 190 || /session has expired|error validating access token|access token.*expired/i.test(providerMessage) || /OAuthException/i.test(type);
+  }
+
+  private async getWabaSubscriptionContext(userId: string) {
+    const [user, token] = await Promise.all([
+      this.prisma.user.findUnique({
+        where: { id: userId },
+        select: { selectedFacebookBusinessId: true, facebookAcceessToken: true },
+      }),
+      this.prisma.token.findUnique({ where: { userId } }),
+    ]);
+    const businessId = user?.selectedFacebookBusinessId;
+    // Prefer the stored long-lived token (Token table), which token refresh updates.
+    // User.facebookAcceessToken may be the original short-lived login token.
+    const accessToken =
+      token?.facebookLongLivedAccessToken?.trim() ||
+      user?.facebookAcceessToken?.trim();
+    return { businessId, accessToken };
+  }
+
   async subscribeToWebhooks(dto: WebhookSubscriptionDto) {
     if (!dto.userId) throw new BadRequestException('Authenticated user is required');
-    const user = await this.prisma.user.findUnique({
-      where: { id: dto.userId },
-      select: { selectedFacebookBusinessId: true, facebookAcceessToken: true },
-    });
-    if (!user?.selectedFacebookBusinessId || !user.facebookAcceessToken) {
+    const { businessId, accessToken } = await this.getWabaSubscriptionContext(dto.userId);
+    if (!businessId || !accessToken) {
       throw new BadRequestException('Connect Facebook and select a business before subscribing to WhatsApp webhooks');
     }
-    const endpoint = `https://graph.facebook.com/v25.0/${user.selectedFacebookBusinessId}/subscribed_apps`;
+    const endpoint = `https://graph.facebook.com/v25.0/${businessId}/subscribed_apps`;
     // Never persist the supplied verify_token.
     const body: Record<string, string> = {};
     if (dto.override_callback_uri) body.override_callback_uri = dto.override_callback_uri;
@@ -337,7 +361,7 @@ export class WhatsappService {
       const response = await firstValueFrom(
         this.httpService.post(endpoint, body, {
           headers: {
-            Authorization: 'Bearer ' + user.facebookAcceessToken,
+            Authorization: 'Bearer ' + accessToken,
             'Content-Type': 'application/json',
           },
         }),
@@ -345,36 +369,40 @@ export class WhatsappService {
       await this.webhookLogService.log({
         userId: dto.userId, source: 'WHATSAPP', direction: 'SUBSCRIPTION',
         eventType: 'whatsapp.webhook.subscribed', status: 'SUBSCRIBED',
-        summary: `Subscribed WABA ${user.selectedFacebookBusinessId} to webhook callbacks`,
+        summary: `Subscribed WABA ${businessId} to webhook callbacks`,
         payload: { override_callback_uri: dto.override_callback_uri ?? null },
       });
       await this.prisma.user.update({ where: { id: dto.userId }, data: { webhookStatus: true } }).catch(() => undefined);
       return response.data;
     } catch (error: any) {
-      const providerError = error?.response?.data?.error?.message ?? error?.response?.data?.message ?? error?.message ?? 'WhatsApp webhook subscription failed';
+      const rawProviderError = error?.response?.data?.error?.message ?? error?.response?.data?.message ?? error?.message ?? 'WhatsApp webhook subscription failed';
+      const tokenExpired = this.isFacebookTokenExpired(error, String(rawProviderError));
+      const providerError = tokenExpired
+        ? this.facebookTokenExpiredMessage(String(rawProviderError))
+        : String(rawProviderError);
+      if (tokenExpired) {
+        await this.prisma.user.update({ where: { id: dto.userId }, data: { facebookConnectStatus: false, webhookStatus: false } }).catch(() => undefined);
+      }
       await this.webhookLogService.log({
         userId: dto.userId, source: 'WHATSAPP', direction: 'SUBSCRIPTION',
-        eventType: 'whatsapp.webhook.subscribed', status: 'FAILED',
-        summary: 'WhatsApp webhook subscription failed', error: String(providerError),
+        eventType: 'whatsapp.webhook.subscribed', status: tokenExpired ? 'TOKEN_EXPIRED' : 'FAILED',
+        summary: tokenExpired ? 'Facebook token expired during webhook subscription' : 'WhatsApp webhook subscription failed', error: providerError,
         payload: { override_callback_uri: dto.override_callback_uri ?? null },
       });
-      throw new BadRequestException(String(providerError));
+      throw new UnauthorizedException(providerError);
     }
   }
 
   async getAllWabaSubscriptions(userId: string) {
-    const user = await this.prisma.user.findUnique({
-      where: { id: userId },
-      select: { selectedFacebookBusinessId: true, facebookAcceessToken: true },
-    });
-    if (!user?.selectedFacebookBusinessId || !user.facebookAcceessToken) {
+    const { businessId, accessToken } = await this.getWabaSubscriptionContext(userId);
+    if (!businessId || !accessToken) {
       return { data: [], subscriptions: [], warning: 'Connect Facebook and select a business to load WhatsApp webhook subscriptions' };
     }
-    const endpoint = `https://graph.facebook.com/v25.0/${user.selectedFacebookBusinessId}/subscribed_apps`;
+    const endpoint = `https://graph.facebook.com/v25.0/${businessId}/subscribed_apps`;
     try {
       const response = await firstValueFrom(
         this.httpService.get(endpoint, {
-          headers: { Authorization: 'Bearer ' + user.facebookAcceessToken },
+          headers: { Authorization: 'Bearer ' + accessToken },
         }),
       );
       await this.webhookLogService.log({
@@ -384,13 +412,20 @@ export class WhatsappService {
       });
       return response.data;
     } catch (error: any) {
-      const providerError = error?.response?.data?.error?.message ?? error?.message ?? 'Failed to load WhatsApp webhook subscriptions';
+      const rawProviderError = error?.response?.data?.error?.message ?? error?.message ?? 'Failed to load WhatsApp webhook subscriptions';
+      const tokenExpired = this.isFacebookTokenExpired(error, String(rawProviderError));
+      const providerError = tokenExpired
+        ? this.facebookTokenExpiredMessage(String(rawProviderError))
+        : String(rawProviderError);
+      if (tokenExpired) {
+        await this.prisma.user.update({ where: { id: userId }, data: { facebookConnectStatus: false, webhookStatus: false } }).catch(() => undefined);
+      }
       await this.webhookLogService.log({
         userId, source: 'WHATSAPP', direction: 'SUBSCRIPTION',
-        eventType: 'whatsapp.webhook.subscriptions_checked', status: 'FAILED',
-        summary: 'Failed to load WhatsApp webhook subscriptions', error: String(providerError),
+        eventType: 'whatsapp.webhook.subscriptions_checked', status: tokenExpired ? 'TOKEN_EXPIRED' : 'FAILED',
+        summary: tokenExpired ? 'Facebook token expired while loading subscriptions' : 'Failed to load WhatsApp webhook subscriptions', error: providerError,
       });
-      throw new BadRequestException(String(providerError));
+      throw new UnauthorizedException(providerError);
     }
   }
 
