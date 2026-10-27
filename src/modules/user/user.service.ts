@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { Prisma } from '../../../prisma/generated';
 
@@ -35,7 +35,11 @@ export class UserService {
   }
 
   async findByEmail(email: string) {
-    return this.prisma.user.findUnique({ where: { email } });
+    const normalizedEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
+    if (!normalizedEmail) {
+      throw new BadRequestException('Email is required');
+    }
+    return this.prisma.user.findUnique({ where: { email: normalizedEmail } });
   }
 
   async create(data: Prisma.UserCreateInput) {

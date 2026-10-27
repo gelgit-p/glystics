@@ -4,7 +4,7 @@ import { SignupInput } from './dto/signup.input';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { EmailService } from './email/email.service';
-import { LoginInput } from './dto/login.input';
+import { LoginDto } from './dto/login.dto';
 import { AuthResponse } from './dto/auth-response.type';
 
 @Injectable()
@@ -81,14 +81,19 @@ export class AuthService {
   //   }
   // }
 
-  async login(data: LoginInput): Promise<AuthResponse> {
-    const user = await this.userService.findByEmail(data.email);
+  async login(data: LoginDto): Promise<AuthResponse> {
+    const email = typeof data?.email === 'string' ? data.email.trim().toLowerCase() : '';
+    const password = typeof data?.password === 'string' ? data.password : '';
+    if (!email || !password) {
+      throw new BadRequestException('Email and password are required');
+    }
+    const user = await this.userService.findByEmail(email);
 
     if (!user) {
       throw new BadRequestException('User not found');
     }
 
-    const isPasswordValid = await bcrypt.compare(data.password, user.password);
+    const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
       throw new BadRequestException('Invalid credentials');

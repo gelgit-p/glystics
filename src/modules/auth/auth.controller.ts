@@ -9,7 +9,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { AuthService } from './auth.service';
-import { LoginInput } from './dto/login.input';
+import { LoginDto } from './dto/login.dto';
 import { SignupInput, UpdateInput } from './dto/signup.input';
 import { UserService } from '../user/user.service';
 
@@ -35,7 +35,7 @@ export class AuthController {
 //   }
 
   @Post('login')
-  login(@Body() data: LoginInput) {
+  login(@Body() data: LoginDto) {
     return this.authService.login(data);
   }
 
