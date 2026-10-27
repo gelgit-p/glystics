@@ -309,6 +309,107 @@ exports.Prisma.NotificationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.AiConversationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  customerWaId: 'customerWaId',
+  phoneNumberId: 'phoneNumberId',
+  status: 'status',
+  lastMessageAt: 'lastMessageAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AiMessageScalarFieldEnum = {
+  id: 'id',
+  conversationId: 'conversationId',
+  waMessageId: 'waMessageId',
+  direction: 'direction',
+  body: 'body',
+  rawPayload: 'rawPayload',
+  processingState: 'processingState',
+  attempts: 'attempts',
+  nextRetryAt: 'nextRetryAt',
+  processingError: 'processingError',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.DeliveryDraftScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  conversationId: 'conversationId',
+  status: 'status',
+  senderName: 'senderName',
+  senderPhone: 'senderPhone',
+  senderAddress: 'senderAddress',
+  senderEmail: 'senderEmail',
+  receiverName: 'receiverName',
+  receiverPhone: 'receiverPhone',
+  receiverAddress: 'receiverAddress',
+  receiverEmail: 'receiverEmail',
+  packageName: 'packageName',
+  packageDescription: 'packageDescription',
+  packageCategory: 'packageCategory',
+  packageCategoryId: 'packageCategoryId',
+  packageWeight: 'packageWeight',
+  packageValue: 'packageValue',
+  packageQuantity: 'packageQuantity',
+  length: 'length',
+  width: 'width',
+  height: 'height',
+  pickupDate: 'pickupDate',
+  deliveryType: 'deliveryType',
+  deliveryInstructions: 'deliveryInstructions',
+  extracted: 'extracted',
+  missingFields: 'missingFields',
+  confidence: 'confidence',
+  deliveryId: 'deliveryId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ProviderQuoteScalarFieldEnum = {
+  id: 'id',
+  draftId: 'draftId',
+  provider: 'provider',
+  courierId: 'courierId',
+  courierName: 'courierName',
+  serviceCode: 'serviceCode',
+  amount: 'amount',
+  currency: 'currency',
+  deliveryEta: 'deliveryEta',
+  pickupEta: 'pickupEta',
+  score: 'score',
+  scoreReasons: 'scoreReasons',
+  requestToken: 'requestToken',
+  raw: 'raw',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ApprovalScalarFieldEnum = {
+  id: 'id',
+  draftId: 'draftId',
+  userId: 'userId',
+  decision: 'decision',
+  selectedQuoteId: 'selectedQuoteId',
+  note: 'note',
+  idempotencyKey: 'idempotencyKey',
+  deliveryId: 'deliveryId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AiAuditEventScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  actorType: 'actorType',
+  action: 'action',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -363,7 +464,13 @@ exports.Prisma.ModelName = {
   CreditPackage: 'CreditPackage',
   CreditPurchase: 'CreditPurchase',
   Automation: 'Automation',
-  Notification: 'Notification'
+  Notification: 'Notification',
+  AiConversation: 'AiConversation',
+  AiMessage: 'AiMessage',
+  DeliveryDraft: 'DeliveryDraft',
+  ProviderQuote: 'ProviderQuote',
+  Approval: 'Approval',
+  AiAuditEvent: 'AiAuditEvent'
 };
 
 /**

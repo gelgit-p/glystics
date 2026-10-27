@@ -63,6 +63,36 @@ export type Automation = $Result.DefaultSelection<Prisma.$AutomationPayload>
  * 
  */
 export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
+/**
+ * Model AiConversation
+ * 
+ */
+export type AiConversation = $Result.DefaultSelection<Prisma.$AiConversationPayload>
+/**
+ * Model AiMessage
+ * 
+ */
+export type AiMessage = $Result.DefaultSelection<Prisma.$AiMessagePayload>
+/**
+ * Model DeliveryDraft
+ * 
+ */
+export type DeliveryDraft = $Result.DefaultSelection<Prisma.$DeliveryDraftPayload>
+/**
+ * Model ProviderQuote
+ * 
+ */
+export type ProviderQuote = $Result.DefaultSelection<Prisma.$ProviderQuotePayload>
+/**
+ * Model Approval
+ * 
+ */
+export type Approval = $Result.DefaultSelection<Prisma.$ApprovalPayload>
+/**
+ * Model AiAuditEvent
+ * 
+ */
+export type AiAuditEvent = $Result.DefaultSelection<Prisma.$AiAuditEventPayload>
 
 /**
  * Enums
@@ -315,6 +345,66 @@ export class PrismaClient<
     * ```
     */
   get notification(): Prisma.NotificationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.aiConversation`: Exposes CRUD operations for the **AiConversation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AiConversations
+    * const aiConversations = await prisma.aiConversation.findMany()
+    * ```
+    */
+  get aiConversation(): Prisma.AiConversationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.aiMessage`: Exposes CRUD operations for the **AiMessage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AiMessages
+    * const aiMessages = await prisma.aiMessage.findMany()
+    * ```
+    */
+  get aiMessage(): Prisma.AiMessageDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.deliveryDraft`: Exposes CRUD operations for the **DeliveryDraft** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DeliveryDrafts
+    * const deliveryDrafts = await prisma.deliveryDraft.findMany()
+    * ```
+    */
+  get deliveryDraft(): Prisma.DeliveryDraftDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.providerQuote`: Exposes CRUD operations for the **ProviderQuote** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ProviderQuotes
+    * const providerQuotes = await prisma.providerQuote.findMany()
+    * ```
+    */
+  get providerQuote(): Prisma.ProviderQuoteDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.approval`: Exposes CRUD operations for the **Approval** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Approvals
+    * const approvals = await prisma.approval.findMany()
+    * ```
+    */
+  get approval(): Prisma.ApprovalDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.aiAuditEvent`: Exposes CRUD operations for the **AiAuditEvent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AiAuditEvents
+    * const aiAuditEvents = await prisma.aiAuditEvent.findMany()
+    * ```
+    */
+  get aiAuditEvent(): Prisma.AiAuditEventDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -765,7 +855,13 @@ export namespace Prisma {
     CreditPackage: 'CreditPackage',
     CreditPurchase: 'CreditPurchase',
     Automation: 'Automation',
-    Notification: 'Notification'
+    Notification: 'Notification',
+    AiConversation: 'AiConversation',
+    AiMessage: 'AiMessage',
+    DeliveryDraft: 'DeliveryDraft',
+    ProviderQuote: 'ProviderQuote',
+    Approval: 'Approval',
+    AiAuditEvent: 'AiAuditEvent'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -784,7 +880,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "token" | "delivery" | "messageTemplate" | "creditWallet" | "creditTransaction" | "creditPackage" | "creditPurchase" | "automation" | "notification"
+      modelProps: "user" | "token" | "delivery" | "messageTemplate" | "creditWallet" | "creditTransaction" | "creditPackage" | "creditPurchase" | "automation" | "notification" | "aiConversation" | "aiMessage" | "deliveryDraft" | "providerQuote" | "approval" | "aiAuditEvent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1528,6 +1624,450 @@ export namespace Prisma {
           }
         }
       }
+      AiConversation: {
+        payload: Prisma.$AiConversationPayload<ExtArgs>
+        fields: Prisma.AiConversationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AiConversationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiConversationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AiConversationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiConversationPayload>
+          }
+          findFirst: {
+            args: Prisma.AiConversationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiConversationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AiConversationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiConversationPayload>
+          }
+          findMany: {
+            args: Prisma.AiConversationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiConversationPayload>[]
+          }
+          create: {
+            args: Prisma.AiConversationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiConversationPayload>
+          }
+          createMany: {
+            args: Prisma.AiConversationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AiConversationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiConversationPayload>[]
+          }
+          delete: {
+            args: Prisma.AiConversationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiConversationPayload>
+          }
+          update: {
+            args: Prisma.AiConversationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiConversationPayload>
+          }
+          deleteMany: {
+            args: Prisma.AiConversationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AiConversationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AiConversationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiConversationPayload>[]
+          }
+          upsert: {
+            args: Prisma.AiConversationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiConversationPayload>
+          }
+          aggregate: {
+            args: Prisma.AiConversationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAiConversation>
+          }
+          groupBy: {
+            args: Prisma.AiConversationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AiConversationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AiConversationCountArgs<ExtArgs>
+            result: $Utils.Optional<AiConversationCountAggregateOutputType> | number
+          }
+        }
+      }
+      AiMessage: {
+        payload: Prisma.$AiMessagePayload<ExtArgs>
+        fields: Prisma.AiMessageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AiMessageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiMessagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AiMessageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiMessagePayload>
+          }
+          findFirst: {
+            args: Prisma.AiMessageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiMessagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AiMessageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiMessagePayload>
+          }
+          findMany: {
+            args: Prisma.AiMessageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiMessagePayload>[]
+          }
+          create: {
+            args: Prisma.AiMessageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiMessagePayload>
+          }
+          createMany: {
+            args: Prisma.AiMessageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AiMessageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiMessagePayload>[]
+          }
+          delete: {
+            args: Prisma.AiMessageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiMessagePayload>
+          }
+          update: {
+            args: Prisma.AiMessageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiMessagePayload>
+          }
+          deleteMany: {
+            args: Prisma.AiMessageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AiMessageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AiMessageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiMessagePayload>[]
+          }
+          upsert: {
+            args: Prisma.AiMessageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiMessagePayload>
+          }
+          aggregate: {
+            args: Prisma.AiMessageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAiMessage>
+          }
+          groupBy: {
+            args: Prisma.AiMessageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AiMessageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AiMessageCountArgs<ExtArgs>
+            result: $Utils.Optional<AiMessageCountAggregateOutputType> | number
+          }
+        }
+      }
+      DeliveryDraft: {
+        payload: Prisma.$DeliveryDraftPayload<ExtArgs>
+        fields: Prisma.DeliveryDraftFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DeliveryDraftFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeliveryDraftPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DeliveryDraftFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeliveryDraftPayload>
+          }
+          findFirst: {
+            args: Prisma.DeliveryDraftFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeliveryDraftPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DeliveryDraftFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeliveryDraftPayload>
+          }
+          findMany: {
+            args: Prisma.DeliveryDraftFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeliveryDraftPayload>[]
+          }
+          create: {
+            args: Prisma.DeliveryDraftCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeliveryDraftPayload>
+          }
+          createMany: {
+            args: Prisma.DeliveryDraftCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DeliveryDraftCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeliveryDraftPayload>[]
+          }
+          delete: {
+            args: Prisma.DeliveryDraftDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeliveryDraftPayload>
+          }
+          update: {
+            args: Prisma.DeliveryDraftUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeliveryDraftPayload>
+          }
+          deleteMany: {
+            args: Prisma.DeliveryDraftDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DeliveryDraftUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DeliveryDraftUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeliveryDraftPayload>[]
+          }
+          upsert: {
+            args: Prisma.DeliveryDraftUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeliveryDraftPayload>
+          }
+          aggregate: {
+            args: Prisma.DeliveryDraftAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDeliveryDraft>
+          }
+          groupBy: {
+            args: Prisma.DeliveryDraftGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DeliveryDraftGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DeliveryDraftCountArgs<ExtArgs>
+            result: $Utils.Optional<DeliveryDraftCountAggregateOutputType> | number
+          }
+        }
+      }
+      ProviderQuote: {
+        payload: Prisma.$ProviderQuotePayload<ExtArgs>
+        fields: Prisma.ProviderQuoteFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ProviderQuoteFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProviderQuotePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ProviderQuoteFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProviderQuotePayload>
+          }
+          findFirst: {
+            args: Prisma.ProviderQuoteFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProviderQuotePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ProviderQuoteFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProviderQuotePayload>
+          }
+          findMany: {
+            args: Prisma.ProviderQuoteFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProviderQuotePayload>[]
+          }
+          create: {
+            args: Prisma.ProviderQuoteCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProviderQuotePayload>
+          }
+          createMany: {
+            args: Prisma.ProviderQuoteCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ProviderQuoteCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProviderQuotePayload>[]
+          }
+          delete: {
+            args: Prisma.ProviderQuoteDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProviderQuotePayload>
+          }
+          update: {
+            args: Prisma.ProviderQuoteUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProviderQuotePayload>
+          }
+          deleteMany: {
+            args: Prisma.ProviderQuoteDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ProviderQuoteUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ProviderQuoteUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProviderQuotePayload>[]
+          }
+          upsert: {
+            args: Prisma.ProviderQuoteUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProviderQuotePayload>
+          }
+          aggregate: {
+            args: Prisma.ProviderQuoteAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProviderQuote>
+          }
+          groupBy: {
+            args: Prisma.ProviderQuoteGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProviderQuoteGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ProviderQuoteCountArgs<ExtArgs>
+            result: $Utils.Optional<ProviderQuoteCountAggregateOutputType> | number
+          }
+        }
+      }
+      Approval: {
+        payload: Prisma.$ApprovalPayload<ExtArgs>
+        fields: Prisma.ApprovalFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ApprovalFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ApprovalFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPayload>
+          }
+          findFirst: {
+            args: Prisma.ApprovalFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ApprovalFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPayload>
+          }
+          findMany: {
+            args: Prisma.ApprovalFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPayload>[]
+          }
+          create: {
+            args: Prisma.ApprovalCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPayload>
+          }
+          createMany: {
+            args: Prisma.ApprovalCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ApprovalCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPayload>[]
+          }
+          delete: {
+            args: Prisma.ApprovalDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPayload>
+          }
+          update: {
+            args: Prisma.ApprovalUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPayload>
+          }
+          deleteMany: {
+            args: Prisma.ApprovalDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ApprovalUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ApprovalUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPayload>[]
+          }
+          upsert: {
+            args: Prisma.ApprovalUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPayload>
+          }
+          aggregate: {
+            args: Prisma.ApprovalAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateApproval>
+          }
+          groupBy: {
+            args: Prisma.ApprovalGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ApprovalGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ApprovalCountArgs<ExtArgs>
+            result: $Utils.Optional<ApprovalCountAggregateOutputType> | number
+          }
+        }
+      }
+      AiAuditEvent: {
+        payload: Prisma.$AiAuditEventPayload<ExtArgs>
+        fields: Prisma.AiAuditEventFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AiAuditEventFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiAuditEventPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AiAuditEventFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiAuditEventPayload>
+          }
+          findFirst: {
+            args: Prisma.AiAuditEventFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiAuditEventPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AiAuditEventFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiAuditEventPayload>
+          }
+          findMany: {
+            args: Prisma.AiAuditEventFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiAuditEventPayload>[]
+          }
+          create: {
+            args: Prisma.AiAuditEventCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiAuditEventPayload>
+          }
+          createMany: {
+            args: Prisma.AiAuditEventCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AiAuditEventCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiAuditEventPayload>[]
+          }
+          delete: {
+            args: Prisma.AiAuditEventDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiAuditEventPayload>
+          }
+          update: {
+            args: Prisma.AiAuditEventUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiAuditEventPayload>
+          }
+          deleteMany: {
+            args: Prisma.AiAuditEventDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AiAuditEventUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AiAuditEventUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiAuditEventPayload>[]
+          }
+          upsert: {
+            args: Prisma.AiAuditEventUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AiAuditEventPayload>
+          }
+          aggregate: {
+            args: Prisma.AiAuditEventAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAiAuditEvent>
+          }
+          groupBy: {
+            args: Prisma.AiAuditEventGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AiAuditEventGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AiAuditEventCountArgs<ExtArgs>
+            result: $Utils.Optional<AiAuditEventCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1634,6 +2174,12 @@ export namespace Prisma {
     creditPurchase?: CreditPurchaseOmit
     automation?: AutomationOmit
     notification?: NotificationOmit
+    aiConversation?: AiConversationOmit
+    aiMessage?: AiMessageOmit
+    deliveryDraft?: DeliveryDraftOmit
+    providerQuote?: ProviderQuoteOmit
+    approval?: ApprovalOmit
+    aiAuditEvent?: AiAuditEventOmit
   }
 
   /* Types for Logging */
@@ -1716,11 +2262,15 @@ export namespace Prisma {
   export type UserCountOutputType = {
     messageTemplates: number
     automations: number
+    aiConversations: number
+    deliveryDrafts: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messageTemplates?: boolean | UserCountOutputTypeCountMessageTemplatesArgs
     automations?: boolean | UserCountOutputTypeCountAutomationsArgs
+    aiConversations?: boolean | UserCountOutputTypeCountAiConversationsArgs
+    deliveryDrafts?: boolean | UserCountOutputTypeCountDeliveryDraftsArgs
   }
 
   // Custom InputTypes
@@ -1746,6 +2296,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountAutomationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AutomationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAiConversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AiConversationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDeliveryDraftsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DeliveryDraftWhereInput
   }
 
 
@@ -1817,6 +2381,86 @@ export namespace Prisma {
    */
   export type CreditPackageCountOutputTypeCountPurchasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CreditPurchaseWhereInput
+  }
+
+
+  /**
+   * Count Type AiConversationCountOutputType
+   */
+
+  export type AiConversationCountOutputType = {
+    messages: number
+    drafts: number
+  }
+
+  export type AiConversationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    messages?: boolean | AiConversationCountOutputTypeCountMessagesArgs
+    drafts?: boolean | AiConversationCountOutputTypeCountDraftsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AiConversationCountOutputType without action
+   */
+  export type AiConversationCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiConversationCountOutputType
+     */
+    select?: AiConversationCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AiConversationCountOutputType without action
+   */
+  export type AiConversationCountOutputTypeCountMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AiMessageWhereInput
+  }
+
+  /**
+   * AiConversationCountOutputType without action
+   */
+  export type AiConversationCountOutputTypeCountDraftsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DeliveryDraftWhereInput
+  }
+
+
+  /**
+   * Count Type DeliveryDraftCountOutputType
+   */
+
+  export type DeliveryDraftCountOutputType = {
+    quotes: number
+    approvals: number
+  }
+
+  export type DeliveryDraftCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    quotes?: boolean | DeliveryDraftCountOutputTypeCountQuotesArgs
+    approvals?: boolean | DeliveryDraftCountOutputTypeCountApprovalsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * DeliveryDraftCountOutputType without action
+   */
+  export type DeliveryDraftCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DeliveryDraftCountOutputType
+     */
+    select?: DeliveryDraftCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * DeliveryDraftCountOutputType without action
+   */
+  export type DeliveryDraftCountOutputTypeCountQuotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProviderQuoteWhereInput
+  }
+
+  /**
+   * DeliveryDraftCountOutputType without action
+   */
+  export type DeliveryDraftCountOutputTypeCountApprovalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ApprovalWhereInput
   }
 
 
@@ -2139,6 +2783,8 @@ export namespace Prisma {
     messageTemplates?: boolean | User$messageTemplatesArgs<ExtArgs>
     automations?: boolean | User$automationsArgs<ExtArgs>
     creditWallet?: boolean | User$creditWalletArgs<ExtArgs>
+    aiConversations?: boolean | User$aiConversationsArgs<ExtArgs>
+    deliveryDrafts?: boolean | User$deliveryDraftsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2228,6 +2874,8 @@ export namespace Prisma {
     messageTemplates?: boolean | User$messageTemplatesArgs<ExtArgs>
     automations?: boolean | User$automationsArgs<ExtArgs>
     creditWallet?: boolean | User$creditWalletArgs<ExtArgs>
+    aiConversations?: boolean | User$aiConversationsArgs<ExtArgs>
+    deliveryDrafts?: boolean | User$deliveryDraftsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2239,6 +2887,8 @@ export namespace Prisma {
       messageTemplates: Prisma.$MessageTemplatePayload<ExtArgs>[]
       automations: Prisma.$AutomationPayload<ExtArgs>[]
       creditWallet: Prisma.$CreditWalletPayload<ExtArgs> | null
+      aiConversations: Prisma.$AiConversationPayload<ExtArgs>[]
+      deliveryDrafts: Prisma.$DeliveryDraftPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2662,6 +3312,8 @@ export namespace Prisma {
     messageTemplates<T extends User$messageTemplatesArgs<ExtArgs> = {}>(args?: Subset<T, User$messageTemplatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessageTemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     automations<T extends User$automationsArgs<ExtArgs> = {}>(args?: Subset<T, User$automationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AutomationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     creditWallet<T extends User$creditWalletArgs<ExtArgs> = {}>(args?: Subset<T, User$creditWalletArgs<ExtArgs>>): Prisma__CreditWalletClient<$Result.GetResult<Prisma.$CreditWalletPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    aiConversations<T extends User$aiConversationsArgs<ExtArgs> = {}>(args?: Subset<T, User$aiConversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    deliveryDrafts<T extends User$deliveryDraftsArgs<ExtArgs> = {}>(args?: Subset<T, User$deliveryDraftsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DeliveryDraftPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3167,6 +3819,54 @@ export namespace Prisma {
      */
     include?: CreditWalletInclude<ExtArgs> | null
     where?: CreditWalletWhereInput
+  }
+
+  /**
+   * User.aiConversations
+   */
+  export type User$aiConversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiConversation
+     */
+    select?: AiConversationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiConversation
+     */
+    omit?: AiConversationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiConversationInclude<ExtArgs> | null
+    where?: AiConversationWhereInput
+    orderBy?: AiConversationOrderByWithRelationInput | AiConversationOrderByWithRelationInput[]
+    cursor?: AiConversationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AiConversationScalarFieldEnum | AiConversationScalarFieldEnum[]
+  }
+
+  /**
+   * User.deliveryDrafts
+   */
+  export type User$deliveryDraftsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DeliveryDraft
+     */
+    select?: DeliveryDraftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DeliveryDraft
+     */
+    omit?: DeliveryDraftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeliveryDraftInclude<ExtArgs> | null
+    where?: DeliveryDraftWhereInput
+    orderBy?: DeliveryDraftOrderByWithRelationInput | DeliveryDraftOrderByWithRelationInput[]
+    cursor?: DeliveryDraftWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DeliveryDraftScalarFieldEnum | DeliveryDraftScalarFieldEnum[]
   }
 
   /**
@@ -13977,6 +14677,7225 @@ export namespace Prisma {
 
 
   /**
+   * Model AiConversation
+   */
+
+  export type AggregateAiConversation = {
+    _count: AiConversationCountAggregateOutputType | null
+    _min: AiConversationMinAggregateOutputType | null
+    _max: AiConversationMaxAggregateOutputType | null
+  }
+
+  export type AiConversationMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    customerWaId: string | null
+    phoneNumberId: string | null
+    status: string | null
+    lastMessageAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AiConversationMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    customerWaId: string | null
+    phoneNumberId: string | null
+    status: string | null
+    lastMessageAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AiConversationCountAggregateOutputType = {
+    id: number
+    userId: number
+    customerWaId: number
+    phoneNumberId: number
+    status: number
+    lastMessageAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AiConversationMinAggregateInputType = {
+    id?: true
+    userId?: true
+    customerWaId?: true
+    phoneNumberId?: true
+    status?: true
+    lastMessageAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AiConversationMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    customerWaId?: true
+    phoneNumberId?: true
+    status?: true
+    lastMessageAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AiConversationCountAggregateInputType = {
+    id?: true
+    userId?: true
+    customerWaId?: true
+    phoneNumberId?: true
+    status?: true
+    lastMessageAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AiConversationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AiConversation to aggregate.
+     */
+    where?: AiConversationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AiConversations to fetch.
+     */
+    orderBy?: AiConversationOrderByWithRelationInput | AiConversationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AiConversationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AiConversations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AiConversations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AiConversations
+    **/
+    _count?: true | AiConversationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AiConversationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AiConversationMaxAggregateInputType
+  }
+
+  export type GetAiConversationAggregateType<T extends AiConversationAggregateArgs> = {
+        [P in keyof T & keyof AggregateAiConversation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAiConversation[P]>
+      : GetScalarType<T[P], AggregateAiConversation[P]>
+  }
+
+
+
+
+  export type AiConversationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AiConversationWhereInput
+    orderBy?: AiConversationOrderByWithAggregationInput | AiConversationOrderByWithAggregationInput[]
+    by: AiConversationScalarFieldEnum[] | AiConversationScalarFieldEnum
+    having?: AiConversationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AiConversationCountAggregateInputType | true
+    _min?: AiConversationMinAggregateInputType
+    _max?: AiConversationMaxAggregateInputType
+  }
+
+  export type AiConversationGroupByOutputType = {
+    id: string
+    userId: string
+    customerWaId: string
+    phoneNumberId: string
+    status: string
+    lastMessageAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: AiConversationCountAggregateOutputType | null
+    _min: AiConversationMinAggregateOutputType | null
+    _max: AiConversationMaxAggregateOutputType | null
+  }
+
+  type GetAiConversationGroupByPayload<T extends AiConversationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AiConversationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AiConversationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AiConversationGroupByOutputType[P]>
+            : GetScalarType<T[P], AiConversationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AiConversationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    customerWaId?: boolean
+    phoneNumberId?: boolean
+    status?: boolean
+    lastMessageAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    messages?: boolean | AiConversation$messagesArgs<ExtArgs>
+    drafts?: boolean | AiConversation$draftsArgs<ExtArgs>
+    _count?: boolean | AiConversationCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["aiConversation"]>
+
+  export type AiConversationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    customerWaId?: boolean
+    phoneNumberId?: boolean
+    status?: boolean
+    lastMessageAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["aiConversation"]>
+
+  export type AiConversationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    customerWaId?: boolean
+    phoneNumberId?: boolean
+    status?: boolean
+    lastMessageAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["aiConversation"]>
+
+  export type AiConversationSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    customerWaId?: boolean
+    phoneNumberId?: boolean
+    status?: boolean
+    lastMessageAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AiConversationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "customerWaId" | "phoneNumberId" | "status" | "lastMessageAt" | "createdAt" | "updatedAt", ExtArgs["result"]["aiConversation"]>
+  export type AiConversationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    messages?: boolean | AiConversation$messagesArgs<ExtArgs>
+    drafts?: boolean | AiConversation$draftsArgs<ExtArgs>
+    _count?: boolean | AiConversationCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type AiConversationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AiConversationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $AiConversationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AiConversation"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      messages: Prisma.$AiMessagePayload<ExtArgs>[]
+      drafts: Prisma.$DeliveryDraftPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      customerWaId: string
+      phoneNumberId: string
+      status: string
+      lastMessageAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["aiConversation"]>
+    composites: {}
+  }
+
+  type AiConversationGetPayload<S extends boolean | null | undefined | AiConversationDefaultArgs> = $Result.GetResult<Prisma.$AiConversationPayload, S>
+
+  type AiConversationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AiConversationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AiConversationCountAggregateInputType | true
+    }
+
+  export interface AiConversationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AiConversation'], meta: { name: 'AiConversation' } }
+    /**
+     * Find zero or one AiConversation that matches the filter.
+     * @param {AiConversationFindUniqueArgs} args - Arguments to find a AiConversation
+     * @example
+     * // Get one AiConversation
+     * const aiConversation = await prisma.aiConversation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AiConversationFindUniqueArgs>(args: SelectSubset<T, AiConversationFindUniqueArgs<ExtArgs>>): Prisma__AiConversationClient<$Result.GetResult<Prisma.$AiConversationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AiConversation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AiConversationFindUniqueOrThrowArgs} args - Arguments to find a AiConversation
+     * @example
+     * // Get one AiConversation
+     * const aiConversation = await prisma.aiConversation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AiConversationFindUniqueOrThrowArgs>(args: SelectSubset<T, AiConversationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AiConversationClient<$Result.GetResult<Prisma.$AiConversationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AiConversation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiConversationFindFirstArgs} args - Arguments to find a AiConversation
+     * @example
+     * // Get one AiConversation
+     * const aiConversation = await prisma.aiConversation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AiConversationFindFirstArgs>(args?: SelectSubset<T, AiConversationFindFirstArgs<ExtArgs>>): Prisma__AiConversationClient<$Result.GetResult<Prisma.$AiConversationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AiConversation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiConversationFindFirstOrThrowArgs} args - Arguments to find a AiConversation
+     * @example
+     * // Get one AiConversation
+     * const aiConversation = await prisma.aiConversation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AiConversationFindFirstOrThrowArgs>(args?: SelectSubset<T, AiConversationFindFirstOrThrowArgs<ExtArgs>>): Prisma__AiConversationClient<$Result.GetResult<Prisma.$AiConversationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AiConversations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiConversationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AiConversations
+     * const aiConversations = await prisma.aiConversation.findMany()
+     * 
+     * // Get first 10 AiConversations
+     * const aiConversations = await prisma.aiConversation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const aiConversationWithIdOnly = await prisma.aiConversation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AiConversationFindManyArgs>(args?: SelectSubset<T, AiConversationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AiConversation.
+     * @param {AiConversationCreateArgs} args - Arguments to create a AiConversation.
+     * @example
+     * // Create one AiConversation
+     * const AiConversation = await prisma.aiConversation.create({
+     *   data: {
+     *     // ... data to create a AiConversation
+     *   }
+     * })
+     * 
+     */
+    create<T extends AiConversationCreateArgs>(args: SelectSubset<T, AiConversationCreateArgs<ExtArgs>>): Prisma__AiConversationClient<$Result.GetResult<Prisma.$AiConversationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AiConversations.
+     * @param {AiConversationCreateManyArgs} args - Arguments to create many AiConversations.
+     * @example
+     * // Create many AiConversations
+     * const aiConversation = await prisma.aiConversation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AiConversationCreateManyArgs>(args?: SelectSubset<T, AiConversationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AiConversations and returns the data saved in the database.
+     * @param {AiConversationCreateManyAndReturnArgs} args - Arguments to create many AiConversations.
+     * @example
+     * // Create many AiConversations
+     * const aiConversation = await prisma.aiConversation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AiConversations and only return the `id`
+     * const aiConversationWithIdOnly = await prisma.aiConversation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AiConversationCreateManyAndReturnArgs>(args?: SelectSubset<T, AiConversationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiConversationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AiConversation.
+     * @param {AiConversationDeleteArgs} args - Arguments to delete one AiConversation.
+     * @example
+     * // Delete one AiConversation
+     * const AiConversation = await prisma.aiConversation.delete({
+     *   where: {
+     *     // ... filter to delete one AiConversation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AiConversationDeleteArgs>(args: SelectSubset<T, AiConversationDeleteArgs<ExtArgs>>): Prisma__AiConversationClient<$Result.GetResult<Prisma.$AiConversationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AiConversation.
+     * @param {AiConversationUpdateArgs} args - Arguments to update one AiConversation.
+     * @example
+     * // Update one AiConversation
+     * const aiConversation = await prisma.aiConversation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AiConversationUpdateArgs>(args: SelectSubset<T, AiConversationUpdateArgs<ExtArgs>>): Prisma__AiConversationClient<$Result.GetResult<Prisma.$AiConversationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AiConversations.
+     * @param {AiConversationDeleteManyArgs} args - Arguments to filter AiConversations to delete.
+     * @example
+     * // Delete a few AiConversations
+     * const { count } = await prisma.aiConversation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AiConversationDeleteManyArgs>(args?: SelectSubset<T, AiConversationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AiConversations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiConversationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AiConversations
+     * const aiConversation = await prisma.aiConversation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AiConversationUpdateManyArgs>(args: SelectSubset<T, AiConversationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AiConversations and returns the data updated in the database.
+     * @param {AiConversationUpdateManyAndReturnArgs} args - Arguments to update many AiConversations.
+     * @example
+     * // Update many AiConversations
+     * const aiConversation = await prisma.aiConversation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AiConversations and only return the `id`
+     * const aiConversationWithIdOnly = await prisma.aiConversation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AiConversationUpdateManyAndReturnArgs>(args: SelectSubset<T, AiConversationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiConversationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AiConversation.
+     * @param {AiConversationUpsertArgs} args - Arguments to update or create a AiConversation.
+     * @example
+     * // Update or create a AiConversation
+     * const aiConversation = await prisma.aiConversation.upsert({
+     *   create: {
+     *     // ... data to create a AiConversation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AiConversation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AiConversationUpsertArgs>(args: SelectSubset<T, AiConversationUpsertArgs<ExtArgs>>): Prisma__AiConversationClient<$Result.GetResult<Prisma.$AiConversationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AiConversations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiConversationCountArgs} args - Arguments to filter AiConversations to count.
+     * @example
+     * // Count the number of AiConversations
+     * const count = await prisma.aiConversation.count({
+     *   where: {
+     *     // ... the filter for the AiConversations we want to count
+     *   }
+     * })
+    **/
+    count<T extends AiConversationCountArgs>(
+      args?: Subset<T, AiConversationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AiConversationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AiConversation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiConversationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AiConversationAggregateArgs>(args: Subset<T, AiConversationAggregateArgs>): Prisma.PrismaPromise<GetAiConversationAggregateType<T>>
+
+    /**
+     * Group by AiConversation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiConversationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AiConversationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AiConversationGroupByArgs['orderBy'] }
+        : { orderBy?: AiConversationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AiConversationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAiConversationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AiConversation model
+   */
+  readonly fields: AiConversationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AiConversation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AiConversationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    messages<T extends AiConversation$messagesArgs<ExtArgs> = {}>(args?: Subset<T, AiConversation$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    drafts<T extends AiConversation$draftsArgs<ExtArgs> = {}>(args?: Subset<T, AiConversation$draftsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DeliveryDraftPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AiConversation model
+   */
+  interface AiConversationFieldRefs {
+    readonly id: FieldRef<"AiConversation", 'String'>
+    readonly userId: FieldRef<"AiConversation", 'String'>
+    readonly customerWaId: FieldRef<"AiConversation", 'String'>
+    readonly phoneNumberId: FieldRef<"AiConversation", 'String'>
+    readonly status: FieldRef<"AiConversation", 'String'>
+    readonly lastMessageAt: FieldRef<"AiConversation", 'DateTime'>
+    readonly createdAt: FieldRef<"AiConversation", 'DateTime'>
+    readonly updatedAt: FieldRef<"AiConversation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AiConversation findUnique
+   */
+  export type AiConversationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiConversation
+     */
+    select?: AiConversationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiConversation
+     */
+    omit?: AiConversationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiConversationInclude<ExtArgs> | null
+    /**
+     * Filter, which AiConversation to fetch.
+     */
+    where: AiConversationWhereUniqueInput
+  }
+
+  /**
+   * AiConversation findUniqueOrThrow
+   */
+  export type AiConversationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiConversation
+     */
+    select?: AiConversationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiConversation
+     */
+    omit?: AiConversationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiConversationInclude<ExtArgs> | null
+    /**
+     * Filter, which AiConversation to fetch.
+     */
+    where: AiConversationWhereUniqueInput
+  }
+
+  /**
+   * AiConversation findFirst
+   */
+  export type AiConversationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiConversation
+     */
+    select?: AiConversationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiConversation
+     */
+    omit?: AiConversationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiConversationInclude<ExtArgs> | null
+    /**
+     * Filter, which AiConversation to fetch.
+     */
+    where?: AiConversationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AiConversations to fetch.
+     */
+    orderBy?: AiConversationOrderByWithRelationInput | AiConversationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AiConversations.
+     */
+    cursor?: AiConversationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AiConversations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AiConversations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AiConversations.
+     */
+    distinct?: AiConversationScalarFieldEnum | AiConversationScalarFieldEnum[]
+  }
+
+  /**
+   * AiConversation findFirstOrThrow
+   */
+  export type AiConversationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiConversation
+     */
+    select?: AiConversationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiConversation
+     */
+    omit?: AiConversationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiConversationInclude<ExtArgs> | null
+    /**
+     * Filter, which AiConversation to fetch.
+     */
+    where?: AiConversationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AiConversations to fetch.
+     */
+    orderBy?: AiConversationOrderByWithRelationInput | AiConversationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AiConversations.
+     */
+    cursor?: AiConversationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AiConversations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AiConversations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AiConversations.
+     */
+    distinct?: AiConversationScalarFieldEnum | AiConversationScalarFieldEnum[]
+  }
+
+  /**
+   * AiConversation findMany
+   */
+  export type AiConversationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiConversation
+     */
+    select?: AiConversationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiConversation
+     */
+    omit?: AiConversationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiConversationInclude<ExtArgs> | null
+    /**
+     * Filter, which AiConversations to fetch.
+     */
+    where?: AiConversationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AiConversations to fetch.
+     */
+    orderBy?: AiConversationOrderByWithRelationInput | AiConversationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AiConversations.
+     */
+    cursor?: AiConversationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AiConversations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AiConversations.
+     */
+    skip?: number
+    distinct?: AiConversationScalarFieldEnum | AiConversationScalarFieldEnum[]
+  }
+
+  /**
+   * AiConversation create
+   */
+  export type AiConversationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiConversation
+     */
+    select?: AiConversationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiConversation
+     */
+    omit?: AiConversationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiConversationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AiConversation.
+     */
+    data: XOR<AiConversationCreateInput, AiConversationUncheckedCreateInput>
+  }
+
+  /**
+   * AiConversation createMany
+   */
+  export type AiConversationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AiConversations.
+     */
+    data: AiConversationCreateManyInput | AiConversationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AiConversation createManyAndReturn
+   */
+  export type AiConversationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiConversation
+     */
+    select?: AiConversationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiConversation
+     */
+    omit?: AiConversationOmit<ExtArgs> | null
+    /**
+     * The data used to create many AiConversations.
+     */
+    data: AiConversationCreateManyInput | AiConversationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiConversationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AiConversation update
+   */
+  export type AiConversationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiConversation
+     */
+    select?: AiConversationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiConversation
+     */
+    omit?: AiConversationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiConversationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AiConversation.
+     */
+    data: XOR<AiConversationUpdateInput, AiConversationUncheckedUpdateInput>
+    /**
+     * Choose, which AiConversation to update.
+     */
+    where: AiConversationWhereUniqueInput
+  }
+
+  /**
+   * AiConversation updateMany
+   */
+  export type AiConversationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AiConversations.
+     */
+    data: XOR<AiConversationUpdateManyMutationInput, AiConversationUncheckedUpdateManyInput>
+    /**
+     * Filter which AiConversations to update
+     */
+    where?: AiConversationWhereInput
+    /**
+     * Limit how many AiConversations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AiConversation updateManyAndReturn
+   */
+  export type AiConversationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiConversation
+     */
+    select?: AiConversationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiConversation
+     */
+    omit?: AiConversationOmit<ExtArgs> | null
+    /**
+     * The data used to update AiConversations.
+     */
+    data: XOR<AiConversationUpdateManyMutationInput, AiConversationUncheckedUpdateManyInput>
+    /**
+     * Filter which AiConversations to update
+     */
+    where?: AiConversationWhereInput
+    /**
+     * Limit how many AiConversations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiConversationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AiConversation upsert
+   */
+  export type AiConversationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiConversation
+     */
+    select?: AiConversationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiConversation
+     */
+    omit?: AiConversationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiConversationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AiConversation to update in case it exists.
+     */
+    where: AiConversationWhereUniqueInput
+    /**
+     * In case the AiConversation found by the `where` argument doesn't exist, create a new AiConversation with this data.
+     */
+    create: XOR<AiConversationCreateInput, AiConversationUncheckedCreateInput>
+    /**
+     * In case the AiConversation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AiConversationUpdateInput, AiConversationUncheckedUpdateInput>
+  }
+
+  /**
+   * AiConversation delete
+   */
+  export type AiConversationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiConversation
+     */
+    select?: AiConversationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiConversation
+     */
+    omit?: AiConversationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiConversationInclude<ExtArgs> | null
+    /**
+     * Filter which AiConversation to delete.
+     */
+    where: AiConversationWhereUniqueInput
+  }
+
+  /**
+   * AiConversation deleteMany
+   */
+  export type AiConversationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AiConversations to delete
+     */
+    where?: AiConversationWhereInput
+    /**
+     * Limit how many AiConversations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AiConversation.messages
+   */
+  export type AiConversation$messagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiMessage
+     */
+    select?: AiMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiMessage
+     */
+    omit?: AiMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiMessageInclude<ExtArgs> | null
+    where?: AiMessageWhereInput
+    orderBy?: AiMessageOrderByWithRelationInput | AiMessageOrderByWithRelationInput[]
+    cursor?: AiMessageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AiMessageScalarFieldEnum | AiMessageScalarFieldEnum[]
+  }
+
+  /**
+   * AiConversation.drafts
+   */
+  export type AiConversation$draftsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DeliveryDraft
+     */
+    select?: DeliveryDraftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DeliveryDraft
+     */
+    omit?: DeliveryDraftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeliveryDraftInclude<ExtArgs> | null
+    where?: DeliveryDraftWhereInput
+    orderBy?: DeliveryDraftOrderByWithRelationInput | DeliveryDraftOrderByWithRelationInput[]
+    cursor?: DeliveryDraftWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DeliveryDraftScalarFieldEnum | DeliveryDraftScalarFieldEnum[]
+  }
+
+  /**
+   * AiConversation without action
+   */
+  export type AiConversationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiConversation
+     */
+    select?: AiConversationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiConversation
+     */
+    omit?: AiConversationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiConversationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AiMessage
+   */
+
+  export type AggregateAiMessage = {
+    _count: AiMessageCountAggregateOutputType | null
+    _avg: AiMessageAvgAggregateOutputType | null
+    _sum: AiMessageSumAggregateOutputType | null
+    _min: AiMessageMinAggregateOutputType | null
+    _max: AiMessageMaxAggregateOutputType | null
+  }
+
+  export type AiMessageAvgAggregateOutputType = {
+    attempts: number | null
+  }
+
+  export type AiMessageSumAggregateOutputType = {
+    attempts: number | null
+  }
+
+  export type AiMessageMinAggregateOutputType = {
+    id: string | null
+    conversationId: string | null
+    waMessageId: string | null
+    direction: string | null
+    body: string | null
+    processingState: string | null
+    attempts: number | null
+    nextRetryAt: Date | null
+    processingError: string | null
+    createdAt: Date | null
+  }
+
+  export type AiMessageMaxAggregateOutputType = {
+    id: string | null
+    conversationId: string | null
+    waMessageId: string | null
+    direction: string | null
+    body: string | null
+    processingState: string | null
+    attempts: number | null
+    nextRetryAt: Date | null
+    processingError: string | null
+    createdAt: Date | null
+  }
+
+  export type AiMessageCountAggregateOutputType = {
+    id: number
+    conversationId: number
+    waMessageId: number
+    direction: number
+    body: number
+    rawPayload: number
+    processingState: number
+    attempts: number
+    nextRetryAt: number
+    processingError: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type AiMessageAvgAggregateInputType = {
+    attempts?: true
+  }
+
+  export type AiMessageSumAggregateInputType = {
+    attempts?: true
+  }
+
+  export type AiMessageMinAggregateInputType = {
+    id?: true
+    conversationId?: true
+    waMessageId?: true
+    direction?: true
+    body?: true
+    processingState?: true
+    attempts?: true
+    nextRetryAt?: true
+    processingError?: true
+    createdAt?: true
+  }
+
+  export type AiMessageMaxAggregateInputType = {
+    id?: true
+    conversationId?: true
+    waMessageId?: true
+    direction?: true
+    body?: true
+    processingState?: true
+    attempts?: true
+    nextRetryAt?: true
+    processingError?: true
+    createdAt?: true
+  }
+
+  export type AiMessageCountAggregateInputType = {
+    id?: true
+    conversationId?: true
+    waMessageId?: true
+    direction?: true
+    body?: true
+    rawPayload?: true
+    processingState?: true
+    attempts?: true
+    nextRetryAt?: true
+    processingError?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type AiMessageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AiMessage to aggregate.
+     */
+    where?: AiMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AiMessages to fetch.
+     */
+    orderBy?: AiMessageOrderByWithRelationInput | AiMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AiMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AiMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AiMessages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AiMessages
+    **/
+    _count?: true | AiMessageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AiMessageAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AiMessageSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AiMessageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AiMessageMaxAggregateInputType
+  }
+
+  export type GetAiMessageAggregateType<T extends AiMessageAggregateArgs> = {
+        [P in keyof T & keyof AggregateAiMessage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAiMessage[P]>
+      : GetScalarType<T[P], AggregateAiMessage[P]>
+  }
+
+
+
+
+  export type AiMessageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AiMessageWhereInput
+    orderBy?: AiMessageOrderByWithAggregationInput | AiMessageOrderByWithAggregationInput[]
+    by: AiMessageScalarFieldEnum[] | AiMessageScalarFieldEnum
+    having?: AiMessageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AiMessageCountAggregateInputType | true
+    _avg?: AiMessageAvgAggregateInputType
+    _sum?: AiMessageSumAggregateInputType
+    _min?: AiMessageMinAggregateInputType
+    _max?: AiMessageMaxAggregateInputType
+  }
+
+  export type AiMessageGroupByOutputType = {
+    id: string
+    conversationId: string
+    waMessageId: string
+    direction: string
+    body: string | null
+    rawPayload: JsonValue | null
+    processingState: string
+    attempts: number
+    nextRetryAt: Date | null
+    processingError: string | null
+    createdAt: Date
+    _count: AiMessageCountAggregateOutputType | null
+    _avg: AiMessageAvgAggregateOutputType | null
+    _sum: AiMessageSumAggregateOutputType | null
+    _min: AiMessageMinAggregateOutputType | null
+    _max: AiMessageMaxAggregateOutputType | null
+  }
+
+  type GetAiMessageGroupByPayload<T extends AiMessageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AiMessageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AiMessageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AiMessageGroupByOutputType[P]>
+            : GetScalarType<T[P], AiMessageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AiMessageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    conversationId?: boolean
+    waMessageId?: boolean
+    direction?: boolean
+    body?: boolean
+    rawPayload?: boolean
+    processingState?: boolean
+    attempts?: boolean
+    nextRetryAt?: boolean
+    processingError?: boolean
+    createdAt?: boolean
+    conversation?: boolean | AiConversationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["aiMessage"]>
+
+  export type AiMessageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    conversationId?: boolean
+    waMessageId?: boolean
+    direction?: boolean
+    body?: boolean
+    rawPayload?: boolean
+    processingState?: boolean
+    attempts?: boolean
+    nextRetryAt?: boolean
+    processingError?: boolean
+    createdAt?: boolean
+    conversation?: boolean | AiConversationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["aiMessage"]>
+
+  export type AiMessageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    conversationId?: boolean
+    waMessageId?: boolean
+    direction?: boolean
+    body?: boolean
+    rawPayload?: boolean
+    processingState?: boolean
+    attempts?: boolean
+    nextRetryAt?: boolean
+    processingError?: boolean
+    createdAt?: boolean
+    conversation?: boolean | AiConversationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["aiMessage"]>
+
+  export type AiMessageSelectScalar = {
+    id?: boolean
+    conversationId?: boolean
+    waMessageId?: boolean
+    direction?: boolean
+    body?: boolean
+    rawPayload?: boolean
+    processingState?: boolean
+    attempts?: boolean
+    nextRetryAt?: boolean
+    processingError?: boolean
+    createdAt?: boolean
+  }
+
+  export type AiMessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "conversationId" | "waMessageId" | "direction" | "body" | "rawPayload" | "processingState" | "attempts" | "nextRetryAt" | "processingError" | "createdAt", ExtArgs["result"]["aiMessage"]>
+  export type AiMessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    conversation?: boolean | AiConversationDefaultArgs<ExtArgs>
+  }
+  export type AiMessageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    conversation?: boolean | AiConversationDefaultArgs<ExtArgs>
+  }
+  export type AiMessageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    conversation?: boolean | AiConversationDefaultArgs<ExtArgs>
+  }
+
+  export type $AiMessagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AiMessage"
+    objects: {
+      conversation: Prisma.$AiConversationPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      conversationId: string
+      waMessageId: string
+      direction: string
+      body: string | null
+      rawPayload: Prisma.JsonValue | null
+      processingState: string
+      attempts: number
+      nextRetryAt: Date | null
+      processingError: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["aiMessage"]>
+    composites: {}
+  }
+
+  type AiMessageGetPayload<S extends boolean | null | undefined | AiMessageDefaultArgs> = $Result.GetResult<Prisma.$AiMessagePayload, S>
+
+  type AiMessageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AiMessageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AiMessageCountAggregateInputType | true
+    }
+
+  export interface AiMessageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AiMessage'], meta: { name: 'AiMessage' } }
+    /**
+     * Find zero or one AiMessage that matches the filter.
+     * @param {AiMessageFindUniqueArgs} args - Arguments to find a AiMessage
+     * @example
+     * // Get one AiMessage
+     * const aiMessage = await prisma.aiMessage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AiMessageFindUniqueArgs>(args: SelectSubset<T, AiMessageFindUniqueArgs<ExtArgs>>): Prisma__AiMessageClient<$Result.GetResult<Prisma.$AiMessagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AiMessage that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AiMessageFindUniqueOrThrowArgs} args - Arguments to find a AiMessage
+     * @example
+     * // Get one AiMessage
+     * const aiMessage = await prisma.aiMessage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AiMessageFindUniqueOrThrowArgs>(args: SelectSubset<T, AiMessageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AiMessageClient<$Result.GetResult<Prisma.$AiMessagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AiMessage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiMessageFindFirstArgs} args - Arguments to find a AiMessage
+     * @example
+     * // Get one AiMessage
+     * const aiMessage = await prisma.aiMessage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AiMessageFindFirstArgs>(args?: SelectSubset<T, AiMessageFindFirstArgs<ExtArgs>>): Prisma__AiMessageClient<$Result.GetResult<Prisma.$AiMessagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AiMessage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiMessageFindFirstOrThrowArgs} args - Arguments to find a AiMessage
+     * @example
+     * // Get one AiMessage
+     * const aiMessage = await prisma.aiMessage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AiMessageFindFirstOrThrowArgs>(args?: SelectSubset<T, AiMessageFindFirstOrThrowArgs<ExtArgs>>): Prisma__AiMessageClient<$Result.GetResult<Prisma.$AiMessagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AiMessages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiMessageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AiMessages
+     * const aiMessages = await prisma.aiMessage.findMany()
+     * 
+     * // Get first 10 AiMessages
+     * const aiMessages = await prisma.aiMessage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const aiMessageWithIdOnly = await prisma.aiMessage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AiMessageFindManyArgs>(args?: SelectSubset<T, AiMessageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AiMessage.
+     * @param {AiMessageCreateArgs} args - Arguments to create a AiMessage.
+     * @example
+     * // Create one AiMessage
+     * const AiMessage = await prisma.aiMessage.create({
+     *   data: {
+     *     // ... data to create a AiMessage
+     *   }
+     * })
+     * 
+     */
+    create<T extends AiMessageCreateArgs>(args: SelectSubset<T, AiMessageCreateArgs<ExtArgs>>): Prisma__AiMessageClient<$Result.GetResult<Prisma.$AiMessagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AiMessages.
+     * @param {AiMessageCreateManyArgs} args - Arguments to create many AiMessages.
+     * @example
+     * // Create many AiMessages
+     * const aiMessage = await prisma.aiMessage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AiMessageCreateManyArgs>(args?: SelectSubset<T, AiMessageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AiMessages and returns the data saved in the database.
+     * @param {AiMessageCreateManyAndReturnArgs} args - Arguments to create many AiMessages.
+     * @example
+     * // Create many AiMessages
+     * const aiMessage = await prisma.aiMessage.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AiMessages and only return the `id`
+     * const aiMessageWithIdOnly = await prisma.aiMessage.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AiMessageCreateManyAndReturnArgs>(args?: SelectSubset<T, AiMessageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiMessagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AiMessage.
+     * @param {AiMessageDeleteArgs} args - Arguments to delete one AiMessage.
+     * @example
+     * // Delete one AiMessage
+     * const AiMessage = await prisma.aiMessage.delete({
+     *   where: {
+     *     // ... filter to delete one AiMessage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AiMessageDeleteArgs>(args: SelectSubset<T, AiMessageDeleteArgs<ExtArgs>>): Prisma__AiMessageClient<$Result.GetResult<Prisma.$AiMessagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AiMessage.
+     * @param {AiMessageUpdateArgs} args - Arguments to update one AiMessage.
+     * @example
+     * // Update one AiMessage
+     * const aiMessage = await prisma.aiMessage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AiMessageUpdateArgs>(args: SelectSubset<T, AiMessageUpdateArgs<ExtArgs>>): Prisma__AiMessageClient<$Result.GetResult<Prisma.$AiMessagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AiMessages.
+     * @param {AiMessageDeleteManyArgs} args - Arguments to filter AiMessages to delete.
+     * @example
+     * // Delete a few AiMessages
+     * const { count } = await prisma.aiMessage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AiMessageDeleteManyArgs>(args?: SelectSubset<T, AiMessageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AiMessages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiMessageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AiMessages
+     * const aiMessage = await prisma.aiMessage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AiMessageUpdateManyArgs>(args: SelectSubset<T, AiMessageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AiMessages and returns the data updated in the database.
+     * @param {AiMessageUpdateManyAndReturnArgs} args - Arguments to update many AiMessages.
+     * @example
+     * // Update many AiMessages
+     * const aiMessage = await prisma.aiMessage.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AiMessages and only return the `id`
+     * const aiMessageWithIdOnly = await prisma.aiMessage.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AiMessageUpdateManyAndReturnArgs>(args: SelectSubset<T, AiMessageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiMessagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AiMessage.
+     * @param {AiMessageUpsertArgs} args - Arguments to update or create a AiMessage.
+     * @example
+     * // Update or create a AiMessage
+     * const aiMessage = await prisma.aiMessage.upsert({
+     *   create: {
+     *     // ... data to create a AiMessage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AiMessage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AiMessageUpsertArgs>(args: SelectSubset<T, AiMessageUpsertArgs<ExtArgs>>): Prisma__AiMessageClient<$Result.GetResult<Prisma.$AiMessagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AiMessages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiMessageCountArgs} args - Arguments to filter AiMessages to count.
+     * @example
+     * // Count the number of AiMessages
+     * const count = await prisma.aiMessage.count({
+     *   where: {
+     *     // ... the filter for the AiMessages we want to count
+     *   }
+     * })
+    **/
+    count<T extends AiMessageCountArgs>(
+      args?: Subset<T, AiMessageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AiMessageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AiMessage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiMessageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AiMessageAggregateArgs>(args: Subset<T, AiMessageAggregateArgs>): Prisma.PrismaPromise<GetAiMessageAggregateType<T>>
+
+    /**
+     * Group by AiMessage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiMessageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AiMessageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AiMessageGroupByArgs['orderBy'] }
+        : { orderBy?: AiMessageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AiMessageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAiMessageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AiMessage model
+   */
+  readonly fields: AiMessageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AiMessage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AiMessageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    conversation<T extends AiConversationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AiConversationDefaultArgs<ExtArgs>>): Prisma__AiConversationClient<$Result.GetResult<Prisma.$AiConversationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AiMessage model
+   */
+  interface AiMessageFieldRefs {
+    readonly id: FieldRef<"AiMessage", 'String'>
+    readonly conversationId: FieldRef<"AiMessage", 'String'>
+    readonly waMessageId: FieldRef<"AiMessage", 'String'>
+    readonly direction: FieldRef<"AiMessage", 'String'>
+    readonly body: FieldRef<"AiMessage", 'String'>
+    readonly rawPayload: FieldRef<"AiMessage", 'Json'>
+    readonly processingState: FieldRef<"AiMessage", 'String'>
+    readonly attempts: FieldRef<"AiMessage", 'Int'>
+    readonly nextRetryAt: FieldRef<"AiMessage", 'DateTime'>
+    readonly processingError: FieldRef<"AiMessage", 'String'>
+    readonly createdAt: FieldRef<"AiMessage", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AiMessage findUnique
+   */
+  export type AiMessageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiMessage
+     */
+    select?: AiMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiMessage
+     */
+    omit?: AiMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which AiMessage to fetch.
+     */
+    where: AiMessageWhereUniqueInput
+  }
+
+  /**
+   * AiMessage findUniqueOrThrow
+   */
+  export type AiMessageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiMessage
+     */
+    select?: AiMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiMessage
+     */
+    omit?: AiMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which AiMessage to fetch.
+     */
+    where: AiMessageWhereUniqueInput
+  }
+
+  /**
+   * AiMessage findFirst
+   */
+  export type AiMessageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiMessage
+     */
+    select?: AiMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiMessage
+     */
+    omit?: AiMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which AiMessage to fetch.
+     */
+    where?: AiMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AiMessages to fetch.
+     */
+    orderBy?: AiMessageOrderByWithRelationInput | AiMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AiMessages.
+     */
+    cursor?: AiMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AiMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AiMessages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AiMessages.
+     */
+    distinct?: AiMessageScalarFieldEnum | AiMessageScalarFieldEnum[]
+  }
+
+  /**
+   * AiMessage findFirstOrThrow
+   */
+  export type AiMessageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiMessage
+     */
+    select?: AiMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiMessage
+     */
+    omit?: AiMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which AiMessage to fetch.
+     */
+    where?: AiMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AiMessages to fetch.
+     */
+    orderBy?: AiMessageOrderByWithRelationInput | AiMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AiMessages.
+     */
+    cursor?: AiMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AiMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AiMessages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AiMessages.
+     */
+    distinct?: AiMessageScalarFieldEnum | AiMessageScalarFieldEnum[]
+  }
+
+  /**
+   * AiMessage findMany
+   */
+  export type AiMessageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiMessage
+     */
+    select?: AiMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiMessage
+     */
+    omit?: AiMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which AiMessages to fetch.
+     */
+    where?: AiMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AiMessages to fetch.
+     */
+    orderBy?: AiMessageOrderByWithRelationInput | AiMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AiMessages.
+     */
+    cursor?: AiMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AiMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AiMessages.
+     */
+    skip?: number
+    distinct?: AiMessageScalarFieldEnum | AiMessageScalarFieldEnum[]
+  }
+
+  /**
+   * AiMessage create
+   */
+  export type AiMessageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiMessage
+     */
+    select?: AiMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiMessage
+     */
+    omit?: AiMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiMessageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AiMessage.
+     */
+    data: XOR<AiMessageCreateInput, AiMessageUncheckedCreateInput>
+  }
+
+  /**
+   * AiMessage createMany
+   */
+  export type AiMessageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AiMessages.
+     */
+    data: AiMessageCreateManyInput | AiMessageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AiMessage createManyAndReturn
+   */
+  export type AiMessageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiMessage
+     */
+    select?: AiMessageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiMessage
+     */
+    omit?: AiMessageOmit<ExtArgs> | null
+    /**
+     * The data used to create many AiMessages.
+     */
+    data: AiMessageCreateManyInput | AiMessageCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiMessageIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AiMessage update
+   */
+  export type AiMessageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiMessage
+     */
+    select?: AiMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiMessage
+     */
+    omit?: AiMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiMessageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AiMessage.
+     */
+    data: XOR<AiMessageUpdateInput, AiMessageUncheckedUpdateInput>
+    /**
+     * Choose, which AiMessage to update.
+     */
+    where: AiMessageWhereUniqueInput
+  }
+
+  /**
+   * AiMessage updateMany
+   */
+  export type AiMessageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AiMessages.
+     */
+    data: XOR<AiMessageUpdateManyMutationInput, AiMessageUncheckedUpdateManyInput>
+    /**
+     * Filter which AiMessages to update
+     */
+    where?: AiMessageWhereInput
+    /**
+     * Limit how many AiMessages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AiMessage updateManyAndReturn
+   */
+  export type AiMessageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiMessage
+     */
+    select?: AiMessageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiMessage
+     */
+    omit?: AiMessageOmit<ExtArgs> | null
+    /**
+     * The data used to update AiMessages.
+     */
+    data: XOR<AiMessageUpdateManyMutationInput, AiMessageUncheckedUpdateManyInput>
+    /**
+     * Filter which AiMessages to update
+     */
+    where?: AiMessageWhereInput
+    /**
+     * Limit how many AiMessages to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiMessageIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AiMessage upsert
+   */
+  export type AiMessageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiMessage
+     */
+    select?: AiMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiMessage
+     */
+    omit?: AiMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiMessageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AiMessage to update in case it exists.
+     */
+    where: AiMessageWhereUniqueInput
+    /**
+     * In case the AiMessage found by the `where` argument doesn't exist, create a new AiMessage with this data.
+     */
+    create: XOR<AiMessageCreateInput, AiMessageUncheckedCreateInput>
+    /**
+     * In case the AiMessage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AiMessageUpdateInput, AiMessageUncheckedUpdateInput>
+  }
+
+  /**
+   * AiMessage delete
+   */
+  export type AiMessageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiMessage
+     */
+    select?: AiMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiMessage
+     */
+    omit?: AiMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiMessageInclude<ExtArgs> | null
+    /**
+     * Filter which AiMessage to delete.
+     */
+    where: AiMessageWhereUniqueInput
+  }
+
+  /**
+   * AiMessage deleteMany
+   */
+  export type AiMessageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AiMessages to delete
+     */
+    where?: AiMessageWhereInput
+    /**
+     * Limit how many AiMessages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AiMessage without action
+   */
+  export type AiMessageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiMessage
+     */
+    select?: AiMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiMessage
+     */
+    omit?: AiMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiMessageInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DeliveryDraft
+   */
+
+  export type AggregateDeliveryDraft = {
+    _count: DeliveryDraftCountAggregateOutputType | null
+    _avg: DeliveryDraftAvgAggregateOutputType | null
+    _sum: DeliveryDraftSumAggregateOutputType | null
+    _min: DeliveryDraftMinAggregateOutputType | null
+    _max: DeliveryDraftMaxAggregateOutputType | null
+  }
+
+  export type DeliveryDraftAvgAggregateOutputType = {
+    packageCategoryId: number | null
+    packageQuantity: number | null
+    length: number | null
+    width: number | null
+    height: number | null
+    confidence: number | null
+  }
+
+  export type DeliveryDraftSumAggregateOutputType = {
+    packageCategoryId: number | null
+    packageQuantity: number | null
+    length: number | null
+    width: number | null
+    height: number | null
+    confidence: number | null
+  }
+
+  export type DeliveryDraftMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    conversationId: string | null
+    status: string | null
+    senderName: string | null
+    senderPhone: string | null
+    senderAddress: string | null
+    senderEmail: string | null
+    receiverName: string | null
+    receiverPhone: string | null
+    receiverAddress: string | null
+    receiverEmail: string | null
+    packageName: string | null
+    packageDescription: string | null
+    packageCategory: string | null
+    packageCategoryId: number | null
+    packageWeight: string | null
+    packageValue: string | null
+    packageQuantity: number | null
+    length: number | null
+    width: number | null
+    height: number | null
+    pickupDate: string | null
+    deliveryType: string | null
+    deliveryInstructions: string | null
+    confidence: number | null
+    deliveryId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DeliveryDraftMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    conversationId: string | null
+    status: string | null
+    senderName: string | null
+    senderPhone: string | null
+    senderAddress: string | null
+    senderEmail: string | null
+    receiverName: string | null
+    receiverPhone: string | null
+    receiverAddress: string | null
+    receiverEmail: string | null
+    packageName: string | null
+    packageDescription: string | null
+    packageCategory: string | null
+    packageCategoryId: number | null
+    packageWeight: string | null
+    packageValue: string | null
+    packageQuantity: number | null
+    length: number | null
+    width: number | null
+    height: number | null
+    pickupDate: string | null
+    deliveryType: string | null
+    deliveryInstructions: string | null
+    confidence: number | null
+    deliveryId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DeliveryDraftCountAggregateOutputType = {
+    id: number
+    userId: number
+    conversationId: number
+    status: number
+    senderName: number
+    senderPhone: number
+    senderAddress: number
+    senderEmail: number
+    receiverName: number
+    receiverPhone: number
+    receiverAddress: number
+    receiverEmail: number
+    packageName: number
+    packageDescription: number
+    packageCategory: number
+    packageCategoryId: number
+    packageWeight: number
+    packageValue: number
+    packageQuantity: number
+    length: number
+    width: number
+    height: number
+    pickupDate: number
+    deliveryType: number
+    deliveryInstructions: number
+    extracted: number
+    missingFields: number
+    confidence: number
+    deliveryId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type DeliveryDraftAvgAggregateInputType = {
+    packageCategoryId?: true
+    packageQuantity?: true
+    length?: true
+    width?: true
+    height?: true
+    confidence?: true
+  }
+
+  export type DeliveryDraftSumAggregateInputType = {
+    packageCategoryId?: true
+    packageQuantity?: true
+    length?: true
+    width?: true
+    height?: true
+    confidence?: true
+  }
+
+  export type DeliveryDraftMinAggregateInputType = {
+    id?: true
+    userId?: true
+    conversationId?: true
+    status?: true
+    senderName?: true
+    senderPhone?: true
+    senderAddress?: true
+    senderEmail?: true
+    receiverName?: true
+    receiverPhone?: true
+    receiverAddress?: true
+    receiverEmail?: true
+    packageName?: true
+    packageDescription?: true
+    packageCategory?: true
+    packageCategoryId?: true
+    packageWeight?: true
+    packageValue?: true
+    packageQuantity?: true
+    length?: true
+    width?: true
+    height?: true
+    pickupDate?: true
+    deliveryType?: true
+    deliveryInstructions?: true
+    confidence?: true
+    deliveryId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DeliveryDraftMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    conversationId?: true
+    status?: true
+    senderName?: true
+    senderPhone?: true
+    senderAddress?: true
+    senderEmail?: true
+    receiverName?: true
+    receiverPhone?: true
+    receiverAddress?: true
+    receiverEmail?: true
+    packageName?: true
+    packageDescription?: true
+    packageCategory?: true
+    packageCategoryId?: true
+    packageWeight?: true
+    packageValue?: true
+    packageQuantity?: true
+    length?: true
+    width?: true
+    height?: true
+    pickupDate?: true
+    deliveryType?: true
+    deliveryInstructions?: true
+    confidence?: true
+    deliveryId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DeliveryDraftCountAggregateInputType = {
+    id?: true
+    userId?: true
+    conversationId?: true
+    status?: true
+    senderName?: true
+    senderPhone?: true
+    senderAddress?: true
+    senderEmail?: true
+    receiverName?: true
+    receiverPhone?: true
+    receiverAddress?: true
+    receiverEmail?: true
+    packageName?: true
+    packageDescription?: true
+    packageCategory?: true
+    packageCategoryId?: true
+    packageWeight?: true
+    packageValue?: true
+    packageQuantity?: true
+    length?: true
+    width?: true
+    height?: true
+    pickupDate?: true
+    deliveryType?: true
+    deliveryInstructions?: true
+    extracted?: true
+    missingFields?: true
+    confidence?: true
+    deliveryId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type DeliveryDraftAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DeliveryDraft to aggregate.
+     */
+    where?: DeliveryDraftWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DeliveryDrafts to fetch.
+     */
+    orderBy?: DeliveryDraftOrderByWithRelationInput | DeliveryDraftOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DeliveryDraftWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DeliveryDrafts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DeliveryDrafts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DeliveryDrafts
+    **/
+    _count?: true | DeliveryDraftCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DeliveryDraftAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DeliveryDraftSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DeliveryDraftMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DeliveryDraftMaxAggregateInputType
+  }
+
+  export type GetDeliveryDraftAggregateType<T extends DeliveryDraftAggregateArgs> = {
+        [P in keyof T & keyof AggregateDeliveryDraft]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDeliveryDraft[P]>
+      : GetScalarType<T[P], AggregateDeliveryDraft[P]>
+  }
+
+
+
+
+  export type DeliveryDraftGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DeliveryDraftWhereInput
+    orderBy?: DeliveryDraftOrderByWithAggregationInput | DeliveryDraftOrderByWithAggregationInput[]
+    by: DeliveryDraftScalarFieldEnum[] | DeliveryDraftScalarFieldEnum
+    having?: DeliveryDraftScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DeliveryDraftCountAggregateInputType | true
+    _avg?: DeliveryDraftAvgAggregateInputType
+    _sum?: DeliveryDraftSumAggregateInputType
+    _min?: DeliveryDraftMinAggregateInputType
+    _max?: DeliveryDraftMaxAggregateInputType
+  }
+
+  export type DeliveryDraftGroupByOutputType = {
+    id: string
+    userId: string
+    conversationId: string | null
+    status: string
+    senderName: string | null
+    senderPhone: string | null
+    senderAddress: string | null
+    senderEmail: string | null
+    receiverName: string | null
+    receiverPhone: string | null
+    receiverAddress: string | null
+    receiverEmail: string | null
+    packageName: string | null
+    packageDescription: string | null
+    packageCategory: string | null
+    packageCategoryId: number | null
+    packageWeight: string | null
+    packageValue: string | null
+    packageQuantity: number | null
+    length: number | null
+    width: number | null
+    height: number | null
+    pickupDate: string | null
+    deliveryType: string | null
+    deliveryInstructions: string | null
+    extracted: JsonValue | null
+    missingFields: string[]
+    confidence: number | null
+    deliveryId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: DeliveryDraftCountAggregateOutputType | null
+    _avg: DeliveryDraftAvgAggregateOutputType | null
+    _sum: DeliveryDraftSumAggregateOutputType | null
+    _min: DeliveryDraftMinAggregateOutputType | null
+    _max: DeliveryDraftMaxAggregateOutputType | null
+  }
+
+  type GetDeliveryDraftGroupByPayload<T extends DeliveryDraftGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DeliveryDraftGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DeliveryDraftGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DeliveryDraftGroupByOutputType[P]>
+            : GetScalarType<T[P], DeliveryDraftGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DeliveryDraftSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    conversationId?: boolean
+    status?: boolean
+    senderName?: boolean
+    senderPhone?: boolean
+    senderAddress?: boolean
+    senderEmail?: boolean
+    receiverName?: boolean
+    receiverPhone?: boolean
+    receiverAddress?: boolean
+    receiverEmail?: boolean
+    packageName?: boolean
+    packageDescription?: boolean
+    packageCategory?: boolean
+    packageCategoryId?: boolean
+    packageWeight?: boolean
+    packageValue?: boolean
+    packageQuantity?: boolean
+    length?: boolean
+    width?: boolean
+    height?: boolean
+    pickupDate?: boolean
+    deliveryType?: boolean
+    deliveryInstructions?: boolean
+    extracted?: boolean
+    missingFields?: boolean
+    confidence?: boolean
+    deliveryId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    conversation?: boolean | DeliveryDraft$conversationArgs<ExtArgs>
+    quotes?: boolean | DeliveryDraft$quotesArgs<ExtArgs>
+    approvals?: boolean | DeliveryDraft$approvalsArgs<ExtArgs>
+    _count?: boolean | DeliveryDraftCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["deliveryDraft"]>
+
+  export type DeliveryDraftSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    conversationId?: boolean
+    status?: boolean
+    senderName?: boolean
+    senderPhone?: boolean
+    senderAddress?: boolean
+    senderEmail?: boolean
+    receiverName?: boolean
+    receiverPhone?: boolean
+    receiverAddress?: boolean
+    receiverEmail?: boolean
+    packageName?: boolean
+    packageDescription?: boolean
+    packageCategory?: boolean
+    packageCategoryId?: boolean
+    packageWeight?: boolean
+    packageValue?: boolean
+    packageQuantity?: boolean
+    length?: boolean
+    width?: boolean
+    height?: boolean
+    pickupDate?: boolean
+    deliveryType?: boolean
+    deliveryInstructions?: boolean
+    extracted?: boolean
+    missingFields?: boolean
+    confidence?: boolean
+    deliveryId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    conversation?: boolean | DeliveryDraft$conversationArgs<ExtArgs>
+  }, ExtArgs["result"]["deliveryDraft"]>
+
+  export type DeliveryDraftSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    conversationId?: boolean
+    status?: boolean
+    senderName?: boolean
+    senderPhone?: boolean
+    senderAddress?: boolean
+    senderEmail?: boolean
+    receiverName?: boolean
+    receiverPhone?: boolean
+    receiverAddress?: boolean
+    receiverEmail?: boolean
+    packageName?: boolean
+    packageDescription?: boolean
+    packageCategory?: boolean
+    packageCategoryId?: boolean
+    packageWeight?: boolean
+    packageValue?: boolean
+    packageQuantity?: boolean
+    length?: boolean
+    width?: boolean
+    height?: boolean
+    pickupDate?: boolean
+    deliveryType?: boolean
+    deliveryInstructions?: boolean
+    extracted?: boolean
+    missingFields?: boolean
+    confidence?: boolean
+    deliveryId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    conversation?: boolean | DeliveryDraft$conversationArgs<ExtArgs>
+  }, ExtArgs["result"]["deliveryDraft"]>
+
+  export type DeliveryDraftSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    conversationId?: boolean
+    status?: boolean
+    senderName?: boolean
+    senderPhone?: boolean
+    senderAddress?: boolean
+    senderEmail?: boolean
+    receiverName?: boolean
+    receiverPhone?: boolean
+    receiverAddress?: boolean
+    receiverEmail?: boolean
+    packageName?: boolean
+    packageDescription?: boolean
+    packageCategory?: boolean
+    packageCategoryId?: boolean
+    packageWeight?: boolean
+    packageValue?: boolean
+    packageQuantity?: boolean
+    length?: boolean
+    width?: boolean
+    height?: boolean
+    pickupDate?: boolean
+    deliveryType?: boolean
+    deliveryInstructions?: boolean
+    extracted?: boolean
+    missingFields?: boolean
+    confidence?: boolean
+    deliveryId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type DeliveryDraftOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "conversationId" | "status" | "senderName" | "senderPhone" | "senderAddress" | "senderEmail" | "receiverName" | "receiverPhone" | "receiverAddress" | "receiverEmail" | "packageName" | "packageDescription" | "packageCategory" | "packageCategoryId" | "packageWeight" | "packageValue" | "packageQuantity" | "length" | "width" | "height" | "pickupDate" | "deliveryType" | "deliveryInstructions" | "extracted" | "missingFields" | "confidence" | "deliveryId" | "createdAt" | "updatedAt", ExtArgs["result"]["deliveryDraft"]>
+  export type DeliveryDraftInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    conversation?: boolean | DeliveryDraft$conversationArgs<ExtArgs>
+    quotes?: boolean | DeliveryDraft$quotesArgs<ExtArgs>
+    approvals?: boolean | DeliveryDraft$approvalsArgs<ExtArgs>
+    _count?: boolean | DeliveryDraftCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type DeliveryDraftIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    conversation?: boolean | DeliveryDraft$conversationArgs<ExtArgs>
+  }
+  export type DeliveryDraftIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    conversation?: boolean | DeliveryDraft$conversationArgs<ExtArgs>
+  }
+
+  export type $DeliveryDraftPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DeliveryDraft"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      conversation: Prisma.$AiConversationPayload<ExtArgs> | null
+      quotes: Prisma.$ProviderQuotePayload<ExtArgs>[]
+      approvals: Prisma.$ApprovalPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      conversationId: string | null
+      status: string
+      senderName: string | null
+      senderPhone: string | null
+      senderAddress: string | null
+      senderEmail: string | null
+      receiverName: string | null
+      receiverPhone: string | null
+      receiverAddress: string | null
+      receiverEmail: string | null
+      packageName: string | null
+      packageDescription: string | null
+      packageCategory: string | null
+      packageCategoryId: number | null
+      packageWeight: string | null
+      packageValue: string | null
+      packageQuantity: number | null
+      length: number | null
+      width: number | null
+      height: number | null
+      pickupDate: string | null
+      deliveryType: string | null
+      deliveryInstructions: string | null
+      extracted: Prisma.JsonValue | null
+      missingFields: string[]
+      confidence: number | null
+      deliveryId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["deliveryDraft"]>
+    composites: {}
+  }
+
+  type DeliveryDraftGetPayload<S extends boolean | null | undefined | DeliveryDraftDefaultArgs> = $Result.GetResult<Prisma.$DeliveryDraftPayload, S>
+
+  type DeliveryDraftCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DeliveryDraftFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DeliveryDraftCountAggregateInputType | true
+    }
+
+  export interface DeliveryDraftDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DeliveryDraft'], meta: { name: 'DeliveryDraft' } }
+    /**
+     * Find zero or one DeliveryDraft that matches the filter.
+     * @param {DeliveryDraftFindUniqueArgs} args - Arguments to find a DeliveryDraft
+     * @example
+     * // Get one DeliveryDraft
+     * const deliveryDraft = await prisma.deliveryDraft.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DeliveryDraftFindUniqueArgs>(args: SelectSubset<T, DeliveryDraftFindUniqueArgs<ExtArgs>>): Prisma__DeliveryDraftClient<$Result.GetResult<Prisma.$DeliveryDraftPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DeliveryDraft that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DeliveryDraftFindUniqueOrThrowArgs} args - Arguments to find a DeliveryDraft
+     * @example
+     * // Get one DeliveryDraft
+     * const deliveryDraft = await prisma.deliveryDraft.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DeliveryDraftFindUniqueOrThrowArgs>(args: SelectSubset<T, DeliveryDraftFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DeliveryDraftClient<$Result.GetResult<Prisma.$DeliveryDraftPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DeliveryDraft that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeliveryDraftFindFirstArgs} args - Arguments to find a DeliveryDraft
+     * @example
+     * // Get one DeliveryDraft
+     * const deliveryDraft = await prisma.deliveryDraft.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DeliveryDraftFindFirstArgs>(args?: SelectSubset<T, DeliveryDraftFindFirstArgs<ExtArgs>>): Prisma__DeliveryDraftClient<$Result.GetResult<Prisma.$DeliveryDraftPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DeliveryDraft that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeliveryDraftFindFirstOrThrowArgs} args - Arguments to find a DeliveryDraft
+     * @example
+     * // Get one DeliveryDraft
+     * const deliveryDraft = await prisma.deliveryDraft.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DeliveryDraftFindFirstOrThrowArgs>(args?: SelectSubset<T, DeliveryDraftFindFirstOrThrowArgs<ExtArgs>>): Prisma__DeliveryDraftClient<$Result.GetResult<Prisma.$DeliveryDraftPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DeliveryDrafts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeliveryDraftFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DeliveryDrafts
+     * const deliveryDrafts = await prisma.deliveryDraft.findMany()
+     * 
+     * // Get first 10 DeliveryDrafts
+     * const deliveryDrafts = await prisma.deliveryDraft.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const deliveryDraftWithIdOnly = await prisma.deliveryDraft.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DeliveryDraftFindManyArgs>(args?: SelectSubset<T, DeliveryDraftFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DeliveryDraftPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DeliveryDraft.
+     * @param {DeliveryDraftCreateArgs} args - Arguments to create a DeliveryDraft.
+     * @example
+     * // Create one DeliveryDraft
+     * const DeliveryDraft = await prisma.deliveryDraft.create({
+     *   data: {
+     *     // ... data to create a DeliveryDraft
+     *   }
+     * })
+     * 
+     */
+    create<T extends DeliveryDraftCreateArgs>(args: SelectSubset<T, DeliveryDraftCreateArgs<ExtArgs>>): Prisma__DeliveryDraftClient<$Result.GetResult<Prisma.$DeliveryDraftPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DeliveryDrafts.
+     * @param {DeliveryDraftCreateManyArgs} args - Arguments to create many DeliveryDrafts.
+     * @example
+     * // Create many DeliveryDrafts
+     * const deliveryDraft = await prisma.deliveryDraft.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DeliveryDraftCreateManyArgs>(args?: SelectSubset<T, DeliveryDraftCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DeliveryDrafts and returns the data saved in the database.
+     * @param {DeliveryDraftCreateManyAndReturnArgs} args - Arguments to create many DeliveryDrafts.
+     * @example
+     * // Create many DeliveryDrafts
+     * const deliveryDraft = await prisma.deliveryDraft.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DeliveryDrafts and only return the `id`
+     * const deliveryDraftWithIdOnly = await prisma.deliveryDraft.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DeliveryDraftCreateManyAndReturnArgs>(args?: SelectSubset<T, DeliveryDraftCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DeliveryDraftPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DeliveryDraft.
+     * @param {DeliveryDraftDeleteArgs} args - Arguments to delete one DeliveryDraft.
+     * @example
+     * // Delete one DeliveryDraft
+     * const DeliveryDraft = await prisma.deliveryDraft.delete({
+     *   where: {
+     *     // ... filter to delete one DeliveryDraft
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DeliveryDraftDeleteArgs>(args: SelectSubset<T, DeliveryDraftDeleteArgs<ExtArgs>>): Prisma__DeliveryDraftClient<$Result.GetResult<Prisma.$DeliveryDraftPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DeliveryDraft.
+     * @param {DeliveryDraftUpdateArgs} args - Arguments to update one DeliveryDraft.
+     * @example
+     * // Update one DeliveryDraft
+     * const deliveryDraft = await prisma.deliveryDraft.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DeliveryDraftUpdateArgs>(args: SelectSubset<T, DeliveryDraftUpdateArgs<ExtArgs>>): Prisma__DeliveryDraftClient<$Result.GetResult<Prisma.$DeliveryDraftPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DeliveryDrafts.
+     * @param {DeliveryDraftDeleteManyArgs} args - Arguments to filter DeliveryDrafts to delete.
+     * @example
+     * // Delete a few DeliveryDrafts
+     * const { count } = await prisma.deliveryDraft.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DeliveryDraftDeleteManyArgs>(args?: SelectSubset<T, DeliveryDraftDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DeliveryDrafts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeliveryDraftUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DeliveryDrafts
+     * const deliveryDraft = await prisma.deliveryDraft.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DeliveryDraftUpdateManyArgs>(args: SelectSubset<T, DeliveryDraftUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DeliveryDrafts and returns the data updated in the database.
+     * @param {DeliveryDraftUpdateManyAndReturnArgs} args - Arguments to update many DeliveryDrafts.
+     * @example
+     * // Update many DeliveryDrafts
+     * const deliveryDraft = await prisma.deliveryDraft.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DeliveryDrafts and only return the `id`
+     * const deliveryDraftWithIdOnly = await prisma.deliveryDraft.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DeliveryDraftUpdateManyAndReturnArgs>(args: SelectSubset<T, DeliveryDraftUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DeliveryDraftPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DeliveryDraft.
+     * @param {DeliveryDraftUpsertArgs} args - Arguments to update or create a DeliveryDraft.
+     * @example
+     * // Update or create a DeliveryDraft
+     * const deliveryDraft = await prisma.deliveryDraft.upsert({
+     *   create: {
+     *     // ... data to create a DeliveryDraft
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DeliveryDraft we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DeliveryDraftUpsertArgs>(args: SelectSubset<T, DeliveryDraftUpsertArgs<ExtArgs>>): Prisma__DeliveryDraftClient<$Result.GetResult<Prisma.$DeliveryDraftPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DeliveryDrafts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeliveryDraftCountArgs} args - Arguments to filter DeliveryDrafts to count.
+     * @example
+     * // Count the number of DeliveryDrafts
+     * const count = await prisma.deliveryDraft.count({
+     *   where: {
+     *     // ... the filter for the DeliveryDrafts we want to count
+     *   }
+     * })
+    **/
+    count<T extends DeliveryDraftCountArgs>(
+      args?: Subset<T, DeliveryDraftCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DeliveryDraftCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DeliveryDraft.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeliveryDraftAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DeliveryDraftAggregateArgs>(args: Subset<T, DeliveryDraftAggregateArgs>): Prisma.PrismaPromise<GetDeliveryDraftAggregateType<T>>
+
+    /**
+     * Group by DeliveryDraft.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeliveryDraftGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DeliveryDraftGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DeliveryDraftGroupByArgs['orderBy'] }
+        : { orderBy?: DeliveryDraftGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DeliveryDraftGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDeliveryDraftGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DeliveryDraft model
+   */
+  readonly fields: DeliveryDraftFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DeliveryDraft.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DeliveryDraftClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    conversation<T extends DeliveryDraft$conversationArgs<ExtArgs> = {}>(args?: Subset<T, DeliveryDraft$conversationArgs<ExtArgs>>): Prisma__AiConversationClient<$Result.GetResult<Prisma.$AiConversationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    quotes<T extends DeliveryDraft$quotesArgs<ExtArgs> = {}>(args?: Subset<T, DeliveryDraft$quotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProviderQuotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    approvals<T extends DeliveryDraft$approvalsArgs<ExtArgs> = {}>(args?: Subset<T, DeliveryDraft$approvalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApprovalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DeliveryDraft model
+   */
+  interface DeliveryDraftFieldRefs {
+    readonly id: FieldRef<"DeliveryDraft", 'String'>
+    readonly userId: FieldRef<"DeliveryDraft", 'String'>
+    readonly conversationId: FieldRef<"DeliveryDraft", 'String'>
+    readonly status: FieldRef<"DeliveryDraft", 'String'>
+    readonly senderName: FieldRef<"DeliveryDraft", 'String'>
+    readonly senderPhone: FieldRef<"DeliveryDraft", 'String'>
+    readonly senderAddress: FieldRef<"DeliveryDraft", 'String'>
+    readonly senderEmail: FieldRef<"DeliveryDraft", 'String'>
+    readonly receiverName: FieldRef<"DeliveryDraft", 'String'>
+    readonly receiverPhone: FieldRef<"DeliveryDraft", 'String'>
+    readonly receiverAddress: FieldRef<"DeliveryDraft", 'String'>
+    readonly receiverEmail: FieldRef<"DeliveryDraft", 'String'>
+    readonly packageName: FieldRef<"DeliveryDraft", 'String'>
+    readonly packageDescription: FieldRef<"DeliveryDraft", 'String'>
+    readonly packageCategory: FieldRef<"DeliveryDraft", 'String'>
+    readonly packageCategoryId: FieldRef<"DeliveryDraft", 'Int'>
+    readonly packageWeight: FieldRef<"DeliveryDraft", 'String'>
+    readonly packageValue: FieldRef<"DeliveryDraft", 'String'>
+    readonly packageQuantity: FieldRef<"DeliveryDraft", 'Int'>
+    readonly length: FieldRef<"DeliveryDraft", 'Float'>
+    readonly width: FieldRef<"DeliveryDraft", 'Float'>
+    readonly height: FieldRef<"DeliveryDraft", 'Float'>
+    readonly pickupDate: FieldRef<"DeliveryDraft", 'String'>
+    readonly deliveryType: FieldRef<"DeliveryDraft", 'String'>
+    readonly deliveryInstructions: FieldRef<"DeliveryDraft", 'String'>
+    readonly extracted: FieldRef<"DeliveryDraft", 'Json'>
+    readonly missingFields: FieldRef<"DeliveryDraft", 'String[]'>
+    readonly confidence: FieldRef<"DeliveryDraft", 'Float'>
+    readonly deliveryId: FieldRef<"DeliveryDraft", 'String'>
+    readonly createdAt: FieldRef<"DeliveryDraft", 'DateTime'>
+    readonly updatedAt: FieldRef<"DeliveryDraft", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DeliveryDraft findUnique
+   */
+  export type DeliveryDraftFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DeliveryDraft
+     */
+    select?: DeliveryDraftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DeliveryDraft
+     */
+    omit?: DeliveryDraftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeliveryDraftInclude<ExtArgs> | null
+    /**
+     * Filter, which DeliveryDraft to fetch.
+     */
+    where: DeliveryDraftWhereUniqueInput
+  }
+
+  /**
+   * DeliveryDraft findUniqueOrThrow
+   */
+  export type DeliveryDraftFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DeliveryDraft
+     */
+    select?: DeliveryDraftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DeliveryDraft
+     */
+    omit?: DeliveryDraftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeliveryDraftInclude<ExtArgs> | null
+    /**
+     * Filter, which DeliveryDraft to fetch.
+     */
+    where: DeliveryDraftWhereUniqueInput
+  }
+
+  /**
+   * DeliveryDraft findFirst
+   */
+  export type DeliveryDraftFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DeliveryDraft
+     */
+    select?: DeliveryDraftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DeliveryDraft
+     */
+    omit?: DeliveryDraftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeliveryDraftInclude<ExtArgs> | null
+    /**
+     * Filter, which DeliveryDraft to fetch.
+     */
+    where?: DeliveryDraftWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DeliveryDrafts to fetch.
+     */
+    orderBy?: DeliveryDraftOrderByWithRelationInput | DeliveryDraftOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DeliveryDrafts.
+     */
+    cursor?: DeliveryDraftWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DeliveryDrafts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DeliveryDrafts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DeliveryDrafts.
+     */
+    distinct?: DeliveryDraftScalarFieldEnum | DeliveryDraftScalarFieldEnum[]
+  }
+
+  /**
+   * DeliveryDraft findFirstOrThrow
+   */
+  export type DeliveryDraftFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DeliveryDraft
+     */
+    select?: DeliveryDraftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DeliveryDraft
+     */
+    omit?: DeliveryDraftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeliveryDraftInclude<ExtArgs> | null
+    /**
+     * Filter, which DeliveryDraft to fetch.
+     */
+    where?: DeliveryDraftWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DeliveryDrafts to fetch.
+     */
+    orderBy?: DeliveryDraftOrderByWithRelationInput | DeliveryDraftOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DeliveryDrafts.
+     */
+    cursor?: DeliveryDraftWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DeliveryDrafts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DeliveryDrafts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DeliveryDrafts.
+     */
+    distinct?: DeliveryDraftScalarFieldEnum | DeliveryDraftScalarFieldEnum[]
+  }
+
+  /**
+   * DeliveryDraft findMany
+   */
+  export type DeliveryDraftFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DeliveryDraft
+     */
+    select?: DeliveryDraftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DeliveryDraft
+     */
+    omit?: DeliveryDraftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeliveryDraftInclude<ExtArgs> | null
+    /**
+     * Filter, which DeliveryDrafts to fetch.
+     */
+    where?: DeliveryDraftWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DeliveryDrafts to fetch.
+     */
+    orderBy?: DeliveryDraftOrderByWithRelationInput | DeliveryDraftOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DeliveryDrafts.
+     */
+    cursor?: DeliveryDraftWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DeliveryDrafts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DeliveryDrafts.
+     */
+    skip?: number
+    distinct?: DeliveryDraftScalarFieldEnum | DeliveryDraftScalarFieldEnum[]
+  }
+
+  /**
+   * DeliveryDraft create
+   */
+  export type DeliveryDraftCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DeliveryDraft
+     */
+    select?: DeliveryDraftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DeliveryDraft
+     */
+    omit?: DeliveryDraftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeliveryDraftInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DeliveryDraft.
+     */
+    data: XOR<DeliveryDraftCreateInput, DeliveryDraftUncheckedCreateInput>
+  }
+
+  /**
+   * DeliveryDraft createMany
+   */
+  export type DeliveryDraftCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DeliveryDrafts.
+     */
+    data: DeliveryDraftCreateManyInput | DeliveryDraftCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DeliveryDraft createManyAndReturn
+   */
+  export type DeliveryDraftCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DeliveryDraft
+     */
+    select?: DeliveryDraftSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DeliveryDraft
+     */
+    omit?: DeliveryDraftOmit<ExtArgs> | null
+    /**
+     * The data used to create many DeliveryDrafts.
+     */
+    data: DeliveryDraftCreateManyInput | DeliveryDraftCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeliveryDraftIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DeliveryDraft update
+   */
+  export type DeliveryDraftUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DeliveryDraft
+     */
+    select?: DeliveryDraftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DeliveryDraft
+     */
+    omit?: DeliveryDraftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeliveryDraftInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DeliveryDraft.
+     */
+    data: XOR<DeliveryDraftUpdateInput, DeliveryDraftUncheckedUpdateInput>
+    /**
+     * Choose, which DeliveryDraft to update.
+     */
+    where: DeliveryDraftWhereUniqueInput
+  }
+
+  /**
+   * DeliveryDraft updateMany
+   */
+  export type DeliveryDraftUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DeliveryDrafts.
+     */
+    data: XOR<DeliveryDraftUpdateManyMutationInput, DeliveryDraftUncheckedUpdateManyInput>
+    /**
+     * Filter which DeliveryDrafts to update
+     */
+    where?: DeliveryDraftWhereInput
+    /**
+     * Limit how many DeliveryDrafts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DeliveryDraft updateManyAndReturn
+   */
+  export type DeliveryDraftUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DeliveryDraft
+     */
+    select?: DeliveryDraftSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DeliveryDraft
+     */
+    omit?: DeliveryDraftOmit<ExtArgs> | null
+    /**
+     * The data used to update DeliveryDrafts.
+     */
+    data: XOR<DeliveryDraftUpdateManyMutationInput, DeliveryDraftUncheckedUpdateManyInput>
+    /**
+     * Filter which DeliveryDrafts to update
+     */
+    where?: DeliveryDraftWhereInput
+    /**
+     * Limit how many DeliveryDrafts to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeliveryDraftIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DeliveryDraft upsert
+   */
+  export type DeliveryDraftUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DeliveryDraft
+     */
+    select?: DeliveryDraftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DeliveryDraft
+     */
+    omit?: DeliveryDraftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeliveryDraftInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DeliveryDraft to update in case it exists.
+     */
+    where: DeliveryDraftWhereUniqueInput
+    /**
+     * In case the DeliveryDraft found by the `where` argument doesn't exist, create a new DeliveryDraft with this data.
+     */
+    create: XOR<DeliveryDraftCreateInput, DeliveryDraftUncheckedCreateInput>
+    /**
+     * In case the DeliveryDraft was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DeliveryDraftUpdateInput, DeliveryDraftUncheckedUpdateInput>
+  }
+
+  /**
+   * DeliveryDraft delete
+   */
+  export type DeliveryDraftDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DeliveryDraft
+     */
+    select?: DeliveryDraftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DeliveryDraft
+     */
+    omit?: DeliveryDraftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeliveryDraftInclude<ExtArgs> | null
+    /**
+     * Filter which DeliveryDraft to delete.
+     */
+    where: DeliveryDraftWhereUniqueInput
+  }
+
+  /**
+   * DeliveryDraft deleteMany
+   */
+  export type DeliveryDraftDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DeliveryDrafts to delete
+     */
+    where?: DeliveryDraftWhereInput
+    /**
+     * Limit how many DeliveryDrafts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DeliveryDraft.conversation
+   */
+  export type DeliveryDraft$conversationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiConversation
+     */
+    select?: AiConversationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiConversation
+     */
+    omit?: AiConversationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AiConversationInclude<ExtArgs> | null
+    where?: AiConversationWhereInput
+  }
+
+  /**
+   * DeliveryDraft.quotes
+   */
+  export type DeliveryDraft$quotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderQuote
+     */
+    select?: ProviderQuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderQuote
+     */
+    omit?: ProviderQuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderQuoteInclude<ExtArgs> | null
+    where?: ProviderQuoteWhereInput
+    orderBy?: ProviderQuoteOrderByWithRelationInput | ProviderQuoteOrderByWithRelationInput[]
+    cursor?: ProviderQuoteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProviderQuoteScalarFieldEnum | ProviderQuoteScalarFieldEnum[]
+  }
+
+  /**
+   * DeliveryDraft.approvals
+   */
+  export type DeliveryDraft$approvalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Approval
+     */
+    select?: ApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Approval
+     */
+    omit?: ApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalInclude<ExtArgs> | null
+    where?: ApprovalWhereInput
+    orderBy?: ApprovalOrderByWithRelationInput | ApprovalOrderByWithRelationInput[]
+    cursor?: ApprovalWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ApprovalScalarFieldEnum | ApprovalScalarFieldEnum[]
+  }
+
+  /**
+   * DeliveryDraft without action
+   */
+  export type DeliveryDraftDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DeliveryDraft
+     */
+    select?: DeliveryDraftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DeliveryDraft
+     */
+    omit?: DeliveryDraftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeliveryDraftInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ProviderQuote
+   */
+
+  export type AggregateProviderQuote = {
+    _count: ProviderQuoteCountAggregateOutputType | null
+    _avg: ProviderQuoteAvgAggregateOutputType | null
+    _sum: ProviderQuoteSumAggregateOutputType | null
+    _min: ProviderQuoteMinAggregateOutputType | null
+    _max: ProviderQuoteMaxAggregateOutputType | null
+  }
+
+  export type ProviderQuoteAvgAggregateOutputType = {
+    amount: number | null
+    score: number | null
+  }
+
+  export type ProviderQuoteSumAggregateOutputType = {
+    amount: number | null
+    score: number | null
+  }
+
+  export type ProviderQuoteMinAggregateOutputType = {
+    id: string | null
+    draftId: string | null
+    provider: string | null
+    courierId: string | null
+    courierName: string | null
+    serviceCode: string | null
+    amount: number | null
+    currency: string | null
+    deliveryEta: string | null
+    pickupEta: string | null
+    score: number | null
+    requestToken: string | null
+    expiresAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type ProviderQuoteMaxAggregateOutputType = {
+    id: string | null
+    draftId: string | null
+    provider: string | null
+    courierId: string | null
+    courierName: string | null
+    serviceCode: string | null
+    amount: number | null
+    currency: string | null
+    deliveryEta: string | null
+    pickupEta: string | null
+    score: number | null
+    requestToken: string | null
+    expiresAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type ProviderQuoteCountAggregateOutputType = {
+    id: number
+    draftId: number
+    provider: number
+    courierId: number
+    courierName: number
+    serviceCode: number
+    amount: number
+    currency: number
+    deliveryEta: number
+    pickupEta: number
+    score: number
+    scoreReasons: number
+    requestToken: number
+    raw: number
+    expiresAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ProviderQuoteAvgAggregateInputType = {
+    amount?: true
+    score?: true
+  }
+
+  export type ProviderQuoteSumAggregateInputType = {
+    amount?: true
+    score?: true
+  }
+
+  export type ProviderQuoteMinAggregateInputType = {
+    id?: true
+    draftId?: true
+    provider?: true
+    courierId?: true
+    courierName?: true
+    serviceCode?: true
+    amount?: true
+    currency?: true
+    deliveryEta?: true
+    pickupEta?: true
+    score?: true
+    requestToken?: true
+    expiresAt?: true
+    createdAt?: true
+  }
+
+  export type ProviderQuoteMaxAggregateInputType = {
+    id?: true
+    draftId?: true
+    provider?: true
+    courierId?: true
+    courierName?: true
+    serviceCode?: true
+    amount?: true
+    currency?: true
+    deliveryEta?: true
+    pickupEta?: true
+    score?: true
+    requestToken?: true
+    expiresAt?: true
+    createdAt?: true
+  }
+
+  export type ProviderQuoteCountAggregateInputType = {
+    id?: true
+    draftId?: true
+    provider?: true
+    courierId?: true
+    courierName?: true
+    serviceCode?: true
+    amount?: true
+    currency?: true
+    deliveryEta?: true
+    pickupEta?: true
+    score?: true
+    scoreReasons?: true
+    requestToken?: true
+    raw?: true
+    expiresAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ProviderQuoteAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProviderQuote to aggregate.
+     */
+    where?: ProviderQuoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProviderQuotes to fetch.
+     */
+    orderBy?: ProviderQuoteOrderByWithRelationInput | ProviderQuoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProviderQuoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProviderQuotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProviderQuotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ProviderQuotes
+    **/
+    _count?: true | ProviderQuoteCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ProviderQuoteAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ProviderQuoteSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProviderQuoteMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProviderQuoteMaxAggregateInputType
+  }
+
+  export type GetProviderQuoteAggregateType<T extends ProviderQuoteAggregateArgs> = {
+        [P in keyof T & keyof AggregateProviderQuote]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProviderQuote[P]>
+      : GetScalarType<T[P], AggregateProviderQuote[P]>
+  }
+
+
+
+
+  export type ProviderQuoteGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProviderQuoteWhereInput
+    orderBy?: ProviderQuoteOrderByWithAggregationInput | ProviderQuoteOrderByWithAggregationInput[]
+    by: ProviderQuoteScalarFieldEnum[] | ProviderQuoteScalarFieldEnum
+    having?: ProviderQuoteScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProviderQuoteCountAggregateInputType | true
+    _avg?: ProviderQuoteAvgAggregateInputType
+    _sum?: ProviderQuoteSumAggregateInputType
+    _min?: ProviderQuoteMinAggregateInputType
+    _max?: ProviderQuoteMaxAggregateInputType
+  }
+
+  export type ProviderQuoteGroupByOutputType = {
+    id: string
+    draftId: string
+    provider: string
+    courierId: string
+    courierName: string
+    serviceCode: string
+    amount: number
+    currency: string
+    deliveryEta: string | null
+    pickupEta: string | null
+    score: number
+    scoreReasons: string[]
+    requestToken: string
+    raw: JsonValue | null
+    expiresAt: Date | null
+    createdAt: Date
+    _count: ProviderQuoteCountAggregateOutputType | null
+    _avg: ProviderQuoteAvgAggregateOutputType | null
+    _sum: ProviderQuoteSumAggregateOutputType | null
+    _min: ProviderQuoteMinAggregateOutputType | null
+    _max: ProviderQuoteMaxAggregateOutputType | null
+  }
+
+  type GetProviderQuoteGroupByPayload<T extends ProviderQuoteGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProviderQuoteGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProviderQuoteGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProviderQuoteGroupByOutputType[P]>
+            : GetScalarType<T[P], ProviderQuoteGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProviderQuoteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    draftId?: boolean
+    provider?: boolean
+    courierId?: boolean
+    courierName?: boolean
+    serviceCode?: boolean
+    amount?: boolean
+    currency?: boolean
+    deliveryEta?: boolean
+    pickupEta?: boolean
+    score?: boolean
+    scoreReasons?: boolean
+    requestToken?: boolean
+    raw?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    draft?: boolean | DeliveryDraftDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["providerQuote"]>
+
+  export type ProviderQuoteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    draftId?: boolean
+    provider?: boolean
+    courierId?: boolean
+    courierName?: boolean
+    serviceCode?: boolean
+    amount?: boolean
+    currency?: boolean
+    deliveryEta?: boolean
+    pickupEta?: boolean
+    score?: boolean
+    scoreReasons?: boolean
+    requestToken?: boolean
+    raw?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    draft?: boolean | DeliveryDraftDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["providerQuote"]>
+
+  export type ProviderQuoteSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    draftId?: boolean
+    provider?: boolean
+    courierId?: boolean
+    courierName?: boolean
+    serviceCode?: boolean
+    amount?: boolean
+    currency?: boolean
+    deliveryEta?: boolean
+    pickupEta?: boolean
+    score?: boolean
+    scoreReasons?: boolean
+    requestToken?: boolean
+    raw?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    draft?: boolean | DeliveryDraftDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["providerQuote"]>
+
+  export type ProviderQuoteSelectScalar = {
+    id?: boolean
+    draftId?: boolean
+    provider?: boolean
+    courierId?: boolean
+    courierName?: boolean
+    serviceCode?: boolean
+    amount?: boolean
+    currency?: boolean
+    deliveryEta?: boolean
+    pickupEta?: boolean
+    score?: boolean
+    scoreReasons?: boolean
+    requestToken?: boolean
+    raw?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type ProviderQuoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "draftId" | "provider" | "courierId" | "courierName" | "serviceCode" | "amount" | "currency" | "deliveryEta" | "pickupEta" | "score" | "scoreReasons" | "requestToken" | "raw" | "expiresAt" | "createdAt", ExtArgs["result"]["providerQuote"]>
+  export type ProviderQuoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    draft?: boolean | DeliveryDraftDefaultArgs<ExtArgs>
+  }
+  export type ProviderQuoteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    draft?: boolean | DeliveryDraftDefaultArgs<ExtArgs>
+  }
+  export type ProviderQuoteIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    draft?: boolean | DeliveryDraftDefaultArgs<ExtArgs>
+  }
+
+  export type $ProviderQuotePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ProviderQuote"
+    objects: {
+      draft: Prisma.$DeliveryDraftPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      draftId: string
+      provider: string
+      courierId: string
+      courierName: string
+      serviceCode: string
+      amount: number
+      currency: string
+      deliveryEta: string | null
+      pickupEta: string | null
+      score: number
+      scoreReasons: string[]
+      requestToken: string
+      raw: Prisma.JsonValue | null
+      expiresAt: Date | null
+      createdAt: Date
+    }, ExtArgs["result"]["providerQuote"]>
+    composites: {}
+  }
+
+  type ProviderQuoteGetPayload<S extends boolean | null | undefined | ProviderQuoteDefaultArgs> = $Result.GetResult<Prisma.$ProviderQuotePayload, S>
+
+  type ProviderQuoteCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ProviderQuoteFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ProviderQuoteCountAggregateInputType | true
+    }
+
+  export interface ProviderQuoteDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProviderQuote'], meta: { name: 'ProviderQuote' } }
+    /**
+     * Find zero or one ProviderQuote that matches the filter.
+     * @param {ProviderQuoteFindUniqueArgs} args - Arguments to find a ProviderQuote
+     * @example
+     * // Get one ProviderQuote
+     * const providerQuote = await prisma.providerQuote.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProviderQuoteFindUniqueArgs>(args: SelectSubset<T, ProviderQuoteFindUniqueArgs<ExtArgs>>): Prisma__ProviderQuoteClient<$Result.GetResult<Prisma.$ProviderQuotePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ProviderQuote that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ProviderQuoteFindUniqueOrThrowArgs} args - Arguments to find a ProviderQuote
+     * @example
+     * // Get one ProviderQuote
+     * const providerQuote = await prisma.providerQuote.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProviderQuoteFindUniqueOrThrowArgs>(args: SelectSubset<T, ProviderQuoteFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProviderQuoteClient<$Result.GetResult<Prisma.$ProviderQuotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProviderQuote that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProviderQuoteFindFirstArgs} args - Arguments to find a ProviderQuote
+     * @example
+     * // Get one ProviderQuote
+     * const providerQuote = await prisma.providerQuote.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProviderQuoteFindFirstArgs>(args?: SelectSubset<T, ProviderQuoteFindFirstArgs<ExtArgs>>): Prisma__ProviderQuoteClient<$Result.GetResult<Prisma.$ProviderQuotePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProviderQuote that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProviderQuoteFindFirstOrThrowArgs} args - Arguments to find a ProviderQuote
+     * @example
+     * // Get one ProviderQuote
+     * const providerQuote = await prisma.providerQuote.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProviderQuoteFindFirstOrThrowArgs>(args?: SelectSubset<T, ProviderQuoteFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProviderQuoteClient<$Result.GetResult<Prisma.$ProviderQuotePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ProviderQuotes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProviderQuoteFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ProviderQuotes
+     * const providerQuotes = await prisma.providerQuote.findMany()
+     * 
+     * // Get first 10 ProviderQuotes
+     * const providerQuotes = await prisma.providerQuote.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const providerQuoteWithIdOnly = await prisma.providerQuote.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ProviderQuoteFindManyArgs>(args?: SelectSubset<T, ProviderQuoteFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProviderQuotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ProviderQuote.
+     * @param {ProviderQuoteCreateArgs} args - Arguments to create a ProviderQuote.
+     * @example
+     * // Create one ProviderQuote
+     * const ProviderQuote = await prisma.providerQuote.create({
+     *   data: {
+     *     // ... data to create a ProviderQuote
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProviderQuoteCreateArgs>(args: SelectSubset<T, ProviderQuoteCreateArgs<ExtArgs>>): Prisma__ProviderQuoteClient<$Result.GetResult<Prisma.$ProviderQuotePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ProviderQuotes.
+     * @param {ProviderQuoteCreateManyArgs} args - Arguments to create many ProviderQuotes.
+     * @example
+     * // Create many ProviderQuotes
+     * const providerQuote = await prisma.providerQuote.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProviderQuoteCreateManyArgs>(args?: SelectSubset<T, ProviderQuoteCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ProviderQuotes and returns the data saved in the database.
+     * @param {ProviderQuoteCreateManyAndReturnArgs} args - Arguments to create many ProviderQuotes.
+     * @example
+     * // Create many ProviderQuotes
+     * const providerQuote = await prisma.providerQuote.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ProviderQuotes and only return the `id`
+     * const providerQuoteWithIdOnly = await prisma.providerQuote.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ProviderQuoteCreateManyAndReturnArgs>(args?: SelectSubset<T, ProviderQuoteCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProviderQuotePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ProviderQuote.
+     * @param {ProviderQuoteDeleteArgs} args - Arguments to delete one ProviderQuote.
+     * @example
+     * // Delete one ProviderQuote
+     * const ProviderQuote = await prisma.providerQuote.delete({
+     *   where: {
+     *     // ... filter to delete one ProviderQuote
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProviderQuoteDeleteArgs>(args: SelectSubset<T, ProviderQuoteDeleteArgs<ExtArgs>>): Prisma__ProviderQuoteClient<$Result.GetResult<Prisma.$ProviderQuotePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ProviderQuote.
+     * @param {ProviderQuoteUpdateArgs} args - Arguments to update one ProviderQuote.
+     * @example
+     * // Update one ProviderQuote
+     * const providerQuote = await prisma.providerQuote.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProviderQuoteUpdateArgs>(args: SelectSubset<T, ProviderQuoteUpdateArgs<ExtArgs>>): Prisma__ProviderQuoteClient<$Result.GetResult<Prisma.$ProviderQuotePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ProviderQuotes.
+     * @param {ProviderQuoteDeleteManyArgs} args - Arguments to filter ProviderQuotes to delete.
+     * @example
+     * // Delete a few ProviderQuotes
+     * const { count } = await prisma.providerQuote.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProviderQuoteDeleteManyArgs>(args?: SelectSubset<T, ProviderQuoteDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProviderQuotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProviderQuoteUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ProviderQuotes
+     * const providerQuote = await prisma.providerQuote.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProviderQuoteUpdateManyArgs>(args: SelectSubset<T, ProviderQuoteUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProviderQuotes and returns the data updated in the database.
+     * @param {ProviderQuoteUpdateManyAndReturnArgs} args - Arguments to update many ProviderQuotes.
+     * @example
+     * // Update many ProviderQuotes
+     * const providerQuote = await prisma.providerQuote.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ProviderQuotes and only return the `id`
+     * const providerQuoteWithIdOnly = await prisma.providerQuote.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ProviderQuoteUpdateManyAndReturnArgs>(args: SelectSubset<T, ProviderQuoteUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProviderQuotePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ProviderQuote.
+     * @param {ProviderQuoteUpsertArgs} args - Arguments to update or create a ProviderQuote.
+     * @example
+     * // Update or create a ProviderQuote
+     * const providerQuote = await prisma.providerQuote.upsert({
+     *   create: {
+     *     // ... data to create a ProviderQuote
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ProviderQuote we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProviderQuoteUpsertArgs>(args: SelectSubset<T, ProviderQuoteUpsertArgs<ExtArgs>>): Prisma__ProviderQuoteClient<$Result.GetResult<Prisma.$ProviderQuotePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ProviderQuotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProviderQuoteCountArgs} args - Arguments to filter ProviderQuotes to count.
+     * @example
+     * // Count the number of ProviderQuotes
+     * const count = await prisma.providerQuote.count({
+     *   where: {
+     *     // ... the filter for the ProviderQuotes we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProviderQuoteCountArgs>(
+      args?: Subset<T, ProviderQuoteCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProviderQuoteCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ProviderQuote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProviderQuoteAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProviderQuoteAggregateArgs>(args: Subset<T, ProviderQuoteAggregateArgs>): Prisma.PrismaPromise<GetProviderQuoteAggregateType<T>>
+
+    /**
+     * Group by ProviderQuote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProviderQuoteGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProviderQuoteGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProviderQuoteGroupByArgs['orderBy'] }
+        : { orderBy?: ProviderQuoteGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProviderQuoteGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProviderQuoteGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ProviderQuote model
+   */
+  readonly fields: ProviderQuoteFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ProviderQuote.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProviderQuoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    draft<T extends DeliveryDraftDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DeliveryDraftDefaultArgs<ExtArgs>>): Prisma__DeliveryDraftClient<$Result.GetResult<Prisma.$DeliveryDraftPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ProviderQuote model
+   */
+  interface ProviderQuoteFieldRefs {
+    readonly id: FieldRef<"ProviderQuote", 'String'>
+    readonly draftId: FieldRef<"ProviderQuote", 'String'>
+    readonly provider: FieldRef<"ProviderQuote", 'String'>
+    readonly courierId: FieldRef<"ProviderQuote", 'String'>
+    readonly courierName: FieldRef<"ProviderQuote", 'String'>
+    readonly serviceCode: FieldRef<"ProviderQuote", 'String'>
+    readonly amount: FieldRef<"ProviderQuote", 'Float'>
+    readonly currency: FieldRef<"ProviderQuote", 'String'>
+    readonly deliveryEta: FieldRef<"ProviderQuote", 'String'>
+    readonly pickupEta: FieldRef<"ProviderQuote", 'String'>
+    readonly score: FieldRef<"ProviderQuote", 'Float'>
+    readonly scoreReasons: FieldRef<"ProviderQuote", 'String[]'>
+    readonly requestToken: FieldRef<"ProviderQuote", 'String'>
+    readonly raw: FieldRef<"ProviderQuote", 'Json'>
+    readonly expiresAt: FieldRef<"ProviderQuote", 'DateTime'>
+    readonly createdAt: FieldRef<"ProviderQuote", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ProviderQuote findUnique
+   */
+  export type ProviderQuoteFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderQuote
+     */
+    select?: ProviderQuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderQuote
+     */
+    omit?: ProviderQuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderQuoteInclude<ExtArgs> | null
+    /**
+     * Filter, which ProviderQuote to fetch.
+     */
+    where: ProviderQuoteWhereUniqueInput
+  }
+
+  /**
+   * ProviderQuote findUniqueOrThrow
+   */
+  export type ProviderQuoteFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderQuote
+     */
+    select?: ProviderQuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderQuote
+     */
+    omit?: ProviderQuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderQuoteInclude<ExtArgs> | null
+    /**
+     * Filter, which ProviderQuote to fetch.
+     */
+    where: ProviderQuoteWhereUniqueInput
+  }
+
+  /**
+   * ProviderQuote findFirst
+   */
+  export type ProviderQuoteFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderQuote
+     */
+    select?: ProviderQuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderQuote
+     */
+    omit?: ProviderQuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderQuoteInclude<ExtArgs> | null
+    /**
+     * Filter, which ProviderQuote to fetch.
+     */
+    where?: ProviderQuoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProviderQuotes to fetch.
+     */
+    orderBy?: ProviderQuoteOrderByWithRelationInput | ProviderQuoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProviderQuotes.
+     */
+    cursor?: ProviderQuoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProviderQuotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProviderQuotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProviderQuotes.
+     */
+    distinct?: ProviderQuoteScalarFieldEnum | ProviderQuoteScalarFieldEnum[]
+  }
+
+  /**
+   * ProviderQuote findFirstOrThrow
+   */
+  export type ProviderQuoteFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderQuote
+     */
+    select?: ProviderQuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderQuote
+     */
+    omit?: ProviderQuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderQuoteInclude<ExtArgs> | null
+    /**
+     * Filter, which ProviderQuote to fetch.
+     */
+    where?: ProviderQuoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProviderQuotes to fetch.
+     */
+    orderBy?: ProviderQuoteOrderByWithRelationInput | ProviderQuoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProviderQuotes.
+     */
+    cursor?: ProviderQuoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProviderQuotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProviderQuotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProviderQuotes.
+     */
+    distinct?: ProviderQuoteScalarFieldEnum | ProviderQuoteScalarFieldEnum[]
+  }
+
+  /**
+   * ProviderQuote findMany
+   */
+  export type ProviderQuoteFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderQuote
+     */
+    select?: ProviderQuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderQuote
+     */
+    omit?: ProviderQuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderQuoteInclude<ExtArgs> | null
+    /**
+     * Filter, which ProviderQuotes to fetch.
+     */
+    where?: ProviderQuoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProviderQuotes to fetch.
+     */
+    orderBy?: ProviderQuoteOrderByWithRelationInput | ProviderQuoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ProviderQuotes.
+     */
+    cursor?: ProviderQuoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProviderQuotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProviderQuotes.
+     */
+    skip?: number
+    distinct?: ProviderQuoteScalarFieldEnum | ProviderQuoteScalarFieldEnum[]
+  }
+
+  /**
+   * ProviderQuote create
+   */
+  export type ProviderQuoteCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderQuote
+     */
+    select?: ProviderQuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderQuote
+     */
+    omit?: ProviderQuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderQuoteInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ProviderQuote.
+     */
+    data: XOR<ProviderQuoteCreateInput, ProviderQuoteUncheckedCreateInput>
+  }
+
+  /**
+   * ProviderQuote createMany
+   */
+  export type ProviderQuoteCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ProviderQuotes.
+     */
+    data: ProviderQuoteCreateManyInput | ProviderQuoteCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ProviderQuote createManyAndReturn
+   */
+  export type ProviderQuoteCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderQuote
+     */
+    select?: ProviderQuoteSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderQuote
+     */
+    omit?: ProviderQuoteOmit<ExtArgs> | null
+    /**
+     * The data used to create many ProviderQuotes.
+     */
+    data: ProviderQuoteCreateManyInput | ProviderQuoteCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderQuoteIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProviderQuote update
+   */
+  export type ProviderQuoteUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderQuote
+     */
+    select?: ProviderQuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderQuote
+     */
+    omit?: ProviderQuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderQuoteInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ProviderQuote.
+     */
+    data: XOR<ProviderQuoteUpdateInput, ProviderQuoteUncheckedUpdateInput>
+    /**
+     * Choose, which ProviderQuote to update.
+     */
+    where: ProviderQuoteWhereUniqueInput
+  }
+
+  /**
+   * ProviderQuote updateMany
+   */
+  export type ProviderQuoteUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ProviderQuotes.
+     */
+    data: XOR<ProviderQuoteUpdateManyMutationInput, ProviderQuoteUncheckedUpdateManyInput>
+    /**
+     * Filter which ProviderQuotes to update
+     */
+    where?: ProviderQuoteWhereInput
+    /**
+     * Limit how many ProviderQuotes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProviderQuote updateManyAndReturn
+   */
+  export type ProviderQuoteUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderQuote
+     */
+    select?: ProviderQuoteSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderQuote
+     */
+    omit?: ProviderQuoteOmit<ExtArgs> | null
+    /**
+     * The data used to update ProviderQuotes.
+     */
+    data: XOR<ProviderQuoteUpdateManyMutationInput, ProviderQuoteUncheckedUpdateManyInput>
+    /**
+     * Filter which ProviderQuotes to update
+     */
+    where?: ProviderQuoteWhereInput
+    /**
+     * Limit how many ProviderQuotes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderQuoteIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProviderQuote upsert
+   */
+  export type ProviderQuoteUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderQuote
+     */
+    select?: ProviderQuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderQuote
+     */
+    omit?: ProviderQuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderQuoteInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ProviderQuote to update in case it exists.
+     */
+    where: ProviderQuoteWhereUniqueInput
+    /**
+     * In case the ProviderQuote found by the `where` argument doesn't exist, create a new ProviderQuote with this data.
+     */
+    create: XOR<ProviderQuoteCreateInput, ProviderQuoteUncheckedCreateInput>
+    /**
+     * In case the ProviderQuote was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProviderQuoteUpdateInput, ProviderQuoteUncheckedUpdateInput>
+  }
+
+  /**
+   * ProviderQuote delete
+   */
+  export type ProviderQuoteDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderQuote
+     */
+    select?: ProviderQuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderQuote
+     */
+    omit?: ProviderQuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderQuoteInclude<ExtArgs> | null
+    /**
+     * Filter which ProviderQuote to delete.
+     */
+    where: ProviderQuoteWhereUniqueInput
+  }
+
+  /**
+   * ProviderQuote deleteMany
+   */
+  export type ProviderQuoteDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProviderQuotes to delete
+     */
+    where?: ProviderQuoteWhereInput
+    /**
+     * Limit how many ProviderQuotes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProviderQuote without action
+   */
+  export type ProviderQuoteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProviderQuote
+     */
+    select?: ProviderQuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProviderQuote
+     */
+    omit?: ProviderQuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProviderQuoteInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Approval
+   */
+
+  export type AggregateApproval = {
+    _count: ApprovalCountAggregateOutputType | null
+    _min: ApprovalMinAggregateOutputType | null
+    _max: ApprovalMaxAggregateOutputType | null
+  }
+
+  export type ApprovalMinAggregateOutputType = {
+    id: string | null
+    draftId: string | null
+    userId: string | null
+    decision: string | null
+    selectedQuoteId: string | null
+    note: string | null
+    idempotencyKey: string | null
+    deliveryId: string | null
+    createdAt: Date | null
+  }
+
+  export type ApprovalMaxAggregateOutputType = {
+    id: string | null
+    draftId: string | null
+    userId: string | null
+    decision: string | null
+    selectedQuoteId: string | null
+    note: string | null
+    idempotencyKey: string | null
+    deliveryId: string | null
+    createdAt: Date | null
+  }
+
+  export type ApprovalCountAggregateOutputType = {
+    id: number
+    draftId: number
+    userId: number
+    decision: number
+    selectedQuoteId: number
+    note: number
+    idempotencyKey: number
+    deliveryId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ApprovalMinAggregateInputType = {
+    id?: true
+    draftId?: true
+    userId?: true
+    decision?: true
+    selectedQuoteId?: true
+    note?: true
+    idempotencyKey?: true
+    deliveryId?: true
+    createdAt?: true
+  }
+
+  export type ApprovalMaxAggregateInputType = {
+    id?: true
+    draftId?: true
+    userId?: true
+    decision?: true
+    selectedQuoteId?: true
+    note?: true
+    idempotencyKey?: true
+    deliveryId?: true
+    createdAt?: true
+  }
+
+  export type ApprovalCountAggregateInputType = {
+    id?: true
+    draftId?: true
+    userId?: true
+    decision?: true
+    selectedQuoteId?: true
+    note?: true
+    idempotencyKey?: true
+    deliveryId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ApprovalAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Approval to aggregate.
+     */
+    where?: ApprovalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Approvals to fetch.
+     */
+    orderBy?: ApprovalOrderByWithRelationInput | ApprovalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ApprovalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Approvals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Approvals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Approvals
+    **/
+    _count?: true | ApprovalCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ApprovalMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ApprovalMaxAggregateInputType
+  }
+
+  export type GetApprovalAggregateType<T extends ApprovalAggregateArgs> = {
+        [P in keyof T & keyof AggregateApproval]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateApproval[P]>
+      : GetScalarType<T[P], AggregateApproval[P]>
+  }
+
+
+
+
+  export type ApprovalGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ApprovalWhereInput
+    orderBy?: ApprovalOrderByWithAggregationInput | ApprovalOrderByWithAggregationInput[]
+    by: ApprovalScalarFieldEnum[] | ApprovalScalarFieldEnum
+    having?: ApprovalScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ApprovalCountAggregateInputType | true
+    _min?: ApprovalMinAggregateInputType
+    _max?: ApprovalMaxAggregateInputType
+  }
+
+  export type ApprovalGroupByOutputType = {
+    id: string
+    draftId: string
+    userId: string
+    decision: string
+    selectedQuoteId: string | null
+    note: string | null
+    idempotencyKey: string
+    deliveryId: string | null
+    createdAt: Date
+    _count: ApprovalCountAggregateOutputType | null
+    _min: ApprovalMinAggregateOutputType | null
+    _max: ApprovalMaxAggregateOutputType | null
+  }
+
+  type GetApprovalGroupByPayload<T extends ApprovalGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ApprovalGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ApprovalGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ApprovalGroupByOutputType[P]>
+            : GetScalarType<T[P], ApprovalGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ApprovalSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    draftId?: boolean
+    userId?: boolean
+    decision?: boolean
+    selectedQuoteId?: boolean
+    note?: boolean
+    idempotencyKey?: boolean
+    deliveryId?: boolean
+    createdAt?: boolean
+    draft?: boolean | DeliveryDraftDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["approval"]>
+
+  export type ApprovalSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    draftId?: boolean
+    userId?: boolean
+    decision?: boolean
+    selectedQuoteId?: boolean
+    note?: boolean
+    idempotencyKey?: boolean
+    deliveryId?: boolean
+    createdAt?: boolean
+    draft?: boolean | DeliveryDraftDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["approval"]>
+
+  export type ApprovalSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    draftId?: boolean
+    userId?: boolean
+    decision?: boolean
+    selectedQuoteId?: boolean
+    note?: boolean
+    idempotencyKey?: boolean
+    deliveryId?: boolean
+    createdAt?: boolean
+    draft?: boolean | DeliveryDraftDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["approval"]>
+
+  export type ApprovalSelectScalar = {
+    id?: boolean
+    draftId?: boolean
+    userId?: boolean
+    decision?: boolean
+    selectedQuoteId?: boolean
+    note?: boolean
+    idempotencyKey?: boolean
+    deliveryId?: boolean
+    createdAt?: boolean
+  }
+
+  export type ApprovalOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "draftId" | "userId" | "decision" | "selectedQuoteId" | "note" | "idempotencyKey" | "deliveryId" | "createdAt", ExtArgs["result"]["approval"]>
+  export type ApprovalInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    draft?: boolean | DeliveryDraftDefaultArgs<ExtArgs>
+  }
+  export type ApprovalIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    draft?: boolean | DeliveryDraftDefaultArgs<ExtArgs>
+  }
+  export type ApprovalIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    draft?: boolean | DeliveryDraftDefaultArgs<ExtArgs>
+  }
+
+  export type $ApprovalPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Approval"
+    objects: {
+      draft: Prisma.$DeliveryDraftPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      draftId: string
+      userId: string
+      decision: string
+      selectedQuoteId: string | null
+      note: string | null
+      idempotencyKey: string
+      deliveryId: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["approval"]>
+    composites: {}
+  }
+
+  type ApprovalGetPayload<S extends boolean | null | undefined | ApprovalDefaultArgs> = $Result.GetResult<Prisma.$ApprovalPayload, S>
+
+  type ApprovalCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ApprovalFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ApprovalCountAggregateInputType | true
+    }
+
+  export interface ApprovalDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Approval'], meta: { name: 'Approval' } }
+    /**
+     * Find zero or one Approval that matches the filter.
+     * @param {ApprovalFindUniqueArgs} args - Arguments to find a Approval
+     * @example
+     * // Get one Approval
+     * const approval = await prisma.approval.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ApprovalFindUniqueArgs>(args: SelectSubset<T, ApprovalFindUniqueArgs<ExtArgs>>): Prisma__ApprovalClient<$Result.GetResult<Prisma.$ApprovalPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Approval that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ApprovalFindUniqueOrThrowArgs} args - Arguments to find a Approval
+     * @example
+     * // Get one Approval
+     * const approval = await prisma.approval.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ApprovalFindUniqueOrThrowArgs>(args: SelectSubset<T, ApprovalFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ApprovalClient<$Result.GetResult<Prisma.$ApprovalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Approval that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApprovalFindFirstArgs} args - Arguments to find a Approval
+     * @example
+     * // Get one Approval
+     * const approval = await prisma.approval.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ApprovalFindFirstArgs>(args?: SelectSubset<T, ApprovalFindFirstArgs<ExtArgs>>): Prisma__ApprovalClient<$Result.GetResult<Prisma.$ApprovalPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Approval that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApprovalFindFirstOrThrowArgs} args - Arguments to find a Approval
+     * @example
+     * // Get one Approval
+     * const approval = await prisma.approval.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ApprovalFindFirstOrThrowArgs>(args?: SelectSubset<T, ApprovalFindFirstOrThrowArgs<ExtArgs>>): Prisma__ApprovalClient<$Result.GetResult<Prisma.$ApprovalPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Approvals that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApprovalFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Approvals
+     * const approvals = await prisma.approval.findMany()
+     * 
+     * // Get first 10 Approvals
+     * const approvals = await prisma.approval.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const approvalWithIdOnly = await prisma.approval.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ApprovalFindManyArgs>(args?: SelectSubset<T, ApprovalFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApprovalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Approval.
+     * @param {ApprovalCreateArgs} args - Arguments to create a Approval.
+     * @example
+     * // Create one Approval
+     * const Approval = await prisma.approval.create({
+     *   data: {
+     *     // ... data to create a Approval
+     *   }
+     * })
+     * 
+     */
+    create<T extends ApprovalCreateArgs>(args: SelectSubset<T, ApprovalCreateArgs<ExtArgs>>): Prisma__ApprovalClient<$Result.GetResult<Prisma.$ApprovalPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Approvals.
+     * @param {ApprovalCreateManyArgs} args - Arguments to create many Approvals.
+     * @example
+     * // Create many Approvals
+     * const approval = await prisma.approval.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ApprovalCreateManyArgs>(args?: SelectSubset<T, ApprovalCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Approvals and returns the data saved in the database.
+     * @param {ApprovalCreateManyAndReturnArgs} args - Arguments to create many Approvals.
+     * @example
+     * // Create many Approvals
+     * const approval = await prisma.approval.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Approvals and only return the `id`
+     * const approvalWithIdOnly = await prisma.approval.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ApprovalCreateManyAndReturnArgs>(args?: SelectSubset<T, ApprovalCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApprovalPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Approval.
+     * @param {ApprovalDeleteArgs} args - Arguments to delete one Approval.
+     * @example
+     * // Delete one Approval
+     * const Approval = await prisma.approval.delete({
+     *   where: {
+     *     // ... filter to delete one Approval
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ApprovalDeleteArgs>(args: SelectSubset<T, ApprovalDeleteArgs<ExtArgs>>): Prisma__ApprovalClient<$Result.GetResult<Prisma.$ApprovalPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Approval.
+     * @param {ApprovalUpdateArgs} args - Arguments to update one Approval.
+     * @example
+     * // Update one Approval
+     * const approval = await prisma.approval.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ApprovalUpdateArgs>(args: SelectSubset<T, ApprovalUpdateArgs<ExtArgs>>): Prisma__ApprovalClient<$Result.GetResult<Prisma.$ApprovalPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Approvals.
+     * @param {ApprovalDeleteManyArgs} args - Arguments to filter Approvals to delete.
+     * @example
+     * // Delete a few Approvals
+     * const { count } = await prisma.approval.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ApprovalDeleteManyArgs>(args?: SelectSubset<T, ApprovalDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Approvals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApprovalUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Approvals
+     * const approval = await prisma.approval.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ApprovalUpdateManyArgs>(args: SelectSubset<T, ApprovalUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Approvals and returns the data updated in the database.
+     * @param {ApprovalUpdateManyAndReturnArgs} args - Arguments to update many Approvals.
+     * @example
+     * // Update many Approvals
+     * const approval = await prisma.approval.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Approvals and only return the `id`
+     * const approvalWithIdOnly = await prisma.approval.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ApprovalUpdateManyAndReturnArgs>(args: SelectSubset<T, ApprovalUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApprovalPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Approval.
+     * @param {ApprovalUpsertArgs} args - Arguments to update or create a Approval.
+     * @example
+     * // Update or create a Approval
+     * const approval = await prisma.approval.upsert({
+     *   create: {
+     *     // ... data to create a Approval
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Approval we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ApprovalUpsertArgs>(args: SelectSubset<T, ApprovalUpsertArgs<ExtArgs>>): Prisma__ApprovalClient<$Result.GetResult<Prisma.$ApprovalPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Approvals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApprovalCountArgs} args - Arguments to filter Approvals to count.
+     * @example
+     * // Count the number of Approvals
+     * const count = await prisma.approval.count({
+     *   where: {
+     *     // ... the filter for the Approvals we want to count
+     *   }
+     * })
+    **/
+    count<T extends ApprovalCountArgs>(
+      args?: Subset<T, ApprovalCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ApprovalCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Approval.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApprovalAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ApprovalAggregateArgs>(args: Subset<T, ApprovalAggregateArgs>): Prisma.PrismaPromise<GetApprovalAggregateType<T>>
+
+    /**
+     * Group by Approval.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApprovalGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ApprovalGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ApprovalGroupByArgs['orderBy'] }
+        : { orderBy?: ApprovalGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ApprovalGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetApprovalGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Approval model
+   */
+  readonly fields: ApprovalFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Approval.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ApprovalClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    draft<T extends DeliveryDraftDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DeliveryDraftDefaultArgs<ExtArgs>>): Prisma__DeliveryDraftClient<$Result.GetResult<Prisma.$DeliveryDraftPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Approval model
+   */
+  interface ApprovalFieldRefs {
+    readonly id: FieldRef<"Approval", 'String'>
+    readonly draftId: FieldRef<"Approval", 'String'>
+    readonly userId: FieldRef<"Approval", 'String'>
+    readonly decision: FieldRef<"Approval", 'String'>
+    readonly selectedQuoteId: FieldRef<"Approval", 'String'>
+    readonly note: FieldRef<"Approval", 'String'>
+    readonly idempotencyKey: FieldRef<"Approval", 'String'>
+    readonly deliveryId: FieldRef<"Approval", 'String'>
+    readonly createdAt: FieldRef<"Approval", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Approval findUnique
+   */
+  export type ApprovalFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Approval
+     */
+    select?: ApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Approval
+     */
+    omit?: ApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalInclude<ExtArgs> | null
+    /**
+     * Filter, which Approval to fetch.
+     */
+    where: ApprovalWhereUniqueInput
+  }
+
+  /**
+   * Approval findUniqueOrThrow
+   */
+  export type ApprovalFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Approval
+     */
+    select?: ApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Approval
+     */
+    omit?: ApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalInclude<ExtArgs> | null
+    /**
+     * Filter, which Approval to fetch.
+     */
+    where: ApprovalWhereUniqueInput
+  }
+
+  /**
+   * Approval findFirst
+   */
+  export type ApprovalFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Approval
+     */
+    select?: ApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Approval
+     */
+    omit?: ApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalInclude<ExtArgs> | null
+    /**
+     * Filter, which Approval to fetch.
+     */
+    where?: ApprovalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Approvals to fetch.
+     */
+    orderBy?: ApprovalOrderByWithRelationInput | ApprovalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Approvals.
+     */
+    cursor?: ApprovalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Approvals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Approvals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Approvals.
+     */
+    distinct?: ApprovalScalarFieldEnum | ApprovalScalarFieldEnum[]
+  }
+
+  /**
+   * Approval findFirstOrThrow
+   */
+  export type ApprovalFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Approval
+     */
+    select?: ApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Approval
+     */
+    omit?: ApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalInclude<ExtArgs> | null
+    /**
+     * Filter, which Approval to fetch.
+     */
+    where?: ApprovalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Approvals to fetch.
+     */
+    orderBy?: ApprovalOrderByWithRelationInput | ApprovalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Approvals.
+     */
+    cursor?: ApprovalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Approvals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Approvals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Approvals.
+     */
+    distinct?: ApprovalScalarFieldEnum | ApprovalScalarFieldEnum[]
+  }
+
+  /**
+   * Approval findMany
+   */
+  export type ApprovalFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Approval
+     */
+    select?: ApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Approval
+     */
+    omit?: ApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalInclude<ExtArgs> | null
+    /**
+     * Filter, which Approvals to fetch.
+     */
+    where?: ApprovalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Approvals to fetch.
+     */
+    orderBy?: ApprovalOrderByWithRelationInput | ApprovalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Approvals.
+     */
+    cursor?: ApprovalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Approvals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Approvals.
+     */
+    skip?: number
+    distinct?: ApprovalScalarFieldEnum | ApprovalScalarFieldEnum[]
+  }
+
+  /**
+   * Approval create
+   */
+  export type ApprovalCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Approval
+     */
+    select?: ApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Approval
+     */
+    omit?: ApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Approval.
+     */
+    data: XOR<ApprovalCreateInput, ApprovalUncheckedCreateInput>
+  }
+
+  /**
+   * Approval createMany
+   */
+  export type ApprovalCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Approvals.
+     */
+    data: ApprovalCreateManyInput | ApprovalCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Approval createManyAndReturn
+   */
+  export type ApprovalCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Approval
+     */
+    select?: ApprovalSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Approval
+     */
+    omit?: ApprovalOmit<ExtArgs> | null
+    /**
+     * The data used to create many Approvals.
+     */
+    data: ApprovalCreateManyInput | ApprovalCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Approval update
+   */
+  export type ApprovalUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Approval
+     */
+    select?: ApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Approval
+     */
+    omit?: ApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Approval.
+     */
+    data: XOR<ApprovalUpdateInput, ApprovalUncheckedUpdateInput>
+    /**
+     * Choose, which Approval to update.
+     */
+    where: ApprovalWhereUniqueInput
+  }
+
+  /**
+   * Approval updateMany
+   */
+  export type ApprovalUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Approvals.
+     */
+    data: XOR<ApprovalUpdateManyMutationInput, ApprovalUncheckedUpdateManyInput>
+    /**
+     * Filter which Approvals to update
+     */
+    where?: ApprovalWhereInput
+    /**
+     * Limit how many Approvals to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Approval updateManyAndReturn
+   */
+  export type ApprovalUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Approval
+     */
+    select?: ApprovalSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Approval
+     */
+    omit?: ApprovalOmit<ExtArgs> | null
+    /**
+     * The data used to update Approvals.
+     */
+    data: XOR<ApprovalUpdateManyMutationInput, ApprovalUncheckedUpdateManyInput>
+    /**
+     * Filter which Approvals to update
+     */
+    where?: ApprovalWhereInput
+    /**
+     * Limit how many Approvals to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Approval upsert
+   */
+  export type ApprovalUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Approval
+     */
+    select?: ApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Approval
+     */
+    omit?: ApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Approval to update in case it exists.
+     */
+    where: ApprovalWhereUniqueInput
+    /**
+     * In case the Approval found by the `where` argument doesn't exist, create a new Approval with this data.
+     */
+    create: XOR<ApprovalCreateInput, ApprovalUncheckedCreateInput>
+    /**
+     * In case the Approval was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ApprovalUpdateInput, ApprovalUncheckedUpdateInput>
+  }
+
+  /**
+   * Approval delete
+   */
+  export type ApprovalDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Approval
+     */
+    select?: ApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Approval
+     */
+    omit?: ApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalInclude<ExtArgs> | null
+    /**
+     * Filter which Approval to delete.
+     */
+    where: ApprovalWhereUniqueInput
+  }
+
+  /**
+   * Approval deleteMany
+   */
+  export type ApprovalDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Approvals to delete
+     */
+    where?: ApprovalWhereInput
+    /**
+     * Limit how many Approvals to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Approval without action
+   */
+  export type ApprovalDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Approval
+     */
+    select?: ApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Approval
+     */
+    omit?: ApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AiAuditEvent
+   */
+
+  export type AggregateAiAuditEvent = {
+    _count: AiAuditEventCountAggregateOutputType | null
+    _min: AiAuditEventMinAggregateOutputType | null
+    _max: AiAuditEventMaxAggregateOutputType | null
+  }
+
+  export type AiAuditEventMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    actorType: string | null
+    action: string | null
+    entityType: string | null
+    entityId: string | null
+    createdAt: Date | null
+  }
+
+  export type AiAuditEventMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    actorType: string | null
+    action: string | null
+    entityType: string | null
+    entityId: string | null
+    createdAt: Date | null
+  }
+
+  export type AiAuditEventCountAggregateOutputType = {
+    id: number
+    userId: number
+    actorType: number
+    action: number
+    entityType: number
+    entityId: number
+    metadata: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type AiAuditEventMinAggregateInputType = {
+    id?: true
+    userId?: true
+    actorType?: true
+    action?: true
+    entityType?: true
+    entityId?: true
+    createdAt?: true
+  }
+
+  export type AiAuditEventMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    actorType?: true
+    action?: true
+    entityType?: true
+    entityId?: true
+    createdAt?: true
+  }
+
+  export type AiAuditEventCountAggregateInputType = {
+    id?: true
+    userId?: true
+    actorType?: true
+    action?: true
+    entityType?: true
+    entityId?: true
+    metadata?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type AiAuditEventAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AiAuditEvent to aggregate.
+     */
+    where?: AiAuditEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AiAuditEvents to fetch.
+     */
+    orderBy?: AiAuditEventOrderByWithRelationInput | AiAuditEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AiAuditEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AiAuditEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AiAuditEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AiAuditEvents
+    **/
+    _count?: true | AiAuditEventCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AiAuditEventMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AiAuditEventMaxAggregateInputType
+  }
+
+  export type GetAiAuditEventAggregateType<T extends AiAuditEventAggregateArgs> = {
+        [P in keyof T & keyof AggregateAiAuditEvent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAiAuditEvent[P]>
+      : GetScalarType<T[P], AggregateAiAuditEvent[P]>
+  }
+
+
+
+
+  export type AiAuditEventGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AiAuditEventWhereInput
+    orderBy?: AiAuditEventOrderByWithAggregationInput | AiAuditEventOrderByWithAggregationInput[]
+    by: AiAuditEventScalarFieldEnum[] | AiAuditEventScalarFieldEnum
+    having?: AiAuditEventScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AiAuditEventCountAggregateInputType | true
+    _min?: AiAuditEventMinAggregateInputType
+    _max?: AiAuditEventMaxAggregateInputType
+  }
+
+  export type AiAuditEventGroupByOutputType = {
+    id: string
+    userId: string | null
+    actorType: string
+    action: string
+    entityType: string
+    entityId: string | null
+    metadata: JsonValue | null
+    createdAt: Date
+    _count: AiAuditEventCountAggregateOutputType | null
+    _min: AiAuditEventMinAggregateOutputType | null
+    _max: AiAuditEventMaxAggregateOutputType | null
+  }
+
+  type GetAiAuditEventGroupByPayload<T extends AiAuditEventGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AiAuditEventGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AiAuditEventGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AiAuditEventGroupByOutputType[P]>
+            : GetScalarType<T[P], AiAuditEventGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AiAuditEventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    actorType?: boolean
+    action?: boolean
+    entityType?: boolean
+    entityId?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["aiAuditEvent"]>
+
+  export type AiAuditEventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    actorType?: boolean
+    action?: boolean
+    entityType?: boolean
+    entityId?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["aiAuditEvent"]>
+
+  export type AiAuditEventSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    actorType?: boolean
+    action?: boolean
+    entityType?: boolean
+    entityId?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["aiAuditEvent"]>
+
+  export type AiAuditEventSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    actorType?: boolean
+    action?: boolean
+    entityType?: boolean
+    entityId?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+  }
+
+  export type AiAuditEventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "actorType" | "action" | "entityType" | "entityId" | "metadata" | "createdAt", ExtArgs["result"]["aiAuditEvent"]>
+
+  export type $AiAuditEventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AiAuditEvent"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string | null
+      actorType: string
+      action: string
+      entityType: string
+      entityId: string | null
+      metadata: Prisma.JsonValue | null
+      createdAt: Date
+    }, ExtArgs["result"]["aiAuditEvent"]>
+    composites: {}
+  }
+
+  type AiAuditEventGetPayload<S extends boolean | null | undefined | AiAuditEventDefaultArgs> = $Result.GetResult<Prisma.$AiAuditEventPayload, S>
+
+  type AiAuditEventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AiAuditEventFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AiAuditEventCountAggregateInputType | true
+    }
+
+  export interface AiAuditEventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AiAuditEvent'], meta: { name: 'AiAuditEvent' } }
+    /**
+     * Find zero or one AiAuditEvent that matches the filter.
+     * @param {AiAuditEventFindUniqueArgs} args - Arguments to find a AiAuditEvent
+     * @example
+     * // Get one AiAuditEvent
+     * const aiAuditEvent = await prisma.aiAuditEvent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AiAuditEventFindUniqueArgs>(args: SelectSubset<T, AiAuditEventFindUniqueArgs<ExtArgs>>): Prisma__AiAuditEventClient<$Result.GetResult<Prisma.$AiAuditEventPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AiAuditEvent that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AiAuditEventFindUniqueOrThrowArgs} args - Arguments to find a AiAuditEvent
+     * @example
+     * // Get one AiAuditEvent
+     * const aiAuditEvent = await prisma.aiAuditEvent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AiAuditEventFindUniqueOrThrowArgs>(args: SelectSubset<T, AiAuditEventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AiAuditEventClient<$Result.GetResult<Prisma.$AiAuditEventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AiAuditEvent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiAuditEventFindFirstArgs} args - Arguments to find a AiAuditEvent
+     * @example
+     * // Get one AiAuditEvent
+     * const aiAuditEvent = await prisma.aiAuditEvent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AiAuditEventFindFirstArgs>(args?: SelectSubset<T, AiAuditEventFindFirstArgs<ExtArgs>>): Prisma__AiAuditEventClient<$Result.GetResult<Prisma.$AiAuditEventPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AiAuditEvent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiAuditEventFindFirstOrThrowArgs} args - Arguments to find a AiAuditEvent
+     * @example
+     * // Get one AiAuditEvent
+     * const aiAuditEvent = await prisma.aiAuditEvent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AiAuditEventFindFirstOrThrowArgs>(args?: SelectSubset<T, AiAuditEventFindFirstOrThrowArgs<ExtArgs>>): Prisma__AiAuditEventClient<$Result.GetResult<Prisma.$AiAuditEventPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AiAuditEvents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiAuditEventFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AiAuditEvents
+     * const aiAuditEvents = await prisma.aiAuditEvent.findMany()
+     * 
+     * // Get first 10 AiAuditEvents
+     * const aiAuditEvents = await prisma.aiAuditEvent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const aiAuditEventWithIdOnly = await prisma.aiAuditEvent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AiAuditEventFindManyArgs>(args?: SelectSubset<T, AiAuditEventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiAuditEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AiAuditEvent.
+     * @param {AiAuditEventCreateArgs} args - Arguments to create a AiAuditEvent.
+     * @example
+     * // Create one AiAuditEvent
+     * const AiAuditEvent = await prisma.aiAuditEvent.create({
+     *   data: {
+     *     // ... data to create a AiAuditEvent
+     *   }
+     * })
+     * 
+     */
+    create<T extends AiAuditEventCreateArgs>(args: SelectSubset<T, AiAuditEventCreateArgs<ExtArgs>>): Prisma__AiAuditEventClient<$Result.GetResult<Prisma.$AiAuditEventPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AiAuditEvents.
+     * @param {AiAuditEventCreateManyArgs} args - Arguments to create many AiAuditEvents.
+     * @example
+     * // Create many AiAuditEvents
+     * const aiAuditEvent = await prisma.aiAuditEvent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AiAuditEventCreateManyArgs>(args?: SelectSubset<T, AiAuditEventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AiAuditEvents and returns the data saved in the database.
+     * @param {AiAuditEventCreateManyAndReturnArgs} args - Arguments to create many AiAuditEvents.
+     * @example
+     * // Create many AiAuditEvents
+     * const aiAuditEvent = await prisma.aiAuditEvent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AiAuditEvents and only return the `id`
+     * const aiAuditEventWithIdOnly = await prisma.aiAuditEvent.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AiAuditEventCreateManyAndReturnArgs>(args?: SelectSubset<T, AiAuditEventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiAuditEventPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AiAuditEvent.
+     * @param {AiAuditEventDeleteArgs} args - Arguments to delete one AiAuditEvent.
+     * @example
+     * // Delete one AiAuditEvent
+     * const AiAuditEvent = await prisma.aiAuditEvent.delete({
+     *   where: {
+     *     // ... filter to delete one AiAuditEvent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AiAuditEventDeleteArgs>(args: SelectSubset<T, AiAuditEventDeleteArgs<ExtArgs>>): Prisma__AiAuditEventClient<$Result.GetResult<Prisma.$AiAuditEventPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AiAuditEvent.
+     * @param {AiAuditEventUpdateArgs} args - Arguments to update one AiAuditEvent.
+     * @example
+     * // Update one AiAuditEvent
+     * const aiAuditEvent = await prisma.aiAuditEvent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AiAuditEventUpdateArgs>(args: SelectSubset<T, AiAuditEventUpdateArgs<ExtArgs>>): Prisma__AiAuditEventClient<$Result.GetResult<Prisma.$AiAuditEventPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AiAuditEvents.
+     * @param {AiAuditEventDeleteManyArgs} args - Arguments to filter AiAuditEvents to delete.
+     * @example
+     * // Delete a few AiAuditEvents
+     * const { count } = await prisma.aiAuditEvent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AiAuditEventDeleteManyArgs>(args?: SelectSubset<T, AiAuditEventDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AiAuditEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiAuditEventUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AiAuditEvents
+     * const aiAuditEvent = await prisma.aiAuditEvent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AiAuditEventUpdateManyArgs>(args: SelectSubset<T, AiAuditEventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AiAuditEvents and returns the data updated in the database.
+     * @param {AiAuditEventUpdateManyAndReturnArgs} args - Arguments to update many AiAuditEvents.
+     * @example
+     * // Update many AiAuditEvents
+     * const aiAuditEvent = await prisma.aiAuditEvent.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AiAuditEvents and only return the `id`
+     * const aiAuditEventWithIdOnly = await prisma.aiAuditEvent.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AiAuditEventUpdateManyAndReturnArgs>(args: SelectSubset<T, AiAuditEventUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AiAuditEventPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AiAuditEvent.
+     * @param {AiAuditEventUpsertArgs} args - Arguments to update or create a AiAuditEvent.
+     * @example
+     * // Update or create a AiAuditEvent
+     * const aiAuditEvent = await prisma.aiAuditEvent.upsert({
+     *   create: {
+     *     // ... data to create a AiAuditEvent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AiAuditEvent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AiAuditEventUpsertArgs>(args: SelectSubset<T, AiAuditEventUpsertArgs<ExtArgs>>): Prisma__AiAuditEventClient<$Result.GetResult<Prisma.$AiAuditEventPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AiAuditEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiAuditEventCountArgs} args - Arguments to filter AiAuditEvents to count.
+     * @example
+     * // Count the number of AiAuditEvents
+     * const count = await prisma.aiAuditEvent.count({
+     *   where: {
+     *     // ... the filter for the AiAuditEvents we want to count
+     *   }
+     * })
+    **/
+    count<T extends AiAuditEventCountArgs>(
+      args?: Subset<T, AiAuditEventCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AiAuditEventCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AiAuditEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiAuditEventAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AiAuditEventAggregateArgs>(args: Subset<T, AiAuditEventAggregateArgs>): Prisma.PrismaPromise<GetAiAuditEventAggregateType<T>>
+
+    /**
+     * Group by AiAuditEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AiAuditEventGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AiAuditEventGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AiAuditEventGroupByArgs['orderBy'] }
+        : { orderBy?: AiAuditEventGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AiAuditEventGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAiAuditEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AiAuditEvent model
+   */
+  readonly fields: AiAuditEventFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AiAuditEvent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AiAuditEventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AiAuditEvent model
+   */
+  interface AiAuditEventFieldRefs {
+    readonly id: FieldRef<"AiAuditEvent", 'String'>
+    readonly userId: FieldRef<"AiAuditEvent", 'String'>
+    readonly actorType: FieldRef<"AiAuditEvent", 'String'>
+    readonly action: FieldRef<"AiAuditEvent", 'String'>
+    readonly entityType: FieldRef<"AiAuditEvent", 'String'>
+    readonly entityId: FieldRef<"AiAuditEvent", 'String'>
+    readonly metadata: FieldRef<"AiAuditEvent", 'Json'>
+    readonly createdAt: FieldRef<"AiAuditEvent", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AiAuditEvent findUnique
+   */
+  export type AiAuditEventFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiAuditEvent
+     */
+    select?: AiAuditEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiAuditEvent
+     */
+    omit?: AiAuditEventOmit<ExtArgs> | null
+    /**
+     * Filter, which AiAuditEvent to fetch.
+     */
+    where: AiAuditEventWhereUniqueInput
+  }
+
+  /**
+   * AiAuditEvent findUniqueOrThrow
+   */
+  export type AiAuditEventFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiAuditEvent
+     */
+    select?: AiAuditEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiAuditEvent
+     */
+    omit?: AiAuditEventOmit<ExtArgs> | null
+    /**
+     * Filter, which AiAuditEvent to fetch.
+     */
+    where: AiAuditEventWhereUniqueInput
+  }
+
+  /**
+   * AiAuditEvent findFirst
+   */
+  export type AiAuditEventFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiAuditEvent
+     */
+    select?: AiAuditEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiAuditEvent
+     */
+    omit?: AiAuditEventOmit<ExtArgs> | null
+    /**
+     * Filter, which AiAuditEvent to fetch.
+     */
+    where?: AiAuditEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AiAuditEvents to fetch.
+     */
+    orderBy?: AiAuditEventOrderByWithRelationInput | AiAuditEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AiAuditEvents.
+     */
+    cursor?: AiAuditEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AiAuditEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AiAuditEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AiAuditEvents.
+     */
+    distinct?: AiAuditEventScalarFieldEnum | AiAuditEventScalarFieldEnum[]
+  }
+
+  /**
+   * AiAuditEvent findFirstOrThrow
+   */
+  export type AiAuditEventFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiAuditEvent
+     */
+    select?: AiAuditEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiAuditEvent
+     */
+    omit?: AiAuditEventOmit<ExtArgs> | null
+    /**
+     * Filter, which AiAuditEvent to fetch.
+     */
+    where?: AiAuditEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AiAuditEvents to fetch.
+     */
+    orderBy?: AiAuditEventOrderByWithRelationInput | AiAuditEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AiAuditEvents.
+     */
+    cursor?: AiAuditEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AiAuditEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AiAuditEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AiAuditEvents.
+     */
+    distinct?: AiAuditEventScalarFieldEnum | AiAuditEventScalarFieldEnum[]
+  }
+
+  /**
+   * AiAuditEvent findMany
+   */
+  export type AiAuditEventFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiAuditEvent
+     */
+    select?: AiAuditEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiAuditEvent
+     */
+    omit?: AiAuditEventOmit<ExtArgs> | null
+    /**
+     * Filter, which AiAuditEvents to fetch.
+     */
+    where?: AiAuditEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AiAuditEvents to fetch.
+     */
+    orderBy?: AiAuditEventOrderByWithRelationInput | AiAuditEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AiAuditEvents.
+     */
+    cursor?: AiAuditEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AiAuditEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AiAuditEvents.
+     */
+    skip?: number
+    distinct?: AiAuditEventScalarFieldEnum | AiAuditEventScalarFieldEnum[]
+  }
+
+  /**
+   * AiAuditEvent create
+   */
+  export type AiAuditEventCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiAuditEvent
+     */
+    select?: AiAuditEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiAuditEvent
+     */
+    omit?: AiAuditEventOmit<ExtArgs> | null
+    /**
+     * The data needed to create a AiAuditEvent.
+     */
+    data: XOR<AiAuditEventCreateInput, AiAuditEventUncheckedCreateInput>
+  }
+
+  /**
+   * AiAuditEvent createMany
+   */
+  export type AiAuditEventCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AiAuditEvents.
+     */
+    data: AiAuditEventCreateManyInput | AiAuditEventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AiAuditEvent createManyAndReturn
+   */
+  export type AiAuditEventCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiAuditEvent
+     */
+    select?: AiAuditEventSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiAuditEvent
+     */
+    omit?: AiAuditEventOmit<ExtArgs> | null
+    /**
+     * The data used to create many AiAuditEvents.
+     */
+    data: AiAuditEventCreateManyInput | AiAuditEventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AiAuditEvent update
+   */
+  export type AiAuditEventUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiAuditEvent
+     */
+    select?: AiAuditEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiAuditEvent
+     */
+    omit?: AiAuditEventOmit<ExtArgs> | null
+    /**
+     * The data needed to update a AiAuditEvent.
+     */
+    data: XOR<AiAuditEventUpdateInput, AiAuditEventUncheckedUpdateInput>
+    /**
+     * Choose, which AiAuditEvent to update.
+     */
+    where: AiAuditEventWhereUniqueInput
+  }
+
+  /**
+   * AiAuditEvent updateMany
+   */
+  export type AiAuditEventUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AiAuditEvents.
+     */
+    data: XOR<AiAuditEventUpdateManyMutationInput, AiAuditEventUncheckedUpdateManyInput>
+    /**
+     * Filter which AiAuditEvents to update
+     */
+    where?: AiAuditEventWhereInput
+    /**
+     * Limit how many AiAuditEvents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AiAuditEvent updateManyAndReturn
+   */
+  export type AiAuditEventUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiAuditEvent
+     */
+    select?: AiAuditEventSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiAuditEvent
+     */
+    omit?: AiAuditEventOmit<ExtArgs> | null
+    /**
+     * The data used to update AiAuditEvents.
+     */
+    data: XOR<AiAuditEventUpdateManyMutationInput, AiAuditEventUncheckedUpdateManyInput>
+    /**
+     * Filter which AiAuditEvents to update
+     */
+    where?: AiAuditEventWhereInput
+    /**
+     * Limit how many AiAuditEvents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AiAuditEvent upsert
+   */
+  export type AiAuditEventUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiAuditEvent
+     */
+    select?: AiAuditEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiAuditEvent
+     */
+    omit?: AiAuditEventOmit<ExtArgs> | null
+    /**
+     * The filter to search for the AiAuditEvent to update in case it exists.
+     */
+    where: AiAuditEventWhereUniqueInput
+    /**
+     * In case the AiAuditEvent found by the `where` argument doesn't exist, create a new AiAuditEvent with this data.
+     */
+    create: XOR<AiAuditEventCreateInput, AiAuditEventUncheckedCreateInput>
+    /**
+     * In case the AiAuditEvent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AiAuditEventUpdateInput, AiAuditEventUncheckedUpdateInput>
+  }
+
+  /**
+   * AiAuditEvent delete
+   */
+  export type AiAuditEventDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiAuditEvent
+     */
+    select?: AiAuditEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiAuditEvent
+     */
+    omit?: AiAuditEventOmit<ExtArgs> | null
+    /**
+     * Filter which AiAuditEvent to delete.
+     */
+    where: AiAuditEventWhereUniqueInput
+  }
+
+  /**
+   * AiAuditEvent deleteMany
+   */
+  export type AiAuditEventDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AiAuditEvents to delete
+     */
+    where?: AiAuditEventWhereInput
+    /**
+     * Limit how many AiAuditEvents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AiAuditEvent without action
+   */
+  export type AiAuditEventDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AiAuditEvent
+     */
+    select?: AiAuditEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AiAuditEvent
+     */
+    omit?: AiAuditEventOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -14208,6 +22127,125 @@ export namespace Prisma {
   export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
+  export const AiConversationScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    customerWaId: 'customerWaId',
+    phoneNumberId: 'phoneNumberId',
+    status: 'status',
+    lastMessageAt: 'lastMessageAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AiConversationScalarFieldEnum = (typeof AiConversationScalarFieldEnum)[keyof typeof AiConversationScalarFieldEnum]
+
+
+  export const AiMessageScalarFieldEnum: {
+    id: 'id',
+    conversationId: 'conversationId',
+    waMessageId: 'waMessageId',
+    direction: 'direction',
+    body: 'body',
+    rawPayload: 'rawPayload',
+    processingState: 'processingState',
+    attempts: 'attempts',
+    nextRetryAt: 'nextRetryAt',
+    processingError: 'processingError',
+    createdAt: 'createdAt'
+  };
+
+  export type AiMessageScalarFieldEnum = (typeof AiMessageScalarFieldEnum)[keyof typeof AiMessageScalarFieldEnum]
+
+
+  export const DeliveryDraftScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    conversationId: 'conversationId',
+    status: 'status',
+    senderName: 'senderName',
+    senderPhone: 'senderPhone',
+    senderAddress: 'senderAddress',
+    senderEmail: 'senderEmail',
+    receiverName: 'receiverName',
+    receiverPhone: 'receiverPhone',
+    receiverAddress: 'receiverAddress',
+    receiverEmail: 'receiverEmail',
+    packageName: 'packageName',
+    packageDescription: 'packageDescription',
+    packageCategory: 'packageCategory',
+    packageCategoryId: 'packageCategoryId',
+    packageWeight: 'packageWeight',
+    packageValue: 'packageValue',
+    packageQuantity: 'packageQuantity',
+    length: 'length',
+    width: 'width',
+    height: 'height',
+    pickupDate: 'pickupDate',
+    deliveryType: 'deliveryType',
+    deliveryInstructions: 'deliveryInstructions',
+    extracted: 'extracted',
+    missingFields: 'missingFields',
+    confidence: 'confidence',
+    deliveryId: 'deliveryId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type DeliveryDraftScalarFieldEnum = (typeof DeliveryDraftScalarFieldEnum)[keyof typeof DeliveryDraftScalarFieldEnum]
+
+
+  export const ProviderQuoteScalarFieldEnum: {
+    id: 'id',
+    draftId: 'draftId',
+    provider: 'provider',
+    courierId: 'courierId',
+    courierName: 'courierName',
+    serviceCode: 'serviceCode',
+    amount: 'amount',
+    currency: 'currency',
+    deliveryEta: 'deliveryEta',
+    pickupEta: 'pickupEta',
+    score: 'score',
+    scoreReasons: 'scoreReasons',
+    requestToken: 'requestToken',
+    raw: 'raw',
+    expiresAt: 'expiresAt',
+    createdAt: 'createdAt'
+  };
+
+  export type ProviderQuoteScalarFieldEnum = (typeof ProviderQuoteScalarFieldEnum)[keyof typeof ProviderQuoteScalarFieldEnum]
+
+
+  export const ApprovalScalarFieldEnum: {
+    id: 'id',
+    draftId: 'draftId',
+    userId: 'userId',
+    decision: 'decision',
+    selectedQuoteId: 'selectedQuoteId',
+    note: 'note',
+    idempotencyKey: 'idempotencyKey',
+    deliveryId: 'deliveryId',
+    createdAt: 'createdAt'
+  };
+
+  export type ApprovalScalarFieldEnum = (typeof ApprovalScalarFieldEnum)[keyof typeof ApprovalScalarFieldEnum]
+
+
+  export const AiAuditEventScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    actorType: 'actorType',
+    action: 'action',
+    entityType: 'entityType',
+    entityId: 'entityId',
+    metadata: 'metadata',
+    createdAt: 'createdAt'
+  };
+
+  export type AiAuditEventScalarFieldEnum = (typeof AiAuditEventScalarFieldEnum)[keyof typeof AiAuditEventScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -14400,6 +22438,8 @@ export namespace Prisma {
     messageTemplates?: MessageTemplateListRelationFilter
     automations?: AutomationListRelationFilter
     creditWallet?: XOR<CreditWalletNullableScalarRelationFilter, CreditWalletWhereInput> | null
+    aiConversations?: AiConversationListRelationFilter
+    deliveryDrafts?: DeliveryDraftListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -14430,6 +22470,8 @@ export namespace Prisma {
     messageTemplates?: MessageTemplateOrderByRelationAggregateInput
     automations?: AutomationOrderByRelationAggregateInput
     creditWallet?: CreditWalletOrderByWithRelationInput
+    aiConversations?: AiConversationOrderByRelationAggregateInput
+    deliveryDrafts?: DeliveryDraftOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -14463,6 +22505,8 @@ export namespace Prisma {
     messageTemplates?: MessageTemplateListRelationFilter
     automations?: AutomationListRelationFilter
     creditWallet?: XOR<CreditWalletNullableScalarRelationFilter, CreditWalletWhereInput> | null
+    aiConversations?: AiConversationListRelationFilter
+    deliveryDrafts?: DeliveryDraftListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -15478,6 +23522,620 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
   }
 
+  export type AiConversationWhereInput = {
+    AND?: AiConversationWhereInput | AiConversationWhereInput[]
+    OR?: AiConversationWhereInput[]
+    NOT?: AiConversationWhereInput | AiConversationWhereInput[]
+    id?: StringFilter<"AiConversation"> | string
+    userId?: StringFilter<"AiConversation"> | string
+    customerWaId?: StringFilter<"AiConversation"> | string
+    phoneNumberId?: StringFilter<"AiConversation"> | string
+    status?: StringFilter<"AiConversation"> | string
+    lastMessageAt?: DateTimeNullableFilter<"AiConversation"> | Date | string | null
+    createdAt?: DateTimeFilter<"AiConversation"> | Date | string
+    updatedAt?: DateTimeFilter<"AiConversation"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    messages?: AiMessageListRelationFilter
+    drafts?: DeliveryDraftListRelationFilter
+  }
+
+  export type AiConversationOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    customerWaId?: SortOrder
+    phoneNumberId?: SortOrder
+    status?: SortOrder
+    lastMessageAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    messages?: AiMessageOrderByRelationAggregateInput
+    drafts?: DeliveryDraftOrderByRelationAggregateInput
+  }
+
+  export type AiConversationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_phoneNumberId_customerWaId?: AiConversationUserIdPhoneNumberIdCustomerWaIdCompoundUniqueInput
+    AND?: AiConversationWhereInput | AiConversationWhereInput[]
+    OR?: AiConversationWhereInput[]
+    NOT?: AiConversationWhereInput | AiConversationWhereInput[]
+    userId?: StringFilter<"AiConversation"> | string
+    customerWaId?: StringFilter<"AiConversation"> | string
+    phoneNumberId?: StringFilter<"AiConversation"> | string
+    status?: StringFilter<"AiConversation"> | string
+    lastMessageAt?: DateTimeNullableFilter<"AiConversation"> | Date | string | null
+    createdAt?: DateTimeFilter<"AiConversation"> | Date | string
+    updatedAt?: DateTimeFilter<"AiConversation"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    messages?: AiMessageListRelationFilter
+    drafts?: DeliveryDraftListRelationFilter
+  }, "id" | "userId_phoneNumberId_customerWaId">
+
+  export type AiConversationOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    customerWaId?: SortOrder
+    phoneNumberId?: SortOrder
+    status?: SortOrder
+    lastMessageAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AiConversationCountOrderByAggregateInput
+    _max?: AiConversationMaxOrderByAggregateInput
+    _min?: AiConversationMinOrderByAggregateInput
+  }
+
+  export type AiConversationScalarWhereWithAggregatesInput = {
+    AND?: AiConversationScalarWhereWithAggregatesInput | AiConversationScalarWhereWithAggregatesInput[]
+    OR?: AiConversationScalarWhereWithAggregatesInput[]
+    NOT?: AiConversationScalarWhereWithAggregatesInput | AiConversationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AiConversation"> | string
+    userId?: StringWithAggregatesFilter<"AiConversation"> | string
+    customerWaId?: StringWithAggregatesFilter<"AiConversation"> | string
+    phoneNumberId?: StringWithAggregatesFilter<"AiConversation"> | string
+    status?: StringWithAggregatesFilter<"AiConversation"> | string
+    lastMessageAt?: DateTimeNullableWithAggregatesFilter<"AiConversation"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"AiConversation"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AiConversation"> | Date | string
+  }
+
+  export type AiMessageWhereInput = {
+    AND?: AiMessageWhereInput | AiMessageWhereInput[]
+    OR?: AiMessageWhereInput[]
+    NOT?: AiMessageWhereInput | AiMessageWhereInput[]
+    id?: StringFilter<"AiMessage"> | string
+    conversationId?: StringFilter<"AiMessage"> | string
+    waMessageId?: StringFilter<"AiMessage"> | string
+    direction?: StringFilter<"AiMessage"> | string
+    body?: StringNullableFilter<"AiMessage"> | string | null
+    rawPayload?: JsonNullableFilter<"AiMessage">
+    processingState?: StringFilter<"AiMessage"> | string
+    attempts?: IntFilter<"AiMessage"> | number
+    nextRetryAt?: DateTimeNullableFilter<"AiMessage"> | Date | string | null
+    processingError?: StringNullableFilter<"AiMessage"> | string | null
+    createdAt?: DateTimeFilter<"AiMessage"> | Date | string
+    conversation?: XOR<AiConversationScalarRelationFilter, AiConversationWhereInput>
+  }
+
+  export type AiMessageOrderByWithRelationInput = {
+    id?: SortOrder
+    conversationId?: SortOrder
+    waMessageId?: SortOrder
+    direction?: SortOrder
+    body?: SortOrderInput | SortOrder
+    rawPayload?: SortOrderInput | SortOrder
+    processingState?: SortOrder
+    attempts?: SortOrder
+    nextRetryAt?: SortOrderInput | SortOrder
+    processingError?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    conversation?: AiConversationOrderByWithRelationInput
+  }
+
+  export type AiMessageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    waMessageId?: string
+    AND?: AiMessageWhereInput | AiMessageWhereInput[]
+    OR?: AiMessageWhereInput[]
+    NOT?: AiMessageWhereInput | AiMessageWhereInput[]
+    conversationId?: StringFilter<"AiMessage"> | string
+    direction?: StringFilter<"AiMessage"> | string
+    body?: StringNullableFilter<"AiMessage"> | string | null
+    rawPayload?: JsonNullableFilter<"AiMessage">
+    processingState?: StringFilter<"AiMessage"> | string
+    attempts?: IntFilter<"AiMessage"> | number
+    nextRetryAt?: DateTimeNullableFilter<"AiMessage"> | Date | string | null
+    processingError?: StringNullableFilter<"AiMessage"> | string | null
+    createdAt?: DateTimeFilter<"AiMessage"> | Date | string
+    conversation?: XOR<AiConversationScalarRelationFilter, AiConversationWhereInput>
+  }, "id" | "waMessageId">
+
+  export type AiMessageOrderByWithAggregationInput = {
+    id?: SortOrder
+    conversationId?: SortOrder
+    waMessageId?: SortOrder
+    direction?: SortOrder
+    body?: SortOrderInput | SortOrder
+    rawPayload?: SortOrderInput | SortOrder
+    processingState?: SortOrder
+    attempts?: SortOrder
+    nextRetryAt?: SortOrderInput | SortOrder
+    processingError?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: AiMessageCountOrderByAggregateInput
+    _avg?: AiMessageAvgOrderByAggregateInput
+    _max?: AiMessageMaxOrderByAggregateInput
+    _min?: AiMessageMinOrderByAggregateInput
+    _sum?: AiMessageSumOrderByAggregateInput
+  }
+
+  export type AiMessageScalarWhereWithAggregatesInput = {
+    AND?: AiMessageScalarWhereWithAggregatesInput | AiMessageScalarWhereWithAggregatesInput[]
+    OR?: AiMessageScalarWhereWithAggregatesInput[]
+    NOT?: AiMessageScalarWhereWithAggregatesInput | AiMessageScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AiMessage"> | string
+    conversationId?: StringWithAggregatesFilter<"AiMessage"> | string
+    waMessageId?: StringWithAggregatesFilter<"AiMessage"> | string
+    direction?: StringWithAggregatesFilter<"AiMessage"> | string
+    body?: StringNullableWithAggregatesFilter<"AiMessage"> | string | null
+    rawPayload?: JsonNullableWithAggregatesFilter<"AiMessage">
+    processingState?: StringWithAggregatesFilter<"AiMessage"> | string
+    attempts?: IntWithAggregatesFilter<"AiMessage"> | number
+    nextRetryAt?: DateTimeNullableWithAggregatesFilter<"AiMessage"> | Date | string | null
+    processingError?: StringNullableWithAggregatesFilter<"AiMessage"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"AiMessage"> | Date | string
+  }
+
+  export type DeliveryDraftWhereInput = {
+    AND?: DeliveryDraftWhereInput | DeliveryDraftWhereInput[]
+    OR?: DeliveryDraftWhereInput[]
+    NOT?: DeliveryDraftWhereInput | DeliveryDraftWhereInput[]
+    id?: StringFilter<"DeliveryDraft"> | string
+    userId?: StringFilter<"DeliveryDraft"> | string
+    conversationId?: StringNullableFilter<"DeliveryDraft"> | string | null
+    status?: StringFilter<"DeliveryDraft"> | string
+    senderName?: StringNullableFilter<"DeliveryDraft"> | string | null
+    senderPhone?: StringNullableFilter<"DeliveryDraft"> | string | null
+    senderAddress?: StringNullableFilter<"DeliveryDraft"> | string | null
+    senderEmail?: StringNullableFilter<"DeliveryDraft"> | string | null
+    receiverName?: StringNullableFilter<"DeliveryDraft"> | string | null
+    receiverPhone?: StringNullableFilter<"DeliveryDraft"> | string | null
+    receiverAddress?: StringNullableFilter<"DeliveryDraft"> | string | null
+    receiverEmail?: StringNullableFilter<"DeliveryDraft"> | string | null
+    packageName?: StringNullableFilter<"DeliveryDraft"> | string | null
+    packageDescription?: StringNullableFilter<"DeliveryDraft"> | string | null
+    packageCategory?: StringNullableFilter<"DeliveryDraft"> | string | null
+    packageCategoryId?: IntNullableFilter<"DeliveryDraft"> | number | null
+    packageWeight?: StringNullableFilter<"DeliveryDraft"> | string | null
+    packageValue?: StringNullableFilter<"DeliveryDraft"> | string | null
+    packageQuantity?: IntNullableFilter<"DeliveryDraft"> | number | null
+    length?: FloatNullableFilter<"DeliveryDraft"> | number | null
+    width?: FloatNullableFilter<"DeliveryDraft"> | number | null
+    height?: FloatNullableFilter<"DeliveryDraft"> | number | null
+    pickupDate?: StringNullableFilter<"DeliveryDraft"> | string | null
+    deliveryType?: StringNullableFilter<"DeliveryDraft"> | string | null
+    deliveryInstructions?: StringNullableFilter<"DeliveryDraft"> | string | null
+    extracted?: JsonNullableFilter<"DeliveryDraft">
+    missingFields?: StringNullableListFilter<"DeliveryDraft">
+    confidence?: FloatNullableFilter<"DeliveryDraft"> | number | null
+    deliveryId?: StringNullableFilter<"DeliveryDraft"> | string | null
+    createdAt?: DateTimeFilter<"DeliveryDraft"> | Date | string
+    updatedAt?: DateTimeFilter<"DeliveryDraft"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    conversation?: XOR<AiConversationNullableScalarRelationFilter, AiConversationWhereInput> | null
+    quotes?: ProviderQuoteListRelationFilter
+    approvals?: ApprovalListRelationFilter
+  }
+
+  export type DeliveryDraftOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    conversationId?: SortOrderInput | SortOrder
+    status?: SortOrder
+    senderName?: SortOrderInput | SortOrder
+    senderPhone?: SortOrderInput | SortOrder
+    senderAddress?: SortOrderInput | SortOrder
+    senderEmail?: SortOrderInput | SortOrder
+    receiverName?: SortOrderInput | SortOrder
+    receiverPhone?: SortOrderInput | SortOrder
+    receiverAddress?: SortOrderInput | SortOrder
+    receiverEmail?: SortOrderInput | SortOrder
+    packageName?: SortOrderInput | SortOrder
+    packageDescription?: SortOrderInput | SortOrder
+    packageCategory?: SortOrderInput | SortOrder
+    packageCategoryId?: SortOrderInput | SortOrder
+    packageWeight?: SortOrderInput | SortOrder
+    packageValue?: SortOrderInput | SortOrder
+    packageQuantity?: SortOrderInput | SortOrder
+    length?: SortOrderInput | SortOrder
+    width?: SortOrderInput | SortOrder
+    height?: SortOrderInput | SortOrder
+    pickupDate?: SortOrderInput | SortOrder
+    deliveryType?: SortOrderInput | SortOrder
+    deliveryInstructions?: SortOrderInput | SortOrder
+    extracted?: SortOrderInput | SortOrder
+    missingFields?: SortOrder
+    confidence?: SortOrderInput | SortOrder
+    deliveryId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    conversation?: AiConversationOrderByWithRelationInput
+    quotes?: ProviderQuoteOrderByRelationAggregateInput
+    approvals?: ApprovalOrderByRelationAggregateInput
+  }
+
+  export type DeliveryDraftWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: DeliveryDraftWhereInput | DeliveryDraftWhereInput[]
+    OR?: DeliveryDraftWhereInput[]
+    NOT?: DeliveryDraftWhereInput | DeliveryDraftWhereInput[]
+    userId?: StringFilter<"DeliveryDraft"> | string
+    conversationId?: StringNullableFilter<"DeliveryDraft"> | string | null
+    status?: StringFilter<"DeliveryDraft"> | string
+    senderName?: StringNullableFilter<"DeliveryDraft"> | string | null
+    senderPhone?: StringNullableFilter<"DeliveryDraft"> | string | null
+    senderAddress?: StringNullableFilter<"DeliveryDraft"> | string | null
+    senderEmail?: StringNullableFilter<"DeliveryDraft"> | string | null
+    receiverName?: StringNullableFilter<"DeliveryDraft"> | string | null
+    receiverPhone?: StringNullableFilter<"DeliveryDraft"> | string | null
+    receiverAddress?: StringNullableFilter<"DeliveryDraft"> | string | null
+    receiverEmail?: StringNullableFilter<"DeliveryDraft"> | string | null
+    packageName?: StringNullableFilter<"DeliveryDraft"> | string | null
+    packageDescription?: StringNullableFilter<"DeliveryDraft"> | string | null
+    packageCategory?: StringNullableFilter<"DeliveryDraft"> | string | null
+    packageCategoryId?: IntNullableFilter<"DeliveryDraft"> | number | null
+    packageWeight?: StringNullableFilter<"DeliveryDraft"> | string | null
+    packageValue?: StringNullableFilter<"DeliveryDraft"> | string | null
+    packageQuantity?: IntNullableFilter<"DeliveryDraft"> | number | null
+    length?: FloatNullableFilter<"DeliveryDraft"> | number | null
+    width?: FloatNullableFilter<"DeliveryDraft"> | number | null
+    height?: FloatNullableFilter<"DeliveryDraft"> | number | null
+    pickupDate?: StringNullableFilter<"DeliveryDraft"> | string | null
+    deliveryType?: StringNullableFilter<"DeliveryDraft"> | string | null
+    deliveryInstructions?: StringNullableFilter<"DeliveryDraft"> | string | null
+    extracted?: JsonNullableFilter<"DeliveryDraft">
+    missingFields?: StringNullableListFilter<"DeliveryDraft">
+    confidence?: FloatNullableFilter<"DeliveryDraft"> | number | null
+    deliveryId?: StringNullableFilter<"DeliveryDraft"> | string | null
+    createdAt?: DateTimeFilter<"DeliveryDraft"> | Date | string
+    updatedAt?: DateTimeFilter<"DeliveryDraft"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    conversation?: XOR<AiConversationNullableScalarRelationFilter, AiConversationWhereInput> | null
+    quotes?: ProviderQuoteListRelationFilter
+    approvals?: ApprovalListRelationFilter
+  }, "id">
+
+  export type DeliveryDraftOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    conversationId?: SortOrderInput | SortOrder
+    status?: SortOrder
+    senderName?: SortOrderInput | SortOrder
+    senderPhone?: SortOrderInput | SortOrder
+    senderAddress?: SortOrderInput | SortOrder
+    senderEmail?: SortOrderInput | SortOrder
+    receiverName?: SortOrderInput | SortOrder
+    receiverPhone?: SortOrderInput | SortOrder
+    receiverAddress?: SortOrderInput | SortOrder
+    receiverEmail?: SortOrderInput | SortOrder
+    packageName?: SortOrderInput | SortOrder
+    packageDescription?: SortOrderInput | SortOrder
+    packageCategory?: SortOrderInput | SortOrder
+    packageCategoryId?: SortOrderInput | SortOrder
+    packageWeight?: SortOrderInput | SortOrder
+    packageValue?: SortOrderInput | SortOrder
+    packageQuantity?: SortOrderInput | SortOrder
+    length?: SortOrderInput | SortOrder
+    width?: SortOrderInput | SortOrder
+    height?: SortOrderInput | SortOrder
+    pickupDate?: SortOrderInput | SortOrder
+    deliveryType?: SortOrderInput | SortOrder
+    deliveryInstructions?: SortOrderInput | SortOrder
+    extracted?: SortOrderInput | SortOrder
+    missingFields?: SortOrder
+    confidence?: SortOrderInput | SortOrder
+    deliveryId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: DeliveryDraftCountOrderByAggregateInput
+    _avg?: DeliveryDraftAvgOrderByAggregateInput
+    _max?: DeliveryDraftMaxOrderByAggregateInput
+    _min?: DeliveryDraftMinOrderByAggregateInput
+    _sum?: DeliveryDraftSumOrderByAggregateInput
+  }
+
+  export type DeliveryDraftScalarWhereWithAggregatesInput = {
+    AND?: DeliveryDraftScalarWhereWithAggregatesInput | DeliveryDraftScalarWhereWithAggregatesInput[]
+    OR?: DeliveryDraftScalarWhereWithAggregatesInput[]
+    NOT?: DeliveryDraftScalarWhereWithAggregatesInput | DeliveryDraftScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DeliveryDraft"> | string
+    userId?: StringWithAggregatesFilter<"DeliveryDraft"> | string
+    conversationId?: StringNullableWithAggregatesFilter<"DeliveryDraft"> | string | null
+    status?: StringWithAggregatesFilter<"DeliveryDraft"> | string
+    senderName?: StringNullableWithAggregatesFilter<"DeliveryDraft"> | string | null
+    senderPhone?: StringNullableWithAggregatesFilter<"DeliveryDraft"> | string | null
+    senderAddress?: StringNullableWithAggregatesFilter<"DeliveryDraft"> | string | null
+    senderEmail?: StringNullableWithAggregatesFilter<"DeliveryDraft"> | string | null
+    receiverName?: StringNullableWithAggregatesFilter<"DeliveryDraft"> | string | null
+    receiverPhone?: StringNullableWithAggregatesFilter<"DeliveryDraft"> | string | null
+    receiverAddress?: StringNullableWithAggregatesFilter<"DeliveryDraft"> | string | null
+    receiverEmail?: StringNullableWithAggregatesFilter<"DeliveryDraft"> | string | null
+    packageName?: StringNullableWithAggregatesFilter<"DeliveryDraft"> | string | null
+    packageDescription?: StringNullableWithAggregatesFilter<"DeliveryDraft"> | string | null
+    packageCategory?: StringNullableWithAggregatesFilter<"DeliveryDraft"> | string | null
+    packageCategoryId?: IntNullableWithAggregatesFilter<"DeliveryDraft"> | number | null
+    packageWeight?: StringNullableWithAggregatesFilter<"DeliveryDraft"> | string | null
+    packageValue?: StringNullableWithAggregatesFilter<"DeliveryDraft"> | string | null
+    packageQuantity?: IntNullableWithAggregatesFilter<"DeliveryDraft"> | number | null
+    length?: FloatNullableWithAggregatesFilter<"DeliveryDraft"> | number | null
+    width?: FloatNullableWithAggregatesFilter<"DeliveryDraft"> | number | null
+    height?: FloatNullableWithAggregatesFilter<"DeliveryDraft"> | number | null
+    pickupDate?: StringNullableWithAggregatesFilter<"DeliveryDraft"> | string | null
+    deliveryType?: StringNullableWithAggregatesFilter<"DeliveryDraft"> | string | null
+    deliveryInstructions?: StringNullableWithAggregatesFilter<"DeliveryDraft"> | string | null
+    extracted?: JsonNullableWithAggregatesFilter<"DeliveryDraft">
+    missingFields?: StringNullableListFilter<"DeliveryDraft">
+    confidence?: FloatNullableWithAggregatesFilter<"DeliveryDraft"> | number | null
+    deliveryId?: StringNullableWithAggregatesFilter<"DeliveryDraft"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"DeliveryDraft"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"DeliveryDraft"> | Date | string
+  }
+
+  export type ProviderQuoteWhereInput = {
+    AND?: ProviderQuoteWhereInput | ProviderQuoteWhereInput[]
+    OR?: ProviderQuoteWhereInput[]
+    NOT?: ProviderQuoteWhereInput | ProviderQuoteWhereInput[]
+    id?: StringFilter<"ProviderQuote"> | string
+    draftId?: StringFilter<"ProviderQuote"> | string
+    provider?: StringFilter<"ProviderQuote"> | string
+    courierId?: StringFilter<"ProviderQuote"> | string
+    courierName?: StringFilter<"ProviderQuote"> | string
+    serviceCode?: StringFilter<"ProviderQuote"> | string
+    amount?: FloatFilter<"ProviderQuote"> | number
+    currency?: StringFilter<"ProviderQuote"> | string
+    deliveryEta?: StringNullableFilter<"ProviderQuote"> | string | null
+    pickupEta?: StringNullableFilter<"ProviderQuote"> | string | null
+    score?: FloatFilter<"ProviderQuote"> | number
+    scoreReasons?: StringNullableListFilter<"ProviderQuote">
+    requestToken?: StringFilter<"ProviderQuote"> | string
+    raw?: JsonNullableFilter<"ProviderQuote">
+    expiresAt?: DateTimeNullableFilter<"ProviderQuote"> | Date | string | null
+    createdAt?: DateTimeFilter<"ProviderQuote"> | Date | string
+    draft?: XOR<DeliveryDraftScalarRelationFilter, DeliveryDraftWhereInput>
+  }
+
+  export type ProviderQuoteOrderByWithRelationInput = {
+    id?: SortOrder
+    draftId?: SortOrder
+    provider?: SortOrder
+    courierId?: SortOrder
+    courierName?: SortOrder
+    serviceCode?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    deliveryEta?: SortOrderInput | SortOrder
+    pickupEta?: SortOrderInput | SortOrder
+    score?: SortOrder
+    scoreReasons?: SortOrder
+    requestToken?: SortOrder
+    raw?: SortOrderInput | SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    draft?: DeliveryDraftOrderByWithRelationInput
+  }
+
+  export type ProviderQuoteWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ProviderQuoteWhereInput | ProviderQuoteWhereInput[]
+    OR?: ProviderQuoteWhereInput[]
+    NOT?: ProviderQuoteWhereInput | ProviderQuoteWhereInput[]
+    draftId?: StringFilter<"ProviderQuote"> | string
+    provider?: StringFilter<"ProviderQuote"> | string
+    courierId?: StringFilter<"ProviderQuote"> | string
+    courierName?: StringFilter<"ProviderQuote"> | string
+    serviceCode?: StringFilter<"ProviderQuote"> | string
+    amount?: FloatFilter<"ProviderQuote"> | number
+    currency?: StringFilter<"ProviderQuote"> | string
+    deliveryEta?: StringNullableFilter<"ProviderQuote"> | string | null
+    pickupEta?: StringNullableFilter<"ProviderQuote"> | string | null
+    score?: FloatFilter<"ProviderQuote"> | number
+    scoreReasons?: StringNullableListFilter<"ProviderQuote">
+    requestToken?: StringFilter<"ProviderQuote"> | string
+    raw?: JsonNullableFilter<"ProviderQuote">
+    expiresAt?: DateTimeNullableFilter<"ProviderQuote"> | Date | string | null
+    createdAt?: DateTimeFilter<"ProviderQuote"> | Date | string
+    draft?: XOR<DeliveryDraftScalarRelationFilter, DeliveryDraftWhereInput>
+  }, "id">
+
+  export type ProviderQuoteOrderByWithAggregationInput = {
+    id?: SortOrder
+    draftId?: SortOrder
+    provider?: SortOrder
+    courierId?: SortOrder
+    courierName?: SortOrder
+    serviceCode?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    deliveryEta?: SortOrderInput | SortOrder
+    pickupEta?: SortOrderInput | SortOrder
+    score?: SortOrder
+    scoreReasons?: SortOrder
+    requestToken?: SortOrder
+    raw?: SortOrderInput | SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: ProviderQuoteCountOrderByAggregateInput
+    _avg?: ProviderQuoteAvgOrderByAggregateInput
+    _max?: ProviderQuoteMaxOrderByAggregateInput
+    _min?: ProviderQuoteMinOrderByAggregateInput
+    _sum?: ProviderQuoteSumOrderByAggregateInput
+  }
+
+  export type ProviderQuoteScalarWhereWithAggregatesInput = {
+    AND?: ProviderQuoteScalarWhereWithAggregatesInput | ProviderQuoteScalarWhereWithAggregatesInput[]
+    OR?: ProviderQuoteScalarWhereWithAggregatesInput[]
+    NOT?: ProviderQuoteScalarWhereWithAggregatesInput | ProviderQuoteScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ProviderQuote"> | string
+    draftId?: StringWithAggregatesFilter<"ProviderQuote"> | string
+    provider?: StringWithAggregatesFilter<"ProviderQuote"> | string
+    courierId?: StringWithAggregatesFilter<"ProviderQuote"> | string
+    courierName?: StringWithAggregatesFilter<"ProviderQuote"> | string
+    serviceCode?: StringWithAggregatesFilter<"ProviderQuote"> | string
+    amount?: FloatWithAggregatesFilter<"ProviderQuote"> | number
+    currency?: StringWithAggregatesFilter<"ProviderQuote"> | string
+    deliveryEta?: StringNullableWithAggregatesFilter<"ProviderQuote"> | string | null
+    pickupEta?: StringNullableWithAggregatesFilter<"ProviderQuote"> | string | null
+    score?: FloatWithAggregatesFilter<"ProviderQuote"> | number
+    scoreReasons?: StringNullableListFilter<"ProviderQuote">
+    requestToken?: StringWithAggregatesFilter<"ProviderQuote"> | string
+    raw?: JsonNullableWithAggregatesFilter<"ProviderQuote">
+    expiresAt?: DateTimeNullableWithAggregatesFilter<"ProviderQuote"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ProviderQuote"> | Date | string
+  }
+
+  export type ApprovalWhereInput = {
+    AND?: ApprovalWhereInput | ApprovalWhereInput[]
+    OR?: ApprovalWhereInput[]
+    NOT?: ApprovalWhereInput | ApprovalWhereInput[]
+    id?: StringFilter<"Approval"> | string
+    draftId?: StringFilter<"Approval"> | string
+    userId?: StringFilter<"Approval"> | string
+    decision?: StringFilter<"Approval"> | string
+    selectedQuoteId?: StringNullableFilter<"Approval"> | string | null
+    note?: StringNullableFilter<"Approval"> | string | null
+    idempotencyKey?: StringFilter<"Approval"> | string
+    deliveryId?: StringNullableFilter<"Approval"> | string | null
+    createdAt?: DateTimeFilter<"Approval"> | Date | string
+    draft?: XOR<DeliveryDraftScalarRelationFilter, DeliveryDraftWhereInput>
+  }
+
+  export type ApprovalOrderByWithRelationInput = {
+    id?: SortOrder
+    draftId?: SortOrder
+    userId?: SortOrder
+    decision?: SortOrder
+    selectedQuoteId?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
+    idempotencyKey?: SortOrder
+    deliveryId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    draft?: DeliveryDraftOrderByWithRelationInput
+  }
+
+  export type ApprovalWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    idempotencyKey?: string
+    AND?: ApprovalWhereInput | ApprovalWhereInput[]
+    OR?: ApprovalWhereInput[]
+    NOT?: ApprovalWhereInput | ApprovalWhereInput[]
+    draftId?: StringFilter<"Approval"> | string
+    userId?: StringFilter<"Approval"> | string
+    decision?: StringFilter<"Approval"> | string
+    selectedQuoteId?: StringNullableFilter<"Approval"> | string | null
+    note?: StringNullableFilter<"Approval"> | string | null
+    deliveryId?: StringNullableFilter<"Approval"> | string | null
+    createdAt?: DateTimeFilter<"Approval"> | Date | string
+    draft?: XOR<DeliveryDraftScalarRelationFilter, DeliveryDraftWhereInput>
+  }, "id" | "idempotencyKey">
+
+  export type ApprovalOrderByWithAggregationInput = {
+    id?: SortOrder
+    draftId?: SortOrder
+    userId?: SortOrder
+    decision?: SortOrder
+    selectedQuoteId?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
+    idempotencyKey?: SortOrder
+    deliveryId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: ApprovalCountOrderByAggregateInput
+    _max?: ApprovalMaxOrderByAggregateInput
+    _min?: ApprovalMinOrderByAggregateInput
+  }
+
+  export type ApprovalScalarWhereWithAggregatesInput = {
+    AND?: ApprovalScalarWhereWithAggregatesInput | ApprovalScalarWhereWithAggregatesInput[]
+    OR?: ApprovalScalarWhereWithAggregatesInput[]
+    NOT?: ApprovalScalarWhereWithAggregatesInput | ApprovalScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Approval"> | string
+    draftId?: StringWithAggregatesFilter<"Approval"> | string
+    userId?: StringWithAggregatesFilter<"Approval"> | string
+    decision?: StringWithAggregatesFilter<"Approval"> | string
+    selectedQuoteId?: StringNullableWithAggregatesFilter<"Approval"> | string | null
+    note?: StringNullableWithAggregatesFilter<"Approval"> | string | null
+    idempotencyKey?: StringWithAggregatesFilter<"Approval"> | string
+    deliveryId?: StringNullableWithAggregatesFilter<"Approval"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Approval"> | Date | string
+  }
+
+  export type AiAuditEventWhereInput = {
+    AND?: AiAuditEventWhereInput | AiAuditEventWhereInput[]
+    OR?: AiAuditEventWhereInput[]
+    NOT?: AiAuditEventWhereInput | AiAuditEventWhereInput[]
+    id?: StringFilter<"AiAuditEvent"> | string
+    userId?: StringNullableFilter<"AiAuditEvent"> | string | null
+    actorType?: StringFilter<"AiAuditEvent"> | string
+    action?: StringFilter<"AiAuditEvent"> | string
+    entityType?: StringFilter<"AiAuditEvent"> | string
+    entityId?: StringNullableFilter<"AiAuditEvent"> | string | null
+    metadata?: JsonNullableFilter<"AiAuditEvent">
+    createdAt?: DateTimeFilter<"AiAuditEvent"> | Date | string
+  }
+
+  export type AiAuditEventOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    actorType?: SortOrder
+    action?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AiAuditEventWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AiAuditEventWhereInput | AiAuditEventWhereInput[]
+    OR?: AiAuditEventWhereInput[]
+    NOT?: AiAuditEventWhereInput | AiAuditEventWhereInput[]
+    userId?: StringNullableFilter<"AiAuditEvent"> | string | null
+    actorType?: StringFilter<"AiAuditEvent"> | string
+    action?: StringFilter<"AiAuditEvent"> | string
+    entityType?: StringFilter<"AiAuditEvent"> | string
+    entityId?: StringNullableFilter<"AiAuditEvent"> | string | null
+    metadata?: JsonNullableFilter<"AiAuditEvent">
+    createdAt?: DateTimeFilter<"AiAuditEvent"> | Date | string
+  }, "id">
+
+  export type AiAuditEventOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    actorType?: SortOrder
+    action?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: AiAuditEventCountOrderByAggregateInput
+    _max?: AiAuditEventMaxOrderByAggregateInput
+    _min?: AiAuditEventMinOrderByAggregateInput
+  }
+
+  export type AiAuditEventScalarWhereWithAggregatesInput = {
+    AND?: AiAuditEventScalarWhereWithAggregatesInput | AiAuditEventScalarWhereWithAggregatesInput[]
+    OR?: AiAuditEventScalarWhereWithAggregatesInput[]
+    NOT?: AiAuditEventScalarWhereWithAggregatesInput | AiAuditEventScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AiAuditEvent"> | string
+    userId?: StringNullableWithAggregatesFilter<"AiAuditEvent"> | string | null
+    actorType?: StringWithAggregatesFilter<"AiAuditEvent"> | string
+    action?: StringWithAggregatesFilter<"AiAuditEvent"> | string
+    entityType?: StringWithAggregatesFilter<"AiAuditEvent"> | string
+    entityId?: StringNullableWithAggregatesFilter<"AiAuditEvent"> | string | null
+    metadata?: JsonNullableWithAggregatesFilter<"AiAuditEvent">
+    createdAt?: DateTimeWithAggregatesFilter<"AiAuditEvent"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -15506,6 +24164,8 @@ export namespace Prisma {
     messageTemplates?: MessageTemplateCreateNestedManyWithoutUserInput
     automations?: AutomationCreateNestedManyWithoutUserInput
     creditWallet?: CreditWalletCreateNestedOneWithoutUserInput
+    aiConversations?: AiConversationCreateNestedManyWithoutUserInput
+    deliveryDrafts?: DeliveryDraftCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -15536,6 +24196,8 @@ export namespace Prisma {
     messageTemplates?: MessageTemplateUncheckedCreateNestedManyWithoutUserInput
     automations?: AutomationUncheckedCreateNestedManyWithoutUserInput
     creditWallet?: CreditWalletUncheckedCreateNestedOneWithoutUserInput
+    aiConversations?: AiConversationUncheckedCreateNestedManyWithoutUserInput
+    deliveryDrafts?: DeliveryDraftUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -15566,6 +24228,8 @@ export namespace Prisma {
     messageTemplates?: MessageTemplateUpdateManyWithoutUserNestedInput
     automations?: AutomationUpdateManyWithoutUserNestedInput
     creditWallet?: CreditWalletUpdateOneWithoutUserNestedInput
+    aiConversations?: AiConversationUpdateManyWithoutUserNestedInput
+    deliveryDrafts?: DeliveryDraftUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -15596,6 +24260,8 @@ export namespace Prisma {
     messageTemplates?: MessageTemplateUncheckedUpdateManyWithoutUserNestedInput
     automations?: AutomationUncheckedUpdateManyWithoutUserNestedInput
     creditWallet?: CreditWalletUncheckedUpdateOneWithoutUserNestedInput
+    aiConversations?: AiConversationUncheckedUpdateManyWithoutUserNestedInput
+    deliveryDrafts?: DeliveryDraftUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -16812,6 +25478,723 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AiConversationCreateInput = {
+    id?: string
+    customerWaId: string
+    phoneNumberId: string
+    status?: string
+    lastMessageAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAiConversationsInput
+    messages?: AiMessageCreateNestedManyWithoutConversationInput
+    drafts?: DeliveryDraftCreateNestedManyWithoutConversationInput
+  }
+
+  export type AiConversationUncheckedCreateInput = {
+    id?: string
+    userId: string
+    customerWaId: string
+    phoneNumberId: string
+    status?: string
+    lastMessageAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: AiMessageUncheckedCreateNestedManyWithoutConversationInput
+    drafts?: DeliveryDraftUncheckedCreateNestedManyWithoutConversationInput
+  }
+
+  export type AiConversationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerWaId?: StringFieldUpdateOperationsInput | string
+    phoneNumberId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAiConversationsNestedInput
+    messages?: AiMessageUpdateManyWithoutConversationNestedInput
+    drafts?: DeliveryDraftUpdateManyWithoutConversationNestedInput
+  }
+
+  export type AiConversationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    customerWaId?: StringFieldUpdateOperationsInput | string
+    phoneNumberId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: AiMessageUncheckedUpdateManyWithoutConversationNestedInput
+    drafts?: DeliveryDraftUncheckedUpdateManyWithoutConversationNestedInput
+  }
+
+  export type AiConversationCreateManyInput = {
+    id?: string
+    userId: string
+    customerWaId: string
+    phoneNumberId: string
+    status?: string
+    lastMessageAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AiConversationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerWaId?: StringFieldUpdateOperationsInput | string
+    phoneNumberId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AiConversationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    customerWaId?: StringFieldUpdateOperationsInput | string
+    phoneNumberId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AiMessageCreateInput = {
+    id?: string
+    waMessageId: string
+    direction: string
+    body?: string | null
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    processingState?: string
+    attempts?: number
+    nextRetryAt?: Date | string | null
+    processingError?: string | null
+    createdAt?: Date | string
+    conversation: AiConversationCreateNestedOneWithoutMessagesInput
+  }
+
+  export type AiMessageUncheckedCreateInput = {
+    id?: string
+    conversationId: string
+    waMessageId: string
+    direction: string
+    body?: string | null
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    processingState?: string
+    attempts?: number
+    nextRetryAt?: Date | string | null
+    processingError?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AiMessageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    waMessageId?: StringFieldUpdateOperationsInput | string
+    direction?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    processingState?: StringFieldUpdateOperationsInput | string
+    attempts?: IntFieldUpdateOperationsInput | number
+    nextRetryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processingError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conversation?: AiConversationUpdateOneRequiredWithoutMessagesNestedInput
+  }
+
+  export type AiMessageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    conversationId?: StringFieldUpdateOperationsInput | string
+    waMessageId?: StringFieldUpdateOperationsInput | string
+    direction?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    processingState?: StringFieldUpdateOperationsInput | string
+    attempts?: IntFieldUpdateOperationsInput | number
+    nextRetryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processingError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AiMessageCreateManyInput = {
+    id?: string
+    conversationId: string
+    waMessageId: string
+    direction: string
+    body?: string | null
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    processingState?: string
+    attempts?: number
+    nextRetryAt?: Date | string | null
+    processingError?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AiMessageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    waMessageId?: StringFieldUpdateOperationsInput | string
+    direction?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    processingState?: StringFieldUpdateOperationsInput | string
+    attempts?: IntFieldUpdateOperationsInput | number
+    nextRetryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processingError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AiMessageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    conversationId?: StringFieldUpdateOperationsInput | string
+    waMessageId?: StringFieldUpdateOperationsInput | string
+    direction?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    processingState?: StringFieldUpdateOperationsInput | string
+    attempts?: IntFieldUpdateOperationsInput | number
+    nextRetryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processingError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DeliveryDraftCreateInput = {
+    id?: string
+    status?: string
+    senderName?: string | null
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
+    receiverName?: string | null
+    receiverPhone?: string | null
+    receiverAddress?: string | null
+    receiverEmail?: string | null
+    packageName?: string | null
+    packageDescription?: string | null
+    packageCategory?: string | null
+    packageCategoryId?: number | null
+    packageWeight?: string | null
+    packageValue?: string | null
+    packageQuantity?: number | null
+    length?: number | null
+    width?: number | null
+    height?: number | null
+    pickupDate?: string | null
+    deliveryType?: string | null
+    deliveryInstructions?: string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
+    confidence?: number | null
+    deliveryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutDeliveryDraftsInput
+    conversation?: AiConversationCreateNestedOneWithoutDraftsInput
+    quotes?: ProviderQuoteCreateNestedManyWithoutDraftInput
+    approvals?: ApprovalCreateNestedManyWithoutDraftInput
+  }
+
+  export type DeliveryDraftUncheckedCreateInput = {
+    id?: string
+    userId: string
+    conversationId?: string | null
+    status?: string
+    senderName?: string | null
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
+    receiverName?: string | null
+    receiverPhone?: string | null
+    receiverAddress?: string | null
+    receiverEmail?: string | null
+    packageName?: string | null
+    packageDescription?: string | null
+    packageCategory?: string | null
+    packageCategoryId?: number | null
+    packageWeight?: string | null
+    packageValue?: string | null
+    packageQuantity?: number | null
+    length?: number | null
+    width?: number | null
+    height?: number | null
+    pickupDate?: string | null
+    deliveryType?: string | null
+    deliveryInstructions?: string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
+    confidence?: number | null
+    deliveryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    quotes?: ProviderQuoteUncheckedCreateNestedManyWithoutDraftInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutDraftInput
+  }
+
+  export type DeliveryDraftUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    senderName?: NullableStringFieldUpdateOperationsInput | string | null
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverName?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    packageName?: NullableStringFieldUpdateOperationsInput | string | null
+    packageDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    packageValue?: NullableStringFieldUpdateOperationsInput | string | null
+    packageQuantity?: NullableIntFieldUpdateOperationsInput | number | null
+    length?: NullableFloatFieldUpdateOperationsInput | number | null
+    width?: NullableFloatFieldUpdateOperationsInput | number | null
+    height?: NullableFloatFieldUpdateOperationsInput | number | null
+    pickupDate?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryType?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
+    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutDeliveryDraftsNestedInput
+    conversation?: AiConversationUpdateOneWithoutDraftsNestedInput
+    quotes?: ProviderQuoteUpdateManyWithoutDraftNestedInput
+    approvals?: ApprovalUpdateManyWithoutDraftNestedInput
+  }
+
+  export type DeliveryDraftUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    senderName?: NullableStringFieldUpdateOperationsInput | string | null
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverName?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    packageName?: NullableStringFieldUpdateOperationsInput | string | null
+    packageDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    packageValue?: NullableStringFieldUpdateOperationsInput | string | null
+    packageQuantity?: NullableIntFieldUpdateOperationsInput | number | null
+    length?: NullableFloatFieldUpdateOperationsInput | number | null
+    width?: NullableFloatFieldUpdateOperationsInput | number | null
+    height?: NullableFloatFieldUpdateOperationsInput | number | null
+    pickupDate?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryType?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
+    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quotes?: ProviderQuoteUncheckedUpdateManyWithoutDraftNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutDraftNestedInput
+  }
+
+  export type DeliveryDraftCreateManyInput = {
+    id?: string
+    userId: string
+    conversationId?: string | null
+    status?: string
+    senderName?: string | null
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
+    receiverName?: string | null
+    receiverPhone?: string | null
+    receiverAddress?: string | null
+    receiverEmail?: string | null
+    packageName?: string | null
+    packageDescription?: string | null
+    packageCategory?: string | null
+    packageCategoryId?: number | null
+    packageWeight?: string | null
+    packageValue?: string | null
+    packageQuantity?: number | null
+    length?: number | null
+    width?: number | null
+    height?: number | null
+    pickupDate?: string | null
+    deliveryType?: string | null
+    deliveryInstructions?: string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
+    confidence?: number | null
+    deliveryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DeliveryDraftUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    senderName?: NullableStringFieldUpdateOperationsInput | string | null
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverName?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    packageName?: NullableStringFieldUpdateOperationsInput | string | null
+    packageDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    packageValue?: NullableStringFieldUpdateOperationsInput | string | null
+    packageQuantity?: NullableIntFieldUpdateOperationsInput | number | null
+    length?: NullableFloatFieldUpdateOperationsInput | number | null
+    width?: NullableFloatFieldUpdateOperationsInput | number | null
+    height?: NullableFloatFieldUpdateOperationsInput | number | null
+    pickupDate?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryType?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
+    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DeliveryDraftUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    senderName?: NullableStringFieldUpdateOperationsInput | string | null
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverName?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    packageName?: NullableStringFieldUpdateOperationsInput | string | null
+    packageDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    packageValue?: NullableStringFieldUpdateOperationsInput | string | null
+    packageQuantity?: NullableIntFieldUpdateOperationsInput | number | null
+    length?: NullableFloatFieldUpdateOperationsInput | number | null
+    width?: NullableFloatFieldUpdateOperationsInput | number | null
+    height?: NullableFloatFieldUpdateOperationsInput | number | null
+    pickupDate?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryType?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
+    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProviderQuoteCreateInput = {
+    id?: string
+    provider?: string
+    courierId: string
+    courierName: string
+    serviceCode: string
+    amount: number
+    currency: string
+    deliveryEta?: string | null
+    pickupEta?: string | null
+    score: number
+    scoreReasons?: ProviderQuoteCreatescoreReasonsInput | string[]
+    requestToken: string
+    raw?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    draft: DeliveryDraftCreateNestedOneWithoutQuotesInput
+  }
+
+  export type ProviderQuoteUncheckedCreateInput = {
+    id?: string
+    draftId: string
+    provider?: string
+    courierId: string
+    courierName: string
+    serviceCode: string
+    amount: number
+    currency: string
+    deliveryEta?: string | null
+    pickupEta?: string | null
+    score: number
+    scoreReasons?: ProviderQuoteCreatescoreReasonsInput | string[]
+    requestToken: string
+    raw?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type ProviderQuoteUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    courierId?: StringFieldUpdateOperationsInput | string
+    courierName?: StringFieldUpdateOperationsInput | string
+    serviceCode?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    deliveryEta?: NullableStringFieldUpdateOperationsInput | string | null
+    pickupEta?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: FloatFieldUpdateOperationsInput | number
+    scoreReasons?: ProviderQuoteUpdatescoreReasonsInput | string[]
+    requestToken?: StringFieldUpdateOperationsInput | string
+    raw?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    draft?: DeliveryDraftUpdateOneRequiredWithoutQuotesNestedInput
+  }
+
+  export type ProviderQuoteUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    draftId?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    courierId?: StringFieldUpdateOperationsInput | string
+    courierName?: StringFieldUpdateOperationsInput | string
+    serviceCode?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    deliveryEta?: NullableStringFieldUpdateOperationsInput | string | null
+    pickupEta?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: FloatFieldUpdateOperationsInput | number
+    scoreReasons?: ProviderQuoteUpdatescoreReasonsInput | string[]
+    requestToken?: StringFieldUpdateOperationsInput | string
+    raw?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProviderQuoteCreateManyInput = {
+    id?: string
+    draftId: string
+    provider?: string
+    courierId: string
+    courierName: string
+    serviceCode: string
+    amount: number
+    currency: string
+    deliveryEta?: string | null
+    pickupEta?: string | null
+    score: number
+    scoreReasons?: ProviderQuoteCreatescoreReasonsInput | string[]
+    requestToken: string
+    raw?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type ProviderQuoteUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    courierId?: StringFieldUpdateOperationsInput | string
+    courierName?: StringFieldUpdateOperationsInput | string
+    serviceCode?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    deliveryEta?: NullableStringFieldUpdateOperationsInput | string | null
+    pickupEta?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: FloatFieldUpdateOperationsInput | number
+    scoreReasons?: ProviderQuoteUpdatescoreReasonsInput | string[]
+    requestToken?: StringFieldUpdateOperationsInput | string
+    raw?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProviderQuoteUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    draftId?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    courierId?: StringFieldUpdateOperationsInput | string
+    courierName?: StringFieldUpdateOperationsInput | string
+    serviceCode?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    deliveryEta?: NullableStringFieldUpdateOperationsInput | string | null
+    pickupEta?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: FloatFieldUpdateOperationsInput | number
+    scoreReasons?: ProviderQuoteUpdatescoreReasonsInput | string[]
+    requestToken?: StringFieldUpdateOperationsInput | string
+    raw?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApprovalCreateInput = {
+    id?: string
+    userId: string
+    decision: string
+    selectedQuoteId?: string | null
+    note?: string | null
+    idempotencyKey: string
+    deliveryId?: string | null
+    createdAt?: Date | string
+    draft: DeliveryDraftCreateNestedOneWithoutApprovalsInput
+  }
+
+  export type ApprovalUncheckedCreateInput = {
+    id?: string
+    draftId: string
+    userId: string
+    decision: string
+    selectedQuoteId?: string | null
+    note?: string | null
+    idempotencyKey: string
+    deliveryId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ApprovalUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    decision?: StringFieldUpdateOperationsInput | string
+    selectedQuoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    idempotencyKey?: StringFieldUpdateOperationsInput | string
+    deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    draft?: DeliveryDraftUpdateOneRequiredWithoutApprovalsNestedInput
+  }
+
+  export type ApprovalUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    draftId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    decision?: StringFieldUpdateOperationsInput | string
+    selectedQuoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    idempotencyKey?: StringFieldUpdateOperationsInput | string
+    deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApprovalCreateManyInput = {
+    id?: string
+    draftId: string
+    userId: string
+    decision: string
+    selectedQuoteId?: string | null
+    note?: string | null
+    idempotencyKey: string
+    deliveryId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ApprovalUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    decision?: StringFieldUpdateOperationsInput | string
+    selectedQuoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    idempotencyKey?: StringFieldUpdateOperationsInput | string
+    deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApprovalUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    draftId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    decision?: StringFieldUpdateOperationsInput | string
+    selectedQuoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    idempotencyKey?: StringFieldUpdateOperationsInput | string
+    deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AiAuditEventCreateInput = {
+    id?: string
+    userId?: string | null
+    actorType: string
+    action: string
+    entityType: string
+    entityId?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type AiAuditEventUncheckedCreateInput = {
+    id?: string
+    userId?: string | null
+    actorType: string
+    action: string
+    entityType: string
+    entityId?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type AiAuditEventUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    actorType?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AiAuditEventUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    actorType?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AiAuditEventCreateManyInput = {
+    id?: string
+    userId?: string | null
+    actorType: string
+    action: string
+    entityType: string
+    entityId?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type AiAuditEventUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    actorType?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AiAuditEventUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    actorType?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -16883,6 +26266,18 @@ export namespace Prisma {
     isNot?: CreditWalletWhereInput | null
   }
 
+  export type AiConversationListRelationFilter = {
+    every?: AiConversationWhereInput
+    some?: AiConversationWhereInput
+    none?: AiConversationWhereInput
+  }
+
+  export type DeliveryDraftListRelationFilter = {
+    every?: DeliveryDraftWhereInput
+    some?: DeliveryDraftWhereInput
+    none?: DeliveryDraftWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -16893,6 +26288,14 @@ export namespace Prisma {
   }
 
   export type AutomationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AiConversationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DeliveryDraftOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -17823,6 +27226,438 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type AiMessageListRelationFilter = {
+    every?: AiMessageWhereInput
+    some?: AiMessageWhereInput
+    none?: AiMessageWhereInput
+  }
+
+  export type AiMessageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AiConversationUserIdPhoneNumberIdCustomerWaIdCompoundUniqueInput = {
+    userId: string
+    phoneNumberId: string
+    customerWaId: string
+  }
+
+  export type AiConversationCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    customerWaId?: SortOrder
+    phoneNumberId?: SortOrder
+    status?: SortOrder
+    lastMessageAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AiConversationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    customerWaId?: SortOrder
+    phoneNumberId?: SortOrder
+    status?: SortOrder
+    lastMessageAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AiConversationMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    customerWaId?: SortOrder
+    phoneNumberId?: SortOrder
+    status?: SortOrder
+    lastMessageAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AiConversationScalarRelationFilter = {
+    is?: AiConversationWhereInput
+    isNot?: AiConversationWhereInput
+  }
+
+  export type AiMessageCountOrderByAggregateInput = {
+    id?: SortOrder
+    conversationId?: SortOrder
+    waMessageId?: SortOrder
+    direction?: SortOrder
+    body?: SortOrder
+    rawPayload?: SortOrder
+    processingState?: SortOrder
+    attempts?: SortOrder
+    nextRetryAt?: SortOrder
+    processingError?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AiMessageAvgOrderByAggregateInput = {
+    attempts?: SortOrder
+  }
+
+  export type AiMessageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    conversationId?: SortOrder
+    waMessageId?: SortOrder
+    direction?: SortOrder
+    body?: SortOrder
+    processingState?: SortOrder
+    attempts?: SortOrder
+    nextRetryAt?: SortOrder
+    processingError?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AiMessageMinOrderByAggregateInput = {
+    id?: SortOrder
+    conversationId?: SortOrder
+    waMessageId?: SortOrder
+    direction?: SortOrder
+    body?: SortOrder
+    processingState?: SortOrder
+    attempts?: SortOrder
+    nextRetryAt?: SortOrder
+    processingError?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AiMessageSumOrderByAggregateInput = {
+    attempts?: SortOrder
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type AiConversationNullableScalarRelationFilter = {
+    is?: AiConversationWhereInput | null
+    isNot?: AiConversationWhereInput | null
+  }
+
+  export type ProviderQuoteListRelationFilter = {
+    every?: ProviderQuoteWhereInput
+    some?: ProviderQuoteWhereInput
+    none?: ProviderQuoteWhereInput
+  }
+
+  export type ApprovalListRelationFilter = {
+    every?: ApprovalWhereInput
+    some?: ApprovalWhereInput
+    none?: ApprovalWhereInput
+  }
+
+  export type ProviderQuoteOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ApprovalOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DeliveryDraftCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    conversationId?: SortOrder
+    status?: SortOrder
+    senderName?: SortOrder
+    senderPhone?: SortOrder
+    senderAddress?: SortOrder
+    senderEmail?: SortOrder
+    receiverName?: SortOrder
+    receiverPhone?: SortOrder
+    receiverAddress?: SortOrder
+    receiverEmail?: SortOrder
+    packageName?: SortOrder
+    packageDescription?: SortOrder
+    packageCategory?: SortOrder
+    packageCategoryId?: SortOrder
+    packageWeight?: SortOrder
+    packageValue?: SortOrder
+    packageQuantity?: SortOrder
+    length?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    pickupDate?: SortOrder
+    deliveryType?: SortOrder
+    deliveryInstructions?: SortOrder
+    extracted?: SortOrder
+    missingFields?: SortOrder
+    confidence?: SortOrder
+    deliveryId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DeliveryDraftAvgOrderByAggregateInput = {
+    packageCategoryId?: SortOrder
+    packageQuantity?: SortOrder
+    length?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    confidence?: SortOrder
+  }
+
+  export type DeliveryDraftMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    conversationId?: SortOrder
+    status?: SortOrder
+    senderName?: SortOrder
+    senderPhone?: SortOrder
+    senderAddress?: SortOrder
+    senderEmail?: SortOrder
+    receiverName?: SortOrder
+    receiverPhone?: SortOrder
+    receiverAddress?: SortOrder
+    receiverEmail?: SortOrder
+    packageName?: SortOrder
+    packageDescription?: SortOrder
+    packageCategory?: SortOrder
+    packageCategoryId?: SortOrder
+    packageWeight?: SortOrder
+    packageValue?: SortOrder
+    packageQuantity?: SortOrder
+    length?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    pickupDate?: SortOrder
+    deliveryType?: SortOrder
+    deliveryInstructions?: SortOrder
+    confidence?: SortOrder
+    deliveryId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DeliveryDraftMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    conversationId?: SortOrder
+    status?: SortOrder
+    senderName?: SortOrder
+    senderPhone?: SortOrder
+    senderAddress?: SortOrder
+    senderEmail?: SortOrder
+    receiverName?: SortOrder
+    receiverPhone?: SortOrder
+    receiverAddress?: SortOrder
+    receiverEmail?: SortOrder
+    packageName?: SortOrder
+    packageDescription?: SortOrder
+    packageCategory?: SortOrder
+    packageCategoryId?: SortOrder
+    packageWeight?: SortOrder
+    packageValue?: SortOrder
+    packageQuantity?: SortOrder
+    length?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    pickupDate?: SortOrder
+    deliveryType?: SortOrder
+    deliveryInstructions?: SortOrder
+    confidence?: SortOrder
+    deliveryId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DeliveryDraftSumOrderByAggregateInput = {
+    packageCategoryId?: SortOrder
+    packageQuantity?: SortOrder
+    length?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    confidence?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type DeliveryDraftScalarRelationFilter = {
+    is?: DeliveryDraftWhereInput
+    isNot?: DeliveryDraftWhereInput
+  }
+
+  export type ProviderQuoteCountOrderByAggregateInput = {
+    id?: SortOrder
+    draftId?: SortOrder
+    provider?: SortOrder
+    courierId?: SortOrder
+    courierName?: SortOrder
+    serviceCode?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    deliveryEta?: SortOrder
+    pickupEta?: SortOrder
+    score?: SortOrder
+    scoreReasons?: SortOrder
+    requestToken?: SortOrder
+    raw?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ProviderQuoteAvgOrderByAggregateInput = {
+    amount?: SortOrder
+    score?: SortOrder
+  }
+
+  export type ProviderQuoteMaxOrderByAggregateInput = {
+    id?: SortOrder
+    draftId?: SortOrder
+    provider?: SortOrder
+    courierId?: SortOrder
+    courierName?: SortOrder
+    serviceCode?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    deliveryEta?: SortOrder
+    pickupEta?: SortOrder
+    score?: SortOrder
+    requestToken?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ProviderQuoteMinOrderByAggregateInput = {
+    id?: SortOrder
+    draftId?: SortOrder
+    provider?: SortOrder
+    courierId?: SortOrder
+    courierName?: SortOrder
+    serviceCode?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    deliveryEta?: SortOrder
+    pickupEta?: SortOrder
+    score?: SortOrder
+    requestToken?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ProviderQuoteSumOrderByAggregateInput = {
+    amount?: SortOrder
+    score?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type ApprovalCountOrderByAggregateInput = {
+    id?: SortOrder
+    draftId?: SortOrder
+    userId?: SortOrder
+    decision?: SortOrder
+    selectedQuoteId?: SortOrder
+    note?: SortOrder
+    idempotencyKey?: SortOrder
+    deliveryId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ApprovalMaxOrderByAggregateInput = {
+    id?: SortOrder
+    draftId?: SortOrder
+    userId?: SortOrder
+    decision?: SortOrder
+    selectedQuoteId?: SortOrder
+    note?: SortOrder
+    idempotencyKey?: SortOrder
+    deliveryId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ApprovalMinOrderByAggregateInput = {
+    id?: SortOrder
+    draftId?: SortOrder
+    userId?: SortOrder
+    decision?: SortOrder
+    selectedQuoteId?: SortOrder
+    note?: SortOrder
+    idempotencyKey?: SortOrder
+    deliveryId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AiAuditEventCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    actorType?: SortOrder
+    action?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrder
+    metadata?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AiAuditEventMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    actorType?: SortOrder
+    action?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AiAuditEventMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    actorType?: SortOrder
+    action?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type UserCreateselectedPhoneNumberIdInput = {
     set: string[]
   }
@@ -17847,6 +27682,20 @@ export namespace Prisma {
     connect?: CreditWalletWhereUniqueInput
   }
 
+  export type AiConversationCreateNestedManyWithoutUserInput = {
+    create?: XOR<AiConversationCreateWithoutUserInput, AiConversationUncheckedCreateWithoutUserInput> | AiConversationCreateWithoutUserInput[] | AiConversationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AiConversationCreateOrConnectWithoutUserInput | AiConversationCreateOrConnectWithoutUserInput[]
+    createMany?: AiConversationCreateManyUserInputEnvelope
+    connect?: AiConversationWhereUniqueInput | AiConversationWhereUniqueInput[]
+  }
+
+  export type DeliveryDraftCreateNestedManyWithoutUserInput = {
+    create?: XOR<DeliveryDraftCreateWithoutUserInput, DeliveryDraftUncheckedCreateWithoutUserInput> | DeliveryDraftCreateWithoutUserInput[] | DeliveryDraftUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DeliveryDraftCreateOrConnectWithoutUserInput | DeliveryDraftCreateOrConnectWithoutUserInput[]
+    createMany?: DeliveryDraftCreateManyUserInputEnvelope
+    connect?: DeliveryDraftWhereUniqueInput | DeliveryDraftWhereUniqueInput[]
+  }
+
   export type MessageTemplateUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<MessageTemplateCreateWithoutUserInput, MessageTemplateUncheckedCreateWithoutUserInput> | MessageTemplateCreateWithoutUserInput[] | MessageTemplateUncheckedCreateWithoutUserInput[]
     connectOrCreate?: MessageTemplateCreateOrConnectWithoutUserInput | MessageTemplateCreateOrConnectWithoutUserInput[]
@@ -17865,6 +27714,20 @@ export namespace Prisma {
     create?: XOR<CreditWalletCreateWithoutUserInput, CreditWalletUncheckedCreateWithoutUserInput>
     connectOrCreate?: CreditWalletCreateOrConnectWithoutUserInput
     connect?: CreditWalletWhereUniqueInput
+  }
+
+  export type AiConversationUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<AiConversationCreateWithoutUserInput, AiConversationUncheckedCreateWithoutUserInput> | AiConversationCreateWithoutUserInput[] | AiConversationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AiConversationCreateOrConnectWithoutUserInput | AiConversationCreateOrConnectWithoutUserInput[]
+    createMany?: AiConversationCreateManyUserInputEnvelope
+    connect?: AiConversationWhereUniqueInput | AiConversationWhereUniqueInput[]
+  }
+
+  export type DeliveryDraftUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<DeliveryDraftCreateWithoutUserInput, DeliveryDraftUncheckedCreateWithoutUserInput> | DeliveryDraftCreateWithoutUserInput[] | DeliveryDraftUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DeliveryDraftCreateOrConnectWithoutUserInput | DeliveryDraftCreateOrConnectWithoutUserInput[]
+    createMany?: DeliveryDraftCreateManyUserInputEnvelope
+    connect?: DeliveryDraftWhereUniqueInput | DeliveryDraftWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -17926,6 +27789,34 @@ export namespace Prisma {
     update?: XOR<XOR<CreditWalletUpdateToOneWithWhereWithoutUserInput, CreditWalletUpdateWithoutUserInput>, CreditWalletUncheckedUpdateWithoutUserInput>
   }
 
+  export type AiConversationUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AiConversationCreateWithoutUserInput, AiConversationUncheckedCreateWithoutUserInput> | AiConversationCreateWithoutUserInput[] | AiConversationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AiConversationCreateOrConnectWithoutUserInput | AiConversationCreateOrConnectWithoutUserInput[]
+    upsert?: AiConversationUpsertWithWhereUniqueWithoutUserInput | AiConversationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AiConversationCreateManyUserInputEnvelope
+    set?: AiConversationWhereUniqueInput | AiConversationWhereUniqueInput[]
+    disconnect?: AiConversationWhereUniqueInput | AiConversationWhereUniqueInput[]
+    delete?: AiConversationWhereUniqueInput | AiConversationWhereUniqueInput[]
+    connect?: AiConversationWhereUniqueInput | AiConversationWhereUniqueInput[]
+    update?: AiConversationUpdateWithWhereUniqueWithoutUserInput | AiConversationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AiConversationUpdateManyWithWhereWithoutUserInput | AiConversationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AiConversationScalarWhereInput | AiConversationScalarWhereInput[]
+  }
+
+  export type DeliveryDraftUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DeliveryDraftCreateWithoutUserInput, DeliveryDraftUncheckedCreateWithoutUserInput> | DeliveryDraftCreateWithoutUserInput[] | DeliveryDraftUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DeliveryDraftCreateOrConnectWithoutUserInput | DeliveryDraftCreateOrConnectWithoutUserInput[]
+    upsert?: DeliveryDraftUpsertWithWhereUniqueWithoutUserInput | DeliveryDraftUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DeliveryDraftCreateManyUserInputEnvelope
+    set?: DeliveryDraftWhereUniqueInput | DeliveryDraftWhereUniqueInput[]
+    disconnect?: DeliveryDraftWhereUniqueInput | DeliveryDraftWhereUniqueInput[]
+    delete?: DeliveryDraftWhereUniqueInput | DeliveryDraftWhereUniqueInput[]
+    connect?: DeliveryDraftWhereUniqueInput | DeliveryDraftWhereUniqueInput[]
+    update?: DeliveryDraftUpdateWithWhereUniqueWithoutUserInput | DeliveryDraftUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DeliveryDraftUpdateManyWithWhereWithoutUserInput | DeliveryDraftUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DeliveryDraftScalarWhereInput | DeliveryDraftScalarWhereInput[]
+  }
+
   export type MessageTemplateUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<MessageTemplateCreateWithoutUserInput, MessageTemplateUncheckedCreateWithoutUserInput> | MessageTemplateCreateWithoutUserInput[] | MessageTemplateUncheckedCreateWithoutUserInput[]
     connectOrCreate?: MessageTemplateCreateOrConnectWithoutUserInput | MessageTemplateCreateOrConnectWithoutUserInput[]
@@ -17962,6 +27853,34 @@ export namespace Prisma {
     delete?: CreditWalletWhereInput | boolean
     connect?: CreditWalletWhereUniqueInput
     update?: XOR<XOR<CreditWalletUpdateToOneWithWhereWithoutUserInput, CreditWalletUpdateWithoutUserInput>, CreditWalletUncheckedUpdateWithoutUserInput>
+  }
+
+  export type AiConversationUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AiConversationCreateWithoutUserInput, AiConversationUncheckedCreateWithoutUserInput> | AiConversationCreateWithoutUserInput[] | AiConversationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AiConversationCreateOrConnectWithoutUserInput | AiConversationCreateOrConnectWithoutUserInput[]
+    upsert?: AiConversationUpsertWithWhereUniqueWithoutUserInput | AiConversationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AiConversationCreateManyUserInputEnvelope
+    set?: AiConversationWhereUniqueInput | AiConversationWhereUniqueInput[]
+    disconnect?: AiConversationWhereUniqueInput | AiConversationWhereUniqueInput[]
+    delete?: AiConversationWhereUniqueInput | AiConversationWhereUniqueInput[]
+    connect?: AiConversationWhereUniqueInput | AiConversationWhereUniqueInput[]
+    update?: AiConversationUpdateWithWhereUniqueWithoutUserInput | AiConversationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AiConversationUpdateManyWithWhereWithoutUserInput | AiConversationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AiConversationScalarWhereInput | AiConversationScalarWhereInput[]
+  }
+
+  export type DeliveryDraftUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DeliveryDraftCreateWithoutUserInput, DeliveryDraftUncheckedCreateWithoutUserInput> | DeliveryDraftCreateWithoutUserInput[] | DeliveryDraftUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DeliveryDraftCreateOrConnectWithoutUserInput | DeliveryDraftCreateOrConnectWithoutUserInput[]
+    upsert?: DeliveryDraftUpsertWithWhereUniqueWithoutUserInput | DeliveryDraftUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DeliveryDraftCreateManyUserInputEnvelope
+    set?: DeliveryDraftWhereUniqueInput | DeliveryDraftWhereUniqueInput[]
+    disconnect?: DeliveryDraftWhereUniqueInput | DeliveryDraftWhereUniqueInput[]
+    delete?: DeliveryDraftWhereUniqueInput | DeliveryDraftWhereUniqueInput[]
+    connect?: DeliveryDraftWhereUniqueInput | DeliveryDraftWhereUniqueInput[]
+    update?: DeliveryDraftUpdateWithWhereUniqueWithoutUserInput | DeliveryDraftUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DeliveryDraftUpdateManyWithWhereWithoutUserInput | DeliveryDraftUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DeliveryDraftScalarWhereInput | DeliveryDraftScalarWhereInput[]
   }
 
   export type NullableFloatFieldUpdateOperationsInput = {
@@ -18200,6 +28119,294 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutAutomationsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAutomationsInput, UserUpdateWithoutAutomationsInput>, UserUncheckedUpdateWithoutAutomationsInput>
+  }
+
+  export type UserCreateNestedOneWithoutAiConversationsInput = {
+    create?: XOR<UserCreateWithoutAiConversationsInput, UserUncheckedCreateWithoutAiConversationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAiConversationsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type AiMessageCreateNestedManyWithoutConversationInput = {
+    create?: XOR<AiMessageCreateWithoutConversationInput, AiMessageUncheckedCreateWithoutConversationInput> | AiMessageCreateWithoutConversationInput[] | AiMessageUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: AiMessageCreateOrConnectWithoutConversationInput | AiMessageCreateOrConnectWithoutConversationInput[]
+    createMany?: AiMessageCreateManyConversationInputEnvelope
+    connect?: AiMessageWhereUniqueInput | AiMessageWhereUniqueInput[]
+  }
+
+  export type DeliveryDraftCreateNestedManyWithoutConversationInput = {
+    create?: XOR<DeliveryDraftCreateWithoutConversationInput, DeliveryDraftUncheckedCreateWithoutConversationInput> | DeliveryDraftCreateWithoutConversationInput[] | DeliveryDraftUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: DeliveryDraftCreateOrConnectWithoutConversationInput | DeliveryDraftCreateOrConnectWithoutConversationInput[]
+    createMany?: DeliveryDraftCreateManyConversationInputEnvelope
+    connect?: DeliveryDraftWhereUniqueInput | DeliveryDraftWhereUniqueInput[]
+  }
+
+  export type AiMessageUncheckedCreateNestedManyWithoutConversationInput = {
+    create?: XOR<AiMessageCreateWithoutConversationInput, AiMessageUncheckedCreateWithoutConversationInput> | AiMessageCreateWithoutConversationInput[] | AiMessageUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: AiMessageCreateOrConnectWithoutConversationInput | AiMessageCreateOrConnectWithoutConversationInput[]
+    createMany?: AiMessageCreateManyConversationInputEnvelope
+    connect?: AiMessageWhereUniqueInput | AiMessageWhereUniqueInput[]
+  }
+
+  export type DeliveryDraftUncheckedCreateNestedManyWithoutConversationInput = {
+    create?: XOR<DeliveryDraftCreateWithoutConversationInput, DeliveryDraftUncheckedCreateWithoutConversationInput> | DeliveryDraftCreateWithoutConversationInput[] | DeliveryDraftUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: DeliveryDraftCreateOrConnectWithoutConversationInput | DeliveryDraftCreateOrConnectWithoutConversationInput[]
+    createMany?: DeliveryDraftCreateManyConversationInputEnvelope
+    connect?: DeliveryDraftWhereUniqueInput | DeliveryDraftWhereUniqueInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutAiConversationsNestedInput = {
+    create?: XOR<UserCreateWithoutAiConversationsInput, UserUncheckedCreateWithoutAiConversationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAiConversationsInput
+    upsert?: UserUpsertWithoutAiConversationsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAiConversationsInput, UserUpdateWithoutAiConversationsInput>, UserUncheckedUpdateWithoutAiConversationsInput>
+  }
+
+  export type AiMessageUpdateManyWithoutConversationNestedInput = {
+    create?: XOR<AiMessageCreateWithoutConversationInput, AiMessageUncheckedCreateWithoutConversationInput> | AiMessageCreateWithoutConversationInput[] | AiMessageUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: AiMessageCreateOrConnectWithoutConversationInput | AiMessageCreateOrConnectWithoutConversationInput[]
+    upsert?: AiMessageUpsertWithWhereUniqueWithoutConversationInput | AiMessageUpsertWithWhereUniqueWithoutConversationInput[]
+    createMany?: AiMessageCreateManyConversationInputEnvelope
+    set?: AiMessageWhereUniqueInput | AiMessageWhereUniqueInput[]
+    disconnect?: AiMessageWhereUniqueInput | AiMessageWhereUniqueInput[]
+    delete?: AiMessageWhereUniqueInput | AiMessageWhereUniqueInput[]
+    connect?: AiMessageWhereUniqueInput | AiMessageWhereUniqueInput[]
+    update?: AiMessageUpdateWithWhereUniqueWithoutConversationInput | AiMessageUpdateWithWhereUniqueWithoutConversationInput[]
+    updateMany?: AiMessageUpdateManyWithWhereWithoutConversationInput | AiMessageUpdateManyWithWhereWithoutConversationInput[]
+    deleteMany?: AiMessageScalarWhereInput | AiMessageScalarWhereInput[]
+  }
+
+  export type DeliveryDraftUpdateManyWithoutConversationNestedInput = {
+    create?: XOR<DeliveryDraftCreateWithoutConversationInput, DeliveryDraftUncheckedCreateWithoutConversationInput> | DeliveryDraftCreateWithoutConversationInput[] | DeliveryDraftUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: DeliveryDraftCreateOrConnectWithoutConversationInput | DeliveryDraftCreateOrConnectWithoutConversationInput[]
+    upsert?: DeliveryDraftUpsertWithWhereUniqueWithoutConversationInput | DeliveryDraftUpsertWithWhereUniqueWithoutConversationInput[]
+    createMany?: DeliveryDraftCreateManyConversationInputEnvelope
+    set?: DeliveryDraftWhereUniqueInput | DeliveryDraftWhereUniqueInput[]
+    disconnect?: DeliveryDraftWhereUniqueInput | DeliveryDraftWhereUniqueInput[]
+    delete?: DeliveryDraftWhereUniqueInput | DeliveryDraftWhereUniqueInput[]
+    connect?: DeliveryDraftWhereUniqueInput | DeliveryDraftWhereUniqueInput[]
+    update?: DeliveryDraftUpdateWithWhereUniqueWithoutConversationInput | DeliveryDraftUpdateWithWhereUniqueWithoutConversationInput[]
+    updateMany?: DeliveryDraftUpdateManyWithWhereWithoutConversationInput | DeliveryDraftUpdateManyWithWhereWithoutConversationInput[]
+    deleteMany?: DeliveryDraftScalarWhereInput | DeliveryDraftScalarWhereInput[]
+  }
+
+  export type AiMessageUncheckedUpdateManyWithoutConversationNestedInput = {
+    create?: XOR<AiMessageCreateWithoutConversationInput, AiMessageUncheckedCreateWithoutConversationInput> | AiMessageCreateWithoutConversationInput[] | AiMessageUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: AiMessageCreateOrConnectWithoutConversationInput | AiMessageCreateOrConnectWithoutConversationInput[]
+    upsert?: AiMessageUpsertWithWhereUniqueWithoutConversationInput | AiMessageUpsertWithWhereUniqueWithoutConversationInput[]
+    createMany?: AiMessageCreateManyConversationInputEnvelope
+    set?: AiMessageWhereUniqueInput | AiMessageWhereUniqueInput[]
+    disconnect?: AiMessageWhereUniqueInput | AiMessageWhereUniqueInput[]
+    delete?: AiMessageWhereUniqueInput | AiMessageWhereUniqueInput[]
+    connect?: AiMessageWhereUniqueInput | AiMessageWhereUniqueInput[]
+    update?: AiMessageUpdateWithWhereUniqueWithoutConversationInput | AiMessageUpdateWithWhereUniqueWithoutConversationInput[]
+    updateMany?: AiMessageUpdateManyWithWhereWithoutConversationInput | AiMessageUpdateManyWithWhereWithoutConversationInput[]
+    deleteMany?: AiMessageScalarWhereInput | AiMessageScalarWhereInput[]
+  }
+
+  export type DeliveryDraftUncheckedUpdateManyWithoutConversationNestedInput = {
+    create?: XOR<DeliveryDraftCreateWithoutConversationInput, DeliveryDraftUncheckedCreateWithoutConversationInput> | DeliveryDraftCreateWithoutConversationInput[] | DeliveryDraftUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: DeliveryDraftCreateOrConnectWithoutConversationInput | DeliveryDraftCreateOrConnectWithoutConversationInput[]
+    upsert?: DeliveryDraftUpsertWithWhereUniqueWithoutConversationInput | DeliveryDraftUpsertWithWhereUniqueWithoutConversationInput[]
+    createMany?: DeliveryDraftCreateManyConversationInputEnvelope
+    set?: DeliveryDraftWhereUniqueInput | DeliveryDraftWhereUniqueInput[]
+    disconnect?: DeliveryDraftWhereUniqueInput | DeliveryDraftWhereUniqueInput[]
+    delete?: DeliveryDraftWhereUniqueInput | DeliveryDraftWhereUniqueInput[]
+    connect?: DeliveryDraftWhereUniqueInput | DeliveryDraftWhereUniqueInput[]
+    update?: DeliveryDraftUpdateWithWhereUniqueWithoutConversationInput | DeliveryDraftUpdateWithWhereUniqueWithoutConversationInput[]
+    updateMany?: DeliveryDraftUpdateManyWithWhereWithoutConversationInput | DeliveryDraftUpdateManyWithWhereWithoutConversationInput[]
+    deleteMany?: DeliveryDraftScalarWhereInput | DeliveryDraftScalarWhereInput[]
+  }
+
+  export type AiConversationCreateNestedOneWithoutMessagesInput = {
+    create?: XOR<AiConversationCreateWithoutMessagesInput, AiConversationUncheckedCreateWithoutMessagesInput>
+    connectOrCreate?: AiConversationCreateOrConnectWithoutMessagesInput
+    connect?: AiConversationWhereUniqueInput
+  }
+
+  export type AiConversationUpdateOneRequiredWithoutMessagesNestedInput = {
+    create?: XOR<AiConversationCreateWithoutMessagesInput, AiConversationUncheckedCreateWithoutMessagesInput>
+    connectOrCreate?: AiConversationCreateOrConnectWithoutMessagesInput
+    upsert?: AiConversationUpsertWithoutMessagesInput
+    connect?: AiConversationWhereUniqueInput
+    update?: XOR<XOR<AiConversationUpdateToOneWithWhereWithoutMessagesInput, AiConversationUpdateWithoutMessagesInput>, AiConversationUncheckedUpdateWithoutMessagesInput>
+  }
+
+  export type DeliveryDraftCreatemissingFieldsInput = {
+    set: string[]
+  }
+
+  export type UserCreateNestedOneWithoutDeliveryDraftsInput = {
+    create?: XOR<UserCreateWithoutDeliveryDraftsInput, UserUncheckedCreateWithoutDeliveryDraftsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDeliveryDraftsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type AiConversationCreateNestedOneWithoutDraftsInput = {
+    create?: XOR<AiConversationCreateWithoutDraftsInput, AiConversationUncheckedCreateWithoutDraftsInput>
+    connectOrCreate?: AiConversationCreateOrConnectWithoutDraftsInput
+    connect?: AiConversationWhereUniqueInput
+  }
+
+  export type ProviderQuoteCreateNestedManyWithoutDraftInput = {
+    create?: XOR<ProviderQuoteCreateWithoutDraftInput, ProviderQuoteUncheckedCreateWithoutDraftInput> | ProviderQuoteCreateWithoutDraftInput[] | ProviderQuoteUncheckedCreateWithoutDraftInput[]
+    connectOrCreate?: ProviderQuoteCreateOrConnectWithoutDraftInput | ProviderQuoteCreateOrConnectWithoutDraftInput[]
+    createMany?: ProviderQuoteCreateManyDraftInputEnvelope
+    connect?: ProviderQuoteWhereUniqueInput | ProviderQuoteWhereUniqueInput[]
+  }
+
+  export type ApprovalCreateNestedManyWithoutDraftInput = {
+    create?: XOR<ApprovalCreateWithoutDraftInput, ApprovalUncheckedCreateWithoutDraftInput> | ApprovalCreateWithoutDraftInput[] | ApprovalUncheckedCreateWithoutDraftInput[]
+    connectOrCreate?: ApprovalCreateOrConnectWithoutDraftInput | ApprovalCreateOrConnectWithoutDraftInput[]
+    createMany?: ApprovalCreateManyDraftInputEnvelope
+    connect?: ApprovalWhereUniqueInput | ApprovalWhereUniqueInput[]
+  }
+
+  export type ProviderQuoteUncheckedCreateNestedManyWithoutDraftInput = {
+    create?: XOR<ProviderQuoteCreateWithoutDraftInput, ProviderQuoteUncheckedCreateWithoutDraftInput> | ProviderQuoteCreateWithoutDraftInput[] | ProviderQuoteUncheckedCreateWithoutDraftInput[]
+    connectOrCreate?: ProviderQuoteCreateOrConnectWithoutDraftInput | ProviderQuoteCreateOrConnectWithoutDraftInput[]
+    createMany?: ProviderQuoteCreateManyDraftInputEnvelope
+    connect?: ProviderQuoteWhereUniqueInput | ProviderQuoteWhereUniqueInput[]
+  }
+
+  export type ApprovalUncheckedCreateNestedManyWithoutDraftInput = {
+    create?: XOR<ApprovalCreateWithoutDraftInput, ApprovalUncheckedCreateWithoutDraftInput> | ApprovalCreateWithoutDraftInput[] | ApprovalUncheckedCreateWithoutDraftInput[]
+    connectOrCreate?: ApprovalCreateOrConnectWithoutDraftInput | ApprovalCreateOrConnectWithoutDraftInput[]
+    createMany?: ApprovalCreateManyDraftInputEnvelope
+    connect?: ApprovalWhereUniqueInput | ApprovalWhereUniqueInput[]
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type DeliveryDraftUpdatemissingFieldsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdateOneRequiredWithoutDeliveryDraftsNestedInput = {
+    create?: XOR<UserCreateWithoutDeliveryDraftsInput, UserUncheckedCreateWithoutDeliveryDraftsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDeliveryDraftsInput
+    upsert?: UserUpsertWithoutDeliveryDraftsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDeliveryDraftsInput, UserUpdateWithoutDeliveryDraftsInput>, UserUncheckedUpdateWithoutDeliveryDraftsInput>
+  }
+
+  export type AiConversationUpdateOneWithoutDraftsNestedInput = {
+    create?: XOR<AiConversationCreateWithoutDraftsInput, AiConversationUncheckedCreateWithoutDraftsInput>
+    connectOrCreate?: AiConversationCreateOrConnectWithoutDraftsInput
+    upsert?: AiConversationUpsertWithoutDraftsInput
+    disconnect?: AiConversationWhereInput | boolean
+    delete?: AiConversationWhereInput | boolean
+    connect?: AiConversationWhereUniqueInput
+    update?: XOR<XOR<AiConversationUpdateToOneWithWhereWithoutDraftsInput, AiConversationUpdateWithoutDraftsInput>, AiConversationUncheckedUpdateWithoutDraftsInput>
+  }
+
+  export type ProviderQuoteUpdateManyWithoutDraftNestedInput = {
+    create?: XOR<ProviderQuoteCreateWithoutDraftInput, ProviderQuoteUncheckedCreateWithoutDraftInput> | ProviderQuoteCreateWithoutDraftInput[] | ProviderQuoteUncheckedCreateWithoutDraftInput[]
+    connectOrCreate?: ProviderQuoteCreateOrConnectWithoutDraftInput | ProviderQuoteCreateOrConnectWithoutDraftInput[]
+    upsert?: ProviderQuoteUpsertWithWhereUniqueWithoutDraftInput | ProviderQuoteUpsertWithWhereUniqueWithoutDraftInput[]
+    createMany?: ProviderQuoteCreateManyDraftInputEnvelope
+    set?: ProviderQuoteWhereUniqueInput | ProviderQuoteWhereUniqueInput[]
+    disconnect?: ProviderQuoteWhereUniqueInput | ProviderQuoteWhereUniqueInput[]
+    delete?: ProviderQuoteWhereUniqueInput | ProviderQuoteWhereUniqueInput[]
+    connect?: ProviderQuoteWhereUniqueInput | ProviderQuoteWhereUniqueInput[]
+    update?: ProviderQuoteUpdateWithWhereUniqueWithoutDraftInput | ProviderQuoteUpdateWithWhereUniqueWithoutDraftInput[]
+    updateMany?: ProviderQuoteUpdateManyWithWhereWithoutDraftInput | ProviderQuoteUpdateManyWithWhereWithoutDraftInput[]
+    deleteMany?: ProviderQuoteScalarWhereInput | ProviderQuoteScalarWhereInput[]
+  }
+
+  export type ApprovalUpdateManyWithoutDraftNestedInput = {
+    create?: XOR<ApprovalCreateWithoutDraftInput, ApprovalUncheckedCreateWithoutDraftInput> | ApprovalCreateWithoutDraftInput[] | ApprovalUncheckedCreateWithoutDraftInput[]
+    connectOrCreate?: ApprovalCreateOrConnectWithoutDraftInput | ApprovalCreateOrConnectWithoutDraftInput[]
+    upsert?: ApprovalUpsertWithWhereUniqueWithoutDraftInput | ApprovalUpsertWithWhereUniqueWithoutDraftInput[]
+    createMany?: ApprovalCreateManyDraftInputEnvelope
+    set?: ApprovalWhereUniqueInput | ApprovalWhereUniqueInput[]
+    disconnect?: ApprovalWhereUniqueInput | ApprovalWhereUniqueInput[]
+    delete?: ApprovalWhereUniqueInput | ApprovalWhereUniqueInput[]
+    connect?: ApprovalWhereUniqueInput | ApprovalWhereUniqueInput[]
+    update?: ApprovalUpdateWithWhereUniqueWithoutDraftInput | ApprovalUpdateWithWhereUniqueWithoutDraftInput[]
+    updateMany?: ApprovalUpdateManyWithWhereWithoutDraftInput | ApprovalUpdateManyWithWhereWithoutDraftInput[]
+    deleteMany?: ApprovalScalarWhereInput | ApprovalScalarWhereInput[]
+  }
+
+  export type ProviderQuoteUncheckedUpdateManyWithoutDraftNestedInput = {
+    create?: XOR<ProviderQuoteCreateWithoutDraftInput, ProviderQuoteUncheckedCreateWithoutDraftInput> | ProviderQuoteCreateWithoutDraftInput[] | ProviderQuoteUncheckedCreateWithoutDraftInput[]
+    connectOrCreate?: ProviderQuoteCreateOrConnectWithoutDraftInput | ProviderQuoteCreateOrConnectWithoutDraftInput[]
+    upsert?: ProviderQuoteUpsertWithWhereUniqueWithoutDraftInput | ProviderQuoteUpsertWithWhereUniqueWithoutDraftInput[]
+    createMany?: ProviderQuoteCreateManyDraftInputEnvelope
+    set?: ProviderQuoteWhereUniqueInput | ProviderQuoteWhereUniqueInput[]
+    disconnect?: ProviderQuoteWhereUniqueInput | ProviderQuoteWhereUniqueInput[]
+    delete?: ProviderQuoteWhereUniqueInput | ProviderQuoteWhereUniqueInput[]
+    connect?: ProviderQuoteWhereUniqueInput | ProviderQuoteWhereUniqueInput[]
+    update?: ProviderQuoteUpdateWithWhereUniqueWithoutDraftInput | ProviderQuoteUpdateWithWhereUniqueWithoutDraftInput[]
+    updateMany?: ProviderQuoteUpdateManyWithWhereWithoutDraftInput | ProviderQuoteUpdateManyWithWhereWithoutDraftInput[]
+    deleteMany?: ProviderQuoteScalarWhereInput | ProviderQuoteScalarWhereInput[]
+  }
+
+  export type ApprovalUncheckedUpdateManyWithoutDraftNestedInput = {
+    create?: XOR<ApprovalCreateWithoutDraftInput, ApprovalUncheckedCreateWithoutDraftInput> | ApprovalCreateWithoutDraftInput[] | ApprovalUncheckedCreateWithoutDraftInput[]
+    connectOrCreate?: ApprovalCreateOrConnectWithoutDraftInput | ApprovalCreateOrConnectWithoutDraftInput[]
+    upsert?: ApprovalUpsertWithWhereUniqueWithoutDraftInput | ApprovalUpsertWithWhereUniqueWithoutDraftInput[]
+    createMany?: ApprovalCreateManyDraftInputEnvelope
+    set?: ApprovalWhereUniqueInput | ApprovalWhereUniqueInput[]
+    disconnect?: ApprovalWhereUniqueInput | ApprovalWhereUniqueInput[]
+    delete?: ApprovalWhereUniqueInput | ApprovalWhereUniqueInput[]
+    connect?: ApprovalWhereUniqueInput | ApprovalWhereUniqueInput[]
+    update?: ApprovalUpdateWithWhereUniqueWithoutDraftInput | ApprovalUpdateWithWhereUniqueWithoutDraftInput[]
+    updateMany?: ApprovalUpdateManyWithWhereWithoutDraftInput | ApprovalUpdateManyWithWhereWithoutDraftInput[]
+    deleteMany?: ApprovalScalarWhereInput | ApprovalScalarWhereInput[]
+  }
+
+  export type ProviderQuoteCreatescoreReasonsInput = {
+    set: string[]
+  }
+
+  export type DeliveryDraftCreateNestedOneWithoutQuotesInput = {
+    create?: XOR<DeliveryDraftCreateWithoutQuotesInput, DeliveryDraftUncheckedCreateWithoutQuotesInput>
+    connectOrCreate?: DeliveryDraftCreateOrConnectWithoutQuotesInput
+    connect?: DeliveryDraftWhereUniqueInput
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type ProviderQuoteUpdatescoreReasonsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type DeliveryDraftUpdateOneRequiredWithoutQuotesNestedInput = {
+    create?: XOR<DeliveryDraftCreateWithoutQuotesInput, DeliveryDraftUncheckedCreateWithoutQuotesInput>
+    connectOrCreate?: DeliveryDraftCreateOrConnectWithoutQuotesInput
+    upsert?: DeliveryDraftUpsertWithoutQuotesInput
+    connect?: DeliveryDraftWhereUniqueInput
+    update?: XOR<XOR<DeliveryDraftUpdateToOneWithWhereWithoutQuotesInput, DeliveryDraftUpdateWithoutQuotesInput>, DeliveryDraftUncheckedUpdateWithoutQuotesInput>
+  }
+
+  export type DeliveryDraftCreateNestedOneWithoutApprovalsInput = {
+    create?: XOR<DeliveryDraftCreateWithoutApprovalsInput, DeliveryDraftUncheckedCreateWithoutApprovalsInput>
+    connectOrCreate?: DeliveryDraftCreateOrConnectWithoutApprovalsInput
+    connect?: DeliveryDraftWhereUniqueInput
+  }
+
+  export type DeliveryDraftUpdateOneRequiredWithoutApprovalsNestedInput = {
+    create?: XOR<DeliveryDraftCreateWithoutApprovalsInput, DeliveryDraftUncheckedCreateWithoutApprovalsInput>
+    connectOrCreate?: DeliveryDraftCreateOrConnectWithoutApprovalsInput
+    upsert?: DeliveryDraftUpsertWithoutApprovalsInput
+    connect?: DeliveryDraftWhereUniqueInput
+    update?: XOR<XOR<DeliveryDraftUpdateToOneWithWhereWithoutApprovalsInput, DeliveryDraftUpdateWithoutApprovalsInput>, DeliveryDraftUncheckedUpdateWithoutApprovalsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -18483,6 +28690,38 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
   export type MessageTemplateCreateWithoutUserInput = {
     id?: string
     metaTemplateId: string
@@ -18588,6 +28827,120 @@ export namespace Prisma {
     create: XOR<CreditWalletCreateWithoutUserInput, CreditWalletUncheckedCreateWithoutUserInput>
   }
 
+  export type AiConversationCreateWithoutUserInput = {
+    id?: string
+    customerWaId: string
+    phoneNumberId: string
+    status?: string
+    lastMessageAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: AiMessageCreateNestedManyWithoutConversationInput
+    drafts?: DeliveryDraftCreateNestedManyWithoutConversationInput
+  }
+
+  export type AiConversationUncheckedCreateWithoutUserInput = {
+    id?: string
+    customerWaId: string
+    phoneNumberId: string
+    status?: string
+    lastMessageAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: AiMessageUncheckedCreateNestedManyWithoutConversationInput
+    drafts?: DeliveryDraftUncheckedCreateNestedManyWithoutConversationInput
+  }
+
+  export type AiConversationCreateOrConnectWithoutUserInput = {
+    where: AiConversationWhereUniqueInput
+    create: XOR<AiConversationCreateWithoutUserInput, AiConversationUncheckedCreateWithoutUserInput>
+  }
+
+  export type AiConversationCreateManyUserInputEnvelope = {
+    data: AiConversationCreateManyUserInput | AiConversationCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DeliveryDraftCreateWithoutUserInput = {
+    id?: string
+    status?: string
+    senderName?: string | null
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
+    receiverName?: string | null
+    receiverPhone?: string | null
+    receiverAddress?: string | null
+    receiverEmail?: string | null
+    packageName?: string | null
+    packageDescription?: string | null
+    packageCategory?: string | null
+    packageCategoryId?: number | null
+    packageWeight?: string | null
+    packageValue?: string | null
+    packageQuantity?: number | null
+    length?: number | null
+    width?: number | null
+    height?: number | null
+    pickupDate?: string | null
+    deliveryType?: string | null
+    deliveryInstructions?: string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
+    confidence?: number | null
+    deliveryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    conversation?: AiConversationCreateNestedOneWithoutDraftsInput
+    quotes?: ProviderQuoteCreateNestedManyWithoutDraftInput
+    approvals?: ApprovalCreateNestedManyWithoutDraftInput
+  }
+
+  export type DeliveryDraftUncheckedCreateWithoutUserInput = {
+    id?: string
+    conversationId?: string | null
+    status?: string
+    senderName?: string | null
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
+    receiverName?: string | null
+    receiverPhone?: string | null
+    receiverAddress?: string | null
+    receiverEmail?: string | null
+    packageName?: string | null
+    packageDescription?: string | null
+    packageCategory?: string | null
+    packageCategoryId?: number | null
+    packageWeight?: string | null
+    packageValue?: string | null
+    packageQuantity?: number | null
+    length?: number | null
+    width?: number | null
+    height?: number | null
+    pickupDate?: string | null
+    deliveryType?: string | null
+    deliveryInstructions?: string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
+    confidence?: number | null
+    deliveryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    quotes?: ProviderQuoteUncheckedCreateNestedManyWithoutDraftInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutDraftInput
+  }
+
+  export type DeliveryDraftCreateOrConnectWithoutUserInput = {
+    where: DeliveryDraftWhereUniqueInput
+    create: XOR<DeliveryDraftCreateWithoutUserInput, DeliveryDraftUncheckedCreateWithoutUserInput>
+  }
+
+  export type DeliveryDraftCreateManyUserInputEnvelope = {
+    data: DeliveryDraftCreateManyUserInput | DeliveryDraftCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type MessageTemplateUpsertWithWhereUniqueWithoutUserInput = {
     where: MessageTemplateWhereUniqueInput
     update: XOR<MessageTemplateUpdateWithoutUserInput, MessageTemplateUncheckedUpdateWithoutUserInput>
@@ -18689,6 +29042,89 @@ export namespace Prisma {
     purchases?: CreditPurchaseUncheckedUpdateManyWithoutWalletNestedInput
   }
 
+  export type AiConversationUpsertWithWhereUniqueWithoutUserInput = {
+    where: AiConversationWhereUniqueInput
+    update: XOR<AiConversationUpdateWithoutUserInput, AiConversationUncheckedUpdateWithoutUserInput>
+    create: XOR<AiConversationCreateWithoutUserInput, AiConversationUncheckedCreateWithoutUserInput>
+  }
+
+  export type AiConversationUpdateWithWhereUniqueWithoutUserInput = {
+    where: AiConversationWhereUniqueInput
+    data: XOR<AiConversationUpdateWithoutUserInput, AiConversationUncheckedUpdateWithoutUserInput>
+  }
+
+  export type AiConversationUpdateManyWithWhereWithoutUserInput = {
+    where: AiConversationScalarWhereInput
+    data: XOR<AiConversationUpdateManyMutationInput, AiConversationUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type AiConversationScalarWhereInput = {
+    AND?: AiConversationScalarWhereInput | AiConversationScalarWhereInput[]
+    OR?: AiConversationScalarWhereInput[]
+    NOT?: AiConversationScalarWhereInput | AiConversationScalarWhereInput[]
+    id?: StringFilter<"AiConversation"> | string
+    userId?: StringFilter<"AiConversation"> | string
+    customerWaId?: StringFilter<"AiConversation"> | string
+    phoneNumberId?: StringFilter<"AiConversation"> | string
+    status?: StringFilter<"AiConversation"> | string
+    lastMessageAt?: DateTimeNullableFilter<"AiConversation"> | Date | string | null
+    createdAt?: DateTimeFilter<"AiConversation"> | Date | string
+    updatedAt?: DateTimeFilter<"AiConversation"> | Date | string
+  }
+
+  export type DeliveryDraftUpsertWithWhereUniqueWithoutUserInput = {
+    where: DeliveryDraftWhereUniqueInput
+    update: XOR<DeliveryDraftUpdateWithoutUserInput, DeliveryDraftUncheckedUpdateWithoutUserInput>
+    create: XOR<DeliveryDraftCreateWithoutUserInput, DeliveryDraftUncheckedCreateWithoutUserInput>
+  }
+
+  export type DeliveryDraftUpdateWithWhereUniqueWithoutUserInput = {
+    where: DeliveryDraftWhereUniqueInput
+    data: XOR<DeliveryDraftUpdateWithoutUserInput, DeliveryDraftUncheckedUpdateWithoutUserInput>
+  }
+
+  export type DeliveryDraftUpdateManyWithWhereWithoutUserInput = {
+    where: DeliveryDraftScalarWhereInput
+    data: XOR<DeliveryDraftUpdateManyMutationInput, DeliveryDraftUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type DeliveryDraftScalarWhereInput = {
+    AND?: DeliveryDraftScalarWhereInput | DeliveryDraftScalarWhereInput[]
+    OR?: DeliveryDraftScalarWhereInput[]
+    NOT?: DeliveryDraftScalarWhereInput | DeliveryDraftScalarWhereInput[]
+    id?: StringFilter<"DeliveryDraft"> | string
+    userId?: StringFilter<"DeliveryDraft"> | string
+    conversationId?: StringNullableFilter<"DeliveryDraft"> | string | null
+    status?: StringFilter<"DeliveryDraft"> | string
+    senderName?: StringNullableFilter<"DeliveryDraft"> | string | null
+    senderPhone?: StringNullableFilter<"DeliveryDraft"> | string | null
+    senderAddress?: StringNullableFilter<"DeliveryDraft"> | string | null
+    senderEmail?: StringNullableFilter<"DeliveryDraft"> | string | null
+    receiverName?: StringNullableFilter<"DeliveryDraft"> | string | null
+    receiverPhone?: StringNullableFilter<"DeliveryDraft"> | string | null
+    receiverAddress?: StringNullableFilter<"DeliveryDraft"> | string | null
+    receiverEmail?: StringNullableFilter<"DeliveryDraft"> | string | null
+    packageName?: StringNullableFilter<"DeliveryDraft"> | string | null
+    packageDescription?: StringNullableFilter<"DeliveryDraft"> | string | null
+    packageCategory?: StringNullableFilter<"DeliveryDraft"> | string | null
+    packageCategoryId?: IntNullableFilter<"DeliveryDraft"> | number | null
+    packageWeight?: StringNullableFilter<"DeliveryDraft"> | string | null
+    packageValue?: StringNullableFilter<"DeliveryDraft"> | string | null
+    packageQuantity?: IntNullableFilter<"DeliveryDraft"> | number | null
+    length?: FloatNullableFilter<"DeliveryDraft"> | number | null
+    width?: FloatNullableFilter<"DeliveryDraft"> | number | null
+    height?: FloatNullableFilter<"DeliveryDraft"> | number | null
+    pickupDate?: StringNullableFilter<"DeliveryDraft"> | string | null
+    deliveryType?: StringNullableFilter<"DeliveryDraft"> | string | null
+    deliveryInstructions?: StringNullableFilter<"DeliveryDraft"> | string | null
+    extracted?: JsonNullableFilter<"DeliveryDraft">
+    missingFields?: StringNullableListFilter<"DeliveryDraft">
+    confidence?: FloatNullableFilter<"DeliveryDraft"> | number | null
+    deliveryId?: StringNullableFilter<"DeliveryDraft"> | string | null
+    createdAt?: DateTimeFilter<"DeliveryDraft"> | Date | string
+    updatedAt?: DateTimeFilter<"DeliveryDraft"> | Date | string
+  }
+
   export type UserCreateWithoutMessageTemplatesInput = {
     id?: string
     email: string
@@ -18716,6 +29152,8 @@ export namespace Prisma {
     hashedRefresh?: string | null
     automations?: AutomationCreateNestedManyWithoutUserInput
     creditWallet?: CreditWalletCreateNestedOneWithoutUserInput
+    aiConversations?: AiConversationCreateNestedManyWithoutUserInput
+    deliveryDrafts?: DeliveryDraftCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMessageTemplatesInput = {
@@ -18745,6 +29183,8 @@ export namespace Prisma {
     hashedRefresh?: string | null
     automations?: AutomationUncheckedCreateNestedManyWithoutUserInput
     creditWallet?: CreditWalletUncheckedCreateNestedOneWithoutUserInput
+    aiConversations?: AiConversationUncheckedCreateNestedManyWithoutUserInput
+    deliveryDrafts?: DeliveryDraftUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMessageTemplatesInput = {
@@ -18790,6 +29230,8 @@ export namespace Prisma {
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
     automations?: AutomationUpdateManyWithoutUserNestedInput
     creditWallet?: CreditWalletUpdateOneWithoutUserNestedInput
+    aiConversations?: AiConversationUpdateManyWithoutUserNestedInput
+    deliveryDrafts?: DeliveryDraftUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessageTemplatesInput = {
@@ -18819,6 +29261,8 @@ export namespace Prisma {
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
     automations?: AutomationUncheckedUpdateManyWithoutUserNestedInput
     creditWallet?: CreditWalletUncheckedUpdateOneWithoutUserNestedInput
+    aiConversations?: AiConversationUncheckedUpdateManyWithoutUserNestedInput
+    deliveryDrafts?: DeliveryDraftUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCreditWalletInput = {
@@ -18848,6 +29292,8 @@ export namespace Prisma {
     hashedRefresh?: string | null
     messageTemplates?: MessageTemplateCreateNestedManyWithoutUserInput
     automations?: AutomationCreateNestedManyWithoutUserInput
+    aiConversations?: AiConversationCreateNestedManyWithoutUserInput
+    deliveryDrafts?: DeliveryDraftCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreditWalletInput = {
@@ -18877,6 +29323,8 @@ export namespace Prisma {
     hashedRefresh?: string | null
     messageTemplates?: MessageTemplateUncheckedCreateNestedManyWithoutUserInput
     automations?: AutomationUncheckedCreateNestedManyWithoutUserInput
+    aiConversations?: AiConversationUncheckedCreateNestedManyWithoutUserInput
+    deliveryDrafts?: DeliveryDraftUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreditWalletInput = {
@@ -18996,6 +29444,8 @@ export namespace Prisma {
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
     messageTemplates?: MessageTemplateUpdateManyWithoutUserNestedInput
     automations?: AutomationUpdateManyWithoutUserNestedInput
+    aiConversations?: AiConversationUpdateManyWithoutUserNestedInput
+    deliveryDrafts?: DeliveryDraftUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreditWalletInput = {
@@ -19025,6 +29475,8 @@ export namespace Prisma {
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
     messageTemplates?: MessageTemplateUncheckedUpdateManyWithoutUserNestedInput
     automations?: AutomationUncheckedUpdateManyWithoutUserNestedInput
+    aiConversations?: AiConversationUncheckedUpdateManyWithoutUserNestedInput
+    deliveryDrafts?: DeliveryDraftUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CreditTransactionUpsertWithWhereUniqueWithoutWalletInput = {
@@ -19349,6 +29801,8 @@ export namespace Prisma {
     hashedRefresh?: string | null
     messageTemplates?: MessageTemplateCreateNestedManyWithoutUserInput
     creditWallet?: CreditWalletCreateNestedOneWithoutUserInput
+    aiConversations?: AiConversationCreateNestedManyWithoutUserInput
+    deliveryDrafts?: DeliveryDraftCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAutomationsInput = {
@@ -19378,6 +29832,8 @@ export namespace Prisma {
     hashedRefresh?: string | null
     messageTemplates?: MessageTemplateUncheckedCreateNestedManyWithoutUserInput
     creditWallet?: CreditWalletUncheckedCreateNestedOneWithoutUserInput
+    aiConversations?: AiConversationUncheckedCreateNestedManyWithoutUserInput
+    deliveryDrafts?: DeliveryDraftUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAutomationsInput = {
@@ -19423,6 +29879,8 @@ export namespace Prisma {
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
     messageTemplates?: MessageTemplateUpdateManyWithoutUserNestedInput
     creditWallet?: CreditWalletUpdateOneWithoutUserNestedInput
+    aiConversations?: AiConversationUpdateManyWithoutUserNestedInput
+    deliveryDrafts?: DeliveryDraftUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAutomationsInput = {
@@ -19452,6 +29910,1040 @@ export namespace Prisma {
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
     messageTemplates?: MessageTemplateUncheckedUpdateManyWithoutUserNestedInput
     creditWallet?: CreditWalletUncheckedUpdateOneWithoutUserNestedInput
+    aiConversations?: AiConversationUncheckedUpdateManyWithoutUserNestedInput
+    deliveryDrafts?: DeliveryDraftUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutAiConversationsInput = {
+    id?: string
+    email: string
+    password: string
+    emailConfirmed?: boolean
+    emailConfirmToken?: string | null
+    businessName: string
+    fullName: string
+    metaUserId?: string | null
+    appId?: string | null
+    appSecret?: string | null
+    facebookAcceessToken?: string | null
+    grantedScopes?: string | null
+    accessTokenExpiresIn?: string | null
+    selectedWabaId?: string | null
+    displayPhoneNumber?: string | null
+    selectedFacebookBusinessId?: string | null
+    selectedFacebookBusinessName?: string | null
+    selectedPhoneNumberQualityRating?: string | null
+    selectedPhoneNumberVerifiedName?: string | null
+    webhookStatus?: boolean
+    selectedPhoneNumberId?: UserCreateselectedPhoneNumberIdInput | string[]
+    facebookConnectStatus?: boolean
+    createdAt?: Date | string
+    hashedRefresh?: string | null
+    messageTemplates?: MessageTemplateCreateNestedManyWithoutUserInput
+    automations?: AutomationCreateNestedManyWithoutUserInput
+    creditWallet?: CreditWalletCreateNestedOneWithoutUserInput
+    deliveryDrafts?: DeliveryDraftCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutAiConversationsInput = {
+    id?: string
+    email: string
+    password: string
+    emailConfirmed?: boolean
+    emailConfirmToken?: string | null
+    businessName: string
+    fullName: string
+    metaUserId?: string | null
+    appId?: string | null
+    appSecret?: string | null
+    facebookAcceessToken?: string | null
+    grantedScopes?: string | null
+    accessTokenExpiresIn?: string | null
+    selectedWabaId?: string | null
+    displayPhoneNumber?: string | null
+    selectedFacebookBusinessId?: string | null
+    selectedFacebookBusinessName?: string | null
+    selectedPhoneNumberQualityRating?: string | null
+    selectedPhoneNumberVerifiedName?: string | null
+    webhookStatus?: boolean
+    selectedPhoneNumberId?: UserCreateselectedPhoneNumberIdInput | string[]
+    facebookConnectStatus?: boolean
+    createdAt?: Date | string
+    hashedRefresh?: string | null
+    messageTemplates?: MessageTemplateUncheckedCreateNestedManyWithoutUserInput
+    automations?: AutomationUncheckedCreateNestedManyWithoutUserInput
+    creditWallet?: CreditWalletUncheckedCreateNestedOneWithoutUserInput
+    deliveryDrafts?: DeliveryDraftUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutAiConversationsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAiConversationsInput, UserUncheckedCreateWithoutAiConversationsInput>
+  }
+
+  export type AiMessageCreateWithoutConversationInput = {
+    id?: string
+    waMessageId: string
+    direction: string
+    body?: string | null
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    processingState?: string
+    attempts?: number
+    nextRetryAt?: Date | string | null
+    processingError?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AiMessageUncheckedCreateWithoutConversationInput = {
+    id?: string
+    waMessageId: string
+    direction: string
+    body?: string | null
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    processingState?: string
+    attempts?: number
+    nextRetryAt?: Date | string | null
+    processingError?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AiMessageCreateOrConnectWithoutConversationInput = {
+    where: AiMessageWhereUniqueInput
+    create: XOR<AiMessageCreateWithoutConversationInput, AiMessageUncheckedCreateWithoutConversationInput>
+  }
+
+  export type AiMessageCreateManyConversationInputEnvelope = {
+    data: AiMessageCreateManyConversationInput | AiMessageCreateManyConversationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DeliveryDraftCreateWithoutConversationInput = {
+    id?: string
+    status?: string
+    senderName?: string | null
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
+    receiverName?: string | null
+    receiverPhone?: string | null
+    receiverAddress?: string | null
+    receiverEmail?: string | null
+    packageName?: string | null
+    packageDescription?: string | null
+    packageCategory?: string | null
+    packageCategoryId?: number | null
+    packageWeight?: string | null
+    packageValue?: string | null
+    packageQuantity?: number | null
+    length?: number | null
+    width?: number | null
+    height?: number | null
+    pickupDate?: string | null
+    deliveryType?: string | null
+    deliveryInstructions?: string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
+    confidence?: number | null
+    deliveryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutDeliveryDraftsInput
+    quotes?: ProviderQuoteCreateNestedManyWithoutDraftInput
+    approvals?: ApprovalCreateNestedManyWithoutDraftInput
+  }
+
+  export type DeliveryDraftUncheckedCreateWithoutConversationInput = {
+    id?: string
+    userId: string
+    status?: string
+    senderName?: string | null
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
+    receiverName?: string | null
+    receiverPhone?: string | null
+    receiverAddress?: string | null
+    receiverEmail?: string | null
+    packageName?: string | null
+    packageDescription?: string | null
+    packageCategory?: string | null
+    packageCategoryId?: number | null
+    packageWeight?: string | null
+    packageValue?: string | null
+    packageQuantity?: number | null
+    length?: number | null
+    width?: number | null
+    height?: number | null
+    pickupDate?: string | null
+    deliveryType?: string | null
+    deliveryInstructions?: string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
+    confidence?: number | null
+    deliveryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    quotes?: ProviderQuoteUncheckedCreateNestedManyWithoutDraftInput
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutDraftInput
+  }
+
+  export type DeliveryDraftCreateOrConnectWithoutConversationInput = {
+    where: DeliveryDraftWhereUniqueInput
+    create: XOR<DeliveryDraftCreateWithoutConversationInput, DeliveryDraftUncheckedCreateWithoutConversationInput>
+  }
+
+  export type DeliveryDraftCreateManyConversationInputEnvelope = {
+    data: DeliveryDraftCreateManyConversationInput | DeliveryDraftCreateManyConversationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutAiConversationsInput = {
+    update: XOR<UserUpdateWithoutAiConversationsInput, UserUncheckedUpdateWithoutAiConversationsInput>
+    create: XOR<UserCreateWithoutAiConversationsInput, UserUncheckedCreateWithoutAiConversationsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAiConversationsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAiConversationsInput, UserUncheckedUpdateWithoutAiConversationsInput>
+  }
+
+  export type UserUpdateWithoutAiConversationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    emailConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    emailConfirmToken?: NullableStringFieldUpdateOperationsInput | string | null
+    businessName?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    metaUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    appId?: NullableStringFieldUpdateOperationsInput | string | null
+    appSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookAcceessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    grantedScopes?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenExpiresIn?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedWabaId?: NullableStringFieldUpdateOperationsInput | string | null
+    displayPhoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedFacebookBusinessId?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedFacebookBusinessName?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedPhoneNumberQualityRating?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedPhoneNumberVerifiedName?: NullableStringFieldUpdateOperationsInput | string | null
+    webhookStatus?: BoolFieldUpdateOperationsInput | boolean
+    selectedPhoneNumberId?: UserUpdateselectedPhoneNumberIdInput | string[]
+    facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
+    messageTemplates?: MessageTemplateUpdateManyWithoutUserNestedInput
+    automations?: AutomationUpdateManyWithoutUserNestedInput
+    creditWallet?: CreditWalletUpdateOneWithoutUserNestedInput
+    deliveryDrafts?: DeliveryDraftUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAiConversationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    emailConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    emailConfirmToken?: NullableStringFieldUpdateOperationsInput | string | null
+    businessName?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    metaUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    appId?: NullableStringFieldUpdateOperationsInput | string | null
+    appSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookAcceessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    grantedScopes?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenExpiresIn?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedWabaId?: NullableStringFieldUpdateOperationsInput | string | null
+    displayPhoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedFacebookBusinessId?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedFacebookBusinessName?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedPhoneNumberQualityRating?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedPhoneNumberVerifiedName?: NullableStringFieldUpdateOperationsInput | string | null
+    webhookStatus?: BoolFieldUpdateOperationsInput | boolean
+    selectedPhoneNumberId?: UserUpdateselectedPhoneNumberIdInput | string[]
+    facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
+    messageTemplates?: MessageTemplateUncheckedUpdateManyWithoutUserNestedInput
+    automations?: AutomationUncheckedUpdateManyWithoutUserNestedInput
+    creditWallet?: CreditWalletUncheckedUpdateOneWithoutUserNestedInput
+    deliveryDrafts?: DeliveryDraftUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type AiMessageUpsertWithWhereUniqueWithoutConversationInput = {
+    where: AiMessageWhereUniqueInput
+    update: XOR<AiMessageUpdateWithoutConversationInput, AiMessageUncheckedUpdateWithoutConversationInput>
+    create: XOR<AiMessageCreateWithoutConversationInput, AiMessageUncheckedCreateWithoutConversationInput>
+  }
+
+  export type AiMessageUpdateWithWhereUniqueWithoutConversationInput = {
+    where: AiMessageWhereUniqueInput
+    data: XOR<AiMessageUpdateWithoutConversationInput, AiMessageUncheckedUpdateWithoutConversationInput>
+  }
+
+  export type AiMessageUpdateManyWithWhereWithoutConversationInput = {
+    where: AiMessageScalarWhereInput
+    data: XOR<AiMessageUpdateManyMutationInput, AiMessageUncheckedUpdateManyWithoutConversationInput>
+  }
+
+  export type AiMessageScalarWhereInput = {
+    AND?: AiMessageScalarWhereInput | AiMessageScalarWhereInput[]
+    OR?: AiMessageScalarWhereInput[]
+    NOT?: AiMessageScalarWhereInput | AiMessageScalarWhereInput[]
+    id?: StringFilter<"AiMessage"> | string
+    conversationId?: StringFilter<"AiMessage"> | string
+    waMessageId?: StringFilter<"AiMessage"> | string
+    direction?: StringFilter<"AiMessage"> | string
+    body?: StringNullableFilter<"AiMessage"> | string | null
+    rawPayload?: JsonNullableFilter<"AiMessage">
+    processingState?: StringFilter<"AiMessage"> | string
+    attempts?: IntFilter<"AiMessage"> | number
+    nextRetryAt?: DateTimeNullableFilter<"AiMessage"> | Date | string | null
+    processingError?: StringNullableFilter<"AiMessage"> | string | null
+    createdAt?: DateTimeFilter<"AiMessage"> | Date | string
+  }
+
+  export type DeliveryDraftUpsertWithWhereUniqueWithoutConversationInput = {
+    where: DeliveryDraftWhereUniqueInput
+    update: XOR<DeliveryDraftUpdateWithoutConversationInput, DeliveryDraftUncheckedUpdateWithoutConversationInput>
+    create: XOR<DeliveryDraftCreateWithoutConversationInput, DeliveryDraftUncheckedCreateWithoutConversationInput>
+  }
+
+  export type DeliveryDraftUpdateWithWhereUniqueWithoutConversationInput = {
+    where: DeliveryDraftWhereUniqueInput
+    data: XOR<DeliveryDraftUpdateWithoutConversationInput, DeliveryDraftUncheckedUpdateWithoutConversationInput>
+  }
+
+  export type DeliveryDraftUpdateManyWithWhereWithoutConversationInput = {
+    where: DeliveryDraftScalarWhereInput
+    data: XOR<DeliveryDraftUpdateManyMutationInput, DeliveryDraftUncheckedUpdateManyWithoutConversationInput>
+  }
+
+  export type AiConversationCreateWithoutMessagesInput = {
+    id?: string
+    customerWaId: string
+    phoneNumberId: string
+    status?: string
+    lastMessageAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAiConversationsInput
+    drafts?: DeliveryDraftCreateNestedManyWithoutConversationInput
+  }
+
+  export type AiConversationUncheckedCreateWithoutMessagesInput = {
+    id?: string
+    userId: string
+    customerWaId: string
+    phoneNumberId: string
+    status?: string
+    lastMessageAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    drafts?: DeliveryDraftUncheckedCreateNestedManyWithoutConversationInput
+  }
+
+  export type AiConversationCreateOrConnectWithoutMessagesInput = {
+    where: AiConversationWhereUniqueInput
+    create: XOR<AiConversationCreateWithoutMessagesInput, AiConversationUncheckedCreateWithoutMessagesInput>
+  }
+
+  export type AiConversationUpsertWithoutMessagesInput = {
+    update: XOR<AiConversationUpdateWithoutMessagesInput, AiConversationUncheckedUpdateWithoutMessagesInput>
+    create: XOR<AiConversationCreateWithoutMessagesInput, AiConversationUncheckedCreateWithoutMessagesInput>
+    where?: AiConversationWhereInput
+  }
+
+  export type AiConversationUpdateToOneWithWhereWithoutMessagesInput = {
+    where?: AiConversationWhereInput
+    data: XOR<AiConversationUpdateWithoutMessagesInput, AiConversationUncheckedUpdateWithoutMessagesInput>
+  }
+
+  export type AiConversationUpdateWithoutMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerWaId?: StringFieldUpdateOperationsInput | string
+    phoneNumberId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAiConversationsNestedInput
+    drafts?: DeliveryDraftUpdateManyWithoutConversationNestedInput
+  }
+
+  export type AiConversationUncheckedUpdateWithoutMessagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    customerWaId?: StringFieldUpdateOperationsInput | string
+    phoneNumberId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    drafts?: DeliveryDraftUncheckedUpdateManyWithoutConversationNestedInput
+  }
+
+  export type UserCreateWithoutDeliveryDraftsInput = {
+    id?: string
+    email: string
+    password: string
+    emailConfirmed?: boolean
+    emailConfirmToken?: string | null
+    businessName: string
+    fullName: string
+    metaUserId?: string | null
+    appId?: string | null
+    appSecret?: string | null
+    facebookAcceessToken?: string | null
+    grantedScopes?: string | null
+    accessTokenExpiresIn?: string | null
+    selectedWabaId?: string | null
+    displayPhoneNumber?: string | null
+    selectedFacebookBusinessId?: string | null
+    selectedFacebookBusinessName?: string | null
+    selectedPhoneNumberQualityRating?: string | null
+    selectedPhoneNumberVerifiedName?: string | null
+    webhookStatus?: boolean
+    selectedPhoneNumberId?: UserCreateselectedPhoneNumberIdInput | string[]
+    facebookConnectStatus?: boolean
+    createdAt?: Date | string
+    hashedRefresh?: string | null
+    messageTemplates?: MessageTemplateCreateNestedManyWithoutUserInput
+    automations?: AutomationCreateNestedManyWithoutUserInput
+    creditWallet?: CreditWalletCreateNestedOneWithoutUserInput
+    aiConversations?: AiConversationCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutDeliveryDraftsInput = {
+    id?: string
+    email: string
+    password: string
+    emailConfirmed?: boolean
+    emailConfirmToken?: string | null
+    businessName: string
+    fullName: string
+    metaUserId?: string | null
+    appId?: string | null
+    appSecret?: string | null
+    facebookAcceessToken?: string | null
+    grantedScopes?: string | null
+    accessTokenExpiresIn?: string | null
+    selectedWabaId?: string | null
+    displayPhoneNumber?: string | null
+    selectedFacebookBusinessId?: string | null
+    selectedFacebookBusinessName?: string | null
+    selectedPhoneNumberQualityRating?: string | null
+    selectedPhoneNumberVerifiedName?: string | null
+    webhookStatus?: boolean
+    selectedPhoneNumberId?: UserCreateselectedPhoneNumberIdInput | string[]
+    facebookConnectStatus?: boolean
+    createdAt?: Date | string
+    hashedRefresh?: string | null
+    messageTemplates?: MessageTemplateUncheckedCreateNestedManyWithoutUserInput
+    automations?: AutomationUncheckedCreateNestedManyWithoutUserInput
+    creditWallet?: CreditWalletUncheckedCreateNestedOneWithoutUserInput
+    aiConversations?: AiConversationUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutDeliveryDraftsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDeliveryDraftsInput, UserUncheckedCreateWithoutDeliveryDraftsInput>
+  }
+
+  export type AiConversationCreateWithoutDraftsInput = {
+    id?: string
+    customerWaId: string
+    phoneNumberId: string
+    status?: string
+    lastMessageAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAiConversationsInput
+    messages?: AiMessageCreateNestedManyWithoutConversationInput
+  }
+
+  export type AiConversationUncheckedCreateWithoutDraftsInput = {
+    id?: string
+    userId: string
+    customerWaId: string
+    phoneNumberId: string
+    status?: string
+    lastMessageAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: AiMessageUncheckedCreateNestedManyWithoutConversationInput
+  }
+
+  export type AiConversationCreateOrConnectWithoutDraftsInput = {
+    where: AiConversationWhereUniqueInput
+    create: XOR<AiConversationCreateWithoutDraftsInput, AiConversationUncheckedCreateWithoutDraftsInput>
+  }
+
+  export type ProviderQuoteCreateWithoutDraftInput = {
+    id?: string
+    provider?: string
+    courierId: string
+    courierName: string
+    serviceCode: string
+    amount: number
+    currency: string
+    deliveryEta?: string | null
+    pickupEta?: string | null
+    score: number
+    scoreReasons?: ProviderQuoteCreatescoreReasonsInput | string[]
+    requestToken: string
+    raw?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type ProviderQuoteUncheckedCreateWithoutDraftInput = {
+    id?: string
+    provider?: string
+    courierId: string
+    courierName: string
+    serviceCode: string
+    amount: number
+    currency: string
+    deliveryEta?: string | null
+    pickupEta?: string | null
+    score: number
+    scoreReasons?: ProviderQuoteCreatescoreReasonsInput | string[]
+    requestToken: string
+    raw?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type ProviderQuoteCreateOrConnectWithoutDraftInput = {
+    where: ProviderQuoteWhereUniqueInput
+    create: XOR<ProviderQuoteCreateWithoutDraftInput, ProviderQuoteUncheckedCreateWithoutDraftInput>
+  }
+
+  export type ProviderQuoteCreateManyDraftInputEnvelope = {
+    data: ProviderQuoteCreateManyDraftInput | ProviderQuoteCreateManyDraftInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ApprovalCreateWithoutDraftInput = {
+    id?: string
+    userId: string
+    decision: string
+    selectedQuoteId?: string | null
+    note?: string | null
+    idempotencyKey: string
+    deliveryId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ApprovalUncheckedCreateWithoutDraftInput = {
+    id?: string
+    userId: string
+    decision: string
+    selectedQuoteId?: string | null
+    note?: string | null
+    idempotencyKey: string
+    deliveryId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ApprovalCreateOrConnectWithoutDraftInput = {
+    where: ApprovalWhereUniqueInput
+    create: XOR<ApprovalCreateWithoutDraftInput, ApprovalUncheckedCreateWithoutDraftInput>
+  }
+
+  export type ApprovalCreateManyDraftInputEnvelope = {
+    data: ApprovalCreateManyDraftInput | ApprovalCreateManyDraftInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutDeliveryDraftsInput = {
+    update: XOR<UserUpdateWithoutDeliveryDraftsInput, UserUncheckedUpdateWithoutDeliveryDraftsInput>
+    create: XOR<UserCreateWithoutDeliveryDraftsInput, UserUncheckedCreateWithoutDeliveryDraftsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDeliveryDraftsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDeliveryDraftsInput, UserUncheckedUpdateWithoutDeliveryDraftsInput>
+  }
+
+  export type UserUpdateWithoutDeliveryDraftsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    emailConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    emailConfirmToken?: NullableStringFieldUpdateOperationsInput | string | null
+    businessName?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    metaUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    appId?: NullableStringFieldUpdateOperationsInput | string | null
+    appSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookAcceessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    grantedScopes?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenExpiresIn?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedWabaId?: NullableStringFieldUpdateOperationsInput | string | null
+    displayPhoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedFacebookBusinessId?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedFacebookBusinessName?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedPhoneNumberQualityRating?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedPhoneNumberVerifiedName?: NullableStringFieldUpdateOperationsInput | string | null
+    webhookStatus?: BoolFieldUpdateOperationsInput | boolean
+    selectedPhoneNumberId?: UserUpdateselectedPhoneNumberIdInput | string[]
+    facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
+    messageTemplates?: MessageTemplateUpdateManyWithoutUserNestedInput
+    automations?: AutomationUpdateManyWithoutUserNestedInput
+    creditWallet?: CreditWalletUpdateOneWithoutUserNestedInput
+    aiConversations?: AiConversationUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDeliveryDraftsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    emailConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    emailConfirmToken?: NullableStringFieldUpdateOperationsInput | string | null
+    businessName?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    metaUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    appId?: NullableStringFieldUpdateOperationsInput | string | null
+    appSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookAcceessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    grantedScopes?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenExpiresIn?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedWabaId?: NullableStringFieldUpdateOperationsInput | string | null
+    displayPhoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedFacebookBusinessId?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedFacebookBusinessName?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedPhoneNumberQualityRating?: NullableStringFieldUpdateOperationsInput | string | null
+    selectedPhoneNumberVerifiedName?: NullableStringFieldUpdateOperationsInput | string | null
+    webhookStatus?: BoolFieldUpdateOperationsInput | boolean
+    selectedPhoneNumberId?: UserUpdateselectedPhoneNumberIdInput | string[]
+    facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
+    messageTemplates?: MessageTemplateUncheckedUpdateManyWithoutUserNestedInput
+    automations?: AutomationUncheckedUpdateManyWithoutUserNestedInput
+    creditWallet?: CreditWalletUncheckedUpdateOneWithoutUserNestedInput
+    aiConversations?: AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type AiConversationUpsertWithoutDraftsInput = {
+    update: XOR<AiConversationUpdateWithoutDraftsInput, AiConversationUncheckedUpdateWithoutDraftsInput>
+    create: XOR<AiConversationCreateWithoutDraftsInput, AiConversationUncheckedCreateWithoutDraftsInput>
+    where?: AiConversationWhereInput
+  }
+
+  export type AiConversationUpdateToOneWithWhereWithoutDraftsInput = {
+    where?: AiConversationWhereInput
+    data: XOR<AiConversationUpdateWithoutDraftsInput, AiConversationUncheckedUpdateWithoutDraftsInput>
+  }
+
+  export type AiConversationUpdateWithoutDraftsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerWaId?: StringFieldUpdateOperationsInput | string
+    phoneNumberId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAiConversationsNestedInput
+    messages?: AiMessageUpdateManyWithoutConversationNestedInput
+  }
+
+  export type AiConversationUncheckedUpdateWithoutDraftsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    customerWaId?: StringFieldUpdateOperationsInput | string
+    phoneNumberId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: AiMessageUncheckedUpdateManyWithoutConversationNestedInput
+  }
+
+  export type ProviderQuoteUpsertWithWhereUniqueWithoutDraftInput = {
+    where: ProviderQuoteWhereUniqueInput
+    update: XOR<ProviderQuoteUpdateWithoutDraftInput, ProviderQuoteUncheckedUpdateWithoutDraftInput>
+    create: XOR<ProviderQuoteCreateWithoutDraftInput, ProviderQuoteUncheckedCreateWithoutDraftInput>
+  }
+
+  export type ProviderQuoteUpdateWithWhereUniqueWithoutDraftInput = {
+    where: ProviderQuoteWhereUniqueInput
+    data: XOR<ProviderQuoteUpdateWithoutDraftInput, ProviderQuoteUncheckedUpdateWithoutDraftInput>
+  }
+
+  export type ProviderQuoteUpdateManyWithWhereWithoutDraftInput = {
+    where: ProviderQuoteScalarWhereInput
+    data: XOR<ProviderQuoteUpdateManyMutationInput, ProviderQuoteUncheckedUpdateManyWithoutDraftInput>
+  }
+
+  export type ProviderQuoteScalarWhereInput = {
+    AND?: ProviderQuoteScalarWhereInput | ProviderQuoteScalarWhereInput[]
+    OR?: ProviderQuoteScalarWhereInput[]
+    NOT?: ProviderQuoteScalarWhereInput | ProviderQuoteScalarWhereInput[]
+    id?: StringFilter<"ProviderQuote"> | string
+    draftId?: StringFilter<"ProviderQuote"> | string
+    provider?: StringFilter<"ProviderQuote"> | string
+    courierId?: StringFilter<"ProviderQuote"> | string
+    courierName?: StringFilter<"ProviderQuote"> | string
+    serviceCode?: StringFilter<"ProviderQuote"> | string
+    amount?: FloatFilter<"ProviderQuote"> | number
+    currency?: StringFilter<"ProviderQuote"> | string
+    deliveryEta?: StringNullableFilter<"ProviderQuote"> | string | null
+    pickupEta?: StringNullableFilter<"ProviderQuote"> | string | null
+    score?: FloatFilter<"ProviderQuote"> | number
+    scoreReasons?: StringNullableListFilter<"ProviderQuote">
+    requestToken?: StringFilter<"ProviderQuote"> | string
+    raw?: JsonNullableFilter<"ProviderQuote">
+    expiresAt?: DateTimeNullableFilter<"ProviderQuote"> | Date | string | null
+    createdAt?: DateTimeFilter<"ProviderQuote"> | Date | string
+  }
+
+  export type ApprovalUpsertWithWhereUniqueWithoutDraftInput = {
+    where: ApprovalWhereUniqueInput
+    update: XOR<ApprovalUpdateWithoutDraftInput, ApprovalUncheckedUpdateWithoutDraftInput>
+    create: XOR<ApprovalCreateWithoutDraftInput, ApprovalUncheckedCreateWithoutDraftInput>
+  }
+
+  export type ApprovalUpdateWithWhereUniqueWithoutDraftInput = {
+    where: ApprovalWhereUniqueInput
+    data: XOR<ApprovalUpdateWithoutDraftInput, ApprovalUncheckedUpdateWithoutDraftInput>
+  }
+
+  export type ApprovalUpdateManyWithWhereWithoutDraftInput = {
+    where: ApprovalScalarWhereInput
+    data: XOR<ApprovalUpdateManyMutationInput, ApprovalUncheckedUpdateManyWithoutDraftInput>
+  }
+
+  export type ApprovalScalarWhereInput = {
+    AND?: ApprovalScalarWhereInput | ApprovalScalarWhereInput[]
+    OR?: ApprovalScalarWhereInput[]
+    NOT?: ApprovalScalarWhereInput | ApprovalScalarWhereInput[]
+    id?: StringFilter<"Approval"> | string
+    draftId?: StringFilter<"Approval"> | string
+    userId?: StringFilter<"Approval"> | string
+    decision?: StringFilter<"Approval"> | string
+    selectedQuoteId?: StringNullableFilter<"Approval"> | string | null
+    note?: StringNullableFilter<"Approval"> | string | null
+    idempotencyKey?: StringFilter<"Approval"> | string
+    deliveryId?: StringNullableFilter<"Approval"> | string | null
+    createdAt?: DateTimeFilter<"Approval"> | Date | string
+  }
+
+  export type DeliveryDraftCreateWithoutQuotesInput = {
+    id?: string
+    status?: string
+    senderName?: string | null
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
+    receiverName?: string | null
+    receiverPhone?: string | null
+    receiverAddress?: string | null
+    receiverEmail?: string | null
+    packageName?: string | null
+    packageDescription?: string | null
+    packageCategory?: string | null
+    packageCategoryId?: number | null
+    packageWeight?: string | null
+    packageValue?: string | null
+    packageQuantity?: number | null
+    length?: number | null
+    width?: number | null
+    height?: number | null
+    pickupDate?: string | null
+    deliveryType?: string | null
+    deliveryInstructions?: string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
+    confidence?: number | null
+    deliveryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutDeliveryDraftsInput
+    conversation?: AiConversationCreateNestedOneWithoutDraftsInput
+    approvals?: ApprovalCreateNestedManyWithoutDraftInput
+  }
+
+  export type DeliveryDraftUncheckedCreateWithoutQuotesInput = {
+    id?: string
+    userId: string
+    conversationId?: string | null
+    status?: string
+    senderName?: string | null
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
+    receiverName?: string | null
+    receiverPhone?: string | null
+    receiverAddress?: string | null
+    receiverEmail?: string | null
+    packageName?: string | null
+    packageDescription?: string | null
+    packageCategory?: string | null
+    packageCategoryId?: number | null
+    packageWeight?: string | null
+    packageValue?: string | null
+    packageQuantity?: number | null
+    length?: number | null
+    width?: number | null
+    height?: number | null
+    pickupDate?: string | null
+    deliveryType?: string | null
+    deliveryInstructions?: string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
+    confidence?: number | null
+    deliveryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    approvals?: ApprovalUncheckedCreateNestedManyWithoutDraftInput
+  }
+
+  export type DeliveryDraftCreateOrConnectWithoutQuotesInput = {
+    where: DeliveryDraftWhereUniqueInput
+    create: XOR<DeliveryDraftCreateWithoutQuotesInput, DeliveryDraftUncheckedCreateWithoutQuotesInput>
+  }
+
+  export type DeliveryDraftUpsertWithoutQuotesInput = {
+    update: XOR<DeliveryDraftUpdateWithoutQuotesInput, DeliveryDraftUncheckedUpdateWithoutQuotesInput>
+    create: XOR<DeliveryDraftCreateWithoutQuotesInput, DeliveryDraftUncheckedCreateWithoutQuotesInput>
+    where?: DeliveryDraftWhereInput
+  }
+
+  export type DeliveryDraftUpdateToOneWithWhereWithoutQuotesInput = {
+    where?: DeliveryDraftWhereInput
+    data: XOR<DeliveryDraftUpdateWithoutQuotesInput, DeliveryDraftUncheckedUpdateWithoutQuotesInput>
+  }
+
+  export type DeliveryDraftUpdateWithoutQuotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    senderName?: NullableStringFieldUpdateOperationsInput | string | null
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverName?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    packageName?: NullableStringFieldUpdateOperationsInput | string | null
+    packageDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    packageValue?: NullableStringFieldUpdateOperationsInput | string | null
+    packageQuantity?: NullableIntFieldUpdateOperationsInput | number | null
+    length?: NullableFloatFieldUpdateOperationsInput | number | null
+    width?: NullableFloatFieldUpdateOperationsInput | number | null
+    height?: NullableFloatFieldUpdateOperationsInput | number | null
+    pickupDate?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryType?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
+    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutDeliveryDraftsNestedInput
+    conversation?: AiConversationUpdateOneWithoutDraftsNestedInput
+    approvals?: ApprovalUpdateManyWithoutDraftNestedInput
+  }
+
+  export type DeliveryDraftUncheckedUpdateWithoutQuotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    senderName?: NullableStringFieldUpdateOperationsInput | string | null
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverName?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    packageName?: NullableStringFieldUpdateOperationsInput | string | null
+    packageDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    packageValue?: NullableStringFieldUpdateOperationsInput | string | null
+    packageQuantity?: NullableIntFieldUpdateOperationsInput | number | null
+    length?: NullableFloatFieldUpdateOperationsInput | number | null
+    width?: NullableFloatFieldUpdateOperationsInput | number | null
+    height?: NullableFloatFieldUpdateOperationsInput | number | null
+    pickupDate?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryType?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
+    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvals?: ApprovalUncheckedUpdateManyWithoutDraftNestedInput
+  }
+
+  export type DeliveryDraftCreateWithoutApprovalsInput = {
+    id?: string
+    status?: string
+    senderName?: string | null
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
+    receiverName?: string | null
+    receiverPhone?: string | null
+    receiverAddress?: string | null
+    receiverEmail?: string | null
+    packageName?: string | null
+    packageDescription?: string | null
+    packageCategory?: string | null
+    packageCategoryId?: number | null
+    packageWeight?: string | null
+    packageValue?: string | null
+    packageQuantity?: number | null
+    length?: number | null
+    width?: number | null
+    height?: number | null
+    pickupDate?: string | null
+    deliveryType?: string | null
+    deliveryInstructions?: string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
+    confidence?: number | null
+    deliveryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutDeliveryDraftsInput
+    conversation?: AiConversationCreateNestedOneWithoutDraftsInput
+    quotes?: ProviderQuoteCreateNestedManyWithoutDraftInput
+  }
+
+  export type DeliveryDraftUncheckedCreateWithoutApprovalsInput = {
+    id?: string
+    userId: string
+    conversationId?: string | null
+    status?: string
+    senderName?: string | null
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
+    receiverName?: string | null
+    receiverPhone?: string | null
+    receiverAddress?: string | null
+    receiverEmail?: string | null
+    packageName?: string | null
+    packageDescription?: string | null
+    packageCategory?: string | null
+    packageCategoryId?: number | null
+    packageWeight?: string | null
+    packageValue?: string | null
+    packageQuantity?: number | null
+    length?: number | null
+    width?: number | null
+    height?: number | null
+    pickupDate?: string | null
+    deliveryType?: string | null
+    deliveryInstructions?: string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
+    confidence?: number | null
+    deliveryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    quotes?: ProviderQuoteUncheckedCreateNestedManyWithoutDraftInput
+  }
+
+  export type DeliveryDraftCreateOrConnectWithoutApprovalsInput = {
+    where: DeliveryDraftWhereUniqueInput
+    create: XOR<DeliveryDraftCreateWithoutApprovalsInput, DeliveryDraftUncheckedCreateWithoutApprovalsInput>
+  }
+
+  export type DeliveryDraftUpsertWithoutApprovalsInput = {
+    update: XOR<DeliveryDraftUpdateWithoutApprovalsInput, DeliveryDraftUncheckedUpdateWithoutApprovalsInput>
+    create: XOR<DeliveryDraftCreateWithoutApprovalsInput, DeliveryDraftUncheckedCreateWithoutApprovalsInput>
+    where?: DeliveryDraftWhereInput
+  }
+
+  export type DeliveryDraftUpdateToOneWithWhereWithoutApprovalsInput = {
+    where?: DeliveryDraftWhereInput
+    data: XOR<DeliveryDraftUpdateWithoutApprovalsInput, DeliveryDraftUncheckedUpdateWithoutApprovalsInput>
+  }
+
+  export type DeliveryDraftUpdateWithoutApprovalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    senderName?: NullableStringFieldUpdateOperationsInput | string | null
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverName?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    packageName?: NullableStringFieldUpdateOperationsInput | string | null
+    packageDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    packageValue?: NullableStringFieldUpdateOperationsInput | string | null
+    packageQuantity?: NullableIntFieldUpdateOperationsInput | number | null
+    length?: NullableFloatFieldUpdateOperationsInput | number | null
+    width?: NullableFloatFieldUpdateOperationsInput | number | null
+    height?: NullableFloatFieldUpdateOperationsInput | number | null
+    pickupDate?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryType?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
+    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutDeliveryDraftsNestedInput
+    conversation?: AiConversationUpdateOneWithoutDraftsNestedInput
+    quotes?: ProviderQuoteUpdateManyWithoutDraftNestedInput
+  }
+
+  export type DeliveryDraftUncheckedUpdateWithoutApprovalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    senderName?: NullableStringFieldUpdateOperationsInput | string | null
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverName?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    packageName?: NullableStringFieldUpdateOperationsInput | string | null
+    packageDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    packageValue?: NullableStringFieldUpdateOperationsInput | string | null
+    packageQuantity?: NullableIntFieldUpdateOperationsInput | number | null
+    length?: NullableFloatFieldUpdateOperationsInput | number | null
+    width?: NullableFloatFieldUpdateOperationsInput | number | null
+    height?: NullableFloatFieldUpdateOperationsInput | number | null
+    pickupDate?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryType?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
+    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quotes?: ProviderQuoteUncheckedUpdateManyWithoutDraftNestedInput
   }
 
   export type MessageTemplateCreateManyUserInput = {
@@ -19480,6 +30972,49 @@ export namespace Prisma {
     enabled?: boolean
     totalRuns?: number
     lastTriggered?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AiConversationCreateManyUserInput = {
+    id?: string
+    customerWaId: string
+    phoneNumberId: string
+    status?: string
+    lastMessageAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DeliveryDraftCreateManyUserInput = {
+    id?: string
+    conversationId?: string | null
+    status?: string
+    senderName?: string | null
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
+    receiverName?: string | null
+    receiverPhone?: string | null
+    receiverAddress?: string | null
+    receiverEmail?: string | null
+    packageName?: string | null
+    packageDescription?: string | null
+    packageCategory?: string | null
+    packageCategoryId?: number | null
+    packageWeight?: string | null
+    packageValue?: string | null
+    packageQuantity?: number | null
+    length?: number | null
+    width?: number | null
+    height?: number | null
+    pickupDate?: string | null
+    deliveryType?: string | null
+    deliveryInstructions?: string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
+    confidence?: number | null
+    deliveryId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -19570,6 +31105,143 @@ export namespace Prisma {
     enabled?: BoolFieldUpdateOperationsInput | boolean
     totalRuns?: IntFieldUpdateOperationsInput | number
     lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AiConversationUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerWaId?: StringFieldUpdateOperationsInput | string
+    phoneNumberId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: AiMessageUpdateManyWithoutConversationNestedInput
+    drafts?: DeliveryDraftUpdateManyWithoutConversationNestedInput
+  }
+
+  export type AiConversationUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerWaId?: StringFieldUpdateOperationsInput | string
+    phoneNumberId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: AiMessageUncheckedUpdateManyWithoutConversationNestedInput
+    drafts?: DeliveryDraftUncheckedUpdateManyWithoutConversationNestedInput
+  }
+
+  export type AiConversationUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerWaId?: StringFieldUpdateOperationsInput | string
+    phoneNumberId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DeliveryDraftUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    senderName?: NullableStringFieldUpdateOperationsInput | string | null
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverName?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    packageName?: NullableStringFieldUpdateOperationsInput | string | null
+    packageDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    packageValue?: NullableStringFieldUpdateOperationsInput | string | null
+    packageQuantity?: NullableIntFieldUpdateOperationsInput | number | null
+    length?: NullableFloatFieldUpdateOperationsInput | number | null
+    width?: NullableFloatFieldUpdateOperationsInput | number | null
+    height?: NullableFloatFieldUpdateOperationsInput | number | null
+    pickupDate?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryType?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
+    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conversation?: AiConversationUpdateOneWithoutDraftsNestedInput
+    quotes?: ProviderQuoteUpdateManyWithoutDraftNestedInput
+    approvals?: ApprovalUpdateManyWithoutDraftNestedInput
+  }
+
+  export type DeliveryDraftUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    senderName?: NullableStringFieldUpdateOperationsInput | string | null
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverName?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    packageName?: NullableStringFieldUpdateOperationsInput | string | null
+    packageDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    packageValue?: NullableStringFieldUpdateOperationsInput | string | null
+    packageQuantity?: NullableIntFieldUpdateOperationsInput | number | null
+    length?: NullableFloatFieldUpdateOperationsInput | number | null
+    width?: NullableFloatFieldUpdateOperationsInput | number | null
+    height?: NullableFloatFieldUpdateOperationsInput | number | null
+    pickupDate?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryType?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
+    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quotes?: ProviderQuoteUncheckedUpdateManyWithoutDraftNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutDraftNestedInput
+  }
+
+  export type DeliveryDraftUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    conversationId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    senderName?: NullableStringFieldUpdateOperationsInput | string | null
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverName?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    packageName?: NullableStringFieldUpdateOperationsInput | string | null
+    packageDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    packageValue?: NullableStringFieldUpdateOperationsInput | string | null
+    packageQuantity?: NullableIntFieldUpdateOperationsInput | number | null
+    length?: NullableFloatFieldUpdateOperationsInput | number | null
+    width?: NullableFloatFieldUpdateOperationsInput | number | null
+    height?: NullableFloatFieldUpdateOperationsInput | number | null
+    pickupDate?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryType?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
+    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -19740,6 +31412,310 @@ export namespace Prisma {
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AiMessageCreateManyConversationInput = {
+    id?: string
+    waMessageId: string
+    direction: string
+    body?: string | null
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    processingState?: string
+    attempts?: number
+    nextRetryAt?: Date | string | null
+    processingError?: string | null
+    createdAt?: Date | string
+  }
+
+  export type DeliveryDraftCreateManyConversationInput = {
+    id?: string
+    userId: string
+    status?: string
+    senderName?: string | null
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
+    receiverName?: string | null
+    receiverPhone?: string | null
+    receiverAddress?: string | null
+    receiverEmail?: string | null
+    packageName?: string | null
+    packageDescription?: string | null
+    packageCategory?: string | null
+    packageCategoryId?: number | null
+    packageWeight?: string | null
+    packageValue?: string | null
+    packageQuantity?: number | null
+    length?: number | null
+    width?: number | null
+    height?: number | null
+    pickupDate?: string | null
+    deliveryType?: string | null
+    deliveryInstructions?: string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftCreatemissingFieldsInput | string[]
+    confidence?: number | null
+    deliveryId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AiMessageUpdateWithoutConversationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    waMessageId?: StringFieldUpdateOperationsInput | string
+    direction?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    processingState?: StringFieldUpdateOperationsInput | string
+    attempts?: IntFieldUpdateOperationsInput | number
+    nextRetryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processingError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AiMessageUncheckedUpdateWithoutConversationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    waMessageId?: StringFieldUpdateOperationsInput | string
+    direction?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    processingState?: StringFieldUpdateOperationsInput | string
+    attempts?: IntFieldUpdateOperationsInput | number
+    nextRetryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processingError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AiMessageUncheckedUpdateManyWithoutConversationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    waMessageId?: StringFieldUpdateOperationsInput | string
+    direction?: StringFieldUpdateOperationsInput | string
+    body?: NullableStringFieldUpdateOperationsInput | string | null
+    rawPayload?: NullableJsonNullValueInput | InputJsonValue
+    processingState?: StringFieldUpdateOperationsInput | string
+    attempts?: IntFieldUpdateOperationsInput | number
+    nextRetryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processingError?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DeliveryDraftUpdateWithoutConversationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    senderName?: NullableStringFieldUpdateOperationsInput | string | null
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverName?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    packageName?: NullableStringFieldUpdateOperationsInput | string | null
+    packageDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    packageValue?: NullableStringFieldUpdateOperationsInput | string | null
+    packageQuantity?: NullableIntFieldUpdateOperationsInput | number | null
+    length?: NullableFloatFieldUpdateOperationsInput | number | null
+    width?: NullableFloatFieldUpdateOperationsInput | number | null
+    height?: NullableFloatFieldUpdateOperationsInput | number | null
+    pickupDate?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryType?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
+    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutDeliveryDraftsNestedInput
+    quotes?: ProviderQuoteUpdateManyWithoutDraftNestedInput
+    approvals?: ApprovalUpdateManyWithoutDraftNestedInput
+  }
+
+  export type DeliveryDraftUncheckedUpdateWithoutConversationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    senderName?: NullableStringFieldUpdateOperationsInput | string | null
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverName?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    packageName?: NullableStringFieldUpdateOperationsInput | string | null
+    packageDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    packageValue?: NullableStringFieldUpdateOperationsInput | string | null
+    packageQuantity?: NullableIntFieldUpdateOperationsInput | number | null
+    length?: NullableFloatFieldUpdateOperationsInput | number | null
+    width?: NullableFloatFieldUpdateOperationsInput | number | null
+    height?: NullableFloatFieldUpdateOperationsInput | number | null
+    pickupDate?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryType?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
+    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quotes?: ProviderQuoteUncheckedUpdateManyWithoutDraftNestedInput
+    approvals?: ApprovalUncheckedUpdateManyWithoutDraftNestedInput
+  }
+
+  export type DeliveryDraftUncheckedUpdateManyWithoutConversationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    senderName?: NullableStringFieldUpdateOperationsInput | string | null
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverName?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    receiverEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    packageName?: NullableStringFieldUpdateOperationsInput | string | null
+    packageDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    packageCategoryId?: NullableIntFieldUpdateOperationsInput | number | null
+    packageWeight?: NullableStringFieldUpdateOperationsInput | string | null
+    packageValue?: NullableStringFieldUpdateOperationsInput | string | null
+    packageQuantity?: NullableIntFieldUpdateOperationsInput | number | null
+    length?: NullableFloatFieldUpdateOperationsInput | number | null
+    width?: NullableFloatFieldUpdateOperationsInput | number | null
+    height?: NullableFloatFieldUpdateOperationsInput | number | null
+    pickupDate?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryType?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    extracted?: NullableJsonNullValueInput | InputJsonValue
+    missingFields?: DeliveryDraftUpdatemissingFieldsInput | string[]
+    confidence?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProviderQuoteCreateManyDraftInput = {
+    id?: string
+    provider?: string
+    courierId: string
+    courierName: string
+    serviceCode: string
+    amount: number
+    currency: string
+    deliveryEta?: string | null
+    pickupEta?: string | null
+    score: number
+    scoreReasons?: ProviderQuoteCreatescoreReasonsInput | string[]
+    requestToken: string
+    raw?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type ApprovalCreateManyDraftInput = {
+    id?: string
+    userId: string
+    decision: string
+    selectedQuoteId?: string | null
+    note?: string | null
+    idempotencyKey: string
+    deliveryId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ProviderQuoteUpdateWithoutDraftInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    courierId?: StringFieldUpdateOperationsInput | string
+    courierName?: StringFieldUpdateOperationsInput | string
+    serviceCode?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    deliveryEta?: NullableStringFieldUpdateOperationsInput | string | null
+    pickupEta?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: FloatFieldUpdateOperationsInput | number
+    scoreReasons?: ProviderQuoteUpdatescoreReasonsInput | string[]
+    requestToken?: StringFieldUpdateOperationsInput | string
+    raw?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProviderQuoteUncheckedUpdateWithoutDraftInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    courierId?: StringFieldUpdateOperationsInput | string
+    courierName?: StringFieldUpdateOperationsInput | string
+    serviceCode?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    deliveryEta?: NullableStringFieldUpdateOperationsInput | string | null
+    pickupEta?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: FloatFieldUpdateOperationsInput | number
+    scoreReasons?: ProviderQuoteUpdatescoreReasonsInput | string[]
+    requestToken?: StringFieldUpdateOperationsInput | string
+    raw?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProviderQuoteUncheckedUpdateManyWithoutDraftInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    courierId?: StringFieldUpdateOperationsInput | string
+    courierName?: StringFieldUpdateOperationsInput | string
+    serviceCode?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    deliveryEta?: NullableStringFieldUpdateOperationsInput | string | null
+    pickupEta?: NullableStringFieldUpdateOperationsInput | string | null
+    score?: FloatFieldUpdateOperationsInput | number
+    scoreReasons?: ProviderQuoteUpdatescoreReasonsInput | string[]
+    requestToken?: StringFieldUpdateOperationsInput | string
+    raw?: NullableJsonNullValueInput | InputJsonValue
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApprovalUpdateWithoutDraftInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    decision?: StringFieldUpdateOperationsInput | string
+    selectedQuoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    idempotencyKey?: StringFieldUpdateOperationsInput | string
+    deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApprovalUncheckedUpdateWithoutDraftInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    decision?: StringFieldUpdateOperationsInput | string
+    selectedQuoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    idempotencyKey?: StringFieldUpdateOperationsInput | string
+    deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApprovalUncheckedUpdateManyWithoutDraftInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    decision?: StringFieldUpdateOperationsInput | string
+    selectedQuoteId?: NullableStringFieldUpdateOperationsInput | string | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    idempotencyKey?: StringFieldUpdateOperationsInput | string
+    deliveryId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

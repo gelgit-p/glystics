@@ -19,6 +19,7 @@ import { AutomationModule } from './modules/automation/automation.module';
 import { PaymentModule } from './modules/payment/payment.module';
 import { NotificationModule } from './modules/notification/notifcation.module';
 import { CreditModule } from './modules/credits/credit.module';
+import { AiDeliveryModule } from './modules/ai-delivery/ai-delivery.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { CreditModule } from './modules/credits/credit.module';
     NotificationModule,
     PaymentModule,
     CreditModule,
+    AiDeliveryModule,
   ],
   controllers: [AppController, HealthController],
   providers: [

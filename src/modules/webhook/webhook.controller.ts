@@ -21,6 +21,7 @@ import { DeliveryService } from '../delivery/delivery.service';
 import { AutomationService } from '../automation/automation.service';
 import { CreditsService } from '../credits/credit.service';
 import { WhatsappService } from '../whatsapp/whatsapp.service';
+import { AiDeliveryService } from '../ai-delivery/ai-delivery.service';
 
 @Controller()
 export class WebhookController {
@@ -29,7 +30,18 @@ export class WebhookController {
     private readonly automationService: AutomationService,
     private readonly creditsService: CreditsService,
     private readonly whatsappService: WhatsappService,
+    private readonly aiDeliveryService: AiDeliveryService,
   ) {}
+
+  private verifyWhatsappSignature(rawBody: Buffer | undefined, signature?: string): boolean {
+    const secret = process.env.WHATSAPP_APP_SECRET;
+    if (!secret || !rawBody || !signature?.startsWith('sha256=')) return false;
+    const expected = createHmac('sha256', secret).update(rawBody).digest('hex');
+    const given = signature.slice('sha256='.length);
+    try {
+      return given.length === expected.length && timingSafeEqual(Buffer.from(given, 'hex'), Buffer.from(expected, 'hex'));
+    } catch { return false; }
+  }
 
   /**
    * WhatsApp webhook verification
@@ -78,11 +90,15 @@ export class WebhookController {
    * WhatsApp webhook receiver
    */
   @Post('whatsapp/webhook')
-  async receive(@Body() payload: Record<string, unknown>) {
-    console.log(
-      'WhatsApp webhook received:',
-      JSON.stringify(payload, null, 2),
-    );
+  async receive(
+    @RawBody() rawBody: Buffer,
+    @Headers('x-hub-signature-256') signature: string,
+    @Body() payload: Record<string, unknown>,
+  ) {
+    // Fail closed when WHATSAPP_APP_SECRET is configured; log-only in local dev without it.
+    if (process.env.WHATSAPP_APP_SECRET && !this.verifyWhatsappSignature(rawBody, signature)) {
+      throw new UnauthorizedException('Invalid WhatsApp webhook signature');
+    }
 
     const entries = Array.isArray(payload.entry) ? payload.entry : [];
     for (const entry of entries) {
@@ -93,27 +109,47 @@ export class WebhookController {
         if (typeof change !== 'object' || change === null) continue;
         const value = (change as Record<string, unknown>).value;
         if (typeof value !== 'object' || value === null) continue;
-        const statuses = (value as Record<string, unknown>).statuses;
-        if (!Array.isArray(statuses)) continue;
-        for (const update of statuses) {
-          if (typeof update !== 'object' || update === null) continue;
-          const statusUpdate = update as Record<string, unknown>;
-          if (
-            typeof statusUpdate.id === 'string' &&
-            typeof statusUpdate.status === 'string'
-          ) {
-            await this.whatsappService.updateMessageDeliveryStatus(
-              statusUpdate.id,
-              statusUpdate.status,
-            );
+        const v = value as Record<string, unknown>;
+
+        // Outbound status receipts (existing behaviour)
+        const statuses = v.statuses;
+        if (Array.isArray(statuses)) {
+          for (const update of statuses) {
+            if (typeof update !== 'object' || update === null) continue;
+            const statusUpdate = update as Record<string, unknown>;
+            if (typeof statusUpdate.id === 'string' && typeof statusUpdate.status === 'string') {
+              await this.whatsappService.updateMessageDeliveryStatus(statusUpdate.id, statusUpdate.status);
+            }
+          }
+        }
+
+        // Inbound customer messages -> Dispatchly AI (idempotent, async)
+        const messages = v.messages;
+        if (Array.isArray(messages) && messages.length) {
+          const metadata = (typeof v.metadata === 'object' && v.metadata !== null ? v.metadata : {}) as Record<string, unknown>;
+          const phoneNumberId = typeof metadata.phone_number_id === 'string' ? metadata.phone_number_id : '';
+          const tenant = phoneNumberId ? await this.aiDeliveryService.resolveTenant(phoneNumberId) : null;
+          if (!tenant) {
+            console.warn(`WhatsApp inbound ignored: no tenant for phone_number_id=${phoneNumberId}`);
+            continue;
+          }
+          for (const m of messages) {
+            if (typeof m !== 'object' || m === null) continue;
+            const msg = m as Record<string, unknown>;
+            if (typeof msg.id !== 'string' || typeof msg.from !== 'string') continue;
+            const text = typeof msg.text === 'object' && msg.text !== null ? (msg.text as Record<string, unknown>).body : undefined;
+            const conversation = await this.aiDeliveryService.getOrCreateConversation(tenant.id, phoneNumberId, msg.from);
+            const saved = await this.aiDeliveryService.recordInbound(conversation.id, msg.id, typeof text === 'string' ? text : undefined, msg);
+            if (saved) {
+              // Return 200 fast; processing continues async and is recoverable via AiMessage state.
+              setImmediate(() => void this.aiDeliveryService.processInboundMessage(saved.id).catch(() => undefined));
+            }
           }
         }
       }
     }
 
-    return {
-      received: true,
-    };
+    return { received: true };
   }
 
   /**
