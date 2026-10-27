@@ -146,6 +146,9 @@ exports.Prisma.UserScalarFieldEnum = {
   facebookConnectStatus: 'facebookConnectStatus',
   role: 'role',
   aiDeliveryDetectionEnabled: 'aiDeliveryDetectionEnabled',
+  senderPhone: 'senderPhone',
+  senderAddress: 'senderAddress',
+  senderEmail: 'senderEmail',
   createdAt: 'createdAt',
   hashedRefresh: 'hashedRefresh'
 };

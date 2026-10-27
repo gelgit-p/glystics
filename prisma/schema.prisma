@@ -38,6 +38,11 @@ model User {
   role                  UserRole          @default(USER)
   // Per-tenant switch for Dispatchly AI inbound delivery detection (Automations tab).
   aiDeliveryDetectionEnabled Boolean     @default(true)
+  // Default sender (pickup) details for deliveries. Seeded into every AI draft;
+  // editable in Profile settings and per-simulation in the AI dashboard.
+  senderPhone                String?
+  senderAddress              String?
+  senderEmail                String?
   createdAt             DateTime          @default(now())
   hashedRefresh         String?
   messageTemplates      MessageTemplate[]

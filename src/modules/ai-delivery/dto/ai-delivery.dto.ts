@@ -7,7 +7,9 @@ import {
   IsOptional,
   IsString,
   MaxLength,
+  ValidateNested,
 } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class UpdateDraftDto {
   @ApiPropertyOptional()
@@ -140,6 +142,21 @@ export class RejectDraftDto {
   note?: string;
 }
 
+export class SenderProfileDto {
+  @ApiPropertyOptional({ description: 'Defaults to businessName, then fullName' })
+  @IsOptional() @IsString() @MaxLength(200)
+  senderName?: string;
+  @ApiPropertyOptional()
+  @IsOptional() @IsString() @MaxLength(50)
+  senderPhone?: string;
+  @ApiPropertyOptional({ description: 'Pickup address seeded into AI drafts' })
+  @IsOptional() @IsString() @MaxLength(500)
+  senderAddress?: string;
+  @ApiPropertyOptional()
+  @IsOptional() @IsString() @MaxLength(200)
+  senderEmail?: string;
+}
+
 export class SimulateInboundDto {
   @ApiProperty({
     description: 'DEMO ONLY: simulates a customer WhatsApp text message',
@@ -150,4 +167,12 @@ export class SimulateInboundDto {
   text!: string;
   @ApiPropertyOptional() @IsOptional() @IsString() customerWaId?: string;
   @ApiPropertyOptional() @IsOptional() @IsIn(['text']) type?: string;
+  @ApiPropertyOptional({ description: 'Per-simulation sender overrides; saved to profile when saveSenderToProfile is true' })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => SenderProfileDto)
+  sender?: SenderProfileDto;
+  @ApiPropertyOptional()
+  @IsOptional() @IsBoolean()
+  saveSenderToProfile?: boolean;
 }

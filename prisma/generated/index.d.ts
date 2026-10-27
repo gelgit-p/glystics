@@ -2514,6 +2514,9 @@ export namespace Prisma {
     facebookConnectStatus: boolean | null
     role: $Enums.UserRole | null
     aiDeliveryDetectionEnabled: boolean | null
+    senderPhone: string | null
+    senderAddress: string | null
+    senderEmail: string | null
     createdAt: Date | null
     hashedRefresh: string | null
   }
@@ -2542,6 +2545,9 @@ export namespace Prisma {
     facebookConnectStatus: boolean | null
     role: $Enums.UserRole | null
     aiDeliveryDetectionEnabled: boolean | null
+    senderPhone: string | null
+    senderAddress: string | null
+    senderEmail: string | null
     createdAt: Date | null
     hashedRefresh: string | null
   }
@@ -2571,6 +2577,9 @@ export namespace Prisma {
     facebookConnectStatus: number
     role: number
     aiDeliveryDetectionEnabled: number
+    senderPhone: number
+    senderAddress: number
+    senderEmail: number
     createdAt: number
     hashedRefresh: number
     _all: number
@@ -2601,6 +2610,9 @@ export namespace Prisma {
     facebookConnectStatus?: true
     role?: true
     aiDeliveryDetectionEnabled?: true
+    senderPhone?: true
+    senderAddress?: true
+    senderEmail?: true
     createdAt?: true
     hashedRefresh?: true
   }
@@ -2629,6 +2641,9 @@ export namespace Prisma {
     facebookConnectStatus?: true
     role?: true
     aiDeliveryDetectionEnabled?: true
+    senderPhone?: true
+    senderAddress?: true
+    senderEmail?: true
     createdAt?: true
     hashedRefresh?: true
   }
@@ -2658,6 +2673,9 @@ export namespace Prisma {
     facebookConnectStatus?: true
     role?: true
     aiDeliveryDetectionEnabled?: true
+    senderPhone?: true
+    senderAddress?: true
+    senderEmail?: true
     createdAt?: true
     hashedRefresh?: true
     _all?: true
@@ -2760,6 +2778,9 @@ export namespace Prisma {
     facebookConnectStatus: boolean
     role: $Enums.UserRole
     aiDeliveryDetectionEnabled: boolean
+    senderPhone: string | null
+    senderAddress: string | null
+    senderEmail: string | null
     createdAt: Date
     hashedRefresh: string | null
     _count: UserCountAggregateOutputType | null
@@ -2806,6 +2827,9 @@ export namespace Prisma {
     facebookConnectStatus?: boolean
     role?: boolean
     aiDeliveryDetectionEnabled?: boolean
+    senderPhone?: boolean
+    senderAddress?: boolean
+    senderEmail?: boolean
     createdAt?: boolean
     hashedRefresh?: boolean
     messageTemplates?: boolean | User$messageTemplatesArgs<ExtArgs>
@@ -2841,6 +2865,9 @@ export namespace Prisma {
     facebookConnectStatus?: boolean
     role?: boolean
     aiDeliveryDetectionEnabled?: boolean
+    senderPhone?: boolean
+    senderAddress?: boolean
+    senderEmail?: boolean
     createdAt?: boolean
     hashedRefresh?: boolean
   }, ExtArgs["result"]["user"]>
@@ -2870,6 +2897,9 @@ export namespace Prisma {
     facebookConnectStatus?: boolean
     role?: boolean
     aiDeliveryDetectionEnabled?: boolean
+    senderPhone?: boolean
+    senderAddress?: boolean
+    senderEmail?: boolean
     createdAt?: boolean
     hashedRefresh?: boolean
   }, ExtArgs["result"]["user"]>
@@ -2899,11 +2929,14 @@ export namespace Prisma {
     facebookConnectStatus?: boolean
     role?: boolean
     aiDeliveryDetectionEnabled?: boolean
+    senderPhone?: boolean
+    senderAddress?: boolean
+    senderEmail?: boolean
     createdAt?: boolean
     hashedRefresh?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "emailConfirmed" | "emailConfirmToken" | "businessName" | "fullName" | "metaUserId" | "appId" | "appSecret" | "facebookAcceessToken" | "grantedScopes" | "accessTokenExpiresIn" | "selectedWabaId" | "displayPhoneNumber" | "selectedFacebookBusinessId" | "selectedFacebookBusinessName" | "selectedPhoneNumberQualityRating" | "selectedPhoneNumberVerifiedName" | "webhookStatus" | "selectedPhoneNumberId" | "facebookConnectStatus" | "role" | "aiDeliveryDetectionEnabled" | "createdAt" | "hashedRefresh", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "emailConfirmed" | "emailConfirmToken" | "businessName" | "fullName" | "metaUserId" | "appId" | "appSecret" | "facebookAcceessToken" | "grantedScopes" | "accessTokenExpiresIn" | "selectedWabaId" | "displayPhoneNumber" | "selectedFacebookBusinessId" | "selectedFacebookBusinessName" | "selectedPhoneNumberQualityRating" | "selectedPhoneNumberVerifiedName" | "webhookStatus" | "selectedPhoneNumberId" | "facebookConnectStatus" | "role" | "aiDeliveryDetectionEnabled" | "senderPhone" | "senderAddress" | "senderEmail" | "createdAt" | "hashedRefresh", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messageTemplates?: boolean | User$messageTemplatesArgs<ExtArgs>
     automations?: boolean | User$automationsArgs<ExtArgs>
@@ -2949,6 +2982,9 @@ export namespace Prisma {
       facebookConnectStatus: boolean
       role: $Enums.UserRole
       aiDeliveryDetectionEnabled: boolean
+      senderPhone: string | null
+      senderAddress: string | null
+      senderEmail: string | null
       createdAt: Date
       hashedRefresh: string | null
     }, ExtArgs["result"]["user"]>
@@ -3403,6 +3439,9 @@ export namespace Prisma {
     readonly facebookConnectStatus: FieldRef<"User", 'Boolean'>
     readonly role: FieldRef<"User", 'UserRole'>
     readonly aiDeliveryDetectionEnabled: FieldRef<"User", 'Boolean'>
+    readonly senderPhone: FieldRef<"User", 'String'>
+    readonly senderAddress: FieldRef<"User", 'String'>
+    readonly senderEmail: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly hashedRefresh: FieldRef<"User", 'String'>
   }
@@ -21972,6 +22011,9 @@ export namespace Prisma {
     facebookConnectStatus: 'facebookConnectStatus',
     role: 'role',
     aiDeliveryDetectionEnabled: 'aiDeliveryDetectionEnabled',
+    senderPhone: 'senderPhone',
+    senderAddress: 'senderAddress',
+    senderEmail: 'senderEmail',
     createdAt: 'createdAt',
     hashedRefresh: 'hashedRefresh'
   };
@@ -22489,6 +22531,9 @@ export namespace Prisma {
     facebookConnectStatus?: BoolFilter<"User"> | boolean
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     aiDeliveryDetectionEnabled?: BoolFilter<"User"> | boolean
+    senderPhone?: StringNullableFilter<"User"> | string | null
+    senderAddress?: StringNullableFilter<"User"> | string | null
+    senderEmail?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     hashedRefresh?: StringNullableFilter<"User"> | string | null
     messageTemplates?: MessageTemplateListRelationFilter
@@ -22523,6 +22568,9 @@ export namespace Prisma {
     facebookConnectStatus?: SortOrder
     role?: SortOrder
     aiDeliveryDetectionEnabled?: SortOrder
+    senderPhone?: SortOrderInput | SortOrder
+    senderAddress?: SortOrderInput | SortOrder
+    senderEmail?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     hashedRefresh?: SortOrderInput | SortOrder
     messageTemplates?: MessageTemplateOrderByRelationAggregateInput
@@ -22560,6 +22608,9 @@ export namespace Prisma {
     facebookConnectStatus?: BoolFilter<"User"> | boolean
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     aiDeliveryDetectionEnabled?: BoolFilter<"User"> | boolean
+    senderPhone?: StringNullableFilter<"User"> | string | null
+    senderAddress?: StringNullableFilter<"User"> | string | null
+    senderEmail?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     hashedRefresh?: StringNullableFilter<"User"> | string | null
     messageTemplates?: MessageTemplateListRelationFilter
@@ -22594,6 +22645,9 @@ export namespace Prisma {
     facebookConnectStatus?: SortOrder
     role?: SortOrder
     aiDeliveryDetectionEnabled?: SortOrder
+    senderPhone?: SortOrderInput | SortOrder
+    senderAddress?: SortOrderInput | SortOrder
+    senderEmail?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     hashedRefresh?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -22629,6 +22683,9 @@ export namespace Prisma {
     facebookConnectStatus?: BoolWithAggregatesFilter<"User"> | boolean
     role?: EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
     aiDeliveryDetectionEnabled?: BoolWithAggregatesFilter<"User"> | boolean
+    senderPhone?: StringNullableWithAggregatesFilter<"User"> | string | null
+    senderAddress?: StringNullableWithAggregatesFilter<"User"> | string | null
+    senderEmail?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     hashedRefresh?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
@@ -24225,6 +24282,9 @@ export namespace Prisma {
     facebookConnectStatus?: boolean
     role?: $Enums.UserRole
     aiDeliveryDetectionEnabled?: boolean
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
     createdAt?: Date | string
     hashedRefresh?: string | null
     messageTemplates?: MessageTemplateCreateNestedManyWithoutUserInput
@@ -24259,6 +24319,9 @@ export namespace Prisma {
     facebookConnectStatus?: boolean
     role?: $Enums.UserRole
     aiDeliveryDetectionEnabled?: boolean
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
     createdAt?: Date | string
     hashedRefresh?: string | null
     messageTemplates?: MessageTemplateUncheckedCreateNestedManyWithoutUserInput
@@ -24293,6 +24356,9 @@ export namespace Prisma {
     facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     aiDeliveryDetectionEnabled?: BoolFieldUpdateOperationsInput | boolean
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
     messageTemplates?: MessageTemplateUpdateManyWithoutUserNestedInput
@@ -24327,6 +24393,9 @@ export namespace Prisma {
     facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     aiDeliveryDetectionEnabled?: BoolFieldUpdateOperationsInput | boolean
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
     messageTemplates?: MessageTemplateUncheckedUpdateManyWithoutUserNestedInput
@@ -24361,6 +24430,9 @@ export namespace Prisma {
     facebookConnectStatus?: boolean
     role?: $Enums.UserRole
     aiDeliveryDetectionEnabled?: boolean
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
     createdAt?: Date | string
     hashedRefresh?: string | null
   }
@@ -24390,6 +24462,9 @@ export namespace Prisma {
     facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     aiDeliveryDetectionEnabled?: BoolFieldUpdateOperationsInput | boolean
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -24419,6 +24494,9 @@ export namespace Prisma {
     facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     aiDeliveryDetectionEnabled?: BoolFieldUpdateOperationsInput | boolean
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -26409,6 +26487,9 @@ export namespace Prisma {
     facebookConnectStatus?: SortOrder
     role?: SortOrder
     aiDeliveryDetectionEnabled?: SortOrder
+    senderPhone?: SortOrder
+    senderAddress?: SortOrder
+    senderEmail?: SortOrder
     createdAt?: SortOrder
     hashedRefresh?: SortOrder
   }
@@ -26437,6 +26518,9 @@ export namespace Prisma {
     facebookConnectStatus?: SortOrder
     role?: SortOrder
     aiDeliveryDetectionEnabled?: SortOrder
+    senderPhone?: SortOrder
+    senderAddress?: SortOrder
+    senderEmail?: SortOrder
     createdAt?: SortOrder
     hashedRefresh?: SortOrder
   }
@@ -26465,6 +26549,9 @@ export namespace Prisma {
     facebookConnectStatus?: SortOrder
     role?: SortOrder
     aiDeliveryDetectionEnabled?: SortOrder
+    senderPhone?: SortOrder
+    senderAddress?: SortOrder
+    senderEmail?: SortOrder
     createdAt?: SortOrder
     hashedRefresh?: SortOrder
   }
@@ -29272,6 +29359,9 @@ export namespace Prisma {
     facebookConnectStatus?: boolean
     role?: $Enums.UserRole
     aiDeliveryDetectionEnabled?: boolean
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
     createdAt?: Date | string
     hashedRefresh?: string | null
     automations?: AutomationCreateNestedManyWithoutUserInput
@@ -29305,6 +29395,9 @@ export namespace Prisma {
     facebookConnectStatus?: boolean
     role?: $Enums.UserRole
     aiDeliveryDetectionEnabled?: boolean
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
     createdAt?: Date | string
     hashedRefresh?: string | null
     automations?: AutomationUncheckedCreateNestedManyWithoutUserInput
@@ -29354,6 +29447,9 @@ export namespace Prisma {
     facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     aiDeliveryDetectionEnabled?: BoolFieldUpdateOperationsInput | boolean
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
     automations?: AutomationUpdateManyWithoutUserNestedInput
@@ -29387,6 +29483,9 @@ export namespace Prisma {
     facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     aiDeliveryDetectionEnabled?: BoolFieldUpdateOperationsInput | boolean
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
     automations?: AutomationUncheckedUpdateManyWithoutUserNestedInput
@@ -29420,6 +29519,9 @@ export namespace Prisma {
     facebookConnectStatus?: boolean
     role?: $Enums.UserRole
     aiDeliveryDetectionEnabled?: boolean
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
     createdAt?: Date | string
     hashedRefresh?: string | null
     messageTemplates?: MessageTemplateCreateNestedManyWithoutUserInput
@@ -29453,6 +29555,9 @@ export namespace Prisma {
     facebookConnectStatus?: boolean
     role?: $Enums.UserRole
     aiDeliveryDetectionEnabled?: boolean
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
     createdAt?: Date | string
     hashedRefresh?: string | null
     messageTemplates?: MessageTemplateUncheckedCreateNestedManyWithoutUserInput
@@ -29576,6 +29681,9 @@ export namespace Prisma {
     facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     aiDeliveryDetectionEnabled?: BoolFieldUpdateOperationsInput | boolean
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
     messageTemplates?: MessageTemplateUpdateManyWithoutUserNestedInput
@@ -29609,6 +29717,9 @@ export namespace Prisma {
     facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     aiDeliveryDetectionEnabled?: BoolFieldUpdateOperationsInput | boolean
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
     messageTemplates?: MessageTemplateUncheckedUpdateManyWithoutUserNestedInput
@@ -29937,6 +30048,9 @@ export namespace Prisma {
     facebookConnectStatus?: boolean
     role?: $Enums.UserRole
     aiDeliveryDetectionEnabled?: boolean
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
     createdAt?: Date | string
     hashedRefresh?: string | null
     messageTemplates?: MessageTemplateCreateNestedManyWithoutUserInput
@@ -29970,6 +30084,9 @@ export namespace Prisma {
     facebookConnectStatus?: boolean
     role?: $Enums.UserRole
     aiDeliveryDetectionEnabled?: boolean
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
     createdAt?: Date | string
     hashedRefresh?: string | null
     messageTemplates?: MessageTemplateUncheckedCreateNestedManyWithoutUserInput
@@ -30019,6 +30136,9 @@ export namespace Prisma {
     facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     aiDeliveryDetectionEnabled?: BoolFieldUpdateOperationsInput | boolean
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
     messageTemplates?: MessageTemplateUpdateManyWithoutUserNestedInput
@@ -30052,6 +30172,9 @@ export namespace Prisma {
     facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     aiDeliveryDetectionEnabled?: BoolFieldUpdateOperationsInput | boolean
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
     messageTemplates?: MessageTemplateUncheckedUpdateManyWithoutUserNestedInput
@@ -30085,6 +30208,9 @@ export namespace Prisma {
     facebookConnectStatus?: boolean
     role?: $Enums.UserRole
     aiDeliveryDetectionEnabled?: boolean
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
     createdAt?: Date | string
     hashedRefresh?: string | null
     messageTemplates?: MessageTemplateCreateNestedManyWithoutUserInput
@@ -30118,6 +30244,9 @@ export namespace Prisma {
     facebookConnectStatus?: boolean
     role?: $Enums.UserRole
     aiDeliveryDetectionEnabled?: boolean
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
     createdAt?: Date | string
     hashedRefresh?: string | null
     messageTemplates?: MessageTemplateUncheckedCreateNestedManyWithoutUserInput
@@ -30283,6 +30412,9 @@ export namespace Prisma {
     facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     aiDeliveryDetectionEnabled?: BoolFieldUpdateOperationsInput | boolean
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
     messageTemplates?: MessageTemplateUpdateManyWithoutUserNestedInput
@@ -30316,6 +30448,9 @@ export namespace Prisma {
     facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     aiDeliveryDetectionEnabled?: BoolFieldUpdateOperationsInput | boolean
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
     messageTemplates?: MessageTemplateUncheckedUpdateManyWithoutUserNestedInput
@@ -30462,6 +30597,9 @@ export namespace Prisma {
     facebookConnectStatus?: boolean
     role?: $Enums.UserRole
     aiDeliveryDetectionEnabled?: boolean
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
     createdAt?: Date | string
     hashedRefresh?: string | null
     messageTemplates?: MessageTemplateCreateNestedManyWithoutUserInput
@@ -30495,6 +30633,9 @@ export namespace Prisma {
     facebookConnectStatus?: boolean
     role?: $Enums.UserRole
     aiDeliveryDetectionEnabled?: boolean
+    senderPhone?: string | null
+    senderAddress?: string | null
+    senderEmail?: string | null
     createdAt?: Date | string
     hashedRefresh?: string | null
     messageTemplates?: MessageTemplateUncheckedCreateNestedManyWithoutUserInput
@@ -30651,6 +30792,9 @@ export namespace Prisma {
     facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     aiDeliveryDetectionEnabled?: BoolFieldUpdateOperationsInput | boolean
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
     messageTemplates?: MessageTemplateUpdateManyWithoutUserNestedInput
@@ -30684,6 +30828,9 @@ export namespace Prisma {
     facebookConnectStatus?: BoolFieldUpdateOperationsInput | boolean
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     aiDeliveryDetectionEnabled?: BoolFieldUpdateOperationsInput | boolean
+    senderPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    senderAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    senderEmail?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hashedRefresh?: NullableStringFieldUpdateOperationsInput | string | null
     messageTemplates?: MessageTemplateUncheckedUpdateManyWithoutUserNestedInput

@@ -23,6 +23,7 @@ import { normalizeShipbubbleRates } from './quote-ranking';
 import {
   ApproveDraftDto,
   RejectDraftDto,
+  SenderProfileDto,
   UpdateDraftDto,
 } from './dto/ai-delivery.dto';
 
@@ -278,7 +279,16 @@ export class AiDeliveryService {
           orderBy: { createdAt: 'desc' },
         }),
       ]);
-      const currentFields = draft ? this.draftToFields(draft) : {};
+      const profileSender = await this.getSenderProfile(conv.userId);
+      // Sender (pickup) identity comes from the business profile, not the customer chat.
+      const currentFields = draft
+        ? this.draftToFields(draft)
+        : {
+            senderName: profileSender.senderName ?? undefined,
+            senderPhone: profileSender.senderPhone ?? undefined,
+            senderAddress: profileSender.senderAddress ?? undefined,
+            senderEmail: profileSender.senderEmail ?? undefined,
+          };
       const result = await this.ai.extract({
         message: text,
         history: history.reverse().map((h) => ({
@@ -309,9 +319,15 @@ export class AiDeliveryService {
         result.intent === 'DELIVERY_UPDATE' ||
         Object.keys(result.fields).length
       ) {
+        // Profile sender always wins over anything extracted from the customer message.
         const merged: ExtractedDeliveryFields = {
           ...currentFields,
           ...result.fields,
+          senderName: currentFields.senderName ?? result.fields.senderName,
+          senderPhone: currentFields.senderPhone ?? result.fields.senderPhone,
+          senderAddress:
+            currentFields.senderAddress ?? result.fields.senderAddress,
+          senderEmail: currentFields.senderEmail ?? result.fields.senderEmail,
         };
         const missing = computeMissingFields(merged);
         const data = {
@@ -602,6 +618,46 @@ export class AiDeliveryService {
     });
   }
 
+  // ---- Sender profile (seeded into AI drafts; editable in Profile settings / simulation) ----
+  async getSenderProfile(userId: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        businessName: true,
+        fullName: true,
+        email: true,
+        senderPhone: true,
+        senderAddress: true,
+        senderEmail: true,
+      },
+    });
+    return {
+      senderName: user?.businessName ?? user?.fullName ?? null,
+      senderPhone: user?.senderPhone ?? null,
+      senderAddress: user?.senderAddress ?? null,
+      senderEmail: user?.senderEmail ?? user?.email ?? null,
+    };
+  }
+
+  async updateSenderProfile(userId: string, dto: SenderProfileDto) {
+    const data: Record<string, string> = {};
+    if (dto.senderPhone !== undefined) data.senderPhone = dto.senderPhone;
+    if (dto.senderAddress !== undefined) data.senderAddress = dto.senderAddress;
+    if (dto.senderEmail !== undefined) data.senderEmail = dto.senderEmail;
+    if (Object.keys(data).length) {
+      await this.prisma.user.update({ where: { id: userId }, data });
+    }
+    // senderName is the profile business/full name — update it there too.
+    if (dto.senderName) {
+      await this.prisma.user.update({
+        where: { id: userId },
+        data: { businessName: dto.senderName },
+      });
+    }
+    await this.audit(userId, 'USER', 'sender_profile.updated', 'User', userId, {});
+    return this.getSenderProfile(userId);
+  }
+
   // ---- Quotes via existing Shipbubble flow (validate address -> fetch_rates) ----
   async fetchQuotes(userId: string, draftId: string) {
     const draft = await this.getDraft(userId, draftId);
@@ -862,7 +918,14 @@ export class AiDeliveryService {
     userId: string,
     text: string,
     customerWaId = '2348000000000',
+    senderOverride?: SenderProfileDto,
+    saveSenderToProfile = true,
   ) {
+    // Per-simulation sender details optionally persist to the profile so the
+    // next simulation / real draft reuses them.
+    if (senderOverride && saveSenderToProfile) {
+      await this.updateSenderProfile(userId, senderOverride);
+    }
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
       select: { selectedPhoneNumberId: true },
@@ -878,9 +941,38 @@ export class AiDeliveryService {
       conv.id,
       `demo-${Date.now()}-${Math.random().toString(36).slice(2)}`,
       text,
-      { simulated: true, text },
+      { simulated: true, text, senderOverride: senderOverride ?? null },
     );
     if (msg) await this.processInboundMessage(msg.id);
-    return { simulated: true, aiMode: this.aiMode(), conversationId: conv.id };
+    // One-off override (not saved): stamp it onto the resulting draft.
+    if (senderOverride && !saveSenderToProfile) {
+      const latest = await this.prisma.deliveryDraft.findFirst({
+        where: { conversationId: conv.id },
+        orderBy: { createdAt: 'desc' },
+      });
+      if (latest) {
+        await this.prisma.deliveryDraft.update({
+          where: { id: latest.id },
+          data: {
+            ...(senderOverride.senderName ? { senderName: senderOverride.senderName } : {}),
+            ...(senderOverride.senderPhone ? { senderPhone: senderOverride.senderPhone } : {}),
+            ...(senderOverride.senderAddress ? { senderAddress: senderOverride.senderAddress } : {}),
+            ...(senderOverride.senderEmail ? { senderEmail: senderOverride.senderEmail } : {}),
+          },
+        });
+      }
+    }
+    const draft = await this.prisma.deliveryDraft.findFirst({
+      where: { conversationId: conv.id },
+      orderBy: { createdAt: 'desc' },
+      include: { quotes: { orderBy: { score: 'asc' } } },
+    });
+    return {
+      simulated: true,
+      aiMode: this.aiMode(),
+      conversationId: conv.id,
+      senderProfile: await this.getSenderProfile(userId),
+      draft,
+    };
   }
 }

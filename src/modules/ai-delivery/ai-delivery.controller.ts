@@ -21,6 +21,7 @@ import {
   AdminSetRoleDto,
   ApproveDraftDto,
   RejectDraftDto,
+  SenderProfileDto,
   SimulateInboundDto,
   UpdateAiSettingsDto,
   UpdateDraftDto,
@@ -93,7 +94,23 @@ export class AiDeliveryController {
     @Req() r: Authed,
     @Body() dto: SimulateInboundDto,
   ) {
-    return this.service.simulateInbound(r.user.id, dto.text, dto.customerWaId);
+    return this.service.simulateInbound(
+      r.user.id,
+      dto.text,
+      dto.customerWaId,
+      dto.sender,
+      dto.saveSenderToProfile,
+    );
+  }
+
+  @Get('sender-profile') senderProfile(@Req() r: Authed) {
+    return this.service.getSenderProfile(r.user.id);
+  }
+  @Patch('sender-profile') updateSenderProfile(
+    @Req() r: Authed,
+    @Body() dto: SenderProfileDto,
+  ) {
+    return this.service.updateSenderProfile(r.user.id, dto);
   }
   @Post('process-pending') processPending() {
     return this.service.processPending();

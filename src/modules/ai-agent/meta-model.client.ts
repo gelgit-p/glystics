@@ -111,14 +111,21 @@ export class MetaModelClient {
     if (deliver) fields.packageName = deliver[1].trim();
     const from = text.match(/from\s+([^,.]+)/i);
     if (from) fields.senderAddress = from[1].trim();
-    const addr = text.match(
-      /(?:to|at)\s+([^,.]+(?:street|road|avenue|close|drive|lagos|abuja|ikeja|lekki|yaba)[^,.]*)/i,
-    );
+    // Prefer an explicit "at <address>" segment; strip any leading phone/name debris.
+    const addr =
+      text.match(
+        /\bat\s+(\d+\s+[^,.]+?(?:street|road|avenue|close|drive|lagos|abuja|ikeja|lekki|yaba)[^,.]*)/i,
+      ) ??
+      text.match(
+        /(?:address is|deliver to)\s+([^,.]+(?:street|road|avenue|close|drive|lagos|abuja|ikeja|lekki|yaba)[^,.]*)/i,
+      );
     if (addr && !fields.receiverAddress)
       fields.receiverAddress = addr[1].trim();
     const date = text.match(/\b(20\d{2}-\d{2}-\d{2})\b/);
     if (date) fields.pickupDate = date[1];
-    const value = text.match(/(?:worth|value[d]? at|₦|NGN\s?)([\d,]+)/i);
+    const value = text.match(
+      /(?:worth(?:\s+of)?|valued?\s+(?:at|of)?|₦|NGN\s?)\s*([\d,]+(?:\.\d+)?)/i,
+    );
     if (value) fields.packageValue = value[1].replace(/,/g, '');
     return {
       intent,
