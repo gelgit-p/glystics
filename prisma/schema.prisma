@@ -35,6 +35,9 @@ model User {
 
   selectedPhoneNumberId String[]
   facebookConnectStatus Boolean           @default(false)
+  role                  UserRole          @default(USER)
+  // Per-tenant switch for Dispatchly AI inbound delivery detection (Automations tab).
+  aiDeliveryDetectionEnabled Boolean     @default(true)
   createdAt             DateTime          @default(now())
   hashedRefresh         String?
   messageTemplates      MessageTemplate[]
@@ -42,6 +45,11 @@ model User {
   creditWallet          CreditWallet?
   aiConversations       AiConversation[]
   deliveryDrafts        DeliveryDraft[]
+}
+
+enum UserRole {
+  USER
+  SUPER_ADMIN
 }
 
 model Token {

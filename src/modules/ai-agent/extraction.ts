@@ -132,6 +132,14 @@ export function computeMissingFields(
   });
 }
 
+/** Shipbubble expects numeric strings: "0.5kg" -> "0.5", "99.99" -> "99.99", "50,000" -> "50000". */
+export function numericString(value: string | undefined, field: string): string {
+  const cleaned = String(value ?? '').replace(/[^0-9.]/g, '');
+  const n = Number(cleaned);
+  if (!cleaned || !Number.isFinite(n) || n <= 0) throw new Error(`${field} must be a positive number, got "${value ?? ''}"`);
+  return String(n);
+}
+
 export function buildClarificationQuestion(missing: string[]): string {
   const labels = missing.map((m) => FIELD_LABELS[m] ?? m);
   return `Thanks! To prepare your delivery quote, I still need: ${labels.join(', ')}. Please reply with ${labels.length === 1 ? 'that detail' : 'those details'}.`;

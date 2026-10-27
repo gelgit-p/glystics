@@ -15,10 +15,14 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { AiDeliveryService } from './ai-delivery.service';
+import { SuperAdminGuard } from '../../common/super-admin.guard';
 import {
+  AdminSetDetectionDto,
+  AdminSetRoleDto,
   ApproveDraftDto,
   RejectDraftDto,
   SimulateInboundDto,
+  UpdateAiSettingsDto,
   UpdateDraftDto,
 } from './dto/ai-delivery.dto';
 
@@ -93,5 +97,50 @@ export class AiDeliveryController {
   }
   @Post('process-pending') processPending() {
     return this.service.processPending();
+  }
+
+  // Per-tenant AI delivery detection switch (Automations tab)
+  @Get('settings') settings(@Req() r: Authed) {
+    return this.service.getSettings(r.user.id);
+  }
+  @Patch('settings') updateSettings(
+    @Req() r: Authed,
+    @Body() dto: UpdateAiSettingsDto,
+  ) {
+    return this.service.updateSettings(r.user.id, dto);
+  }
+
+  // ---- Super admin (role read from DB; promotion takes effect without re-login) ----
+  @Get('admin/overview')
+  @UseGuards(SuperAdminGuard)
+  adminOverview() {
+    return this.service.adminOverview();
+  }
+  @Get('admin/users')
+  @UseGuards(SuperAdminGuard)
+  adminUsers() {
+    return this.service.adminListUsers();
+  }
+  @Patch('admin/users/:id/role')
+  @UseGuards(SuperAdminGuard)
+  adminSetRole(
+    @Req() r: Authed,
+    @Param('id') id: string,
+    @Body() dto: AdminSetRoleDto,
+  ) {
+    return this.service.adminSetUserRole(r.user.id, id, dto.role);
+  }
+  @Patch('admin/users/:id/ai-detection')
+  @UseGuards(SuperAdminGuard)
+  adminSetDetection(
+    @Req() r: Authed,
+    @Param('id') id: string,
+    @Body() dto: AdminSetDetectionDto,
+  ) {
+    return this.service.adminSetDetection(
+      r.user.id,
+      id,
+      dto.aiDeliveryDetectionEnabled,
+    );
   }
 }

@@ -14,6 +14,7 @@ import {
   computeMissingFields,
   DRAFT_FIELDS,
   ExtractedDeliveryFields,
+  numericString,
 } from '../ai-agent/extraction';
 import { WhatsappService } from '../whatsapp/whatsapp.service';
 import { ShipbubbleService } from '../shipbubble/shipbubble.service';
@@ -68,11 +69,129 @@ export class AiDeliveryService {
       .catch(() => undefined);
   }
 
+  /** Global kill-switch (AI_DELIVERY_DETECTION_DISABLED=true) AND per-tenant switch must both allow detection. */
+  detectionGloballyEnabled() {
+    return this.config.get<string>('AI_DELIVERY_DETECTION_DISABLED') !== 'true';
+  }
+
+  async isDetectionEnabled(userId: string): Promise<boolean> {
+    if (!this.detectionGloballyEnabled()) return false;
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { aiDeliveryDetectionEnabled: true },
+    });
+    return user?.aiDeliveryDetectionEnabled !== false;
+  }
+
+  async getSettings(userId: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { role: true, aiDeliveryDetectionEnabled: true },
+    });
+    return {
+      aiDeliveryDetectionEnabled: user?.aiDeliveryDetectionEnabled ?? true,
+      globalEnabled: this.detectionGloballyEnabled(),
+      effectiveEnabled:
+        this.detectionGloballyEnabled() &&
+        (user?.aiDeliveryDetectionEnabled ?? true),
+      role: user?.role ?? 'USER',
+      aiMode: this.aiMode(),
+    };
+  }
+
+  async updateSettings(
+    userId: string,
+    dto: { aiDeliveryDetectionEnabled: boolean },
+  ) {
+    const user = await this.prisma.user.update({
+      where: { id: userId },
+      data: { aiDeliveryDetectionEnabled: dto.aiDeliveryDetectionEnabled },
+      select: { aiDeliveryDetectionEnabled: true },
+    });
+    await this.audit(
+      userId,
+      'USER',
+      dto.aiDeliveryDetectionEnabled
+        ? 'ai_detection.enabled'
+        : 'ai_detection.disabled',
+      'User',
+      userId,
+      {},
+    );
+    return this.getSettings(userId);
+  }
+
+  // ---- Super admin ----
+  async adminOverview() {
+    const [users, superAdmins, detectionEnabled, conversations, drafts, approvals] =
+      await Promise.all([
+        this.prisma.user.count(),
+        this.prisma.user.count({ where: { role: 'SUPER_ADMIN' } }),
+        this.prisma.user.count({ where: { aiDeliveryDetectionEnabled: true } }),
+        this.prisma.aiConversation.count(),
+        this.prisma.deliveryDraft.count(),
+        this.prisma.approval.count(),
+      ]);
+    return {
+      globalEnabled: this.detectionGloballyEnabled(),
+      aiMode: this.aiMode(),
+      users,
+      superAdmins,
+      tenantsWithDetectionEnabled: detectionEnabled,
+      conversations,
+      drafts,
+      approvals,
+    };
+  }
+
+  async adminListUsers() {
+    return this.prisma.user.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: 200,
+      select: {
+        id: true,
+        email: true,
+        businessName: true,
+        role: true,
+        aiDeliveryDetectionEnabled: true,
+        createdAt: true,
+        _count: { select: { aiConversations: true, deliveryDrafts: true } },
+      },
+    });
+  }
+
+  async adminSetUserRole(adminId: string, targetUserId: string, role: 'USER' | 'SUPER_ADMIN') {
+    if (adminId === targetUserId && role !== 'SUPER_ADMIN')
+      throw new BadRequestException('You cannot demote yourself');
+    const user = await this.prisma.user.update({
+      where: { id: targetUserId },
+      data: { role },
+      select: { id: true, email: true, role: true },
+    });
+    await this.audit(adminId, 'USER', 'admin.user_role_changed', 'User', targetUserId, { role });
+    return user;
+  }
+
+  async adminSetDetection(adminId: string, targetUserId: string, enabled: boolean) {
+    const user = await this.prisma.user.update({
+      where: { id: targetUserId },
+      data: { aiDeliveryDetectionEnabled: enabled },
+      select: { id: true, email: true, aiDeliveryDetectionEnabled: true },
+    });
+    await this.audit(adminId, 'USER', enabled ? 'admin.ai_detection.enabled' : 'admin.ai_detection.disabled', 'User', targetUserId, {});
+    return user;
+  }
+
   /** Resolve tenant from the WhatsApp phone_number_id in webhook metadata. */
   async resolveTenant(phoneNumberId: string) {
     return this.prisma.user.findFirst({
       where: { selectedPhoneNumberId: { has: phoneNumberId } },
-      select: { id: true, businessName: true, fullName: true },
+      select: {
+        id: true,
+        businessName: true,
+        fullName: true,
+        aiDeliveryDetectionEnabled: true,
+      },
     });
   }
 
@@ -129,6 +248,16 @@ export class AiDeliveryService {
     });
     if (!msg || msg.processingState === 'PROCESSED') return;
     const conv = msg.conversation;
+    // AI delivery detection disabled (tenant switch or global kill-switch):
+    // keep the message for the inbox record, but never extract/clarify/quote.
+    if (!(await this.isDetectionEnabled(conv.userId))) {
+      await this.prisma.aiMessage.update({
+        where: { id: msg.id },
+        data: { processingState: 'PROCESSED', processingError: null },
+      });
+      await this.audit(conv.userId, 'SYSTEM', 'ai_detection.skipped_disabled', 'AiMessage', msg.id, {});
+      return;
+    }
     await this.prisma.aiMessage.update({
       where: { id: msg.id },
       data: { processingState: 'PROCESSING', attempts: { increment: 1 } },
@@ -144,7 +273,7 @@ export class AiDeliveryService {
         this.prisma.deliveryDraft.findFirst({
           where: {
             conversationId: conv.id,
-            status: { in: ['COLLECTING', 'READY'] },
+            status: { in: ['COLLECTING', 'READY', 'QUOTED'] },
           },
           orderBy: { createdAt: 'desc' },
         }),
@@ -213,6 +342,16 @@ export class AiDeliveryService {
           activeDraft.id,
           { missingFields: missing },
         );
+        // curl1 (fetch_rates) on READY so prices are ready to display/select in the dashboard.
+        // Failure is non-fatal: staff can retry via POST /ai/drafts/:id/quotes.
+        if (!missing.length) {
+          try {
+            await this.fetchQuotes(conv.userId, activeDraft.id);
+            activeDraft = await this.prisma.deliveryDraft.findUniqueOrThrow({ where: { id: activeDraft.id } });
+          } catch (quoteError) {
+            this.logger.warn(`Auto fetchQuotes failed for draft ${activeDraft.id}: ${quoteError instanceof Error ? quoteError.message : quoteError}`);
+          }
+        }
       }
 
       let reply: string | null = null;
@@ -221,6 +360,9 @@ export class AiDeliveryService {
       else if (activeDraft && activeDraft.status === 'READY')
         reply =
           'Thanks! I have everything needed. Our team will review courier quotes and confirm your delivery shortly.';
+      else if (activeDraft && activeDraft.status === 'QUOTED')
+        reply =
+          'Thanks! Courier prices are ready — our team will share the options and confirm your preferred delivery shortly.';
       else if (result.intent === 'TRACKING_QUERY')
         reply =
           'To track a delivery, please share your tracking ID and our team will check its status.';
@@ -533,8 +675,9 @@ export class AiDeliveryService {
         {
           name: draft.packageName!,
           description: draft.packageDescription ?? draft.packageName!,
-          unit_weight: draft.packageWeight!,
-          unit_amount: draft.packageValue!,
+          // Shipbubble requires numeric strings ("0.5kg" would 400 in toNumber).
+          unit_weight: numericString(draft.packageWeight ?? undefined, 'packageWeight'),
+          unit_amount: numericString(draft.packageValue ?? undefined, 'packageValue'),
           quantity: draft.packageQuantity ?? 1,
         },
       ],
@@ -640,7 +783,9 @@ export class AiDeliveryService {
       deliveryType: draft.deliveryType ?? 'STANDARD',
       deliveryInstructions: draft.deliveryInstructions ?? undefined,
     });
-    // Existing Bachs checkout -> payment webhook -> Shipbubble booking. Never book directly here.
+    // PAID-FIRST (curl2): /shipping/labels (createShipment) is called ONLY by
+    // DeliveryService.completePaidCheckout after the Bachs payment webhook.
+    // Selecting/approving a price here must never book or charge Shipbubble.
     const checkout = await this.deliveryService.createCheckoutSession(
       delivery.id,
       userId,

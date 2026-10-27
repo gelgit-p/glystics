@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
+  IsBoolean,
   IsIn,
   IsNotEmpty,
   IsNumber,
@@ -111,6 +112,24 @@ export class ApproveDraftDto {
   @IsString()
   @MaxLength(200)
   idempotencyKey?: string;
+}
+
+export class UpdateAiSettingsDto {
+  @ApiProperty()
+  @IsBoolean()
+  aiDeliveryDetectionEnabled!: boolean;
+}
+
+export class AdminSetRoleDto {
+  @ApiProperty({ enum: ['USER', 'SUPER_ADMIN'] })
+  @IsIn(['USER', 'SUPER_ADMIN'])
+  role!: 'USER' | 'SUPER_ADMIN';
+}
+
+export class AdminSetDetectionDto {
+  @ApiProperty()
+  @IsBoolean()
+  aiDeliveryDetectionEnabled!: boolean;
 }
 
 export class RejectDraftDto {

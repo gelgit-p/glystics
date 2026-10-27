@@ -144,6 +144,8 @@ exports.Prisma.UserScalarFieldEnum = {
   webhookStatus: 'webhookStatus',
   selectedPhoneNumberId: 'selectedPhoneNumberId',
   facebookConnectStatus: 'facebookConnectStatus',
+  role: 'role',
+  aiDeliveryDetectionEnabled: 'aiDeliveryDetectionEnabled',
   createdAt: 'createdAt',
   hashedRefresh: 'hashedRefresh'
 };
@@ -439,6 +441,11 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
+exports.UserRole = exports.$Enums.UserRole = {
+  USER: 'USER',
+  SUPER_ADMIN: 'SUPER_ADMIN'
+};
+
 exports.CreditTransactionType = exports.$Enums.CreditTransactionType = {
   PURCHASE: 'PURCHASE',
   BONUS: 'BONUS',
