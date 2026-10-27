@@ -365,7 +365,7 @@ export class WhatsappService {
     const response = await firstValueFrom(
       this.httpService.post(endpoint, body, {
         headers: {
-          Authorization: 'Bearer ' + accessToken,
+          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
       }),
@@ -378,7 +378,7 @@ export class WhatsappService {
     const endpoint = `https://graph.facebook.com/${version}/${wabaId}/subscribed_apps`;
     const response = await firstValueFrom(
       this.httpService.get(endpoint, {
-        headers: { Authorization: 'Bearer ' + accessToken },
+        headers: { Authorization: `Bearer ${accessToken}` },
       }),
     );
     return response.data;
