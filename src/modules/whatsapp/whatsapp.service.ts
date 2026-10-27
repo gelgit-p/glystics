@@ -170,15 +170,24 @@ export class WhatsappService {
     appSecret: string,
   ): Promise<any> {
     const version = this.configService.get<string>('WHATSAPP_VERSION');
-    if (!accessToken || !appId || !appSecret) {
+    if (!accessToken || !appId) {
+      throw new BadRequestException('accessToken and appId are required');
+    }
+    let resolvedAppSecret = appSecret?.trim();
+    if (!resolvedAppSecret) {
+      const user = await this.prisma.user.findUnique({
+        where: { id: userId },
+        select: { appSecret: true },
+      });
+      resolvedAppSecret = user?.appSecret?.trim() ?? '';
+    }
+    if (!resolvedAppSecret) {
       throw new BadRequestException(
-        'accessToken, appId, and appSecret are required',
+        'Facebook App Secret is required. Enter it once so it can be saved for future reconnects.',
       );
     }
     if (!version) {
-      throw new InternalServerErrorException(
-        'WHATSAPP_VERSION is not configured',
-      );
+      throw new InternalServerErrorException('WHATSAPP_VERSION is not configured');
     }
 
     const endpoint = `https://graph.facebook.com/${version}/oauth/access_token`;
@@ -189,7 +198,7 @@ export class WhatsappService {
           params: {
             grant_type: 'fb_exchange_token',
             client_id: appId,
-            client_secret: appSecret,
+            client_secret: resolvedAppSecret,
             fb_exchange_token: accessToken,
           },
         }),
@@ -197,15 +206,15 @@ export class WhatsappService {
 
       const longLivedToken = response.data?.access_token;
       if (!longLivedToken) {
-        throw new Error(
-          'Facebook Graph API response did not include access_token',
-        );
+        throw new Error('Facebook Graph API response did not include access_token');
       }
 
-      // call store-token
-
-      await this.saveToken({userId: userId, facebookAccessToken: accessToken, facebookLongLivedAccessToken: longLivedToken })
-
+      await this.saveToken({ userId, facebookAccessToken: accessToken, facebookLongLivedAccessToken: longLivedToken });
+      // Persist app credentials for reconnect UX (secret is never returned by /auth/me).
+      await this.prisma.user.update({
+        where: { id: userId },
+        data: { appId, appSecret: resolvedAppSecret, facebookConnectStatus: true },
+      }).catch(() => undefined);
 
       return { accessToken: longLivedToken };
     } catch (error: any) {
@@ -424,7 +433,7 @@ export class WhatsappService {
     const tokenExpired = this.isFacebookTokenExpired(lastError, String(rawProviderError));
     const providerError = this.describeSubscribeError(lastError, String(rawProviderError), { ...ctx, usedId: idsToTry[idsToTry.length - 1] });
     if (tokenExpired) {
-      await this.prisma.user.update({ where: { id: dto.userId }, data: { facebookConnectStatus: false, webhookStatus: false } }).catch(() => undefined);
+      await this.prisma.user.update({ where: { id: dto.userId }, data: { webhookStatus: false } }).catch(() => undefined);
     }
     await this.webhookLogService.log({
       userId: dto.userId, source: 'WHATSAPP', direction: 'SUBSCRIPTION',
@@ -457,7 +466,7 @@ export class WhatsappService {
       const tokenExpired = this.isFacebookTokenExpired(error, String(rawProviderError));
       const providerError = this.describeSubscribeError(error, String(rawProviderError), { ...ctx, usedId: ctx.businessId });
       if (tokenExpired) {
-        await this.prisma.user.update({ where: { id: userId }, data: { facebookConnectStatus: false, webhookStatus: false } }).catch(() => undefined);
+        await this.prisma.user.update({ where: { id: userId }, data: { webhookStatus: false } }).catch(() => undefined);
       }
       await this.webhookLogService.log({
         userId, source: 'WHATSAPP', direction: 'SUBSCRIPTION',

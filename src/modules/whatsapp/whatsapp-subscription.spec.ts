@@ -53,7 +53,7 @@ describe('WhatsApp webhook subscription token handling', () => {
     const error = await service.subscribeToWebhooks({ userId: 'u1', override_callback_uri: 'https://example.com/whatsapp/webhook', verify_token: 'secret' } as any).catch((e) => e);
     expect(error).toBeInstanceOf(UnauthorizedException);
     expect(error.message).toContain('Reconnect Facebook');
-    expect(prisma.user.update).toHaveBeenCalledWith(expect.objectContaining({ data: { facebookConnectStatus: false, webhookStatus: false } }));
+    expect(prisma.user.update).toHaveBeenCalledWith(expect.objectContaining({ data: { webhookStatus: false } }));
     expect(log.log).toHaveBeenCalledWith(expect.objectContaining({ status: 'TOKEN_EXPIRED' }));
   });
 
