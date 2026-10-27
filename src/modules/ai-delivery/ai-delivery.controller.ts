@@ -100,6 +100,8 @@ export class AiDeliveryController {
       dto.customerWaId,
       dto.sender,
       dto.saveSenderToProfile,
+      dto.freshConversation,
+      dto.receiverAddress,
     );
   }
 

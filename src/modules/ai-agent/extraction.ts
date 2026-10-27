@@ -114,6 +114,14 @@ export function validateExtraction(raw: unknown): AiExtractionResult | null {
     fields.receiverPhone = fields.receiverPhone.replace(/[\s-]/g, '');
   if (fields.senderPhone)
     fields.senderPhone = fields.senderPhone.replace(/[\s-]/g, '');
+  if (fields.receiverAddress) {
+    fields.receiverAddress =
+      cleanReceiverAddress(
+        fields.receiverAddress,
+        fields.receiverName,
+        fields.receiverPhone,
+      ) ?? fields.receiverAddress;
+  }
   const confidence =
     typeof r.confidence === 'number' && r.confidence >= 0 && r.confidence <= 1
       ? r.confidence
@@ -121,21 +129,71 @@ export function validateExtraction(raw: unknown): AiExtractionResult | null {
   return { intent, fields, confidence, aiMode: 'live' };
 }
 
+const ADDRESS_HINT =
+  /(?:street|road|avenue|ave\.?|close|drive|way|lane|crescent|place|island|lagos|abuja|ikeja|lekki|yaba|ikoyi|surulere|nigeria)/i;
+
+/** Extract a receiver address from free text. Exported for demo extraction and tests. */
+export function extractReceiverAddress(text: string): string | undefined {
+  const normalized = text.replace(/\s+/g, ' ').trim();
+  const patterns = [
+    /(?:receiver\s+address|delivery\s+address|deliver\s+to\s+address|address)\s*[:\-]\s*([^.;\n]+)/i,
+    /\bat\s+((?:no\.?\s*)?\d+\s+[^,.;]+)/i,
+    /\bto\s+[^,.;]+?\s+at\s+((?:no\.?\s*)?\d+\s+[^,.;]+)/i,
+    /(?:deliver|send|ship)[^,.;]*?,\s*((?:no\.?\s*)?\d+\s+[^,.;]+)/i,
+  ];
+  for (const pattern of patterns) {
+    const candidate = normalized.match(pattern)?.[1]?.trim();
+    if (!candidate || !ADDRESS_HINT.test(candidate)) continue;
+    return trimAddressTail(candidate);
+  }
+  const commaSegments = normalized.split(/,\s*/);
+  for (const segment of commaSegments) {
+    if (/^(?:no\.?\s*)?\d+\s+/i.test(segment) && ADDRESS_HINT.test(segment)) {
+      return trimAddressTail(segment);
+    }
+  }
+  return undefined;
+}
+
+function trimAddressTail(address: string): string {
+  return address
+    .replace(
+      /\s+(?:receiver\s+phone|phone|tel|pickup|pick-up|worth|valued?|weight|package\s+weight).*$/i,
+      '',
+    )
+    .replace(/\s+\d+(?:\.\d+)?\s*kg.*$/i, '')
+    .replace(/\s+worth\b.*$/i, '')
+    .replace(/[\s,.;]+$/, '')
+    .trim();
+}
+
 /** Strip "<receiverName> <phone> at " debris old draft parses left in receiverAddress. */
 export function cleanReceiverAddress(
   address: string | null | undefined,
   receiverName?: string | null,
   receiverPhone?: string | null,
+  rawMessage?: string | null,
 ): string | undefined {
   if (!address) return undefined;
   let a = address.trim();
-  a = a.replace(/^.*?\bat\s+(\d+\s+)/i, '$1');
+  const extracted = rawMessage ? extractReceiverAddress(rawMessage) : undefined;
+  if (
+    extracted &&
+    (a.toLowerCase() !== extracted.toLowerCase() ||
+      /080|\+234/.test(a) ||
+      (receiverName && a.toLowerCase().includes(receiverName.toLowerCase())))
+  ) {
+    return extracted;
+  }
+  a = a.replace(/^.*?\bat\s+((?:no\.?\s*)?\d+\s+)/i, '$1');
   if (receiverName && a.toLowerCase().startsWith(receiverName.toLowerCase())) {
     a = a.slice(receiverName.length).trim();
   }
-  if (receiverPhone)
-    a = a.replaceAll(receiverPhone.replace(/[\s-]/g, ''), '').trim();
-  a = a.replace(/^[\s,.-]+/, '').trim();
+  if (receiverPhone) {
+    const phone = receiverPhone.replace(/[\s-]/g, '');
+    a = a.replaceAll(phone, '').replaceAll(receiverPhone, '').trim();
+  }
+  a = trimAddressTail(a.replace(/^[\s,.-]+/, ''));
   return a.length >= 5 ? a : undefined;
 }
 

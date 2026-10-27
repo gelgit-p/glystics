@@ -330,6 +330,21 @@ export class AiDeliveryService {
             currentFields.senderAddress ?? result.fields.senderAddress,
           senderEmail: currentFields.senderEmail ?? result.fields.senderEmail,
         };
+        const priorReceiverAddress = draft
+          ? cleanReceiverAddress(
+              currentFields.receiverAddress,
+              merged.receiverName,
+              merged.receiverPhone,
+              text,
+            )
+          : undefined;
+        merged.receiverAddress =
+          cleanReceiverAddress(
+            result.fields.receiverAddress,
+            merged.receiverName,
+            merged.receiverPhone,
+            text,
+          ) ?? priorReceiverAddress;
         const missing = computeMissingFields(merged);
         const data = {
           ...this.fieldsToData(merged),
@@ -951,9 +966,11 @@ export class AiDeliveryService {
   async simulateInbound(
     userId: string,
     text: string,
-    customerWaId = '2348000000000',
+    customerWaId?: string,
     senderOverride?: SenderProfileDto,
     saveSenderToProfile = true,
+    freshConversation = true,
+    receiverAddressOverride?: string,
   ) {
     // Per-simulation sender details optionally persist to the profile so the
     // next simulation / real draft reuses them.
@@ -966,10 +983,16 @@ export class AiDeliveryService {
     });
     const phoneNumberId =
       user?.selectedPhoneNumberId[0] ?? 'demo-phone-number-id';
+    // Each simulation is isolated: do not merge receiver details from previous demo runs.
+    // An explicit customerWaId remains available for multi-message clarification demos.
+    const simulationWaId =
+      freshConversation || !customerWaId
+        ? `demo-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+        : customerWaId;
     const conv = await this.getOrCreateConversation(
       userId,
       phoneNumberId,
-      customerWaId,
+      simulationWaId,
     );
     const msg = await this.recordInbound(
       conv.id,
@@ -996,11 +1019,50 @@ export class AiDeliveryService {
         });
       }
     }
-    const draft = await this.prisma.deliveryDraft.findFirst({
-      where: { conversationId: conv.id },
-      orderBy: { createdAt: 'desc' },
-      include: { quotes: { orderBy: { score: 'asc' } } },
-    });
+    // Explicit Receiver Address field from the simulation page wins over parsing, verbatim.
+    const explicitReceiverAddress = receiverAddressOverride?.trim();
+    if (explicitReceiverAddress) {
+      const latest = await this.prisma.deliveryDraft.findFirst({
+        where: { conversationId: conv.id },
+        orderBy: { createdAt: 'desc' },
+      });
+      if (latest) {
+        const fields = {
+          ...this.draftToFields(latest as Record<string, any>),
+          receiverAddress: explicitReceiverAddress,
+        };
+        const missingFields = computeMissingFields(fields);
+        await this.prisma.deliveryDraft.update({
+          where: { id: latest.id },
+          data: {
+            receiverAddress: explicitReceiverAddress,
+            missingFields,
+            status:
+              latest.status === 'QUOTED'
+                ? latest.status
+                : missingFields.length
+                  ? 'COLLECTING'
+                  : 'READY',
+          },
+        });
+        await this.audit(
+          userId,
+          'USER',
+          'simulation.receiver_address_overridden',
+          'DeliveryDraft',
+          latest.id,
+          { source: 'simulation-form' },
+        );
+      }
+    }
+    const draft =
+      (await this.prisma.deliveryDraft
+        .findFirst({
+          where: { conversationId: conv.id },
+          orderBy: { createdAt: 'desc' },
+          include: { quotes: { orderBy: { score: 'asc' } } },
+        })
+        .then((d) => (d ? this.backfillSenderFromProfile(d) : d))) ?? null;
     return {
       simulated: true,
       aiMode: this.aiMode(),

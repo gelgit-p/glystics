@@ -1,6 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { AiExtractionResult, validateExtraction } from './extraction';
+import {
+  AiExtractionResult,
+  extractReceiverAddress,
+  validateExtraction,
+} from './extraction';
 
 export interface AiConversationTurn {
   role: 'user' | 'assistant';
@@ -111,16 +115,8 @@ export class MetaModelClient {
     if (deliver) fields.packageName = deliver[1].trim();
     const from = text.match(/from\s+([^,.]+)/i);
     if (from) fields.senderAddress = from[1].trim();
-    // Prefer an explicit "at <address>" segment; strip any leading phone/name debris.
-    const addr =
-      text.match(
-        /\bat\s+(\d+\s+[^,.]+?(?:street|road|avenue|close|drive|lagos|abuja|ikeja|lekki|yaba)[^,.]*)/i,
-      ) ??
-      text.match(
-        /(?:address is|deliver to)\s+([^,.]+(?:street|road|avenue|close|drive|lagos|abuja|ikeja|lekki|yaba)[^,.]*)/i,
-      );
-    if (addr && !fields.receiverAddress)
-      fields.receiverAddress = addr[1].trim();
+    const extractedAddress = extractReceiverAddress(text);
+    if (extractedAddress) fields.receiverAddress = extractedAddress;
     const date = text.match(/\b(20\d{2}-\d{2}-\d{2})\b/);
     if (date) fields.pickupDate = date[1];
     const value = text.match(

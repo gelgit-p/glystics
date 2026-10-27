@@ -175,4 +175,10 @@ export class SimulateInboundDto {
   @ApiPropertyOptional()
   @IsOptional() @IsBoolean()
   saveSenderToProfile?: boolean;
+  @ApiPropertyOptional({ description: 'When true, ignores customerWaId and starts a fresh simulated conversation' })
+  @IsOptional() @IsBoolean()
+  freshConversation?: boolean;
+  @ApiPropertyOptional({ description: 'Explicit receiver address for this simulation; overrides the address parsed from the message, verbatim' })
+  @IsOptional() @IsString() @MaxLength(500)
+  receiverAddress?: string;
 }
