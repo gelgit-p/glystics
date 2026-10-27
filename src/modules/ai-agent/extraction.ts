@@ -121,6 +121,24 @@ export function validateExtraction(raw: unknown): AiExtractionResult | null {
   return { intent, fields, confidence, aiMode: 'live' };
 }
 
+/** Strip "<receiverName> <phone> at " debris old draft parses left in receiverAddress. */
+export function cleanReceiverAddress(
+  address: string | null | undefined,
+  receiverName?: string | null,
+  receiverPhone?: string | null,
+): string | undefined {
+  if (!address) return undefined;
+  let a = address.trim();
+  a = a.replace(/^.*?\bat\s+(\d+\s+)/i, '$1');
+  if (receiverName && a.toLowerCase().startsWith(receiverName.toLowerCase())) {
+    a = a.slice(receiverName.length).trim();
+  }
+  if (receiverPhone)
+    a = a.replaceAll(receiverPhone.replace(/[\s-]/g, ''), '').trim();
+  a = a.replace(/^[\s,.-]+/, '').trim();
+  return a.length >= 5 ? a : undefined;
+}
+
 export function computeMissingFields(
   fields: ExtractedDeliveryFields,
 ): string[] {

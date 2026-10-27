@@ -11,6 +11,7 @@ import { PrismaService } from 'prisma/prisma.service';
 import { MetaModelClient } from '../ai-agent/meta-model.client';
 import {
   buildClarificationQuestion,
+  cleanReceiverAddress,
   computeMissingFields,
   DRAFT_FIELDS,
   ExtractedDeliveryFields,
@@ -545,8 +546,8 @@ export class AiDeliveryService {
     if (!c) throw new NotFoundException('Conversation not found');
     return c;
   }
-  listDrafts(userId: string, status?: string) {
-    return this.prisma.deliveryDraft.findMany({
+  async listDrafts(userId: string, status?: string) {
+    const drafts = await this.prisma.deliveryDraft.findMany({
       where: { userId, ...(status ? { status } : {}) },
       orderBy: { updatedAt: 'desc' },
       take: 100,
@@ -555,7 +556,40 @@ export class AiDeliveryService {
         conversation: { select: { customerWaId: true } },
       },
     });
+    // Backfill sequentially — repairs are persisted so subsequent loads are no-ops.
+    const repaired: any[] = [];
+    for (const d of drafts) repaired.push(await this.backfillSenderFromProfile(d));
+    return repaired;
   }
+  /**
+   * Repair stale drafts: backfill missing sender fields from the CURRENT profile
+   * (drafts created before sender profile existed, or profile updated later),
+   * recompute missingFields/status, and persist. No-op on terminal drafts.
+   */
+  private async backfillSenderFromProfile(draft: any): Promise<any> {
+    if (['APPROVED', 'BOOKED', 'REJECTED'].includes(draft.status)) return draft;
+    const patch: Record<string, string> = {};
+    if (!draft.senderAddress || !draft.senderPhone || !draft.senderName) {
+      const profile = await this.getSenderProfile(draft.userId);
+      if (!draft.senderName && profile.senderName) patch.senderName = profile.senderName;
+      if (!draft.senderPhone && profile.senderPhone) patch.senderPhone = profile.senderPhone;
+      if (!draft.senderAddress && profile.senderAddress) patch.senderAddress = profile.senderAddress;
+      if (!draft.senderEmail && profile.senderEmail) patch.senderEmail = profile.senderEmail;
+    }
+    const cleaned = cleanReceiverAddress(draft.receiverAddress, draft.receiverName, draft.receiverPhone);
+    if (cleaned && cleaned !== draft.receiverAddress) patch.receiverAddress = cleaned;
+    if (!Object.keys(patch).length) return draft;
+    const merged = { ...this.draftToFields(draft as Record<string, any>), ...patch };
+    const missing = computeMissingFields(merged);
+    const status = draft.status === 'QUOTED' ? 'QUOTED' : missing.length ? 'COLLECTING' : 'READY';
+    const updated = await this.prisma.deliveryDraft.update({
+      where: { id: draft.id },
+      data: { ...patch, missingFields: missing, status },
+    });
+    await this.audit(draft.userId, 'SYSTEM', 'draft.sender_backfilled', 'DeliveryDraft', draft.id, { fields: Object.keys(patch) });
+    return { ...draft, ...updated };
+  }
+
   async getDraft(userId: string, id: string) {
     const d = await this.prisma.deliveryDraft.findFirst({
       where: { id, userId },
@@ -566,7 +600,7 @@ export class AiDeliveryService {
       },
     });
     if (!d) throw new NotFoundException('Delivery draft not found');
-    return d;
+    return this.backfillSenderFromProfile(d);
   }
   async updateDraft(userId: string, id: string, dto: UpdateDraftDto) {
     const draft = await this.getDraft(userId, id);
