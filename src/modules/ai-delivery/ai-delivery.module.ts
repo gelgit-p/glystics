@@ -5,11 +5,12 @@ import { ShipbubbleModule } from '../shipbubble/shipbubble.module';
 import { DeliveryModule } from '../delivery/delivery.module';
 import { AiDeliveryController } from './ai-delivery.controller';
 import { AiDeliveryService } from './ai-delivery.service';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [AiAgentModule, WhatsappModule, ShipbubbleModule, DeliveryModule],
   controllers: [AiDeliveryController],
-  providers: [AiDeliveryService],
+  providers: [AiDeliveryService, ConfigService],
   exports: [AiDeliveryService],
 })
 export class AiDeliveryModule {}
