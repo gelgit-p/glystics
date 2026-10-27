@@ -77,6 +77,9 @@ export class AiDeliveryController {
   @Post('drafts/:id/send-payment-link') sendPaymentLink(@Req() r: Authed, @Param('id') id: string) {
     return this.service.sendPaymentLinkToCustomer(r.user.id, id);
   }
+  @Post('drafts/:id/check-payment') checkPayment(@Req() r: Authed, @Param('id') id: string) {
+    return this.service.checkPaymentAndCreateLabel(r.user.id, id);
+  }
   @Post('drafts/:id/send-quote') sendQuote(
     @Req() r: Authed,
     @Param('id') id: string,

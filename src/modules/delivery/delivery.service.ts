@@ -475,6 +475,155 @@ export class DeliveryService {
     }
   }
 
+  private checkoutStatus(response: unknown): string {
+    const record = this.asRecord(response);
+    const nested = this.asRecord(record?.data) ?? record;
+    const payment = this.asRecord(nested?.object) ?? nested;
+    return typeof payment?.status === 'string'
+      ? payment.status.trim().toLowerCase()
+      : '';
+  }
+
+  private checkoutReference(delivery: {
+    trackingId: string;
+    bookingDetails: Prisma.JsonValue | null;
+  }): string {
+    const reference = this.asRecord(delivery.bookingDetails)?.checkoutReference;
+    return typeof reference === 'string' && reference
+      ? reference
+      : delivery.trackingId;
+  }
+
+  /**
+   * Verifies a delivery checkout with Bachs and, only after success is confirmed,
+   * triggers Shipbubble label creation via completePaidCheckout().
+   * Safe to poll repeatedly: completePaidCheckout claims the booking exactly once
+   * (bookingStatus transition + unique successful order id check).
+   */
+  async checkPaymentAndBook(deliveryId: string, userId: string) {
+    let delivery = await this.prisma.delivery.findFirst({
+      where: { id: deliveryId, userId },
+    });
+    if (!delivery) {
+      throw new NotFoundException(`Delivery with id ${deliveryId} was not found`);
+    }
+
+    const base = {
+      deliveryId: delivery.id,
+      trackingId: delivery.trackingId,
+      checkoutUrl: delivery.checkoutUrl,
+      paymentStatus: delivery.paymentStatus,
+      bookingStatus: delivery.bookingStatus,
+      deliveryStatus: delivery.deliveryStatus,
+      shipbubbleOrderId: delivery.shipbubbleOrderId,
+      trackingUrl: delivery.tracking_url,
+      bookingError: delivery.bookingError,
+    };
+
+    if (delivery.shipbubbleOrderId || delivery.bookingStatus === 'BOOKED') {
+      return {
+        ...base,
+        paymentStatus: 'PAID',
+        providerStatus: 'paid',
+        checked: true,
+        labelCreated: true,
+        alreadyBooked: true,
+      };
+    }
+
+    // If payment is already PAID locally but label failed, retry booking without re-verifying.
+    if (
+      delivery.paymentStatus === 'PAID' &&
+      (delivery.bookingStatus === 'FAILED' || delivery.bookingStatus === 'NOT_STARTED') &&
+      delivery.checkoutSessionId
+    ) {
+      await this.completePaidCheckout(this.checkoutReference(delivery), delivery.checkoutSessionId ?? undefined);
+      delivery = await this.prisma.delivery.findUniqueOrThrow({ where: { id: delivery.id } });
+      return {
+        deliveryId: delivery.id,
+        trackingId: delivery.trackingId,
+        checkoutUrl: delivery.checkoutUrl,
+        paymentStatus: delivery.paymentStatus,
+        bookingStatus: delivery.bookingStatus,
+        deliveryStatus: delivery.deliveryStatus,
+        shipbubbleOrderId: delivery.shipbubbleOrderId,
+        trackingUrl: delivery.tracking_url,
+        bookingError: delivery.bookingError,
+        providerStatus: 'paid',
+        checked: true,
+        labelCreated: delivery.bookingStatus === 'BOOKED',
+        retriedBooking: true,
+      };
+    }
+
+    if (!delivery.checkoutSessionId) {
+      return { ...base, providerStatus: 'no_checkout', checked: false, labelCreated: false };
+    }
+    if (delivery.paymentStatus !== 'PENDING') {
+      return { ...base, providerStatus: delivery.paymentStatus.toLowerCase(), checked: true, labelCreated: false };
+    }
+
+    const session = await this.bachsService.getCheckoutSessionById(delivery.checkoutSessionId);
+    const providerStatus = this.checkoutStatus(session);
+
+    if (['failed', 'cancelled', 'canceled', 'expired', 'declined', 'rejected'].includes(providerStatus)) {
+      // Do not overwrite PAID; only record terminal failure on still-pending deliveries.
+      await this.prisma.delivery.updateMany({
+        where: { id: delivery.id, paymentStatus: 'PENDING' },
+        data: { paymentStatus: 'FAILED', updatedAt: new Date() },
+      });
+      delivery = await this.prisma.delivery.findUniqueOrThrow({ where: { id: delivery.id } });
+      return {
+        deliveryId: delivery.id,
+        trackingId: delivery.trackingId,
+        checkoutUrl: delivery.checkoutUrl,
+        paymentStatus: delivery.paymentStatus,
+        bookingStatus: delivery.bookingStatus,
+        deliveryStatus: delivery.deliveryStatus,
+        shipbubbleOrderId: delivery.shipbubbleOrderId,
+        trackingUrl: delivery.tracking_url,
+        bookingError: delivery.bookingError,
+        providerStatus,
+        checked: true,
+        labelCreated: false,
+      };
+    }
+
+    if (['paid', 'succeeded', 'success', 'completed'].includes(providerStatus)) {
+      // Verify session identity before booking.
+      const record = this.asRecord(session);
+      const nested = this.asRecord(record?.data) ?? record;
+      const payment = this.asRecord(nested?.object) ?? nested;
+      const sessionId =
+        typeof payment?.checkout_id === 'string' ? payment.checkout_id
+        : typeof payment?.id === 'string' ? payment.id
+        : delivery.checkoutSessionId;
+      if (sessionId !== delivery.checkoutSessionId) {
+        throw new BadRequestException('Bachs checkout session does not match this delivery');
+      }
+      const reference = this.checkoutReference(delivery);
+      const result: any = await this.completePaidCheckout(reference, delivery.checkoutSessionId);
+      delivery = await this.prisma.delivery.findUniqueOrThrow({ where: { id: delivery.id } });
+      return {
+        deliveryId: delivery.id,
+        trackingId: delivery.trackingId,
+        checkoutUrl: delivery.checkoutUrl,
+        paymentStatus: delivery.paymentStatus,
+        bookingStatus: delivery.bookingStatus,
+        deliveryStatus: delivery.deliveryStatus,
+        shipbubbleOrderId: delivery.shipbubbleOrderId,
+        trackingUrl: delivery.tracking_url,
+        bookingError: delivery.bookingError,
+        providerStatus,
+        checked: true,
+        labelCreated: delivery.bookingStatus === 'BOOKED',
+        processed: result?.processed === true,
+      };
+    }
+
+    return { ...base, providerStatus: providerStatus || 'pending', checked: true, labelCreated: false };
+  }
+
   async syncShipbubbleStatusByOrderId(
     orderId: string,
     status: string,

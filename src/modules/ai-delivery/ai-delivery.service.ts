@@ -1075,6 +1075,61 @@ export class AiDeliveryService {
     return { sent: true, reusedCheckout: false, deliveryId: approved.deliveryId, trackingId: approved.trackingId, checkoutUrl, message };
   }
 
+  /**
+   * Poll Bachs for the linked delivery, and on verified PAID create the
+   * Shipbubble shipping/label request exactly once. Draft moves PAYMENT_LINK_SENT -> BOOKED.
+   */
+  async checkPaymentAndCreateLabel(userId: string, draftId: string) {
+    const draft = await this.getDraft(userId, draftId);
+    if (!(draft as any).deliveryId) {
+      return {
+        draftId,
+        draftStatus: draft.status,
+        paymentStatus: 'NO_DELIVERY',
+        bookingStatus: null,
+        labelCreated: false,
+        checked: false,
+        message: 'No delivery/payment link has been created for this draft yet',
+      };
+    }
+    const result: any = await this.deliveryService.checkPaymentAndBook((draft as any).deliveryId, userId);
+    if (result.bookingStatus === 'BOOKED' && result.shipbubbleOrderId) {
+      await this.prisma.deliveryDraft.updateMany({
+        where: { id: draftId, status: { not: 'BOOKED' } },
+        data: { status: 'BOOKED' },
+      });
+      await this.audit(userId, 'SYSTEM', 'payment.verified_label_created', 'DeliveryDraft', draftId, {
+        deliveryId: result.deliveryId,
+        shipbubbleOrderId: result.shipbubbleOrderId,
+      });
+      // Tell the customer in chat — best-effort, never fail the check because WhatsApp failed.
+      if (draft.conversation?.customerWaId && draft.conversationId) {
+        await this.sendReply(
+          userId,
+          draft.conversation.customerWaId,
+          `✅ Payment confirmed. Your shipment has been booked${result.trackingId ? ` (Tracking ID: ${result.trackingId})` : ''}.${result.trackingUrl ? `\nTrack here: ${result.trackingUrl}` : ''}`,
+          draft.conversationId,
+        ).catch(() => undefined);
+      }
+    } else if (result.paymentStatus === 'PAID') {
+      await this.audit(userId, 'SYSTEM', 'payment.verified', 'DeliveryDraft', draftId, { deliveryId: result.deliveryId });
+    }
+    const refreshed = await this.getDraft(userId, draftId);
+    return {
+      ...result,
+      draftId,
+      draftStatus: refreshed.status,
+      message:
+        result.bookingStatus === 'BOOKED'
+          ? 'Payment successful — Shipbubble shipping/label created'
+          : result.paymentStatus === 'PAID'
+            ? 'Payment successful — label creation in progress or needs retry'
+            : result.paymentStatus === 'FAILED'
+              ? 'Payment failed or expired'
+              : 'Payment not completed yet',
+    };
+  }
+
   // ---- Approval: the ONLY path from AI draft to a real delivery. Reuses credits+checkout+booking. ----
   async approve(userId: string, draftId: string, dto: ApproveDraftDto) {
     const draft = await this.getDraft(userId, draftId);
