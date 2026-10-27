@@ -132,25 +132,85 @@ export function validateExtraction(raw: unknown): AiExtractionResult | null {
 const ADDRESS_HINT =
   /(?:street|road|avenue|ave\.?|close|drive|way|lane|crescent|place|island|lagos|abuja|ikeja|lekki|yaba|ikoyi|surulere|nigeria)/i;
 
+function looksLikeAddressStart(segment: string): boolean {
+  return /^(?:no\.?\s*)?\d+\s+\S+/i.test(segment.trim());
+}
+
+function isPackageClause(segment: string): boolean {
+  return /^(?:\d+(?:\.\d+)?\s*(?:kg|g|lb|lbs)\b|worth\b|valued?\b|pickup\b|pick-up\b|receiver\s+phone\b|phone\b|tel\b)/i.test(
+    segment.trim(),
+  );
+}
+
+/** Join comma segments after an address start until package/pickup clauses begin. */
+function joinCommaAddress(segments: string[], startIndex: number, first: string): string {
+  // `first` may already contain commas (labelled capture) — then it is the whole head.
+  if (first.includes(',')) return trimAddressTail(first.trim());
+  const parts = [first.trim()];
+  for (let i = startIndex + 1; i < segments.length; i++) {
+    const segment = segments[i].trim();
+    if (!segment || isPackageClause(segment)) break;
+    // A segment that is itself a new address start ends the current address.
+    if (parts.length > 1 && looksLikeAddressStart(segment) && ADDRESS_HINT.test(segment)) break;
+    parts.push(segment);
+    // Nigeria addresses usually end at the country; stop there to avoid swallowing clauses.
+    if (/nigeria/i.test(segment)) break;
+  }
+  return parts.join(', ');
+}
+
 /** Extract a receiver address from free text. Exported for demo extraction and tests. */
 export function extractReceiverAddress(text: string): string | undefined {
   const normalized = text.replace(/\s+/g, ' ').trim();
+  const segments = normalized.split(/,\s*/);
+
+  // 1) Explicit label: "address: 55, Herbert Macaulay Way, Yaba, Lagos"
+  const labelled = normalized.match(
+    /(?:receiver\s+address|delivery\s+address|deliver\s+to\s+address|address)\s*[:\-]\s*(.+)$/i,
+  );
+  if (labelled?.[1] && ADDRESS_HINT.test(labelled[1])) {
+    const start = segments.findIndex((s) => labelled[1].startsWith(s) || s.includes(labelled[1].split(',')[0]));
+    return trimAddressTail(joinCommaAddress(segments, Math.max(start, 0), labelled[1]));
+  }
+
+  // 2) "at 55, Herbert Macaulay Way, Yaba, Lagos, Nigeria, 2kg worth ..."
+  //    House number is its own comma segment; the hint words live in later segments.
+  for (let i = 0; i < segments.length; i++) {
+    const segment = segments[i].trim();
+    const atMatch = segment.match(/\bat\s+((?:no\.?\s*)?\d+)\s*$/i);
+    const bareStart = segment.match(/^((?:no\.?\s*)?\d+)\s*$/i);
+    // "at 55" alone, or a segment ending in "at 55"
+    if (atMatch) {
+      const joined = joinCommaAddress(segments, i, atMatch[1]);
+      if (ADDRESS_HINT.test(joined)) return trimAddressTail(joined);
+    }
+    if (bareStart && i > 0 && /\b(?:to|at)\b/i.test(segments.slice(0, i).join(', '))) {
+      const joined = joinCommaAddress(segments, i, bareStart[1]);
+      if (ADDRESS_HINT.test(joined)) return trimAddressTail(joined);
+    }
+    // "at 55 Herbert Macaulay Way" (no comma after house number) or "at 12 Allen Avenue ..."
+    const inline = segment.match(/\bat\s+((?:no\.?\s*)?\d+\s+.+)$/i);
+    if (inline && ADDRESS_HINT.test(inline[1])) {
+      return trimAddressTail(joinCommaAddress(segments, i, inline[1]));
+    }
+    // Segment itself starts an address: "55 Herbert Macaulay Way"
+    if (looksLikeAddressStart(segment) && ADDRESS_HINT.test(segment) && !/^please\b/i.test(segment)) {
+      // Avoid treating the leading instruction clause as an address.
+      if (!/\b(?:deliver|send|ship)\b/i.test(segment) || /^\d/.test(segment)) {
+        return trimAddressTail(joinCommaAddress(segments, i, segment));
+      }
+    }
+  }
+
+  // 3) Fallback: previous single-segment patterns (no-comma addresses).
   const patterns = [
-    /(?:receiver\s+address|delivery\s+address|deliver\s+to\s+address|address)\s*[:\-]\s*([^.;\n]+)/i,
-    /\bat\s+((?:no\.?\s*)?\d+\s+[^,.;]+)/i,
-    /\bto\s+[^,.;]+?\s+at\s+((?:no\.?\s*)?\d+\s+[^,.;]+)/i,
-    /(?:deliver|send|ship)[^,.;]*?,\s*((?:no\.?\s*)?\d+\s+[^,.;]+)/i,
+    /\bat\s+((?:no\.?\s*)?\d+\s+[^.;]+)/i,
+    /\bto\s+[^.;]+?\s+at\s+((?:no\.?\s*)?\d+\s+[^.;]+)/i,
   ];
   for (const pattern of patterns) {
     const candidate = normalized.match(pattern)?.[1]?.trim();
     if (!candidate || !ADDRESS_HINT.test(candidate)) continue;
     return trimAddressTail(candidate);
-  }
-  const commaSegments = normalized.split(/,\s*/);
-  for (const segment of commaSegments) {
-    if (/^(?:no\.?\s*)?\d+\s+/i.test(segment) && ADDRESS_HINT.test(segment)) {
-      return trimAddressTail(segment);
-    }
   }
   return undefined;
 }
