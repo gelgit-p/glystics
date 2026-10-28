@@ -737,6 +737,9 @@ export class AiDeliveryService {
   // ---- Quotes via existing Shipbubble flow (validate address -> fetch_rates) ----
   async fetchQuotes(userId: string, draftId: string) {
     const draft = await this.getDraft(userId, draftId);
+    if (draft.status === 'BOOKED') {
+      throw new ConflictException('Draft is BOOKED after payment; quotes can no longer be changed');
+    }
     if (draft.missingFields.length)
       throw new BadRequestException(
         `Draft is missing: ${draft.missingFields.join(', ')}`,
@@ -878,6 +881,10 @@ export class AiDeliveryService {
   }
 
   async sendQuoteToCustomer(userId: string, draftId: string, dto: SendQuoteToCustomerDto = {}) {
+    const existing = await this.getDraft(userId, draftId);
+    if (existing.status === 'BOOKED') {
+      throw new ConflictException('Draft is BOOKED after payment; quote can no longer be sent to the customer');
+    }
     const { draft, message: builtMessage } = await this.buildQuoteOffer(userId, draftId);
     const message = dto.message?.trim() ? dto.message.trim() : builtMessage;
     if (!message.includes('number')) {
@@ -1020,6 +1027,9 @@ export class AiDeliveryService {
    */
   async sendPaymentLinkToCustomer(userId: string, draftId: string, selection?: number) {
     let draft = await this.getDraft(userId, draftId);
+    if (draft.status === 'BOOKED') {
+      throw new ConflictException('Draft is BOOKED after payment; payment link can no longer be sent or resent');
+    }
     if (!(draft as any).customerSelectedQuoteId && !(draft as any).deliveryId) {
       throw new BadRequestException('Customer has not selected a quote option yet');
     }
