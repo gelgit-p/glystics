@@ -334,6 +334,7 @@ export class AiDeliveryService {
       );
 
       let activeDraft = draft;
+      let quoteAutoSent = false;
       if (
         result.intent === 'DELIVERY_REQUEST' ||
         result.intent === 'DELIVERY_UPDATE' ||
@@ -393,25 +394,32 @@ export class AiDeliveryService {
           activeDraft.id,
           { missingFields: missing },
         );
-        // curl1 (fetch_rates) on READY so prices are ready to display/select in the dashboard.
-        // Failure is non-fatal: staff can retry via POST /ai/drafts/:id/quotes.
+        // Prices are generated on the backend and sent to the customer in chat
+        // automatically. The generic "Thanks" reply below is ONLY a fallback
+        // when quote generation or the WhatsApp send fails.
         if (!missing.length) {
+          quoteAutoSent = false;
           try {
             await this.fetchQuotes(conv.userId, activeDraft.id);
-            activeDraft = await this.prisma.deliveryDraft.findUniqueOrThrow({ where: { id: activeDraft.id } });
+            const sent = await this.sendQuoteToCustomer(conv.userId, activeDraft.id, {}, 'AI');
+            activeDraft = sent.draft as typeof activeDraft;
+            quoteAutoSent = true;
           } catch (quoteError) {
-            this.logger.warn(`Auto fetchQuotes failed for draft ${activeDraft.id}: ${quoteError instanceof Error ? quoteError.message : quoteError}`);
+            quoteAutoSent = false;
+            this.logger.warn(`Auto quote/send failed for draft ${activeDraft.id}: ${quoteError instanceof Error ? quoteError.message : quoteError}`);
+            activeDraft = await this.prisma.deliveryDraft.findUniqueOrThrow({ where: { id: activeDraft.id } });
           }
         }
       }
 
       let reply: string | null = null;
-      if (activeDraft && activeDraft.status === 'COLLECTING')
+      if (quoteAutoSent) {
+        // Numbered quote options already sent in chat; do not send the generic Thanks.
+        reply = null;
+      } else if (activeDraft && activeDraft.status === 'COLLECTING')
         reply = buildClarificationQuestion(activeDraft.missingFields);
-      else if (activeDraft && activeDraft.status === 'READY')
-        reply =
-          'Thanks! I have everything needed. Our team will review courier quotes and confirm your delivery shortly.';
-      else if (activeDraft && activeDraft.status === 'QUOTED')
+      else if (activeDraft && (activeDraft.status === 'READY' || activeDraft.status === 'QUOTED'))
+        // Fallback ONLY: quote generation/send failed, or no quote could be produced.
         reply =
           'Thanks! Courier prices are ready — our team will share the options and confirm your preferred delivery shortly.';
       else if (result.intent === 'TRACKING_QUERY')
@@ -880,7 +888,7 @@ export class AiDeliveryService {
     return { draft, message, quotes: draft.quotes };
   }
 
-  async sendQuoteToCustomer(userId: string, draftId: string, dto: SendQuoteToCustomerDto = {}) {
+  async sendQuoteToCustomer(userId: string, draftId: string, dto: SendQuoteToCustomerDto = {}, actorType: 'USER' | 'AI' = 'USER') {
     const existing = await this.getDraft(userId, draftId);
     if (existing.status === 'BOOKED') {
       throw new ConflictException('Draft is BOOKED after payment; quote can no longer be sent to the customer');
@@ -915,7 +923,7 @@ export class AiDeliveryService {
           quoteOfferSentAt: new Date(),
         },
       });
-      await this.audit(userId, 'USER', 'quote.sent_to_customer', 'DeliveryDraft', draftId, {
+      await this.audit(userId, actorType, actorType === 'AI' ? 'quote.auto_sent_to_customer' : 'quote.sent_to_customer', 'DeliveryDraft', draftId, {
         quoteCount: draft.quotes.length,
         waMessageId: sent.waMessageId,
       });
