@@ -1,13 +1,30 @@
-
 $schema: https://api.gitbook.com/gitbook-docs.yaml
-
 site:
   title: Glystics
   structure:
-    - type: space
-      key: space-glystics
+    - type: section
+      key: section-1
       title: Glystics
       path: glystics
       default: true
-      content:
-        directory: ./
+      children:
+        - type: space
+          key: space-glystics
+          title: Glystics
+          path: glystics
+          default: true
+          content:
+            directory: ./
+    - type: section
+      key: section-2
+      title: connect whatsapp with facebook
+      path: connect-whatsapp-with-facebook
+      children:
+        - type: space
+          key: space-1
+          title: connect whatsapp with facebook
+          path: connect-whatsapp-with-facebook
+          default: true
+          draft: true
+          content:
+            directory: ./connect-whatsapp-with-facebook
