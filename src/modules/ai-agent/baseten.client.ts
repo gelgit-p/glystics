@@ -13,7 +13,8 @@ export interface AiConversationTurn {
 }
 
 const DEFAULT_BASE_URL = 'https://inference.baseten.co/v1';
-const DEFAULT_MODEL = 'deepseek-ai/DeepSeek-V4-Flash-0731';
+const DEFAULT_MODEL = 'meta-models/muse-spark-open-1026';
+// 'deepseek-ai/DeepSeek-V4-Flash-0731';
 
 /**
  * Baseten inference (OpenAI-compatible) powering Dispatchly AI delivery features.
