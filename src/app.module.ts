@@ -18,6 +18,7 @@ import { PaymentModule } from './modules/payment/payment.module';
 import { NotificationModule } from './modules/notification/notifcation.module';
 import { CreditModule } from './modules/credits/credit.module';
 import { AiDeliveryModule } from './modules/ai-delivery/ai-delivery.module';
+import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { AiDeliveryModule } from './modules/ai-delivery/ai-delivery.module';
     PaymentModule,
     CreditModule,
     AiDeliveryModule,
+    AdminModule,
   ],
   controllers: [AppController, HealthController],
   providers: [
