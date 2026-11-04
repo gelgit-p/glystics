@@ -1,180 +1,201 @@
-# 🛡️ NestJS Prisma Auth Boilerplate
+# Dispatchly API (Backend)
 
-<p align="center">
-  <img src="https://nestjs.com/img/logo-small.svg" width="100" alt="Nest Logo" />
-</p>
+NestJS 11 + Prisma 6 + PostgreSQL backend for Dispatchly: auth, deliveries
+(Shipbubble), WhatsApp (Meta Cloud API), credits/payments (Bachs), automations,
+notifications, and the Dispatchly AI delivery agent (Baseten).
 
-> A **progressive, production-ready** authentication boilerplate using **NestJS**, **Prisma**, and **GraphQL** with secure email confirmation, access/refresh JWT strategy, and PostgreSQL database.
+> This is a REST API (Swagger at `/api`). There is no GraphQL layer.
 
----
+## Tech stack
 
-## ✨ Features
+- [NestJS](https://nestjs.com) 11 (REST, Passport JWT)
+- [Prisma](https://www.prisma.io) 6 + PostgreSQL
+- JWT access/refresh auth, bcrypt, email confirmation (Nodemailer)
+- Shipbubble (shipping), Meta WhatsApp Cloud API, Bachs (credit payments)
+- Baseten (OpenAI-compatible) for AI delivery detection/extraction
 
-- 🔐 Secure **authentication system** (signup, login, logout)
-- ✅ **Email confirmation** using `nodemailer`
-- 🔁 JWT-based **access** and **refresh** tokens
-- 📬 Email delivery via Gmail SMTP (configurable)
-- 📦 Built with **Prisma ORM** and **PostgreSQL** (Supabase-ready)
-- ⚙️ Easily extendable with GraphQL modules and decorators
-- 🧪 Includes `@CurrentUser()` + `GqlAuthGuard` support
+## Prerequisites
 
----
+- Node.js 20+ (Docker image uses Node 26; any current LTS works)
+- [pnpm](https://pnpm.io) (`corepack enable` or `npm i -g pnpm`)
+- PostgreSQL 14+ (local, Docker, Supabase, Fly Postgres, …)
 
-## 📁 Tech Stack
-
-- [NestJS](https://nestjs.com)
-- [GraphQL](https://docs.nestjs.com/graphql/quick-start)
-- [Prisma](https://www.prisma.io/)
-- [PostgreSQL](https://www.postgresql.org/) (via Supabase)
-- [JWT](https://jwt.io/)
-- [Nodemailer](https://nodemailer.com/about/)
-
----
-
-## 🚀 Getting Started
+## Setup
 
 ```bash
-$ npm install
+cd api
+pnpm install
+cp .env.example .env   # then fill in the values — see table below
+pnpm exec prisma generate
+pnpm exec prisma migrate dev   # creates/applies migrations on a fresh DB
+pnpm run start:dev             # http://localhost:3000
 ```
 
-Create your `.env` file at root:
-
-```dotenv
-# Supabase connection pool (app usage)
-DATABASE_URL="postgresql://<username>:<password>@<host>:6543/postgres?pgbouncer=true"
-
-# Direct connection (for Prisma migrations)
-DIRECT_URL="postgresql://<username>:<password>@<host>:5432/postgres"
-
-# Email auth
-EMAIL_USER=your@email.com
-EMAIL_PASS=your-app-password
-EMAIL_CONFIRM_SECRET=any-secret
-
-# JWT
-JWT_SECRET=your-access-secret
-JWT_REFRESH_SECRET=your-refresh-secret
-
-FRONTEND_LINK=http://localhost:3001
-
-PORT=3000
-```
-
----
-
-## ✅ Compile and Run Migrations
+Verify it is up:
 
 ```bash
-# Generate Prisma client
-$ npx prisma generate
-
-# Create and apply migration
-$ npx prisma migrate dev --name init
+curl http://localhost:3000/health   # {"status":"ok", ...} (checks DB)
+# Swagger UI: http://localhost:3000/api
 ```
 
----
+`start:dev` runs `prisma generate` first. `start` / `start:prod` run
+`prisma migrate deploy` before booting, so production deploys apply pending
+migrations automatically.
 
-## 🧪 Run Locally
+## Environment variables
+
+Copy [`.env.example`](.env.example) to `.env`. **Required** = the app or a core
+flow (auth/DB) breaks without it. Feature vars are only needed when that
+integration is used; the code fails closed / throws a clear
+`… is not configured` error when a used integration is missing its config.
+Never commit a real `.env`.
+
+### Core (required)
+
+| Variable | Required | Description |
+|---|---|---|
+| `DATABASE_URL` | ✅ | PostgreSQL connection string used by Prisma at runtime, e.g. `postgresql://user:pass@localhost:5432/dispatchly?schema=public`. With Supabase pooling use the pooler URL (port 6543, `?pgbouncer=true`). |
+| `JWT_SECRET` | ✅ | Secret signing access JWTs. Use a long random string. |
+| `JWT_REFRESH_SECRET` | ✅ | Secret signing refresh JWTs. Must differ from `JWT_SECRET`. |
+| `EMAIL_CONFIRM_SECRET` | ✅ | Secret signing email-confirmation tokens (1h expiry). |
+| `FRONTEND_LINK` | ✅ | Public frontend origin, no trailing slash, e.g. `http://localhost:5173`. Used to build `…/confirm-email?token=…` links. Must match the deployed frontend for email links to work. |
+| `PORT` | No (default `3000`) | HTTP port. Fly.io sets this / expects `3000`. |
+| `NODE_ENV` | No (default development) | `development` / `production`. |
+
+### Email (required for signup confirmation)
+
+| Variable | Required | Description |
+|---|---|---|
+| `EMAIL_USER` | ✅ for email | SMTP username (Gmail address / app user) used by Nodemailer. |
+| `EMAIL_PASS` | ✅ for email | SMTP password / Gmail App Password. |
+
+### WhatsApp / Meta (required for WhatsApp features)
+
+| Variable | Required | Description |
+|---|---|---|
+| `WHATSAPP_APP_SECRET` | For webhooks | Meta app secret. When set, inbound webhook signatures are verified (fail-closed); without it, signature checks are skipped (local dev only). |
+| `WEBHOOK_SECRET` | For webhooks | Token Meta sends as `hub.verify_token` on webhook subscription verification (`/webhook`). |
+| `WHATSAPP_VERIFY_TOKEN` | For WhatsApp API | Verify token used by the WhatsApp module. |
+| `WHATSAPP_VERSION` | For WhatsApp API | Meta Graph API version, e.g. `v21.0`. Code throws if unset when sending. |
+| `WABA_ID` | For template ops | Default WhatsApp Business Account ID. |
+| `FB_APP_ID` | For FB connect | Meta app ID (Facebook Login / WhatsApp Embedded Signup). |
+| `FB_APP_SECRET` | For FB connect | Meta app secret. |
+| `FB_ADMIN_TOKEN` | Optional | Admin/system-user token for Meta operations. |
+| `FB_SYSTEM_USER_ID` | Optional | Meta system user ID. |
+| `FB_DEFAULT_SCOPES` | Optional | Comma-separated OAuth scopes for Facebook connect. |
+| `WHATSAPP_PHONE_NUMBER_ID` / `WHATSAPP_BUSINESS_PHONE_NUMBER_ID` | Optional | Fallback phone-number IDs when a tenant has not connected their own number. Per-tenant numbers are stored on the `User` record. |
+
+### Shipping, payments & credits
+
+| Variable | Required | Description |
+|---|---|---|
+| `SHIPBUBBLE_API_KEY` | For shipping | Shipbubble API key (rates, labels, tracking, webhooks). |
+| `BACHS_API_KEY` | For credit purchases | Bachs secret key for credit checkout/payment verification. |
+| `BACHS_BASE_URL` | Optional | Bachs API base URL override. |
+| `LOCAL_BACHS_WEBHOOK_SECRET` | For Bachs webhooks locally | Verifies Bachs webhook signatures. In production the code uses this same var — set it to your live webhook secret when deploying. |
+| `CREDIT_ADMIN_API_KEY` | Optional | Shared key guarding admin credit-adjustment endpoints. |
+| `CREDIT_COST_DELIVERY` | Optional (in `.env.example`: `1`) | Credits charged per delivery. |
+| `CREDIT_COST_WHATSAPP` | Optional (in `.env.example`: `1`) | Credits charged per WhatsApp message. |
+| `CREDIT_LOW_BALANCE_THRESHOLD` | Optional (default `10`) | Low-balance warning threshold; must be a non-negative integer. |
+
+### Dispatchly AI (Baseten)
+
+Without a key the AI runs in deterministic **demo mode** (no crash) — set the
+key + `AI_DEMO_MODE=false` for live extraction.
+
+| Variable | Required | Description |
+|---|---|---|
+| `BASETEN_API_KEY` | For live AI | Baseten API key. |
+| `AI_DEMO_MODE` | No (default demo without key) | `false` = allow live mode when a key exists; `true` = force demo. |
+| `BASETEN_ENABLED` | No (default enabled) | `false` disables Baseten entirely. |
+| `BASETEN_MODEL_ID` | No (built-in default) | Model/deployment ID, e.g. `meta-models/muse-spark-open-1026`. See `.env.example` for the DeepSeek example. |
+| `BASETEN_BASE_URL` | No (default `https://inference.baseten.co/v1`) | OpenAI-compatible base URL. |
+| `BASETEN_TIMEOUT_MS` | No (default `30000`) | Request timeout. |
+| `BASETEN_MAX_RETRIES` | No (default `3`) | Max retries. |
+| `BASETEN_REASONING_EFFORT` | No | Reasoning effort passed to supporting models, e.g. `high`. |
+| `AI_DELIVERY_DETECTION_DISABLED` | No (default `false`) | `true` = global kill-switch for AI delivery detection. Per-tenant toggle also exists. |
+
+### Instagram (optional integration)
+
+| Variable | Description |
+|---|---|
+| `IG_USERNAME`, `IG_PASSWORD` | Instagram bot credentials. |
+| `IG_PROXY_URL` | Optional proxy for Instagram requests. |
+| `IG_AUTH_DIR` | Directory for persisted Instagram auth state. |
+
+### Database notes
+
+- `prisma/schema.prisma` and `prisma.config.ts` read **`DATABASE_URL` only**.
+  There is no `DIRECT_URL` in the current code — if your provider gives you a
+  separate direct (non-pooled) URL, use it for `DATABASE_URL` when running
+  `prisma migrate dev/deploy` locally, or keep the pooled URL if your pooler
+  supports migrations (Supabase's session pooler does).
+- Generate secrets with e.g. `openssl rand -hex 32`.
+
+## Scripts
 
 ```bash
-# development
-$ npm run start:dev
-
-# production
-$ npm run start:prod
+pnpm run start:dev    # generate client + watch mode
+pnpm run start:debug  # watch + inspector
+pnpm run build        # prisma generate + nest build
+pnpm run start:prod   # migrate deploy + generate + node dist/src/main.js
+pnpm run lint         # eslint --fix
+pnpm run test         # jest unit tests (src/**/*.spec.ts)
+pnpm run test:watch
+pnpm run test:cov
+pnpm run test:e2e     # jest --config ./test/jest-e2e.json
+pnpm exec prisma migrate dev --name <change>   # new migration
+pnpm exec prisma migrate deploy                # apply migrations (prod)
+pnpm exec prisma studio                        # browse DB
 ```
 
----
+## Auth flow (summary)
 
-## 📫 Email Confirmation Logic
+1. `POST /auth/...` signup → user created, confirmation email sent
+   (`FRONTEND_LINK/confirm-email?token=…`, token signed with `EMAIL_CONFIRM_SECRET`)
+2. Confirm email → `emailConfirmed = true`
+3. Login → `accessToken` + `refreshToken` (hashed refresh token stored on user)
+4. Refresh → rotated tokens; Logout → refresh token cleared
 
-Upon signup:
+Admin endpoints under `/admin/**` additionally require the `SUPER_ADMIN` role
+(server-side guard re-reads the DB role).
 
-- User receives confirmation link like:
+## Deployment
 
-```
-https://yourfrontend.com/confirm-email?token=xyz123
-```
-
-- Token is JWT-signed and stored in the database (`emailConfirmToken`)
-- On confirmation mutation, token is verified and user marked as `emailConfirmed`
-
----
-
-## 🔐 Auth Flow
-
-1. `signup(data)` — creates user, sends email link
-2. `confirmEmail(token)` — activates user
-3. `login(data)` — returns `accessToken`, `refreshToken`
-4. `refreshToken(token)` — issues new tokens
-5. `logout()` — removes refresh token from DB
-
----
-
-## 🛡 Protected Routes
-
-Use built-in `GqlAuthGuard` + `@CurrentUser()` to protect and access private GraphQL queries:
-
-```ts
-@UseGuards(GqlAuthGuard)
-@Query(() => User)
-me(@CurrentUser() user) {
-  return this.userService.findById(user.id);
-}
-```
-
----
-
-## 🛠 Project Scripts
+### Fly.io (current)
 
 ```bash
-# Run unit tests
-$ npm run test
-
-# Run e2e tests
-$ npm run test:e2e
-
-# Check test coverage
-$ npm run test:cov
-
-$ npx prisma migrate dev && npx prisma migrate deploy && npx prisma db push && pnpm run start:dev
+fly deploy -a glystics        # app name/config in fly.toml
+fly secrets set DATABASE_URL=… JWT_SECRET=… … -a glystics
 ```
 
----
+`fly.toml` sets a release command (`npx prisma migrate deploy`) and the
+[Dockerfile](Dockerfile) `CMD` runs `pnpm run start` (which also runs
+`migrate deploy`). Set all required env vars as Fly secrets; do not bake them
+into the image.
 
-## 📦 Deployment
-
-The production start script runs `prisma migrate deploy` before starting the
-server, so database column types stay aligned with the generated Prisma Client.
-If the service uses a custom start command instead of `pnpm run start:prod`,
-run `pnpm exec prisma migrate deploy` as a release/pre-deploy command before
-starting the application.
-
-Check out the [NestJS Deployment Guide](https://docs.nestjs.com/deployment) or use:
+### Docker (any host)
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+docker build -t dispatchly-api .
+docker run --env-file .env -p 3000:3000 dispatchly-api
 ```
 
----
+## Project layout
 
-## 🧠 Resources
+```
+src/
+  main.ts            bootstrap, CORS, Swagger at /api
+  app.module.ts      module wiring
+  health.controller.ts  GET /health (DB ping)
+  modules/           auth, user, delivery, shipbubble, whatsapp, webhook,
+                     payment, credits, admin, ai-agent, ai-delivery, …
+prisma/
+  schema.prisma      data model (DATABASE_URL)
+  migrations/
+```
 
-- [NestJS Docs](https://docs.nestjs.com)
-- [Prisma Docs](https://www.prisma.io/docs)
-- [GraphQL Docs](https://graphql.org/learn/)
-- [Supabase](https://supabase.com)
-- [Nodemailer Docs](https://nodemailer.com/about/)
+## Resources
 
----
-
-## 👨‍💻 Author
-
-Made with ❤️ by \Olzhas— feel free to contribute or fork.
-
-1343947352130201
-1306783259184340
-
-## fly deploy command
- fly deploy -a glystics
+- [NestJS Docs](https://docs.nestjs.com) · [Prisma Docs](https://www.prisma.io/docs)
+- Frontend setup: [`../fe/Readme.MD`](../fe/Readme.MD)
