@@ -1,4 +1,6 @@
-import { ConfigService } from '@nestjs/config';
+// Runtime ConfigService is ESM-only under Jest (pre-existing); BasetenClient only needs its type.
+jest.mock('@nestjs/config', () => ({ ConfigService: class {} }));
+import type { ConfigService } from '@nestjs/config';
 import { BasetenClient } from './baseten.client';
 
 const cfg = (vals: Record<string, string | undefined>) =>
