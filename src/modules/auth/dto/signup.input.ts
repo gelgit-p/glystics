@@ -1,8 +1,6 @@
-import { InputType } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsEmail, IsOptional, IsString } from 'class-validator';
 
-@InputType()
 export class SignupInput {
   @ApiProperty()
   @IsEmail()

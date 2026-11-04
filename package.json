@@ -20,26 +20,20 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "pnpm": {
-    "allowBuilds": [
-      "@apollo/protobufjs",
-      "@prisma/client",
-      "@prisma/engines",
-      "@scarf/scarf",
-      "@swc/core",
+  "allowBuilds": [
+    "@prisma/client",
+    "@prisma/engines",
+    "@scarf/scarf",
+    "@swc/core",
       "bcrypt",
-      "prisma",
-      "protobufjs"
+      "prisma"
     ]
   },
   "dependencies": {
-    "@apollo/server": "^4.12.1",
-    "@as-integrations/express5": "^1.1.2",
-    "@nestjs/apollo": "^13.1.0",
     "@nestjs/axios": "^12.0.0",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^12.0.0",
     "@nestjs/core": "^11.0.1",
-    "@nestjs/graphql": "^13.1.0",
     "@nestjs/jwt": "^11.0.0",
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.1",
@@ -53,7 +47,6 @@
     "class-validator": "^0.15.1",
     "crypto": "^1.0.1",
     "dotenv": "^17.4.2",
-    "graphql": "^16.11.0",
     "instagram-bot-api": "^1.0.1",
     "multer": "^2.4.0",
     "nodemailer": "^7.0.3",

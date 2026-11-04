@@ -5,8 +5,6 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UserService } from './modules/user/user.service';
 import { PrismaModule } from 'prisma/prisma.module';
 import { UserModule } from './modules/user/user.module';
-import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { LoggerMiddleware } from './common/logger.middleware';
 import { ShipbubbleModule } from './modules/shipbubble/shipbubble.module';
 import { WebhookModule } from './modules/webhook/webhook.module';
@@ -23,13 +21,6 @@ import { AiDeliveryModule } from './modules/ai-delivery/ai-delivery.module';
 
 @Module({
   imports: [
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      autoSchemaFile: true,
-      context: ({ req, res }) => {
-        return { req, res };
-      },
-    }),
     AuthModule,
     PrismaModule,
     UserModule,
