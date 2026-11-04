@@ -54,6 +54,14 @@ export class AiDeliveryService {
     return this.ai.mode;
   }
 
+  aiProvider() {
+    return { provider: this.ai.provider, model: this.ai.modelId };
+  }
+
+  aiHealth() {
+    return this.ai.healthCheck();
+  }
+
   async audit(
     userId: string | null,
     actorType: string,
@@ -103,6 +111,8 @@ export class AiDeliveryService {
         (user?.aiDeliveryDetectionEnabled ?? true),
       role: user?.role ?? 'USER',
       aiMode: this.aiMode(),
+      aiProvider: this.ai.provider,
+      aiModel: this.ai.modelId,
     };
   }
 
@@ -142,6 +152,8 @@ export class AiDeliveryService {
     return {
       globalEnabled: this.detectionGloballyEnabled(),
       aiMode: this.aiMode(),
+      aiProvider: this.ai.provider,
+      aiModel: this.ai.modelId,
       users,
       superAdmins,
       tenantsWithDetectionEnabled: detectionEnabled,
@@ -563,9 +575,11 @@ export class AiDeliveryService {
     );
     return {
       aiMode: this.aiMode(),
+      aiProvider: this.ai.provider,
+      aiModel: this.ai.modelId,
       demoLabel:
         this.aiMode() === 'demo'
-          ? 'DEMO MODE — simulated AI extraction, no real Meta Muse Spark call'
+          ? 'DEMO MODE — simulated AI extraction, no live Baseten call'
           : undefined,
       conversations,
       pendingApprovals,

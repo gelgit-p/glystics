@@ -28,6 +28,8 @@ export class UserService {
           webhookStatus: true,
           selectedPhoneNumberId: true,
           facebookConnectStatus: true,
+          role: true,
+          aiDeliveryDetectionEnabled: true,
           createdAt: true,
         },
       });

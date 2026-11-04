@@ -152,6 +152,11 @@ export class AiDeliveryController {
   adminOverview() {
     return this.service.adminOverview();
   }
+  @Get('admin/ai-health')
+  @UseGuards(SuperAdminGuard)
+  adminAiHealth() {
+    return this.service.aiHealth();
+  }
   @Get('admin/users')
   @UseGuards(SuperAdminGuard)
   adminUsers() {
