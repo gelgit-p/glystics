@@ -19,6 +19,7 @@ site:
       key: section-2
       title: connect whatsapp with facebook
       path: connect-whatsapp-with-facebook
+      description: ""
       children:
         - type: space
           key: space-1
