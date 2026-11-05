@@ -7,21 +7,21 @@ import { SharedNetworkService } from './shared-network.service';
 
 type AuthedRequest = { user: { id: string } };
 
-@ApiTags('Shared Delivery Network')
-@ApiBearerAuth()
-@UseGuards(AuthGuard('jwt'))
-@Controller('shared-network')
 @ApiTags('Shared Delivery Network (public)')
 @Controller('public/shared-network')
 export class SharedNetworkPublicController {
-  constructor(private svc: SharedNetworkService) {}
+  constructor(private svc: SharedNetworkService) { }
   // Public pricing for the marketing page (/shared-network-info) — paid plans only, no business data.
   @Get('plans') plans() { return this.svc.listPlans(); }
   @Get('status') status() { return this.svc.getNetworkSetting(); }
 }
 
+@ApiTags('Shared Delivery Network')
+@ApiBearerAuth()
+@UseGuards(AuthGuard('jwt'))
+@Controller('shared-network')
 export class SharedNetworkController {
-  constructor(private svc: SharedNetworkService) {}
+  constructor(private svc: SharedNetworkService) { }
   @Get('plans') plans() { return this.svc.listPlans(); }
   @Get('status') status() { return this.svc.getNetworkSetting(); }
   @Post('business') createBusiness(@Req() r: AuthedRequest, @Body() d: dto.CreateNetworkBusinessDto) { return this.svc.createBusiness(r.user.id, d); }
@@ -62,7 +62,7 @@ export class SharedNetworkController {
 @UseGuards(AuthGuard('jwt'), SuperAdminGuard)
 @Controller('admin/shared-network')
 export class SharedNetworkAdminController {
-  constructor(private svc: SharedNetworkService) {}
+  constructor(private svc: SharedNetworkService) { }
   @Get('overview') overview() { return this.svc.adminOverview(); }
   @Get('settings') settings() { return this.svc.getNetworkSetting(); }
   @Patch('settings/network-enabled') setEnabled(@Req() r: AuthedRequest, @Body() d: dto.AdminNetworkEnabledDto) { return this.svc.adminSetNetworkEnabled(r.user.id, d.enabled, d.disabledMessage); }

@@ -12,7 +12,7 @@ const DAY = 86400000;
 
 @Injectable()
 export class SharedNetworkService {
-  constructor(private prisma: PrismaService, private bachs: BachsService, private config: ConfigService, private credits: CreditsService) {}
+  constructor(private prisma: PrismaService, private bachs: BachsService, private config: ConfigService, private credits: CreditsService) { }
 
   async getNetworkSetting() {
     return this.prisma.sharedNetworkSetting.upsert({ where: { id: 'default' }, create: { id: 'default', networkEnabled: true }, update: {} });
