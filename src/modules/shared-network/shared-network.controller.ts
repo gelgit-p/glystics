@@ -11,6 +11,15 @@ type AuthedRequest = { user: { id: string } };
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
 @Controller('shared-network')
+@ApiTags('Shared Delivery Network (public)')
+@Controller('public/shared-network')
+export class SharedNetworkPublicController {
+  constructor(private svc: SharedNetworkService) {}
+  // Public pricing for the marketing page (/shared-network-info) — paid plans only, no business data.
+  @Get('plans') plans() { return this.svc.listPlans(); }
+  @Get('status') status() { return this.svc.getNetworkSetting(); }
+}
+
 export class SharedNetworkController {
   constructor(private svc: SharedNetworkService) {}
   @Get('plans') plans() { return this.svc.listPlans(); }

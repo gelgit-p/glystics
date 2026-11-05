@@ -131,3 +131,13 @@ describe('SharedNetworkController status route', () => {
     expect(svc.getNetworkSetting).toHaveBeenCalled();
   });
 });
+
+describe('SharedNetworkPublicController', () => {
+  it('serves paid plans + status without authentication for /shared-network-info', async () => {
+    const { SharedNetworkPublicController } = await import('./shared-network.controller');
+    const svc: any = { listPlans: jest.fn(async () => [{ slug: 'network-growth', monthlyPriceKobo: 1500000 }]), getNetworkSetting: jest.fn(async () => ({ networkEnabled: true })) };
+    const c = new SharedNetworkPublicController(svc);
+    await expect(c.plans()).resolves.toEqual([{ slug: 'network-growth', monthlyPriceKobo: 1500000 }]);
+    await expect(c.status()).resolves.toEqual({ networkEnabled: true });
+  });
+});
