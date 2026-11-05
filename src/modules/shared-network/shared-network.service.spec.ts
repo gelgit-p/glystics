@@ -108,3 +108,13 @@ describe('SharedNetworkService per-business access', () => {
     expect(on.accessEnabled).toBe(true);
   });
 });
+
+describe('SharedNetworkController status route', () => {
+  it('exposes GET /shared-network/status for the user sidebar (regression: was 404 -> fail-open)', async () => {
+    const { SharedNetworkController } = await import('./shared-network.controller');
+    const svc: any = { getNetworkSetting: jest.fn(async () => ({ networkEnabled: false, disabledMessage: 'Off' })) };
+    const c = new SharedNetworkController(svc);
+    await expect(c.status()).resolves.toEqual({ networkEnabled: false, disabledMessage: 'Off' });
+    expect(svc.getNetworkSetting).toHaveBeenCalled();
+  });
+});

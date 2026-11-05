@@ -14,6 +14,7 @@ type AuthedRequest = { user: { id: string } };
 export class SharedNetworkController {
   constructor(private svc: SharedNetworkService) {}
   @Get('plans') plans() { return this.svc.listPlans(); }
+  @Get('status') status() { return this.svc.getNetworkSetting(); }
   @Post('business') createBusiness(@Req() r: AuthedRequest, @Body() d: dto.CreateNetworkBusinessDto) { return this.svc.createBusiness(r.user.id, d); }
   @Get('business') business(@Req() r: AuthedRequest) { return this.svc.getBusiness(r.user.id); }
   @Patch('business') updateBusiness(@Req() r: AuthedRequest, @Body() d: dto.UpdateNetworkBusinessDto) { return this.svc.updateBusiness(r.user.id, d); }
