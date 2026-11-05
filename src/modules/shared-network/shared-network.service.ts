@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
+import { BadRequestException, Logger, ConflictException, ForbiddenException, Injectable, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { randomUUID } from 'node:crypto';
 import { Prisma } from 'prisma/generated';
@@ -12,6 +12,7 @@ const DAY = 86400000;
 
 @Injectable()
 export class SharedNetworkService {
+  private readonly logger = new Logger(SharedNetworkService.name);
   constructor(private prisma: PrismaService, private bachs: BachsService, private config: ConfigService, private credits: CreditsService) { }
 
   async getNetworkSetting() {
@@ -49,8 +50,10 @@ export class SharedNetworkService {
     return b;
   }
   async getBusiness(userId: string) {
-    const b = await this.prisma.sharedNetworkBusiness.findUnique({ where: { userId }, include: { user: { select: { id: true, email: true, businessName: true, creditWallet: { select: { balance: true, id: true } } } }, subscriptions: { include: { plan: true }, orderBy: { createdAt: 'desc' } } } });
-    return b; // null => frontend shows onboarding CTA (not an error)
+    const b = await this.prisma.sharedNetworkBusiness.findUnique({ where: { userId }, include: { subscriptions: { include: { plan: true }, orderBy: { createdAt: 'desc' } } } });
+    if (!b) return null; // null => frontend shows onboarding CTA (not an error)
+    const billingRow = await this.prisma.creditWallet.upsert({ where: { userId }, create: { userId }, update: {} });
+    return { ...b, wallet: { id: billingRow.id, balance: billingRow.balance, points: billingRow.points }, billingBalance: billingRow.balance };
   }
   async createBusiness(userId: string, d: dto.CreateNetworkBusinessDto) {
     await this.assertNetworkEnabled();
@@ -299,14 +302,19 @@ export class SharedNetworkService {
   }
   async getCredits(userId: string) {
     const b = await this.requireBusiness(userId);
+    // Canonical Billing balance: read the row directly so the Shared Network UI can never
+    // drift from /credits/wallet (CreditsService.getWallet upserts the same row).
+    const billingRow = await this.prisma.creditWallet.upsert({ where: { userId }, create: { userId }, update: {} });
     const wallet = await this.credits.getWallet(userId);
+    if (wallet.balance !== billingRow.balance) this.logger.warn(`Billing balance mismatch for ${userId}: getWallet=${wallet.balance} row=${billingRow.balance}`);
     const transactions = await this.prisma.creditTransaction.findMany({ where: { wallet: { userId }, metadata: { path: ['source'], equals: 'SHARED_NETWORK' } }, orderBy: { createdAt: 'desc' }, take: 100 }).catch(() => []);
     const billingTransactions = transactions.length ? transactions : await this.prisma.creditTransaction.findMany({ where: { wallet: { userId }, description: { contains: 'Capacity reservation' } }, orderBy: { createdAt: 'desc' }, take: 100 }).catch(() => []);
-    return { wallet: { id: wallet.walletId, balance: wallet.balance, points: wallet.points ?? 0, userId }, billingWallet: wallet, transactions: billingTransactions, purchaseUrl: '/billing' };
+    return { balance: billingRow.balance, wallet: { id: billingRow.id, walletId: billingRow.id, balance: billingRow.balance, points: billingRow.points, userId }, billingWallet: { ...wallet, balance: billingRow.balance, walletId: billingRow.id }, transactions: billingTransactions, purchaseUrl: '/billing' };
   }
   // ---------- billing / analytics / deliveries ----------
   async billingOverview(userId: string) {
     const b = await this.requireBusiness(userId);
+    const billingRow = await this.prisma.creditWallet.upsert({ where: { userId }, create: { userId }, update: {} });
     const [wallet, sub, txns, invoices, monthUsage] = await Promise.all([
       this.credits.getWallet(userId),
       this.currentSubscription(userId),
@@ -314,7 +322,7 @@ export class SharedNetworkService {
       this.prisma.sharedNetworkInvoice.findMany({ where: { businessId: b.id }, orderBy: { createdAt: 'desc' }, take: 50 }),
       this.prisma.sharedNetworkUsageRecord.aggregate({ where: { businessId: b.id, createdAt: { gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1) } }, _sum: { costKobo: true, costCredits: true, quantity: true } }),
     ]);
-    return { wallet: { id: wallet.walletId, balance: wallet.balance, points: wallet.points ?? 0 }, billingWallet: wallet, subscription: sub, transactions: txns, invoices, monthlyExpenditureKobo: monthUsage._sum.costKobo ?? 0, monthlyCreditsSpent: monthUsage._sum.costCredits ?? 0 };
+    return { balance: billingRow.balance, wallet: { id: billingRow.id, walletId: billingRow.id, balance: billingRow.balance, points: billingRow.points }, billingWallet: { ...wallet, balance: billingRow.balance, walletId: billingRow.id }, subscription: sub, transactions: txns, invoices, monthlyExpenditureKobo: monthUsage._sum.costKobo ?? 0, monthlyCreditsSpent: monthUsage._sum.costCredits ?? 0 };
   }
   async listTransactions(userId: string) { const b = await this.requireBusiness(userId); return this.prisma.sharedNetworkBillingTransaction.findMany({ where: { businessId: b.id }, orderBy: { createdAt: 'desc' }, take: 100 }); }
   async listInvoices(userId: string) { const b = await this.requireBusiness(userId); return this.prisma.sharedNetworkInvoice.findMany({ where: { businessId: b.id }, orderBy: { createdAt: 'desc' }, take: 100 }); }

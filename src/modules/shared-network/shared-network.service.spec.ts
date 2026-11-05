@@ -141,3 +141,27 @@ describe('SharedNetworkPublicController', () => {
     await expect(c.status()).resolves.toEqual({ networkEnabled: true });
   });
 });
+
+describe('SharedNetworkService Billing balance (regression: SN page showed 0)', () => {
+  it('getCredits returns the Billing CreditWallet balance, not 0 / not an SN wallet', async () => {
+    const prisma: any = {
+      sharedNetworkSetting: { upsert: jest.fn(async () => ({ id: 'default', networkEnabled: true })) },
+      sharedNetworkBusiness: { findUnique: jest.fn(async () => ({ id: 'b1', userId: 'u1', status: 'ACTIVE', accessEnabled: true })) },
+      creditWallet: { upsert: jest.fn(async () => ({ id: 'bw1', userId: 'u1', balance: 264, points: 870 })) },
+      creditTransaction: { findMany: jest.fn(async () => []) },
+    };
+    const credits: any = { getWallet: jest.fn(async () => ({ walletId: 'bw1', balance: 264, points: 870 })), spendWithinTransaction: jest.fn(), refundUsage: jest.fn() };
+    const svc = new SharedNetworkService(prisma, {} as never, { get: () => undefined } as never, credits);
+    const r = await svc.getCredits('u1');
+    expect(r.balance).toBe(264); expect(r.wallet.balance).toBe(264); expect(r.billingWallet.balance).toBe(264);
+  });
+  it('getBusiness attaches billingBalance for the SN header', async () => {
+    const prisma: any = {
+      sharedNetworkBusiness: { findUnique: jest.fn(async () => ({ id: 'b1', userId: 'u1', businessName: 'Gelgit' })) },
+      creditWallet: { upsert: jest.fn(async () => ({ id: 'bw1', balance: 264, points: 870 })) },
+    };
+    const svc = new SharedNetworkService(prisma, {} as never, { get: () => undefined } as never, { getWallet: jest.fn() } as never);
+    const b: any = await svc.getBusiness('u1');
+    expect(b.billingBalance).toBe(264); expect(b.wallet.balance).toBe(264);
+  });
+});
