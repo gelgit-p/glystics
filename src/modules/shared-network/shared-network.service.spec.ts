@@ -23,6 +23,7 @@ function makePrisma(capacity: any, walletBalance = 100) {
   const prisma: any = {
     $transaction: jest.fn(async (fn: any) => fn(tx)),
     sharedNetworkBusiness: { findUnique: jest.fn(async () => ({ id: 'b1', userId: 'u1', status: 'ACTIVE', operatingRegions: ['Lagos'] })) },
+    sharedNetworkSetting: { upsert: jest.fn(async () => ({ id: 'default', networkEnabled: true })) },
     sharedNetworkSubscription: { findFirst: jest.fn(async () => null) },
     sharedNetworkReservation: { aggregate: jest.fn(async () => ({ _sum: { quantity: 0 } })), findUnique: jest.fn(async () => null) },
     sharedNetworkCapacity: { findUnique: jest.fn(async () => ({ ...state.capacity })), findFirst: jest.fn(async () => ({ ...state.capacity })) },
@@ -49,5 +50,36 @@ describe('SharedNetworkService reservations', () => {
     const svc = new SharedNetworkService(prisma, bachs, config);
     const view = (svc as any).poolView({ id: 'p1', name: 'P', region: 'Lagos', date: new Date(), window: 'MORNING', status: 'OPEN', maxDeliveries: 10, totalDeliveries: 5, estimatedSavingsKobo: 0, deliveries: [{ businessId: 'other', pickupAddress: 'SECRET', deliveryId: 'd9' }, { businessId: 'b1', pickupAddress: 'Mine', deliveryId: 'd1' }] }, 'b1');
     expect(view.myDeliveries).toHaveLength(1); expect(JSON.stringify(view)).not.toContain('SECRET'); expect(view.businessCount).toBe(2);
+  });
+});
+
+describe('SharedNetworkService paid plans & network toggle', () => {
+  it('listPlans only returns paid plans (no Starter, no free)', async () => {
+    const prisma: any = {
+      sharedNetworkPlan: {
+        upsert: jest.fn(async () => ({})),
+        findMany: jest.fn(async ({ where }: any) => { expect(where.monthlyPriceKobo.gt).toBe(0); expect(where.annualPriceKobo.gt).toBe(0); return [{ slug: 'network-growth', monthlyPriceKobo: 1500000 }]; }),
+      },
+      sharedNetworkSetting: { upsert: jest.fn(async () => ({ id: 'default', networkEnabled: true })) },
+    };
+    const svc = new SharedNetworkService(prisma, {} as never, { get: () => undefined } as never);
+    const plans = await svc.listPlans();
+    expect(plans).toHaveLength(1); 
+  });
+  it('assertNetworkEnabled throws 503 with admin message when OFF', async () => {
+    const prisma: any = { sharedNetworkSetting: { upsert: jest.fn(async () => ({ id: 'default', networkEnabled: false, disabledMessage: 'Maintenance' })) } };
+    const svc = new SharedNetworkService(prisma, {} as never, { get: () => undefined } as never);
+    await expect(svc.assertNetworkEnabled()).rejects.toThrow('Maintenance');
+    await expect(svc.createBusiness('u1', { businessName: 'x', businessEmail: 'a@b.c', contactPhone: '1', category: 'c', pickupLocations: [], operatingRegions: [] } as never)).rejects.toThrow('Maintenance');
+  });
+  it('createBusiness without a plan is rejected (no PAYG)', async () => {
+    const prisma: any = {
+      sharedNetworkSetting: { upsert: jest.fn(async () => ({ id: 'default', networkEnabled: true })) },
+      sharedNetworkPlan: { upsert: jest.fn(async () => ({})), findMany: jest.fn(async () => []) },
+      sharedNetworkBusiness: { findUnique: jest.fn(async () => null) },
+      $transaction: jest.fn(async (fn: any) => fn({ sharedNetworkBusiness: { create: jest.fn(async () => ({ id: 'b1' })) }, sharedNetworkWallet: { create: jest.fn() } })),
+    };
+    const svc = new SharedNetworkService(prisma, {} as never, { get: () => undefined } as never);
+    await expect(svc.createBusiness('u1', { businessName: 'x', businessEmail: 'a@b.c', contactPhone: '1', category: 'c', pickupLocations: [], operatingRegions: [], planId: undefined } as never)).rejects.toThrow(/paid subscription plan is required/);
   });
 });

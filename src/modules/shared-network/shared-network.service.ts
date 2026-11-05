@@ -13,21 +13,36 @@ const DAY = 86400000;
 export class SharedNetworkService {
   constructor(private prisma: PrismaService, private bachs: BachsService, private config: ConfigService) {}
 
+  async getNetworkSetting() {
+    return this.prisma.sharedNetworkSetting.upsert({ where: { id: 'default' }, create: { id: 'default', networkEnabled: true }, update: {} });
+  }
+  async assertNetworkEnabled() {
+    const s = await this.getNetworkSetting();
+    if (!s.networkEnabled) throw new ServiceUnavailableException(s.disabledMessage || 'The Shared Delivery Network is currently unavailable. Please try again later.');
+    return s;
+  }
+  async adminSetNetworkEnabled(actor: string, enabled: boolean, disabledMessage?: string) {
+    const s = await this.prisma.sharedNetworkSetting.upsert({ where: { id: 'default' }, create: { id: 'default', networkEnabled: enabled, disabledMessage: disabledMessage ?? null, updatedByUserId: actor }, update: { networkEnabled: enabled, disabledMessage: disabledMessage ?? null, updatedByUserId: actor } });
+    await this.prisma.sharedNetworkAuditLog.create({ data: { actorUserId: actor, action: enabled ? 'NETWORK_ENABLED' : 'NETWORK_DISABLED', entityType: 'SharedNetworkSetting', entityId: s.id, metadata: { disabledMessage: disabledMessage ?? null } as never } });
+    return s;
+  }
+
   // ---------- plans (configurable, seeded from env/defaults, admin-editable) ----------
   async ensurePlans() {
     const defaults = [
-      { name: 'Network Starter', slug: 'network-starter', description: 'For small vendors', monthlyPriceKobo: 0, annualPriceKobo: 0, monthlyDeliveryVolume: 100, reservedCapacityAllowance: 20, maxActiveSlots: 5, discountPercent: 0, analyticsAccess: false, aiDispatchAccess: false, priorityAllocation: false, maxLocations: 1, sortOrder: 1 },
+      { name: 'Network Starter', slug: 'network-starter', description: 'For small vendors', monthlyPriceKobo: 500000, annualPriceKobo: 5000000, monthlyDeliveryVolume: 100, reservedCapacityAllowance: 20, maxActiveSlots: 5, discountPercent: 0, analyticsAccess: false, aiDispatchAccess: false, priorityAllocation: false, maxLocations: 1, sortOrder: 1 },
       { name: 'Network Growth', slug: 'network-growth', description: 'For growing businesses', monthlyPriceKobo: 1500000, annualPriceKobo: 15000000, monthlyDeliveryVolume: 500, reservedCapacityAllowance: 150, maxActiveSlots: 20, discountPercent: 5, analyticsAccess: true, aiDispatchAccess: true, priorityAllocation: false, maxLocations: 3, sortOrder: 2 },
       { name: 'Network Business', slug: 'network-business', description: 'For established retailers', monthlyPriceKobo: 5000000, annualPriceKobo: 50000000, monthlyDeliveryVolume: 2000, reservedCapacityAllowance: 600, maxActiveSlots: 100, discountPercent: 10, analyticsAccess: true, aiDispatchAccess: true, priorityAllocation: true, maxLocations: 10, sortOrder: 3 },
-      { name: 'Network Enterprise', slug: 'network-enterprise', description: 'Custom for large e-commerce', monthlyPriceKobo: 0, annualPriceKobo: 0, monthlyDeliveryVolume: 10000, reservedCapacityAllowance: 5000, maxActiveSlots: 500, discountPercent: 15, analyticsAccess: true, aiDispatchAccess: true, priorityAllocation: true, maxLocations: 100, sortOrder: 4 },
+      { name: 'Network Enterprise', slug: 'network-enterprise', description: 'For large e-commerce operations', monthlyPriceKobo: 25000000, annualPriceKobo: 250000000, monthlyDeliveryVolume: 10000, reservedCapacityAllowance: 5000, maxActiveSlots: 500, discountPercent: 15, analyticsAccess: true, aiDispatchAccess: true, priorityAllocation: true, maxLocations: 100, sortOrder: 4 },
     ];
     for (const p of defaults) await this.prisma.sharedNetworkPlan.upsert({ where: { slug: p.slug }, create: p, update: {} });
-    return this.prisma.sharedNetworkPlan.findMany({ where: { isActive: true }, orderBy: { sortOrder: 'asc' } });
+    return this.prisma.sharedNetworkPlan.findMany({ where: { isActive: true, monthlyPriceKobo: { gt: 0 }, annualPriceKobo: { gt: 0 } }, orderBy: { sortOrder: 'asc' } });
   }
   async listPlans() { return this.ensurePlans(); }
 
   // ---------- business ----------
   async requireBusiness(userId: string) {
+    await this.assertNetworkEnabled();
     const b = await this.prisma.sharedNetworkBusiness.findUnique({ where: { userId }, include: { wallet: true, subscriptions: { include: { plan: true }, orderBy: { createdAt: 'desc' }, take: 1 } } });
     if (!b) throw new NotFoundException('Shared Network business not found. Complete onboarding first.');
     if (b.status === 'SUSPENDED') throw new ForbiddenException('Shared Network account is suspended');
@@ -38,6 +53,7 @@ export class SharedNetworkService {
     return b; // null => frontend shows onboarding CTA (not an error)
   }
   async createBusiness(userId: string, d: dto.CreateNetworkBusinessDto) {
+    await this.assertNetworkEnabled();
     await this.ensurePlans();
     const existing = await this.prisma.sharedNetworkBusiness.findUnique({ where: { userId } });
     if (existing) throw new ConflictException('Shared Network already activated for this account');
@@ -46,8 +62,8 @@ export class SharedNetworkService {
       await tx.sharedNetworkWallet.create({ data: { businessId: b.id } });
       return b;
     });
-    let subscription: unknown = null;
-    if (d.planId && d.billingCycle !== 'PAY_AS_YOU_GO') subscription = await this.createSubscription(userId, { planId: d.planId, billingCycle: d.billingCycle === 'ANNUAL' ? 'ANNUAL' : 'MONTHLY' }).catch((e) => ({ pending: true, error: e.message }));
+    if (!d.planId) throw new BadRequestException('A paid subscription plan is required to join the Shared Delivery Network');
+    const subscription = await this.createSubscription(userId, { planId: d.planId, billingCycle: d.billingCycle === 'ANNUAL' ? 'ANNUAL' : 'MONTHLY' });
     return { business: await this.getBusiness(userId), subscription };
   }
   async updateBusiness(userId: string, d: dto.UpdateNetworkBusinessDto) {
@@ -62,15 +78,7 @@ export class SharedNetworkService {
     if (!plan) throw new NotFoundException('Plan not found');
     const cycle = d.billingCycle ?? 'MONTHLY';
     const amountKobo = cycle === 'ANNUAL' ? plan.annualPriceKobo : plan.monthlyPriceKobo;
-    if (amountKobo <= 0) { // free / PAYG / enterprise-custom: activate without charge
-      const sub = await this.prisma.$transaction(async (tx) => {
-        await tx.sharedNetworkSubscription.updateMany({ where: { businessId: b.id, status: 'ACTIVE' }, data: { status: 'CANCELLED' } });
-        const s = await tx.sharedNetworkSubscription.create({ data: { businessId: b.id, planId: plan.id, status: 'ACTIVE', billingCycle: cycle, currentPeriodStart: new Date(), currentPeriodEnd: new Date(Date.now() + (cycle === 'ANNUAL' ? 365 : 30) * DAY) } });
-        await tx.sharedNetworkInvoice.create({ data: { businessId: b.id, subscriptionId: s.id, number: `SN-INV-${randomUUID().slice(0, 8).toUpperCase()}`, amountKobo: 0, status: 'PAID', paidAt: new Date(), items: { plan: plan.name, cycle } as any } });
-        return s;
-      });
-      return { subscription: sub, checkoutUrl: null };
-    }
+    if (amountKobo <= 0) throw new BadRequestException('This plan is not available for paid subscription');
     const reference = `SN-SUB-${randomUUID()}`;
     const sub = await this.prisma.sharedNetworkSubscription.create({ data: { businessId: b.id, planId: plan.id, status: 'PENDING_PAYMENT', billingCycle: cycle, paymentReference: reference } });
     try {

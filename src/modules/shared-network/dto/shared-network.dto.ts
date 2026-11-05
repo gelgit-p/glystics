@@ -15,7 +15,7 @@ export class CreateNetworkBusinessDto {
   @ApiPropertyOptional() @IsOptional() @IsInt() @Min(0) @Type(() => Number) expectedWeeklyVolume?: number;
   @ApiPropertyOptional({ type: [String] }) @IsOptional() @IsArray() @IsString({ each: true }) preferredWindows?: string[];
   @ApiPropertyOptional() @IsOptional() @IsString() planId?: string;
-  @ApiPropertyOptional({ enum: ['MONTHLY', 'ANNUAL', 'PAY_AS_YOU_GO'] }) @IsOptional() @IsString() billingCycle?: string;
+  @ApiPropertyOptional({ enum: ['MONTHLY', 'ANNUAL'] }) @IsOptional() @IsString() billingCycle?: string;
 }
 
 export class UpdateNetworkBusinessDto {
@@ -147,3 +147,5 @@ export class AdminCapacityDto {
   @ApiPropertyOptional() @IsOptional() @IsInt() @Min(0) @Type(() => Number) pricePerSlotKobo?: number;
 }
 export class AdminBusinessStatusDto { @ApiProperty({ enum: ['ACTIVE','SUSPENDED'] }) @IsEnum(['ACTIVE','SUSPENDED']) status: 'ACTIVE'|'SUSPENDED'; }
+
+export class AdminNetworkEnabledDto { @ApiProperty() @IsBoolean() enabled: boolean; @ApiPropertyOptional() @IsOptional() @IsString() disabledMessage?: string; }

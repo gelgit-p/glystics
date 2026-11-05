@@ -780,3 +780,12 @@ enum SharedNetworkInvoiceStatus {
   VOID
   OVERDUE
 }
+
+model SharedNetworkSetting {
+  id String @id @default("default")
+  networkEnabled Boolean @default(true)
+  disabledMessage String?
+  updatedByUserId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

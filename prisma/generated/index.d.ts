@@ -178,6 +178,11 @@ export type SharedNetworkUsageRecord = $Result.DefaultSelection<Prisma.$SharedNe
  * 
  */
 export type SharedNetworkAuditLog = $Result.DefaultSelection<Prisma.$SharedNetworkAuditLogPayload>
+/**
+ * Model SharedNetworkSetting
+ * 
+ */
+export type SharedNetworkSetting = $Result.DefaultSelection<Prisma.$SharedNetworkSettingPayload>
 
 /**
  * Enums
@@ -813,6 +818,16 @@ export class PrismaClient<
     * ```
     */
   get sharedNetworkAuditLog(): Prisma.SharedNetworkAuditLogDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.sharedNetworkSetting`: Exposes CRUD operations for the **SharedNetworkSetting** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SharedNetworkSettings
+    * const sharedNetworkSettings = await prisma.sharedNetworkSetting.findMany()
+    * ```
+    */
+  get sharedNetworkSetting(): Prisma.SharedNetworkSettingDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1286,7 +1301,8 @@ export namespace Prisma {
     SharedNetworkInvoice: 'SharedNetworkInvoice',
     SharedNetworkPricingRule: 'SharedNetworkPricingRule',
     SharedNetworkUsageRecord: 'SharedNetworkUsageRecord',
-    SharedNetworkAuditLog: 'SharedNetworkAuditLog'
+    SharedNetworkAuditLog: 'SharedNetworkAuditLog',
+    SharedNetworkSetting: 'SharedNetworkSetting'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1305,7 +1321,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "token" | "delivery" | "messageTemplate" | "creditWallet" | "creditTransaction" | "creditPackage" | "creditPurchase" | "automation" | "notification" | "aiConversation" | "aiMessage" | "deliveryDraft" | "providerQuote" | "approval" | "webhookEventLog" | "aiAuditEvent" | "sharedNetworkPlan" | "sharedNetworkBusiness" | "sharedNetworkWallet" | "sharedNetworkCreditTransaction" | "sharedNetworkCreditPurchase" | "sharedNetworkSubscription" | "sharedNetworkCapacity" | "sharedNetworkReservation" | "sharedNetworkSlot" | "sharedNetworkPool" | "sharedNetworkPoolDelivery" | "sharedNetworkBillingTransaction" | "sharedNetworkInvoice" | "sharedNetworkPricingRule" | "sharedNetworkUsageRecord" | "sharedNetworkAuditLog"
+      modelProps: "user" | "token" | "delivery" | "messageTemplate" | "creditWallet" | "creditTransaction" | "creditPackage" | "creditPurchase" | "automation" | "notification" | "aiConversation" | "aiMessage" | "deliveryDraft" | "providerQuote" | "approval" | "webhookEventLog" | "aiAuditEvent" | "sharedNetworkPlan" | "sharedNetworkBusiness" | "sharedNetworkWallet" | "sharedNetworkCreditTransaction" | "sharedNetworkCreditPurchase" | "sharedNetworkSubscription" | "sharedNetworkCapacity" | "sharedNetworkReservation" | "sharedNetworkSlot" | "sharedNetworkPool" | "sharedNetworkPoolDelivery" | "sharedNetworkBillingTransaction" | "sharedNetworkInvoice" | "sharedNetworkPricingRule" | "sharedNetworkUsageRecord" | "sharedNetworkAuditLog" | "sharedNetworkSetting"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3751,6 +3767,80 @@ export namespace Prisma {
           }
         }
       }
+      SharedNetworkSetting: {
+        payload: Prisma.$SharedNetworkSettingPayload<ExtArgs>
+        fields: Prisma.SharedNetworkSettingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SharedNetworkSettingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SharedNetworkSettingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SharedNetworkSettingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SharedNetworkSettingPayload>
+          }
+          findFirst: {
+            args: Prisma.SharedNetworkSettingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SharedNetworkSettingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SharedNetworkSettingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SharedNetworkSettingPayload>
+          }
+          findMany: {
+            args: Prisma.SharedNetworkSettingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SharedNetworkSettingPayload>[]
+          }
+          create: {
+            args: Prisma.SharedNetworkSettingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SharedNetworkSettingPayload>
+          }
+          createMany: {
+            args: Prisma.SharedNetworkSettingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SharedNetworkSettingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SharedNetworkSettingPayload>[]
+          }
+          delete: {
+            args: Prisma.SharedNetworkSettingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SharedNetworkSettingPayload>
+          }
+          update: {
+            args: Prisma.SharedNetworkSettingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SharedNetworkSettingPayload>
+          }
+          deleteMany: {
+            args: Prisma.SharedNetworkSettingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SharedNetworkSettingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SharedNetworkSettingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SharedNetworkSettingPayload>[]
+          }
+          upsert: {
+            args: Prisma.SharedNetworkSettingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SharedNetworkSettingPayload>
+          }
+          aggregate: {
+            args: Prisma.SharedNetworkSettingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSharedNetworkSetting>
+          }
+          groupBy: {
+            args: Prisma.SharedNetworkSettingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SharedNetworkSettingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SharedNetworkSettingCountArgs<ExtArgs>
+            result: $Utils.Optional<SharedNetworkSettingCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3880,6 +3970,7 @@ export namespace Prisma {
     sharedNetworkPricingRule?: SharedNetworkPricingRuleOmit
     sharedNetworkUsageRecord?: SharedNetworkUsageRecordOmit
     sharedNetworkAuditLog?: SharedNetworkAuditLogOmit
+    sharedNetworkSetting?: SharedNetworkSettingOmit
   }
 
   /* Types for Logging */
@@ -44326,6 +44417,1014 @@ export namespace Prisma {
 
 
   /**
+   * Model SharedNetworkSetting
+   */
+
+  export type AggregateSharedNetworkSetting = {
+    _count: SharedNetworkSettingCountAggregateOutputType | null
+    _min: SharedNetworkSettingMinAggregateOutputType | null
+    _max: SharedNetworkSettingMaxAggregateOutputType | null
+  }
+
+  export type SharedNetworkSettingMinAggregateOutputType = {
+    id: string | null
+    networkEnabled: boolean | null
+    disabledMessage: string | null
+    updatedByUserId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SharedNetworkSettingMaxAggregateOutputType = {
+    id: string | null
+    networkEnabled: boolean | null
+    disabledMessage: string | null
+    updatedByUserId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SharedNetworkSettingCountAggregateOutputType = {
+    id: number
+    networkEnabled: number
+    disabledMessage: number
+    updatedByUserId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SharedNetworkSettingMinAggregateInputType = {
+    id?: true
+    networkEnabled?: true
+    disabledMessage?: true
+    updatedByUserId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SharedNetworkSettingMaxAggregateInputType = {
+    id?: true
+    networkEnabled?: true
+    disabledMessage?: true
+    updatedByUserId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SharedNetworkSettingCountAggregateInputType = {
+    id?: true
+    networkEnabled?: true
+    disabledMessage?: true
+    updatedByUserId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SharedNetworkSettingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SharedNetworkSetting to aggregate.
+     */
+    where?: SharedNetworkSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SharedNetworkSettings to fetch.
+     */
+    orderBy?: SharedNetworkSettingOrderByWithRelationInput | SharedNetworkSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SharedNetworkSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SharedNetworkSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SharedNetworkSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SharedNetworkSettings
+    **/
+    _count?: true | SharedNetworkSettingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SharedNetworkSettingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SharedNetworkSettingMaxAggregateInputType
+  }
+
+  export type GetSharedNetworkSettingAggregateType<T extends SharedNetworkSettingAggregateArgs> = {
+        [P in keyof T & keyof AggregateSharedNetworkSetting]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSharedNetworkSetting[P]>
+      : GetScalarType<T[P], AggregateSharedNetworkSetting[P]>
+  }
+
+
+
+
+  export type SharedNetworkSettingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SharedNetworkSettingWhereInput
+    orderBy?: SharedNetworkSettingOrderByWithAggregationInput | SharedNetworkSettingOrderByWithAggregationInput[]
+    by: SharedNetworkSettingScalarFieldEnum[] | SharedNetworkSettingScalarFieldEnum
+    having?: SharedNetworkSettingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SharedNetworkSettingCountAggregateInputType | true
+    _min?: SharedNetworkSettingMinAggregateInputType
+    _max?: SharedNetworkSettingMaxAggregateInputType
+  }
+
+  export type SharedNetworkSettingGroupByOutputType = {
+    id: string
+    networkEnabled: boolean
+    disabledMessage: string | null
+    updatedByUserId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: SharedNetworkSettingCountAggregateOutputType | null
+    _min: SharedNetworkSettingMinAggregateOutputType | null
+    _max: SharedNetworkSettingMaxAggregateOutputType | null
+  }
+
+  type GetSharedNetworkSettingGroupByPayload<T extends SharedNetworkSettingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SharedNetworkSettingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SharedNetworkSettingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SharedNetworkSettingGroupByOutputType[P]>
+            : GetScalarType<T[P], SharedNetworkSettingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SharedNetworkSettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    networkEnabled?: boolean
+    disabledMessage?: boolean
+    updatedByUserId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["sharedNetworkSetting"]>
+
+  export type SharedNetworkSettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    networkEnabled?: boolean
+    disabledMessage?: boolean
+    updatedByUserId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["sharedNetworkSetting"]>
+
+  export type SharedNetworkSettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    networkEnabled?: boolean
+    disabledMessage?: boolean
+    updatedByUserId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["sharedNetworkSetting"]>
+
+  export type SharedNetworkSettingSelectScalar = {
+    id?: boolean
+    networkEnabled?: boolean
+    disabledMessage?: boolean
+    updatedByUserId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SharedNetworkSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "networkEnabled" | "disabledMessage" | "updatedByUserId" | "createdAt" | "updatedAt", ExtArgs["result"]["sharedNetworkSetting"]>
+
+  export type $SharedNetworkSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SharedNetworkSetting"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      networkEnabled: boolean
+      disabledMessage: string | null
+      updatedByUserId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["sharedNetworkSetting"]>
+    composites: {}
+  }
+
+  type SharedNetworkSettingGetPayload<S extends boolean | null | undefined | SharedNetworkSettingDefaultArgs> = $Result.GetResult<Prisma.$SharedNetworkSettingPayload, S>
+
+  type SharedNetworkSettingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SharedNetworkSettingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SharedNetworkSettingCountAggregateInputType | true
+    }
+
+  export interface SharedNetworkSettingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SharedNetworkSetting'], meta: { name: 'SharedNetworkSetting' } }
+    /**
+     * Find zero or one SharedNetworkSetting that matches the filter.
+     * @param {SharedNetworkSettingFindUniqueArgs} args - Arguments to find a SharedNetworkSetting
+     * @example
+     * // Get one SharedNetworkSetting
+     * const sharedNetworkSetting = await prisma.sharedNetworkSetting.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SharedNetworkSettingFindUniqueArgs>(args: SelectSubset<T, SharedNetworkSettingFindUniqueArgs<ExtArgs>>): Prisma__SharedNetworkSettingClient<$Result.GetResult<Prisma.$SharedNetworkSettingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SharedNetworkSetting that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SharedNetworkSettingFindUniqueOrThrowArgs} args - Arguments to find a SharedNetworkSetting
+     * @example
+     * // Get one SharedNetworkSetting
+     * const sharedNetworkSetting = await prisma.sharedNetworkSetting.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SharedNetworkSettingFindUniqueOrThrowArgs>(args: SelectSubset<T, SharedNetworkSettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SharedNetworkSettingClient<$Result.GetResult<Prisma.$SharedNetworkSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SharedNetworkSetting that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SharedNetworkSettingFindFirstArgs} args - Arguments to find a SharedNetworkSetting
+     * @example
+     * // Get one SharedNetworkSetting
+     * const sharedNetworkSetting = await prisma.sharedNetworkSetting.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SharedNetworkSettingFindFirstArgs>(args?: SelectSubset<T, SharedNetworkSettingFindFirstArgs<ExtArgs>>): Prisma__SharedNetworkSettingClient<$Result.GetResult<Prisma.$SharedNetworkSettingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SharedNetworkSetting that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SharedNetworkSettingFindFirstOrThrowArgs} args - Arguments to find a SharedNetworkSetting
+     * @example
+     * // Get one SharedNetworkSetting
+     * const sharedNetworkSetting = await prisma.sharedNetworkSetting.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SharedNetworkSettingFindFirstOrThrowArgs>(args?: SelectSubset<T, SharedNetworkSettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__SharedNetworkSettingClient<$Result.GetResult<Prisma.$SharedNetworkSettingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SharedNetworkSettings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SharedNetworkSettingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SharedNetworkSettings
+     * const sharedNetworkSettings = await prisma.sharedNetworkSetting.findMany()
+     * 
+     * // Get first 10 SharedNetworkSettings
+     * const sharedNetworkSettings = await prisma.sharedNetworkSetting.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const sharedNetworkSettingWithIdOnly = await prisma.sharedNetworkSetting.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SharedNetworkSettingFindManyArgs>(args?: SelectSubset<T, SharedNetworkSettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SharedNetworkSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SharedNetworkSetting.
+     * @param {SharedNetworkSettingCreateArgs} args - Arguments to create a SharedNetworkSetting.
+     * @example
+     * // Create one SharedNetworkSetting
+     * const SharedNetworkSetting = await prisma.sharedNetworkSetting.create({
+     *   data: {
+     *     // ... data to create a SharedNetworkSetting
+     *   }
+     * })
+     * 
+     */
+    create<T extends SharedNetworkSettingCreateArgs>(args: SelectSubset<T, SharedNetworkSettingCreateArgs<ExtArgs>>): Prisma__SharedNetworkSettingClient<$Result.GetResult<Prisma.$SharedNetworkSettingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SharedNetworkSettings.
+     * @param {SharedNetworkSettingCreateManyArgs} args - Arguments to create many SharedNetworkSettings.
+     * @example
+     * // Create many SharedNetworkSettings
+     * const sharedNetworkSetting = await prisma.sharedNetworkSetting.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SharedNetworkSettingCreateManyArgs>(args?: SelectSubset<T, SharedNetworkSettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SharedNetworkSettings and returns the data saved in the database.
+     * @param {SharedNetworkSettingCreateManyAndReturnArgs} args - Arguments to create many SharedNetworkSettings.
+     * @example
+     * // Create many SharedNetworkSettings
+     * const sharedNetworkSetting = await prisma.sharedNetworkSetting.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SharedNetworkSettings and only return the `id`
+     * const sharedNetworkSettingWithIdOnly = await prisma.sharedNetworkSetting.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SharedNetworkSettingCreateManyAndReturnArgs>(args?: SelectSubset<T, SharedNetworkSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SharedNetworkSettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SharedNetworkSetting.
+     * @param {SharedNetworkSettingDeleteArgs} args - Arguments to delete one SharedNetworkSetting.
+     * @example
+     * // Delete one SharedNetworkSetting
+     * const SharedNetworkSetting = await prisma.sharedNetworkSetting.delete({
+     *   where: {
+     *     // ... filter to delete one SharedNetworkSetting
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SharedNetworkSettingDeleteArgs>(args: SelectSubset<T, SharedNetworkSettingDeleteArgs<ExtArgs>>): Prisma__SharedNetworkSettingClient<$Result.GetResult<Prisma.$SharedNetworkSettingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SharedNetworkSetting.
+     * @param {SharedNetworkSettingUpdateArgs} args - Arguments to update one SharedNetworkSetting.
+     * @example
+     * // Update one SharedNetworkSetting
+     * const sharedNetworkSetting = await prisma.sharedNetworkSetting.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SharedNetworkSettingUpdateArgs>(args: SelectSubset<T, SharedNetworkSettingUpdateArgs<ExtArgs>>): Prisma__SharedNetworkSettingClient<$Result.GetResult<Prisma.$SharedNetworkSettingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SharedNetworkSettings.
+     * @param {SharedNetworkSettingDeleteManyArgs} args - Arguments to filter SharedNetworkSettings to delete.
+     * @example
+     * // Delete a few SharedNetworkSettings
+     * const { count } = await prisma.sharedNetworkSetting.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SharedNetworkSettingDeleteManyArgs>(args?: SelectSubset<T, SharedNetworkSettingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SharedNetworkSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SharedNetworkSettingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SharedNetworkSettings
+     * const sharedNetworkSetting = await prisma.sharedNetworkSetting.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SharedNetworkSettingUpdateManyArgs>(args: SelectSubset<T, SharedNetworkSettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SharedNetworkSettings and returns the data updated in the database.
+     * @param {SharedNetworkSettingUpdateManyAndReturnArgs} args - Arguments to update many SharedNetworkSettings.
+     * @example
+     * // Update many SharedNetworkSettings
+     * const sharedNetworkSetting = await prisma.sharedNetworkSetting.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SharedNetworkSettings and only return the `id`
+     * const sharedNetworkSettingWithIdOnly = await prisma.sharedNetworkSetting.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SharedNetworkSettingUpdateManyAndReturnArgs>(args: SelectSubset<T, SharedNetworkSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SharedNetworkSettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SharedNetworkSetting.
+     * @param {SharedNetworkSettingUpsertArgs} args - Arguments to update or create a SharedNetworkSetting.
+     * @example
+     * // Update or create a SharedNetworkSetting
+     * const sharedNetworkSetting = await prisma.sharedNetworkSetting.upsert({
+     *   create: {
+     *     // ... data to create a SharedNetworkSetting
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SharedNetworkSetting we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SharedNetworkSettingUpsertArgs>(args: SelectSubset<T, SharedNetworkSettingUpsertArgs<ExtArgs>>): Prisma__SharedNetworkSettingClient<$Result.GetResult<Prisma.$SharedNetworkSettingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SharedNetworkSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SharedNetworkSettingCountArgs} args - Arguments to filter SharedNetworkSettings to count.
+     * @example
+     * // Count the number of SharedNetworkSettings
+     * const count = await prisma.sharedNetworkSetting.count({
+     *   where: {
+     *     // ... the filter for the SharedNetworkSettings we want to count
+     *   }
+     * })
+    **/
+    count<T extends SharedNetworkSettingCountArgs>(
+      args?: Subset<T, SharedNetworkSettingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SharedNetworkSettingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SharedNetworkSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SharedNetworkSettingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SharedNetworkSettingAggregateArgs>(args: Subset<T, SharedNetworkSettingAggregateArgs>): Prisma.PrismaPromise<GetSharedNetworkSettingAggregateType<T>>
+
+    /**
+     * Group by SharedNetworkSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SharedNetworkSettingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SharedNetworkSettingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SharedNetworkSettingGroupByArgs['orderBy'] }
+        : { orderBy?: SharedNetworkSettingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SharedNetworkSettingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSharedNetworkSettingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SharedNetworkSetting model
+   */
+  readonly fields: SharedNetworkSettingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SharedNetworkSetting.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SharedNetworkSettingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SharedNetworkSetting model
+   */
+  interface SharedNetworkSettingFieldRefs {
+    readonly id: FieldRef<"SharedNetworkSetting", 'String'>
+    readonly networkEnabled: FieldRef<"SharedNetworkSetting", 'Boolean'>
+    readonly disabledMessage: FieldRef<"SharedNetworkSetting", 'String'>
+    readonly updatedByUserId: FieldRef<"SharedNetworkSetting", 'String'>
+    readonly createdAt: FieldRef<"SharedNetworkSetting", 'DateTime'>
+    readonly updatedAt: FieldRef<"SharedNetworkSetting", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SharedNetworkSetting findUnique
+   */
+  export type SharedNetworkSettingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SharedNetworkSetting
+     */
+    select?: SharedNetworkSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SharedNetworkSetting
+     */
+    omit?: SharedNetworkSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which SharedNetworkSetting to fetch.
+     */
+    where: SharedNetworkSettingWhereUniqueInput
+  }
+
+  /**
+   * SharedNetworkSetting findUniqueOrThrow
+   */
+  export type SharedNetworkSettingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SharedNetworkSetting
+     */
+    select?: SharedNetworkSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SharedNetworkSetting
+     */
+    omit?: SharedNetworkSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which SharedNetworkSetting to fetch.
+     */
+    where: SharedNetworkSettingWhereUniqueInput
+  }
+
+  /**
+   * SharedNetworkSetting findFirst
+   */
+  export type SharedNetworkSettingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SharedNetworkSetting
+     */
+    select?: SharedNetworkSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SharedNetworkSetting
+     */
+    omit?: SharedNetworkSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which SharedNetworkSetting to fetch.
+     */
+    where?: SharedNetworkSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SharedNetworkSettings to fetch.
+     */
+    orderBy?: SharedNetworkSettingOrderByWithRelationInput | SharedNetworkSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SharedNetworkSettings.
+     */
+    cursor?: SharedNetworkSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SharedNetworkSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SharedNetworkSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SharedNetworkSettings.
+     */
+    distinct?: SharedNetworkSettingScalarFieldEnum | SharedNetworkSettingScalarFieldEnum[]
+  }
+
+  /**
+   * SharedNetworkSetting findFirstOrThrow
+   */
+  export type SharedNetworkSettingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SharedNetworkSetting
+     */
+    select?: SharedNetworkSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SharedNetworkSetting
+     */
+    omit?: SharedNetworkSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which SharedNetworkSetting to fetch.
+     */
+    where?: SharedNetworkSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SharedNetworkSettings to fetch.
+     */
+    orderBy?: SharedNetworkSettingOrderByWithRelationInput | SharedNetworkSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SharedNetworkSettings.
+     */
+    cursor?: SharedNetworkSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SharedNetworkSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SharedNetworkSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SharedNetworkSettings.
+     */
+    distinct?: SharedNetworkSettingScalarFieldEnum | SharedNetworkSettingScalarFieldEnum[]
+  }
+
+  /**
+   * SharedNetworkSetting findMany
+   */
+  export type SharedNetworkSettingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SharedNetworkSetting
+     */
+    select?: SharedNetworkSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SharedNetworkSetting
+     */
+    omit?: SharedNetworkSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which SharedNetworkSettings to fetch.
+     */
+    where?: SharedNetworkSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SharedNetworkSettings to fetch.
+     */
+    orderBy?: SharedNetworkSettingOrderByWithRelationInput | SharedNetworkSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SharedNetworkSettings.
+     */
+    cursor?: SharedNetworkSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SharedNetworkSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SharedNetworkSettings.
+     */
+    skip?: number
+    distinct?: SharedNetworkSettingScalarFieldEnum | SharedNetworkSettingScalarFieldEnum[]
+  }
+
+  /**
+   * SharedNetworkSetting create
+   */
+  export type SharedNetworkSettingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SharedNetworkSetting
+     */
+    select?: SharedNetworkSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SharedNetworkSetting
+     */
+    omit?: SharedNetworkSettingOmit<ExtArgs> | null
+    /**
+     * The data needed to create a SharedNetworkSetting.
+     */
+    data: XOR<SharedNetworkSettingCreateInput, SharedNetworkSettingUncheckedCreateInput>
+  }
+
+  /**
+   * SharedNetworkSetting createMany
+   */
+  export type SharedNetworkSettingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SharedNetworkSettings.
+     */
+    data: SharedNetworkSettingCreateManyInput | SharedNetworkSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SharedNetworkSetting createManyAndReturn
+   */
+  export type SharedNetworkSettingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SharedNetworkSetting
+     */
+    select?: SharedNetworkSettingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SharedNetworkSetting
+     */
+    omit?: SharedNetworkSettingOmit<ExtArgs> | null
+    /**
+     * The data used to create many SharedNetworkSettings.
+     */
+    data: SharedNetworkSettingCreateManyInput | SharedNetworkSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SharedNetworkSetting update
+   */
+  export type SharedNetworkSettingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SharedNetworkSetting
+     */
+    select?: SharedNetworkSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SharedNetworkSetting
+     */
+    omit?: SharedNetworkSettingOmit<ExtArgs> | null
+    /**
+     * The data needed to update a SharedNetworkSetting.
+     */
+    data: XOR<SharedNetworkSettingUpdateInput, SharedNetworkSettingUncheckedUpdateInput>
+    /**
+     * Choose, which SharedNetworkSetting to update.
+     */
+    where: SharedNetworkSettingWhereUniqueInput
+  }
+
+  /**
+   * SharedNetworkSetting updateMany
+   */
+  export type SharedNetworkSettingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SharedNetworkSettings.
+     */
+    data: XOR<SharedNetworkSettingUpdateManyMutationInput, SharedNetworkSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which SharedNetworkSettings to update
+     */
+    where?: SharedNetworkSettingWhereInput
+    /**
+     * Limit how many SharedNetworkSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SharedNetworkSetting updateManyAndReturn
+   */
+  export type SharedNetworkSettingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SharedNetworkSetting
+     */
+    select?: SharedNetworkSettingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SharedNetworkSetting
+     */
+    omit?: SharedNetworkSettingOmit<ExtArgs> | null
+    /**
+     * The data used to update SharedNetworkSettings.
+     */
+    data: XOR<SharedNetworkSettingUpdateManyMutationInput, SharedNetworkSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which SharedNetworkSettings to update
+     */
+    where?: SharedNetworkSettingWhereInput
+    /**
+     * Limit how many SharedNetworkSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SharedNetworkSetting upsert
+   */
+  export type SharedNetworkSettingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SharedNetworkSetting
+     */
+    select?: SharedNetworkSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SharedNetworkSetting
+     */
+    omit?: SharedNetworkSettingOmit<ExtArgs> | null
+    /**
+     * The filter to search for the SharedNetworkSetting to update in case it exists.
+     */
+    where: SharedNetworkSettingWhereUniqueInput
+    /**
+     * In case the SharedNetworkSetting found by the `where` argument doesn't exist, create a new SharedNetworkSetting with this data.
+     */
+    create: XOR<SharedNetworkSettingCreateInput, SharedNetworkSettingUncheckedCreateInput>
+    /**
+     * In case the SharedNetworkSetting was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SharedNetworkSettingUpdateInput, SharedNetworkSettingUncheckedUpdateInput>
+  }
+
+  /**
+   * SharedNetworkSetting delete
+   */
+  export type SharedNetworkSettingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SharedNetworkSetting
+     */
+    select?: SharedNetworkSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SharedNetworkSetting
+     */
+    omit?: SharedNetworkSettingOmit<ExtArgs> | null
+    /**
+     * Filter which SharedNetworkSetting to delete.
+     */
+    where: SharedNetworkSettingWhereUniqueInput
+  }
+
+  /**
+   * SharedNetworkSetting deleteMany
+   */
+  export type SharedNetworkSettingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SharedNetworkSettings to delete
+     */
+    where?: SharedNetworkSettingWhereInput
+    /**
+     * Limit how many SharedNetworkSettings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SharedNetworkSetting without action
+   */
+  export type SharedNetworkSettingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SharedNetworkSetting
+     */
+    select?: SharedNetworkSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SharedNetworkSetting
+     */
+    omit?: SharedNetworkSettingOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -44986,6 +46085,18 @@ export namespace Prisma {
   };
 
   export type SharedNetworkAuditLogScalarFieldEnum = (typeof SharedNetworkAuditLogScalarFieldEnum)[keyof typeof SharedNetworkAuditLogScalarFieldEnum]
+
+
+  export const SharedNetworkSettingScalarFieldEnum: {
+    id: 'id',
+    networkEnabled: 'networkEnabled',
+    disabledMessage: 'disabledMessage',
+    updatedByUserId: 'updatedByUserId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SharedNetworkSettingScalarFieldEnum = (typeof SharedNetworkSettingScalarFieldEnum)[keyof typeof SharedNetworkSettingScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -48665,6 +49776,63 @@ export namespace Prisma {
     entityId?: StringNullableWithAggregatesFilter<"SharedNetworkAuditLog"> | string | null
     metadata?: JsonNullableWithAggregatesFilter<"SharedNetworkAuditLog">
     createdAt?: DateTimeWithAggregatesFilter<"SharedNetworkAuditLog"> | Date | string
+  }
+
+  export type SharedNetworkSettingWhereInput = {
+    AND?: SharedNetworkSettingWhereInput | SharedNetworkSettingWhereInput[]
+    OR?: SharedNetworkSettingWhereInput[]
+    NOT?: SharedNetworkSettingWhereInput | SharedNetworkSettingWhereInput[]
+    id?: StringFilter<"SharedNetworkSetting"> | string
+    networkEnabled?: BoolFilter<"SharedNetworkSetting"> | boolean
+    disabledMessage?: StringNullableFilter<"SharedNetworkSetting"> | string | null
+    updatedByUserId?: StringNullableFilter<"SharedNetworkSetting"> | string | null
+    createdAt?: DateTimeFilter<"SharedNetworkSetting"> | Date | string
+    updatedAt?: DateTimeFilter<"SharedNetworkSetting"> | Date | string
+  }
+
+  export type SharedNetworkSettingOrderByWithRelationInput = {
+    id?: SortOrder
+    networkEnabled?: SortOrder
+    disabledMessage?: SortOrderInput | SortOrder
+    updatedByUserId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SharedNetworkSettingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SharedNetworkSettingWhereInput | SharedNetworkSettingWhereInput[]
+    OR?: SharedNetworkSettingWhereInput[]
+    NOT?: SharedNetworkSettingWhereInput | SharedNetworkSettingWhereInput[]
+    networkEnabled?: BoolFilter<"SharedNetworkSetting"> | boolean
+    disabledMessage?: StringNullableFilter<"SharedNetworkSetting"> | string | null
+    updatedByUserId?: StringNullableFilter<"SharedNetworkSetting"> | string | null
+    createdAt?: DateTimeFilter<"SharedNetworkSetting"> | Date | string
+    updatedAt?: DateTimeFilter<"SharedNetworkSetting"> | Date | string
+  }, "id">
+
+  export type SharedNetworkSettingOrderByWithAggregationInput = {
+    id?: SortOrder
+    networkEnabled?: SortOrder
+    disabledMessage?: SortOrderInput | SortOrder
+    updatedByUserId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SharedNetworkSettingCountOrderByAggregateInput
+    _max?: SharedNetworkSettingMaxOrderByAggregateInput
+    _min?: SharedNetworkSettingMinOrderByAggregateInput
+  }
+
+  export type SharedNetworkSettingScalarWhereWithAggregatesInput = {
+    AND?: SharedNetworkSettingScalarWhereWithAggregatesInput | SharedNetworkSettingScalarWhereWithAggregatesInput[]
+    OR?: SharedNetworkSettingScalarWhereWithAggregatesInput[]
+    NOT?: SharedNetworkSettingScalarWhereWithAggregatesInput | SharedNetworkSettingScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SharedNetworkSetting"> | string
+    networkEnabled?: BoolWithAggregatesFilter<"SharedNetworkSetting"> | boolean
+    disabledMessage?: StringNullableWithAggregatesFilter<"SharedNetworkSetting"> | string | null
+    updatedByUserId?: StringNullableWithAggregatesFilter<"SharedNetworkSetting"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"SharedNetworkSetting"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SharedNetworkSetting"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -52601,6 +53769,69 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SharedNetworkSettingCreateInput = {
+    id?: string
+    networkEnabled?: boolean
+    disabledMessage?: string | null
+    updatedByUserId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SharedNetworkSettingUncheckedCreateInput = {
+    id?: string
+    networkEnabled?: boolean
+    disabledMessage?: string | null
+    updatedByUserId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SharedNetworkSettingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    networkEnabled?: BoolFieldUpdateOperationsInput | boolean
+    disabledMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SharedNetworkSettingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    networkEnabled?: BoolFieldUpdateOperationsInput | boolean
+    disabledMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SharedNetworkSettingCreateManyInput = {
+    id?: string
+    networkEnabled?: boolean
+    disabledMessage?: string | null
+    updatedByUserId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SharedNetworkSettingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    networkEnabled?: BoolFieldUpdateOperationsInput | boolean
+    disabledMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SharedNetworkSettingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    networkEnabled?: BoolFieldUpdateOperationsInput | boolean
+    disabledMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedByUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -55329,6 +56560,33 @@ export namespace Prisma {
     entityType?: SortOrder
     entityId?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type SharedNetworkSettingCountOrderByAggregateInput = {
+    id?: SortOrder
+    networkEnabled?: SortOrder
+    disabledMessage?: SortOrder
+    updatedByUserId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SharedNetworkSettingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    networkEnabled?: SortOrder
+    disabledMessage?: SortOrder
+    updatedByUserId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SharedNetworkSettingMinOrderByAggregateInput = {
+    id?: SortOrder
+    networkEnabled?: SortOrder
+    disabledMessage?: SortOrder
+    updatedByUserId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type UserCreateselectedPhoneNumberIdInput = {

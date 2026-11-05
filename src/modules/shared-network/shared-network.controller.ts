@@ -56,8 +56,10 @@ export class SharedNetworkController {
 export class SharedNetworkAdminController {
   constructor(private svc: SharedNetworkService) {}
   @Get('overview') overview() { return this.svc.adminOverview(); }
+  @Get('settings') settings() { return this.svc.getNetworkSetting(); }
+  @Patch('settings/network-enabled') setEnabled(@Req() r: AuthedRequest, @Body() d: dto.AdminNetworkEnabledDto) { return this.svc.adminSetNetworkEnabled(r.user.id, d.enabled, d.disabledMessage); }
   @Get('businesses') businesses() { return this.svc.adminBusinesses(); }
-  @Patch('businesses/:id/status') status(@Req() r: AuthedRequest, @Param('id') id: string, @Body() d: dto.AdminBusinessStatusDto) { return this.svc.adminSetBusinessStatus(r.user.id, id, d.status); }
+  @Patch('businesses/:id/status') setBusinessStatus(@Req() r: AuthedRequest, @Param('id') id: string, @Body() d: dto.AdminBusinessStatusDto) { return this.svc.adminSetBusinessStatus(r.user.id, id, d.status); }
   @Get('plans') plans() { return this.svc.listPlans(); }
   @Post('plans') createPlan(@Req() r: AuthedRequest, @Body() d: dto.AdminUpsertPlanDto) { return this.svc.adminUpsertPlan(r.user.id, null, d); }
   @Patch('plans/:id') updatePlan(@Req() r: AuthedRequest, @Param('id') id: string, @Body() d: dto.AdminUpsertPlanDto) { return this.svc.adminUpsertPlan(r.user.id, id, d); }

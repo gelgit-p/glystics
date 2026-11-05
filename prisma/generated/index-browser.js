@@ -671,6 +671,15 @@ exports.Prisma.SharedNetworkAuditLogScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.SharedNetworkSettingScalarFieldEnum = {
+  id: 'id',
+  networkEnabled: 'networkEnabled',
+  disabledMessage: 'disabledMessage',
+  updatedByUserId: 'updatedByUserId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -824,7 +833,8 @@ exports.Prisma.ModelName = {
   SharedNetworkInvoice: 'SharedNetworkInvoice',
   SharedNetworkPricingRule: 'SharedNetworkPricingRule',
   SharedNetworkUsageRecord: 'SharedNetworkUsageRecord',
-  SharedNetworkAuditLog: 'SharedNetworkAuditLog'
+  SharedNetworkAuditLog: 'SharedNetworkAuditLog',
+  SharedNetworkSetting: 'SharedNetworkSetting'
 };
 
 /**
