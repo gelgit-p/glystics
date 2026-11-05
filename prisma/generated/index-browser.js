@@ -469,6 +469,7 @@ exports.Prisma.SharedNetworkBusinessScalarFieldEnum = {
   expectedWeeklyVolume: 'expectedWeeklyVolume',
   preferredWindows: 'preferredWindows',
   status: 'status',
+  accessEnabled: 'accessEnabled',
   aiAutoDispatchEnabled: 'aiAutoDispatchEnabled',
   aiAutoReserveEnabled: 'aiAutoReserveEnabled',
   aiSpendLimitCredits: 'aiSpendLimitCredits',

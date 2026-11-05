@@ -22,7 +22,7 @@ function makePrisma(capacity: any, walletBalance = 100) {
   };
   const prisma: any = {
     $transaction: jest.fn(async (fn: any) => fn(tx)),
-    sharedNetworkBusiness: { findUnique: jest.fn(async () => ({ id: 'b1', userId: 'u1', status: 'ACTIVE', operatingRegions: ['Lagos'] })) },
+    sharedNetworkBusiness: { findUnique: jest.fn(async () => ({ id: 'b1', userId: 'u1', status: 'ACTIVE', accessEnabled: true, operatingRegions: ['Lagos'] })) },
     sharedNetworkSetting: { upsert: jest.fn(async () => ({ id: 'default', networkEnabled: true })) },
     sharedNetworkSubscription: { findFirst: jest.fn(async () => null) },
     sharedNetworkReservation: { aggregate: jest.fn(async () => ({ _sum: { quantity: 0 } })), findUnique: jest.fn(async () => null) },
@@ -81,5 +81,30 @@ describe('SharedNetworkService paid plans & network toggle', () => {
     };
     const svc = new SharedNetworkService(prisma, {} as never, { get: () => undefined } as never);
     await expect(svc.createBusiness('u1', { businessName: 'x', businessEmail: 'a@b.c', contactPhone: '1', category: 'c', pickupLocations: [], operatingRegions: [], planId: undefined } as never)).rejects.toThrow(/paid subscription plan is required/);
+  });
+});
+
+describe('SharedNetworkService per-business access', () => {
+  it('deactivated business is blocked from all network features, activated business is not', async () => {
+    const business = { id: 'b1', userId: 'u1', status: 'ACTIVE', accessEnabled: false, operatingRegions: ['Lagos'] };
+    const prisma: any = {
+      sharedNetworkSetting: { upsert: jest.fn(async () => ({ id: 'default', networkEnabled: true })) },
+      sharedNetworkBusiness: { findUnique: jest.fn(async () => ({ ...business })) },
+    };
+    const svc = new SharedNetworkService(prisma, {} as never, { get: () => undefined } as never);
+    await expect(svc.listSlots('u1')).rejects.toThrow(/deactivated by an administrator/);
+    await expect(svc.getCredits('u1')).rejects.toThrow(/deactivated by an administrator/);
+    business.accessEnabled = true;
+    prisma.sharedNetworkSlot = { findMany: jest.fn(async () => []) };
+    await expect(svc.listSlots('u1')).resolves.toEqual([]);
+  });
+  it('admin activate/deactivate is audit-logged', async () => {
+    const prisma: any = { sharedNetworkBusiness: { update: jest.fn(async ({ data }: any) => ({ id: 'b1', accessEnabled: data.accessEnabled })) }, sharedNetworkAuditLog: { create: jest.fn(async () => ({})) } };
+    const svc = new SharedNetworkService(prisma, {} as never, { get: () => undefined } as never);
+    const off = await svc.adminSetBusinessAccess('admin1', 'b1', false);
+    expect(off.accessEnabled).toBe(false);
+    expect(prisma.sharedNetworkAuditLog.create).toHaveBeenCalledWith(expect.objectContaining({ data: expect.objectContaining({ action: 'BUSINESS_ACCESS_DEACTIVATED', actorUserId: 'admin1' }) }));
+    const on = await svc.adminSetBusinessAccess('admin1', 'b1', true);
+    expect(on.accessEnabled).toBe(true);
   });
 });

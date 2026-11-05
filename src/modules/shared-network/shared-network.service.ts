@@ -44,6 +44,7 @@ export class SharedNetworkService {
     const b = await this.prisma.sharedNetworkBusiness.findUnique({ where: { userId }, include: { wallet: true, subscriptions: { include: { plan: true }, orderBy: { createdAt: 'desc' }, take: 1 } } });
     if (!b) throw new NotFoundException('Shared Network business not found. Complete onboarding first.');
     if (b.status === 'SUSPENDED') throw new ForbiddenException('Shared Network account is suspended');
+    if (!b.accessEnabled) throw new ForbiddenException('Your Shared Delivery Network access has been deactivated by an administrator. Please contact Dispatchly support.');
     return b;
   }
   async getBusiness(userId: string) {
@@ -379,6 +380,11 @@ export class SharedNetworkService {
     return { businesses, activeSubscriptions: subs, activePools: pools, revenueKobo: revenue._sum.amountKobo ?? 0, reservedCapacity: reservations._sum.quantity ?? 0 };
   }
   async adminBusinesses() { return this.prisma.sharedNetworkBusiness.findMany({ include: { wallet: true, subscriptions: { include: { plan: true }, orderBy: { createdAt: 'desc' }, take: 1 }, user: { select: { id: true, email: true, businessName: true } } }, orderBy: { createdAt: 'desc' }, take: 200 }); }
+  async adminSetBusinessAccess(actor: string, id: string, enabled: boolean) {
+    const b = await this.prisma.sharedNetworkBusiness.update({ where: { id }, data: { accessEnabled: enabled } });
+    await this.prisma.sharedNetworkAuditLog.create({ data: { actorUserId: actor, businessId: id, action: enabled ? 'BUSINESS_ACCESS_ACTIVATED' : 'BUSINESS_ACCESS_DEACTIVATED', entityType: 'SharedNetworkBusiness', entityId: id } });
+    return b;
+  }
   async adminSetBusinessStatus(actor: string, id: string, status: 'ACTIVE' | 'SUSPENDED') { const b = await this.prisma.sharedNetworkBusiness.update({ where: { id }, data: { status } }); await this.prisma.sharedNetworkAuditLog.create({ data: { actorUserId: actor, businessId: id, action: `BUSINESS_${status}`, entityType: 'SharedNetworkBusiness', entityId: id } }); return b; }
   async adminAdjustCredits(actor: string, d: dto.AdminAdjustCreditsDto) {
     if (!d.amount) throw new BadRequestException('amount required');

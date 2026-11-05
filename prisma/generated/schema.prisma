@@ -475,6 +475,7 @@ model SharedNetworkBusiness {
   expectedWeeklyVolume  Int                               @default(0)
   preferredWindows      String[]
   status                SharedNetworkBusinessStatus       @default(ACTIVE)
+  accessEnabled         Boolean                           @default(true)
   aiAutoDispatchEnabled Boolean                           @default(false)
   aiAutoReserveEnabled  Boolean                           @default(false)
   aiSpendLimitCredits   Int?

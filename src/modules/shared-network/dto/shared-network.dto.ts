@@ -149,3 +149,5 @@ export class AdminCapacityDto {
 export class AdminBusinessStatusDto { @ApiProperty({ enum: ['ACTIVE','SUSPENDED'] }) @IsEnum(['ACTIVE','SUSPENDED']) status: 'ACTIVE'|'SUSPENDED'; }
 
 export class AdminNetworkEnabledDto { @ApiProperty() @IsBoolean() enabled: boolean; @ApiPropertyOptional() @IsOptional() @IsString() disabledMessage?: string; }
+
+export class AdminBusinessAccessDto { @ApiProperty() @IsBoolean() enabled: boolean; }

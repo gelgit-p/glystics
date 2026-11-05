@@ -26536,6 +26536,7 @@ export namespace Prisma {
     expectedDailyVolume: number | null
     expectedWeeklyVolume: number | null
     status: $Enums.SharedNetworkBusinessStatus | null
+    accessEnabled: boolean | null
     aiAutoDispatchEnabled: boolean | null
     aiAutoReserveEnabled: boolean | null
     aiSpendLimitCredits: number | null
@@ -26553,6 +26554,7 @@ export namespace Prisma {
     expectedDailyVolume: number | null
     expectedWeeklyVolume: number | null
     status: $Enums.SharedNetworkBusinessStatus | null
+    accessEnabled: boolean | null
     aiAutoDispatchEnabled: boolean | null
     aiAutoReserveEnabled: boolean | null
     aiSpendLimitCredits: number | null
@@ -26573,6 +26575,7 @@ export namespace Prisma {
     expectedWeeklyVolume: number
     preferredWindows: number
     status: number
+    accessEnabled: number
     aiAutoDispatchEnabled: number
     aiAutoReserveEnabled: number
     aiSpendLimitCredits: number
@@ -26604,6 +26607,7 @@ export namespace Prisma {
     expectedDailyVolume?: true
     expectedWeeklyVolume?: true
     status?: true
+    accessEnabled?: true
     aiAutoDispatchEnabled?: true
     aiAutoReserveEnabled?: true
     aiSpendLimitCredits?: true
@@ -26621,6 +26625,7 @@ export namespace Prisma {
     expectedDailyVolume?: true
     expectedWeeklyVolume?: true
     status?: true
+    accessEnabled?: true
     aiAutoDispatchEnabled?: true
     aiAutoReserveEnabled?: true
     aiSpendLimitCredits?: true
@@ -26641,6 +26646,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: true
     preferredWindows?: true
     status?: true
+    accessEnabled?: true
     aiAutoDispatchEnabled?: true
     aiAutoReserveEnabled?: true
     aiSpendLimitCredits?: true
@@ -26748,6 +26754,7 @@ export namespace Prisma {
     expectedWeeklyVolume: number
     preferredWindows: string[]
     status: $Enums.SharedNetworkBusinessStatus
+    accessEnabled: boolean
     aiAutoDispatchEnabled: boolean
     aiAutoReserveEnabled: boolean
     aiSpendLimitCredits: number | null
@@ -26787,6 +26794,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: boolean
     preferredWindows?: boolean
     status?: boolean
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: boolean
@@ -26817,6 +26825,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: boolean
     preferredWindows?: boolean
     status?: boolean
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: boolean
@@ -26838,6 +26847,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: boolean
     preferredWindows?: boolean
     status?: boolean
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: boolean
@@ -26859,6 +26869,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: boolean
     preferredWindows?: boolean
     status?: boolean
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: boolean
@@ -26866,7 +26877,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type SharedNetworkBusinessOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "businessName" | "businessEmail" | "contactPhone" | "category" | "pickupLocations" | "operatingRegions" | "expectedDailyVolume" | "expectedWeeklyVolume" | "preferredWindows" | "status" | "aiAutoDispatchEnabled" | "aiAutoReserveEnabled" | "aiSpendLimitCredits" | "createdAt" | "updatedAt", ExtArgs["result"]["sharedNetworkBusiness"]>
+  export type SharedNetworkBusinessOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "businessName" | "businessEmail" | "contactPhone" | "category" | "pickupLocations" | "operatingRegions" | "expectedDailyVolume" | "expectedWeeklyVolume" | "preferredWindows" | "status" | "accessEnabled" | "aiAutoDispatchEnabled" | "aiAutoReserveEnabled" | "aiSpendLimitCredits" | "createdAt" | "updatedAt", ExtArgs["result"]["sharedNetworkBusiness"]>
   export type SharedNetworkBusinessInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     wallet?: boolean | SharedNetworkBusiness$walletArgs<ExtArgs>
@@ -26912,6 +26923,7 @@ export namespace Prisma {
       expectedWeeklyVolume: number
       preferredWindows: string[]
       status: $Enums.SharedNetworkBusinessStatus
+      accessEnabled: boolean
       aiAutoDispatchEnabled: boolean
       aiAutoReserveEnabled: boolean
       aiSpendLimitCredits: number | null
@@ -27361,6 +27373,7 @@ export namespace Prisma {
     readonly expectedWeeklyVolume: FieldRef<"SharedNetworkBusiness", 'Int'>
     readonly preferredWindows: FieldRef<"SharedNetworkBusiness", 'String[]'>
     readonly status: FieldRef<"SharedNetworkBusiness", 'SharedNetworkBusinessStatus'>
+    readonly accessEnabled: FieldRef<"SharedNetworkBusiness", 'Boolean'>
     readonly aiAutoDispatchEnabled: FieldRef<"SharedNetworkBusiness", 'Boolean'>
     readonly aiAutoReserveEnabled: FieldRef<"SharedNetworkBusiness", 'Boolean'>
     readonly aiSpendLimitCredits: FieldRef<"SharedNetworkBusiness", 'Int'>
@@ -45840,6 +45853,7 @@ export namespace Prisma {
     expectedWeeklyVolume: 'expectedWeeklyVolume',
     preferredWindows: 'preferredWindows',
     status: 'status',
+    accessEnabled: 'accessEnabled',
     aiAutoDispatchEnabled: 'aiAutoDispatchEnabled',
     aiAutoReserveEnabled: 'aiAutoReserveEnabled',
     aiSpendLimitCredits: 'aiSpendLimitCredits',
@@ -48421,6 +48435,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntFilter<"SharedNetworkBusiness"> | number
     preferredWindows?: StringNullableListFilter<"SharedNetworkBusiness">
     status?: EnumSharedNetworkBusinessStatusFilter<"SharedNetworkBusiness"> | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolFilter<"SharedNetworkBusiness"> | boolean
     aiAutoDispatchEnabled?: BoolFilter<"SharedNetworkBusiness"> | boolean
     aiAutoReserveEnabled?: BoolFilter<"SharedNetworkBusiness"> | boolean
     aiSpendLimitCredits?: IntNullableFilter<"SharedNetworkBusiness"> | number | null
@@ -48450,6 +48465,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: SortOrder
     preferredWindows?: SortOrder
     status?: SortOrder
+    accessEnabled?: SortOrder
     aiAutoDispatchEnabled?: SortOrder
     aiAutoReserveEnabled?: SortOrder
     aiSpendLimitCredits?: SortOrderInput | SortOrder
@@ -48482,6 +48498,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntFilter<"SharedNetworkBusiness"> | number
     preferredWindows?: StringNullableListFilter<"SharedNetworkBusiness">
     status?: EnumSharedNetworkBusinessStatusFilter<"SharedNetworkBusiness"> | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolFilter<"SharedNetworkBusiness"> | boolean
     aiAutoDispatchEnabled?: BoolFilter<"SharedNetworkBusiness"> | boolean
     aiAutoReserveEnabled?: BoolFilter<"SharedNetworkBusiness"> | boolean
     aiSpendLimitCredits?: IntNullableFilter<"SharedNetworkBusiness"> | number | null
@@ -48511,6 +48528,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: SortOrder
     preferredWindows?: SortOrder
     status?: SortOrder
+    accessEnabled?: SortOrder
     aiAutoDispatchEnabled?: SortOrder
     aiAutoReserveEnabled?: SortOrder
     aiSpendLimitCredits?: SortOrderInput | SortOrder
@@ -48539,6 +48557,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntWithAggregatesFilter<"SharedNetworkBusiness"> | number
     preferredWindows?: StringNullableListFilter<"SharedNetworkBusiness">
     status?: EnumSharedNetworkBusinessStatusWithAggregatesFilter<"SharedNetworkBusiness"> | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolWithAggregatesFilter<"SharedNetworkBusiness"> | boolean
     aiAutoDispatchEnabled?: BoolWithAggregatesFilter<"SharedNetworkBusiness"> | boolean
     aiAutoReserveEnabled?: BoolWithAggregatesFilter<"SharedNetworkBusiness"> | boolean
     aiSpendLimitCredits?: IntNullableWithAggregatesFilter<"SharedNetworkBusiness"> | number | null
@@ -52236,6 +52255,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: number
     preferredWindows?: SharedNetworkBusinessCreatepreferredWindowsInput | string[]
     status?: $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: number | null
@@ -52265,6 +52285,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: number
     preferredWindows?: SharedNetworkBusinessCreatepreferredWindowsInput | string[]
     status?: $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: number | null
@@ -52292,6 +52313,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntFieldUpdateOperationsInput | number
     preferredWindows?: SharedNetworkBusinessUpdatepreferredWindowsInput | string[]
     status?: EnumSharedNetworkBusinessStatusFieldUpdateOperationsInput | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoDispatchEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoReserveEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiSpendLimitCredits?: NullableIntFieldUpdateOperationsInput | number | null
@@ -52321,6 +52343,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntFieldUpdateOperationsInput | number
     preferredWindows?: SharedNetworkBusinessUpdatepreferredWindowsInput | string[]
     status?: EnumSharedNetworkBusinessStatusFieldUpdateOperationsInput | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoDispatchEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoReserveEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiSpendLimitCredits?: NullableIntFieldUpdateOperationsInput | number | null
@@ -52349,6 +52372,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: number
     preferredWindows?: SharedNetworkBusinessCreatepreferredWindowsInput | string[]
     status?: $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: number | null
@@ -52368,6 +52392,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntFieldUpdateOperationsInput | number
     preferredWindows?: SharedNetworkBusinessUpdatepreferredWindowsInput | string[]
     status?: EnumSharedNetworkBusinessStatusFieldUpdateOperationsInput | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoDispatchEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoReserveEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiSpendLimitCredits?: NullableIntFieldUpdateOperationsInput | number | null
@@ -52388,6 +52413,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntFieldUpdateOperationsInput | number
     preferredWindows?: SharedNetworkBusinessUpdatepreferredWindowsInput | string[]
     status?: EnumSharedNetworkBusinessStatusFieldUpdateOperationsInput | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoDispatchEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoReserveEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiSpendLimitCredits?: NullableIntFieldUpdateOperationsInput | number | null
@@ -55570,6 +55596,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: SortOrder
     preferredWindows?: SortOrder
     status?: SortOrder
+    accessEnabled?: SortOrder
     aiAutoDispatchEnabled?: SortOrder
     aiAutoReserveEnabled?: SortOrder
     aiSpendLimitCredits?: SortOrder
@@ -55593,6 +55620,7 @@ export namespace Prisma {
     expectedDailyVolume?: SortOrder
     expectedWeeklyVolume?: SortOrder
     status?: SortOrder
+    accessEnabled?: SortOrder
     aiAutoDispatchEnabled?: SortOrder
     aiAutoReserveEnabled?: SortOrder
     aiSpendLimitCredits?: SortOrder
@@ -55610,6 +55638,7 @@ export namespace Prisma {
     expectedDailyVolume?: SortOrder
     expectedWeeklyVolume?: SortOrder
     status?: SortOrder
+    accessEnabled?: SortOrder
     aiAutoDispatchEnabled?: SortOrder
     aiAutoReserveEnabled?: SortOrder
     aiSpendLimitCredits?: SortOrder
@@ -58908,6 +58937,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: number
     preferredWindows?: SharedNetworkBusinessCreatepreferredWindowsInput | string[]
     status?: $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: number | null
@@ -58935,6 +58965,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: number
     preferredWindows?: SharedNetworkBusinessCreatepreferredWindowsInput | string[]
     status?: $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: number | null
@@ -59201,6 +59232,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntFieldUpdateOperationsInput | number
     preferredWindows?: SharedNetworkBusinessUpdatepreferredWindowsInput | string[]
     status?: EnumSharedNetworkBusinessStatusFieldUpdateOperationsInput | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoDispatchEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoReserveEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiSpendLimitCredits?: NullableIntFieldUpdateOperationsInput | number | null
@@ -59228,6 +59260,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntFieldUpdateOperationsInput | number
     preferredWindows?: SharedNetworkBusinessUpdatepreferredWindowsInput | string[]
     status?: EnumSharedNetworkBusinessStatusFieldUpdateOperationsInput | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoDispatchEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoReserveEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiSpendLimitCredits?: NullableIntFieldUpdateOperationsInput | number | null
@@ -62107,6 +62140,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: number
     preferredWindows?: SharedNetworkBusinessCreatepreferredWindowsInput | string[]
     status?: $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: number | null
@@ -62135,6 +62169,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: number
     preferredWindows?: SharedNetworkBusinessCreatepreferredWindowsInput | string[]
     status?: $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: number | null
@@ -62247,6 +62282,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntFieldUpdateOperationsInput | number
     preferredWindows?: SharedNetworkBusinessUpdatepreferredWindowsInput | string[]
     status?: EnumSharedNetworkBusinessStatusFieldUpdateOperationsInput | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoDispatchEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoReserveEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiSpendLimitCredits?: NullableIntFieldUpdateOperationsInput | number | null
@@ -62275,6 +62311,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntFieldUpdateOperationsInput | number
     preferredWindows?: SharedNetworkBusinessUpdatepreferredWindowsInput | string[]
     status?: EnumSharedNetworkBusinessStatusFieldUpdateOperationsInput | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoDispatchEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoReserveEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiSpendLimitCredits?: NullableIntFieldUpdateOperationsInput | number | null
@@ -62486,6 +62523,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: number
     preferredWindows?: SharedNetworkBusinessCreatepreferredWindowsInput | string[]
     status?: $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: number | null
@@ -62514,6 +62552,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: number
     preferredWindows?: SharedNetworkBusinessCreatepreferredWindowsInput | string[]
     status?: $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: number | null
@@ -62641,6 +62680,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntFieldUpdateOperationsInput | number
     preferredWindows?: SharedNetworkBusinessUpdatepreferredWindowsInput | string[]
     status?: EnumSharedNetworkBusinessStatusFieldUpdateOperationsInput | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoDispatchEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoReserveEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiSpendLimitCredits?: NullableIntFieldUpdateOperationsInput | number | null
@@ -62669,6 +62709,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntFieldUpdateOperationsInput | number
     preferredWindows?: SharedNetworkBusinessUpdatepreferredWindowsInput | string[]
     status?: EnumSharedNetworkBusinessStatusFieldUpdateOperationsInput | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoDispatchEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoReserveEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiSpendLimitCredits?: NullableIntFieldUpdateOperationsInput | number | null
@@ -62822,6 +62863,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: number
     preferredWindows?: SharedNetworkBusinessCreatepreferredWindowsInput | string[]
     status?: $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: number | null
@@ -62850,6 +62892,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: number
     preferredWindows?: SharedNetworkBusinessCreatepreferredWindowsInput | string[]
     status?: $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: number | null
@@ -62971,6 +63014,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntFieldUpdateOperationsInput | number
     preferredWindows?: SharedNetworkBusinessUpdatepreferredWindowsInput | string[]
     status?: EnumSharedNetworkBusinessStatusFieldUpdateOperationsInput | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoDispatchEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoReserveEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiSpendLimitCredits?: NullableIntFieldUpdateOperationsInput | number | null
@@ -62999,6 +63043,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntFieldUpdateOperationsInput | number
     preferredWindows?: SharedNetworkBusinessUpdatepreferredWindowsInput | string[]
     status?: EnumSharedNetworkBusinessStatusFieldUpdateOperationsInput | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoDispatchEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoReserveEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiSpendLimitCredits?: NullableIntFieldUpdateOperationsInput | number | null
@@ -63082,6 +63127,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: number
     preferredWindows?: SharedNetworkBusinessCreatepreferredWindowsInput | string[]
     status?: $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: number | null
@@ -63110,6 +63156,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: number
     preferredWindows?: SharedNetworkBusinessCreatepreferredWindowsInput | string[]
     status?: $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: number | null
@@ -63187,6 +63234,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntFieldUpdateOperationsInput | number
     preferredWindows?: SharedNetworkBusinessUpdatepreferredWindowsInput | string[]
     status?: EnumSharedNetworkBusinessStatusFieldUpdateOperationsInput | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoDispatchEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoReserveEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiSpendLimitCredits?: NullableIntFieldUpdateOperationsInput | number | null
@@ -63215,6 +63263,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntFieldUpdateOperationsInput | number
     preferredWindows?: SharedNetworkBusinessUpdatepreferredWindowsInput | string[]
     status?: EnumSharedNetworkBusinessStatusFieldUpdateOperationsInput | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoDispatchEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoReserveEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiSpendLimitCredits?: NullableIntFieldUpdateOperationsInput | number | null
@@ -63377,6 +63426,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: number
     preferredWindows?: SharedNetworkBusinessCreatepreferredWindowsInput | string[]
     status?: $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: number | null
@@ -63405,6 +63455,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: number
     preferredWindows?: SharedNetworkBusinessCreatepreferredWindowsInput | string[]
     status?: $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: number | null
@@ -63492,6 +63543,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntFieldUpdateOperationsInput | number
     preferredWindows?: SharedNetworkBusinessUpdatepreferredWindowsInput | string[]
     status?: EnumSharedNetworkBusinessStatusFieldUpdateOperationsInput | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoDispatchEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoReserveEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiSpendLimitCredits?: NullableIntFieldUpdateOperationsInput | number | null
@@ -63520,6 +63572,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntFieldUpdateOperationsInput | number
     preferredWindows?: SharedNetworkBusinessUpdatepreferredWindowsInput | string[]
     status?: EnumSharedNetworkBusinessStatusFieldUpdateOperationsInput | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoDispatchEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoReserveEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiSpendLimitCredits?: NullableIntFieldUpdateOperationsInput | number | null
@@ -63546,6 +63599,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: number
     preferredWindows?: SharedNetworkBusinessCreatepreferredWindowsInput | string[]
     status?: $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: number | null
@@ -63574,6 +63628,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: number
     preferredWindows?: SharedNetworkBusinessCreatepreferredWindowsInput | string[]
     status?: $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: number | null
@@ -63616,6 +63671,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntFieldUpdateOperationsInput | number
     preferredWindows?: SharedNetworkBusinessUpdatepreferredWindowsInput | string[]
     status?: EnumSharedNetworkBusinessStatusFieldUpdateOperationsInput | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoDispatchEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoReserveEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiSpendLimitCredits?: NullableIntFieldUpdateOperationsInput | number | null
@@ -63644,6 +63700,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntFieldUpdateOperationsInput | number
     preferredWindows?: SharedNetworkBusinessUpdatepreferredWindowsInput | string[]
     status?: EnumSharedNetworkBusinessStatusFieldUpdateOperationsInput | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoDispatchEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoReserveEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiSpendLimitCredits?: NullableIntFieldUpdateOperationsInput | number | null
@@ -63670,6 +63727,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: number
     preferredWindows?: SharedNetworkBusinessCreatepreferredWindowsInput | string[]
     status?: $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: number | null
@@ -63698,6 +63756,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: number
     preferredWindows?: SharedNetworkBusinessCreatepreferredWindowsInput | string[]
     status?: $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: number | null
@@ -63777,6 +63836,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntFieldUpdateOperationsInput | number
     preferredWindows?: SharedNetworkBusinessUpdatepreferredWindowsInput | string[]
     status?: EnumSharedNetworkBusinessStatusFieldUpdateOperationsInput | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoDispatchEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoReserveEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiSpendLimitCredits?: NullableIntFieldUpdateOperationsInput | number | null
@@ -63805,6 +63865,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntFieldUpdateOperationsInput | number
     preferredWindows?: SharedNetworkBusinessUpdatepreferredWindowsInput | string[]
     status?: EnumSharedNetworkBusinessStatusFieldUpdateOperationsInput | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoDispatchEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoReserveEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiSpendLimitCredits?: NullableIntFieldUpdateOperationsInput | number | null
@@ -63874,6 +63935,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: number
     preferredWindows?: SharedNetworkBusinessCreatepreferredWindowsInput | string[]
     status?: $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: number | null
@@ -63902,6 +63964,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: number
     preferredWindows?: SharedNetworkBusinessCreatepreferredWindowsInput | string[]
     status?: $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: boolean
     aiAutoDispatchEnabled?: boolean
     aiAutoReserveEnabled?: boolean
     aiSpendLimitCredits?: number | null
@@ -63944,6 +64007,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntFieldUpdateOperationsInput | number
     preferredWindows?: SharedNetworkBusinessUpdatepreferredWindowsInput | string[]
     status?: EnumSharedNetworkBusinessStatusFieldUpdateOperationsInput | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoDispatchEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoReserveEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiSpendLimitCredits?: NullableIntFieldUpdateOperationsInput | number | null
@@ -63972,6 +64036,7 @@ export namespace Prisma {
     expectedWeeklyVolume?: IntFieldUpdateOperationsInput | number
     preferredWindows?: SharedNetworkBusinessUpdatepreferredWindowsInput | string[]
     status?: EnumSharedNetworkBusinessStatusFieldUpdateOperationsInput | $Enums.SharedNetworkBusinessStatus
+    accessEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoDispatchEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiAutoReserveEnabled?: BoolFieldUpdateOperationsInput | boolean
     aiSpendLimitCredits?: NullableIntFieldUpdateOperationsInput | number | null
