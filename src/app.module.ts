@@ -19,6 +19,7 @@ import { NotificationModule } from './modules/notification/notifcation.module';
 import { CreditModule } from './modules/credits/credit.module';
 import { AiDeliveryModule } from './modules/ai-delivery/ai-delivery.module';
 import { AdminModule } from './modules/admin/admin.module';
+import { SharedNetworkModule } from './modules/shared-network/shared-network.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { AdminModule } from './modules/admin/admin.module';
     CreditModule,
     AiDeliveryModule,
     AdminModule,
+    SharedNetworkModule,
   ],
   controllers: [AppController, HealthController],
   providers: [

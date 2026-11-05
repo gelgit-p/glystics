@@ -48,6 +48,7 @@ model User {
   messageTemplates      MessageTemplate[]
   automations           Automation[]
   creditWallet          CreditWallet?
+  sharedNetworkBusiness SharedNetworkBusiness?
   aiConversations       AiConversation[]
   deliveryDrafts        DeliveryDraft[]
 }
@@ -429,4 +430,353 @@ enum CreditPurchaseStatus {
   PAID
   FAILED
   CANCELLED
+}
+// --- Dispatchly Shared Delivery Network (independent billing from CreditWallet) ---
+model SharedNetworkPlan {
+  id String @id @default(cuid())
+  name String @unique
+  slug String @unique
+  description String?
+  monthlyPriceKobo Int @default(0)
+  annualPriceKobo Int @default(0)
+  monthlyDeliveryVolume Int @default(0)
+  reservedCapacityAllowance Int @default(0)
+  maxActiveSlots Int @default(0)
+  poolingEligible Boolean @default(true)
+  discountPercent Int @default(0)
+  analyticsAccess Boolean @default(false)
+  aiDispatchAccess Boolean @default(false)
+  priorityAllocation Boolean @default(false)
+  maxLocations Int @default(1)
+  isActive Boolean @default(true)
+  sortOrder Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  subscriptions SharedNetworkSubscription[]
+}
+
+model SharedNetworkBusiness {
+  id String @id @default(cuid())
+  userId String @unique
+  businessName String
+  businessEmail String
+  contactPhone String
+  category String
+  pickupLocations String[]
+  operatingRegions String[]
+  expectedDailyVolume Int @default(0)
+  expectedWeeklyVolume Int @default(0)
+  preferredWindows String[]
+  status SharedNetworkBusinessStatus @default(ACTIVE)
+  aiAutoDispatchEnabled Boolean @default(false)
+  aiAutoReserveEnabled Boolean @default(false)
+  aiSpendLimitCredits Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  wallet SharedNetworkWallet?
+  subscriptions SharedNetworkSubscription[]
+  reservations SharedNetworkReservation[]
+  slots SharedNetworkSlot[]
+  poolDeliveries SharedNetworkPoolDelivery[]
+  billingTransactions SharedNetworkBillingTransaction[]
+  invoices SharedNetworkInvoice[]
+  usageRecords SharedNetworkUsageRecord[]
+  @@index([status])
+}
+
+model SharedNetworkWallet {
+  id String @id @default(cuid())
+  businessId String @unique
+  balance Int @default(0)
+  lifetimePurchased Int @default(0)
+  lifetimeSpent Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  business SharedNetworkBusiness @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  transactions SharedNetworkCreditTransaction[]
+  purchases SharedNetworkCreditPurchase[]
+}
+
+model SharedNetworkCreditTransaction {
+  id String @id @default(cuid())
+  walletId String
+  type SharedNetworkCreditTxType
+  amount Int
+  balanceAfter Int
+  description String
+  reference String? @unique
+  idempotencyKey String? @unique
+  metadata Json?
+  createdAt DateTime @default(now())
+  wallet SharedNetworkWallet @relation(fields: [walletId], references: [id], onDelete: Cascade)
+  @@index([walletId, createdAt])
+}
+
+model SharedNetworkCreditPurchase {
+  id String @id @default(cuid())
+  walletId String
+  credits Int
+  amountKobo Int
+  paymentReference String @unique
+  checkoutSessionId String? @unique
+  checkoutUrl String?
+  status CreditPurchaseStatus @default(PENDING)
+  paidAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  wallet SharedNetworkWallet @relation(fields: [walletId], references: [id], onDelete: Cascade)
+  @@index([walletId, status])
+}
+
+model SharedNetworkSubscription {
+  id String @id @default(cuid())
+  businessId String
+  planId String
+  status SharedNetworkSubscriptionStatus @default(PENDING_PAYMENT)
+  billingCycle SharedNetworkBillingCycle @default(MONTHLY)
+  currentPeriodStart DateTime?
+  currentPeriodEnd DateTime?
+  cancelAtPeriodEnd Boolean @default(false)
+  paymentReference String? @unique
+  checkoutSessionId String? @unique
+  checkoutUrl String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  business SharedNetworkBusiness @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  plan SharedNetworkPlan @relation(fields: [planId], references: [id])
+  invoices SharedNetworkInvoice[]
+  @@index([businessId, status])
+}
+
+model SharedNetworkCapacity {
+  id String @id @default(cuid())
+  date DateTime
+  region String
+  window String
+  vehicleType String @default("BIKE")
+  totalCapacity Int
+  reservedCapacity Int @default(0)
+  pricePerSlotCredits Int @default(1)
+  pricePerSlotKobo Int @default(0)
+  cutoffAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  reservations SharedNetworkReservation[]
+  @@unique([date, region, window, vehicleType])
+  @@index([region, window, date])
+}
+
+model SharedNetworkReservation {
+  id String @id @default(cuid())
+  businessId String
+  capacityId String
+  quantity Int
+  pickupLocation String
+  deliveryType String @default("STANDARD")
+  status SharedNetworkReservationStatus @default(CONFIRMED)
+  costCredits Int @default(0)
+  costKobo Int @default(0)
+  idempotencyKey String? @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  business SharedNetworkBusiness @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  capacity SharedNetworkCapacity @relation(fields: [capacityId], references: [id])
+  slots SharedNetworkSlot[]
+  @@index([businessId, createdAt])
+  @@index([capacityId, status])
+}
+
+model SharedNetworkSlot {
+  id String @id @default(cuid())
+  businessId String
+  title String
+  date DateTime
+  window String
+  startTime String?
+  endTime String?
+  quantity Int @default(1)
+  pickupLocation String
+  isRecurring Boolean @default(false)
+  recurrence String?
+  status SharedNetworkSlotStatus @default(DRAFT)
+  reservationId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  business SharedNetworkBusiness @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  reservation SharedNetworkReservation? @relation(fields: [reservationId], references: [id], onDelete: SetNull)
+  @@index([businessId, date])
+}
+
+model SharedNetworkPool {
+  id String @id @default(cuid())
+  name String
+  region String
+  date DateTime
+  window String
+  status SharedNetworkPoolStatus @default(OPEN)
+  courierName String?
+  vehicleType String @default("BIKE")
+  maxDeliveries Int @default(50)
+  totalDeliveries Int @default(0)
+  estimatedSavingsKobo Int @default(0)
+  cutoffAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deliveries SharedNetworkPoolDelivery[]
+  @@index([region, window, date, status])
+}
+
+model SharedNetworkPoolDelivery {
+  id String @id @default(cuid())
+  poolId String
+  businessId String
+  deliveryId String?
+  quantity Int @default(1)
+  pickupAddress String
+  destinationRegion String
+  packageWeightKg Float?
+  status String @default("JOINED")
+  estimatedCostKobo Int @default(0)
+  estimatedSavingsKobo Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  pool SharedNetworkPool @relation(fields: [poolId], references: [id], onDelete: Cascade)
+  business SharedNetworkBusiness @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  @@index([poolId])
+  @@index([businessId])
+  @@index([deliveryId])
+}
+
+model SharedNetworkBillingTransaction {
+  id String @id @default(cuid())
+  businessId String
+  type SharedNetworkBillingTxType
+  amountKobo Int
+  status SharedNetworkBillingTxStatus @default(PENDING)
+  description String
+  reference String @unique
+  idempotencyKey String? @unique
+  metadata Json?
+  createdAt DateTime @default(now())
+  business SharedNetworkBusiness @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  @@index([businessId, createdAt])
+}
+
+model SharedNetworkInvoice {
+  id String @id @default(cuid())
+  businessId String
+  subscriptionId String?
+  number String @unique
+  amountKobo Int
+  status SharedNetworkInvoiceStatus @default(OPEN)
+  items Json?
+  dueAt DateTime?
+  paidAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  business SharedNetworkBusiness @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  subscription SharedNetworkSubscription? @relation(fields: [subscriptionId], references: [id], onDelete: SetNull)
+  @@index([businessId, status])
+}
+
+model SharedNetworkPricingRule {
+  id String @id @default(cuid())
+  region String
+  window String
+  basePriceKobo Int @default(0)
+  pricePerSlotCredits Int @default(1)
+  poolingDiscountPercent Int @default(10)
+  isActive Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([region, window])
+}
+
+model SharedNetworkUsageRecord {
+  id String @id @default(cuid())
+  businessId String
+  type String
+  quantity Int @default(0)
+  costCredits Int @default(0)
+  costKobo Int @default(0)
+  reference String?
+  createdAt DateTime @default(now())
+  business SharedNetworkBusiness @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  @@index([businessId, createdAt])
+}
+
+model SharedNetworkAuditLog {
+  id String @id @default(cuid())
+  actorUserId String
+  businessId String?
+  action String
+  entityType String
+  entityId String?
+  metadata Json?
+  createdAt DateTime @default(now())
+  @@index([businessId, createdAt])
+  @@index([actorUserId, createdAt])
+}
+
+enum SharedNetworkBusinessStatus {
+  ACTIVE
+  SUSPENDED
+  PENDING
+}
+enum SharedNetworkSubscriptionStatus {
+  PENDING_PAYMENT
+  ACTIVE
+  PAST_DUE
+  CANCELLED
+  EXPIRED
+}
+enum SharedNetworkBillingCycle {
+  MONTHLY
+  ANNUAL
+}
+enum SharedNetworkCreditTxType {
+  PURCHASE
+  USAGE
+  REFUND
+  ADMIN_ADJUSTMENT
+  EXPIRY
+}
+enum SharedNetworkReservationStatus {
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+enum SharedNetworkSlotStatus {
+  DRAFT
+  BOOKED
+  CANCELLED
+  COMPLETED
+}
+enum SharedNetworkPoolStatus {
+  OPEN
+  LOCKED
+  DISPATCHED
+  COMPLETED
+  CANCELLED
+}
+enum SharedNetworkBillingTxType {
+  SUBSCRIPTION
+  CAPACITY
+  CREDIT_PURCHASE
+  DELIVERY
+  REFUND
+}
+enum SharedNetworkBillingTxStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+  CANCELLED
+}
+enum SharedNetworkInvoiceStatus {
+  OPEN
+  PAID
+  VOID
+  OVERDUE
 }

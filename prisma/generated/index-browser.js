@@ -434,6 +434,243 @@ exports.Prisma.AiAuditEventScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.SharedNetworkPlanScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  monthlyPriceKobo: 'monthlyPriceKobo',
+  annualPriceKobo: 'annualPriceKobo',
+  monthlyDeliveryVolume: 'monthlyDeliveryVolume',
+  reservedCapacityAllowance: 'reservedCapacityAllowance',
+  maxActiveSlots: 'maxActiveSlots',
+  poolingEligible: 'poolingEligible',
+  discountPercent: 'discountPercent',
+  analyticsAccess: 'analyticsAccess',
+  aiDispatchAccess: 'aiDispatchAccess',
+  priorityAllocation: 'priorityAllocation',
+  maxLocations: 'maxLocations',
+  isActive: 'isActive',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SharedNetworkBusinessScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  businessName: 'businessName',
+  businessEmail: 'businessEmail',
+  contactPhone: 'contactPhone',
+  category: 'category',
+  pickupLocations: 'pickupLocations',
+  operatingRegions: 'operatingRegions',
+  expectedDailyVolume: 'expectedDailyVolume',
+  expectedWeeklyVolume: 'expectedWeeklyVolume',
+  preferredWindows: 'preferredWindows',
+  status: 'status',
+  aiAutoDispatchEnabled: 'aiAutoDispatchEnabled',
+  aiAutoReserveEnabled: 'aiAutoReserveEnabled',
+  aiSpendLimitCredits: 'aiSpendLimitCredits',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SharedNetworkWalletScalarFieldEnum = {
+  id: 'id',
+  businessId: 'businessId',
+  balance: 'balance',
+  lifetimePurchased: 'lifetimePurchased',
+  lifetimeSpent: 'lifetimeSpent',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SharedNetworkCreditTransactionScalarFieldEnum = {
+  id: 'id',
+  walletId: 'walletId',
+  type: 'type',
+  amount: 'amount',
+  balanceAfter: 'balanceAfter',
+  description: 'description',
+  reference: 'reference',
+  idempotencyKey: 'idempotencyKey',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SharedNetworkCreditPurchaseScalarFieldEnum = {
+  id: 'id',
+  walletId: 'walletId',
+  credits: 'credits',
+  amountKobo: 'amountKobo',
+  paymentReference: 'paymentReference',
+  checkoutSessionId: 'checkoutSessionId',
+  checkoutUrl: 'checkoutUrl',
+  status: 'status',
+  paidAt: 'paidAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SharedNetworkSubscriptionScalarFieldEnum = {
+  id: 'id',
+  businessId: 'businessId',
+  planId: 'planId',
+  status: 'status',
+  billingCycle: 'billingCycle',
+  currentPeriodStart: 'currentPeriodStart',
+  currentPeriodEnd: 'currentPeriodEnd',
+  cancelAtPeriodEnd: 'cancelAtPeriodEnd',
+  paymentReference: 'paymentReference',
+  checkoutSessionId: 'checkoutSessionId',
+  checkoutUrl: 'checkoutUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SharedNetworkCapacityScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  region: 'region',
+  window: 'window',
+  vehicleType: 'vehicleType',
+  totalCapacity: 'totalCapacity',
+  reservedCapacity: 'reservedCapacity',
+  pricePerSlotCredits: 'pricePerSlotCredits',
+  pricePerSlotKobo: 'pricePerSlotKobo',
+  cutoffAt: 'cutoffAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SharedNetworkReservationScalarFieldEnum = {
+  id: 'id',
+  businessId: 'businessId',
+  capacityId: 'capacityId',
+  quantity: 'quantity',
+  pickupLocation: 'pickupLocation',
+  deliveryType: 'deliveryType',
+  status: 'status',
+  costCredits: 'costCredits',
+  costKobo: 'costKobo',
+  idempotencyKey: 'idempotencyKey',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SharedNetworkSlotScalarFieldEnum = {
+  id: 'id',
+  businessId: 'businessId',
+  title: 'title',
+  date: 'date',
+  window: 'window',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  quantity: 'quantity',
+  pickupLocation: 'pickupLocation',
+  isRecurring: 'isRecurring',
+  recurrence: 'recurrence',
+  status: 'status',
+  reservationId: 'reservationId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SharedNetworkPoolScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  region: 'region',
+  date: 'date',
+  window: 'window',
+  status: 'status',
+  courierName: 'courierName',
+  vehicleType: 'vehicleType',
+  maxDeliveries: 'maxDeliveries',
+  totalDeliveries: 'totalDeliveries',
+  estimatedSavingsKobo: 'estimatedSavingsKobo',
+  cutoffAt: 'cutoffAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SharedNetworkPoolDeliveryScalarFieldEnum = {
+  id: 'id',
+  poolId: 'poolId',
+  businessId: 'businessId',
+  deliveryId: 'deliveryId',
+  quantity: 'quantity',
+  pickupAddress: 'pickupAddress',
+  destinationRegion: 'destinationRegion',
+  packageWeightKg: 'packageWeightKg',
+  status: 'status',
+  estimatedCostKobo: 'estimatedCostKobo',
+  estimatedSavingsKobo: 'estimatedSavingsKobo',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SharedNetworkBillingTransactionScalarFieldEnum = {
+  id: 'id',
+  businessId: 'businessId',
+  type: 'type',
+  amountKobo: 'amountKobo',
+  status: 'status',
+  description: 'description',
+  reference: 'reference',
+  idempotencyKey: 'idempotencyKey',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SharedNetworkInvoiceScalarFieldEnum = {
+  id: 'id',
+  businessId: 'businessId',
+  subscriptionId: 'subscriptionId',
+  number: 'number',
+  amountKobo: 'amountKobo',
+  status: 'status',
+  items: 'items',
+  dueAt: 'dueAt',
+  paidAt: 'paidAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SharedNetworkPricingRuleScalarFieldEnum = {
+  id: 'id',
+  region: 'region',
+  window: 'window',
+  basePriceKobo: 'basePriceKobo',
+  pricePerSlotCredits: 'pricePerSlotCredits',
+  poolingDiscountPercent: 'poolingDiscountPercent',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SharedNetworkUsageRecordScalarFieldEnum = {
+  id: 'id',
+  businessId: 'businessId',
+  type: 'type',
+  quantity: 'quantity',
+  costCredits: 'costCredits',
+  costKobo: 'costKobo',
+  reference: 'reference',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SharedNetworkAuditLogScalarFieldEnum = {
+  id: 'id',
+  actorUserId: 'actorUserId',
+  businessId: 'businessId',
+  action: 'action',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -483,6 +720,77 @@ exports.CreditPurchaseStatus = exports.$Enums.CreditPurchaseStatus = {
   CANCELLED: 'CANCELLED'
 };
 
+exports.SharedNetworkBusinessStatus = exports.$Enums.SharedNetworkBusinessStatus = {
+  ACTIVE: 'ACTIVE',
+  SUSPENDED: 'SUSPENDED',
+  PENDING: 'PENDING'
+};
+
+exports.SharedNetworkCreditTxType = exports.$Enums.SharedNetworkCreditTxType = {
+  PURCHASE: 'PURCHASE',
+  USAGE: 'USAGE',
+  REFUND: 'REFUND',
+  ADMIN_ADJUSTMENT: 'ADMIN_ADJUSTMENT',
+  EXPIRY: 'EXPIRY'
+};
+
+exports.SharedNetworkSubscriptionStatus = exports.$Enums.SharedNetworkSubscriptionStatus = {
+  PENDING_PAYMENT: 'PENDING_PAYMENT',
+  ACTIVE: 'ACTIVE',
+  PAST_DUE: 'PAST_DUE',
+  CANCELLED: 'CANCELLED',
+  EXPIRED: 'EXPIRED'
+};
+
+exports.SharedNetworkBillingCycle = exports.$Enums.SharedNetworkBillingCycle = {
+  MONTHLY: 'MONTHLY',
+  ANNUAL: 'ANNUAL'
+};
+
+exports.SharedNetworkReservationStatus = exports.$Enums.SharedNetworkReservationStatus = {
+  CONFIRMED: 'CONFIRMED',
+  CANCELLED: 'CANCELLED',
+  COMPLETED: 'COMPLETED'
+};
+
+exports.SharedNetworkSlotStatus = exports.$Enums.SharedNetworkSlotStatus = {
+  DRAFT: 'DRAFT',
+  BOOKED: 'BOOKED',
+  CANCELLED: 'CANCELLED',
+  COMPLETED: 'COMPLETED'
+};
+
+exports.SharedNetworkPoolStatus = exports.$Enums.SharedNetworkPoolStatus = {
+  OPEN: 'OPEN',
+  LOCKED: 'LOCKED',
+  DISPATCHED: 'DISPATCHED',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.SharedNetworkBillingTxType = exports.$Enums.SharedNetworkBillingTxType = {
+  SUBSCRIPTION: 'SUBSCRIPTION',
+  CAPACITY: 'CAPACITY',
+  CREDIT_PURCHASE: 'CREDIT_PURCHASE',
+  DELIVERY: 'DELIVERY',
+  REFUND: 'REFUND'
+};
+
+exports.SharedNetworkBillingTxStatus = exports.$Enums.SharedNetworkBillingTxStatus = {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.SharedNetworkInvoiceStatus = exports.$Enums.SharedNetworkInvoiceStatus = {
+  OPEN: 'OPEN',
+  PAID: 'PAID',
+  VOID: 'VOID',
+  OVERDUE: 'OVERDUE'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Token: 'Token',
@@ -500,7 +808,23 @@ exports.Prisma.ModelName = {
   ProviderQuote: 'ProviderQuote',
   Approval: 'Approval',
   WebhookEventLog: 'WebhookEventLog',
-  AiAuditEvent: 'AiAuditEvent'
+  AiAuditEvent: 'AiAuditEvent',
+  SharedNetworkPlan: 'SharedNetworkPlan',
+  SharedNetworkBusiness: 'SharedNetworkBusiness',
+  SharedNetworkWallet: 'SharedNetworkWallet',
+  SharedNetworkCreditTransaction: 'SharedNetworkCreditTransaction',
+  SharedNetworkCreditPurchase: 'SharedNetworkCreditPurchase',
+  SharedNetworkSubscription: 'SharedNetworkSubscription',
+  SharedNetworkCapacity: 'SharedNetworkCapacity',
+  SharedNetworkReservation: 'SharedNetworkReservation',
+  SharedNetworkSlot: 'SharedNetworkSlot',
+  SharedNetworkPool: 'SharedNetworkPool',
+  SharedNetworkPoolDelivery: 'SharedNetworkPoolDelivery',
+  SharedNetworkBillingTransaction: 'SharedNetworkBillingTransaction',
+  SharedNetworkInvoice: 'SharedNetworkInvoice',
+  SharedNetworkPricingRule: 'SharedNetworkPricingRule',
+  SharedNetworkUsageRecord: 'SharedNetworkUsageRecord',
+  SharedNetworkAuditLog: 'SharedNetworkAuditLog'
 };
 
 /**

@@ -199,3 +199,13 @@ prisma/
 
 - [NestJS Docs](https://docs.nestjs.com) · [Prisma Docs](https://www.prisma.io/docs)
 - Frontend setup: [`../fe/Readme.MD`](../fe/Readme.MD)
+
+## Shared Delivery Network
+
+Independent product (`/shared-network/*`, admin `/admin/shared-network/*`) with its own
+plans, wallet, credit ledger, subscriptions, invoices, capacity and pools — fully isolated
+from the existing `CreditWallet`. Payments reuse Bachs checkout with `SN-` references and
+server-side verification. Configure the credit price with `SHARED_NETWORK_CREDIT_PRICE_KOBO`
+(default `100` = ₦1/credit). Plans are seeded on first plan listing and editable in the
+admin dashboard (`/admin/shared-network`). Capacity must be published by an admin before
+businesses can reserve it. Apply the migration `20261105000000_shared_network`.
