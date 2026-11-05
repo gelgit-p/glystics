@@ -205,7 +205,6 @@ prisma/
 Independent product (`/shared-network/*`, admin `/admin/shared-network/*`) with its own
 plans, wallet, credit ledger, subscriptions, invoices, capacity and pools — fully isolated
 from the existing `CreditWallet`. Payments reuse Bachs checkout with `SN-` references and
-server-side verification. Configure the credit price with `SHARED_NETWORK_CREDIT_PRICE_KOBO`
-(default `100` = ₦1/credit). Plans are seeded on first plan listing and editable in the
+server-side verification. Capacity reservations are charged in credits from the user's existing Billing wallet (`CreditWallet`); there is no separate Shared Network credit purchase. Plans are seeded on first plan listing and editable in the
 admin dashboard (`/admin/shared-network`). Capacity must be published by an admin before
 businesses can reserve it. Apply the migration `20261105000000_shared_network`.

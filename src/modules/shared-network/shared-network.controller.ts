@@ -41,8 +41,6 @@ export class SharedNetworkController {
   @Get('billing/overview') billing(@Req() r: AuthedRequest) { return this.svc.billingOverview(r.user.id); }
   @Get('billing/transactions') txns(@Req() r: AuthedRequest) { return this.svc.listTransactions(r.user.id); }
   @Get('credits') credits(@Req() r: AuthedRequest) { return this.svc.getCredits(r.user.id); }
-  @Post('credits/purchase') purchase(@Req() r: AuthedRequest, @Body() d: dto.PurchaseCreditsDto) { return this.svc.purchaseCredits(r.user.id, d); }
-  @Post('credits/verify') verify(@Req() r: AuthedRequest, @Body() d: dto.VerifyCreditsDto) { return this.svc.verifyCredits(r.user.id, d.paymentReference); }
   @Get('invoices') invoices(@Req() r: AuthedRequest) { return this.svc.listInvoices(r.user.id); }
   @Get('analytics/overview') analytics(@Req() r: AuthedRequest) { return this.svc.analytics(r.user.id); }
   @Get('analytics/savings') async savings(@Req() r: AuthedRequest) { const a = await this.svc.analytics(r.user.id); return { estimatedSavingsKobo: a.estimatedSavingsKobo, pooledDeliveries: a.pooledDeliveries }; }

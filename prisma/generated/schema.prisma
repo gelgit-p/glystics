@@ -482,7 +482,6 @@ model SharedNetworkBusiness {
   createdAt             DateTime                          @default(now())
   updatedAt             DateTime                          @updatedAt
   user                  User                              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  wallet                SharedNetworkWallet?
   subscriptions         SharedNetworkSubscription[]
   reservations          SharedNetworkReservation[]
   slots                 SharedNetworkSlot[]
@@ -492,52 +491,6 @@ model SharedNetworkBusiness {
   usageRecords          SharedNetworkUsageRecord[]
 
   @@index([status])
-}
-
-model SharedNetworkWallet {
-  id                String                           @id @default(cuid())
-  businessId        String                           @unique
-  balance           Int                              @default(0)
-  lifetimePurchased Int                              @default(0)
-  lifetimeSpent     Int                              @default(0)
-  createdAt         DateTime                         @default(now())
-  updatedAt         DateTime                         @updatedAt
-  business          SharedNetworkBusiness            @relation(fields: [businessId], references: [id], onDelete: Cascade)
-  transactions      SharedNetworkCreditTransaction[]
-  purchases         SharedNetworkCreditPurchase[]
-}
-
-model SharedNetworkCreditTransaction {
-  id             String                    @id @default(cuid())
-  walletId       String
-  type           SharedNetworkCreditTxType
-  amount         Int
-  balanceAfter   Int
-  description    String
-  reference      String?                   @unique
-  idempotencyKey String?                   @unique
-  metadata       Json?
-  createdAt      DateTime                  @default(now())
-  wallet         SharedNetworkWallet       @relation(fields: [walletId], references: [id], onDelete: Cascade)
-
-  @@index([walletId, createdAt])
-}
-
-model SharedNetworkCreditPurchase {
-  id                String               @id @default(cuid())
-  walletId          String
-  credits           Int
-  amountKobo        Int
-  paymentReference  String               @unique
-  checkoutSessionId String?              @unique
-  checkoutUrl       String?
-  status            CreditPurchaseStatus @default(PENDING)
-  paidAt            DateTime?
-  createdAt         DateTime             @default(now())
-  updatedAt         DateTime             @updatedAt
-  wallet            SharedNetworkWallet  @relation(fields: [walletId], references: [id], onDelete: Cascade)
-
-  @@index([walletId, status])
 }
 
 model SharedNetworkSubscription {
@@ -758,14 +711,6 @@ enum SharedNetworkSubscriptionStatus {
 enum SharedNetworkBillingCycle {
   MONTHLY
   ANNUAL
-}
-
-enum SharedNetworkCreditTxType {
-  PURCHASE
-  USAGE
-  REFUND
-  ADMIN_ADJUSTMENT
-  EXPIRY
 }
 
 enum SharedNetworkReservationStatus {

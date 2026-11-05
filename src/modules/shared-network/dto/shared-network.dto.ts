@@ -98,10 +98,6 @@ export class JoinPoolDto {
   @ApiPropertyOptional() @IsOptional() @IsNumber() @Type(() => Number) packageWeightKg?: number;
 }
 
-export class PurchaseCreditsDto {
-  @ApiProperty() @IsInt() @Min(1) @Type(() => Number) credits: number;
-  @ApiPropertyOptional() @IsOptional() @IsString() idempotencyKey?: string;
-}
 
 export class VerifyCreditsDto {
   @ApiProperty() @IsString() paymentReference: string;

@@ -477,43 +477,6 @@ exports.Prisma.SharedNetworkBusinessScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.SharedNetworkWalletScalarFieldEnum = {
-  id: 'id',
-  businessId: 'businessId',
-  balance: 'balance',
-  lifetimePurchased: 'lifetimePurchased',
-  lifetimeSpent: 'lifetimeSpent',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.SharedNetworkCreditTransactionScalarFieldEnum = {
-  id: 'id',
-  walletId: 'walletId',
-  type: 'type',
-  amount: 'amount',
-  balanceAfter: 'balanceAfter',
-  description: 'description',
-  reference: 'reference',
-  idempotencyKey: 'idempotencyKey',
-  metadata: 'metadata',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.SharedNetworkCreditPurchaseScalarFieldEnum = {
-  id: 'id',
-  walletId: 'walletId',
-  credits: 'credits',
-  amountKobo: 'amountKobo',
-  paymentReference: 'paymentReference',
-  checkoutSessionId: 'checkoutSessionId',
-  checkoutUrl: 'checkoutUrl',
-  status: 'status',
-  paidAt: 'paidAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.SharedNetworkSubscriptionScalarFieldEnum = {
   id: 'id',
   businessId: 'businessId',
@@ -736,14 +699,6 @@ exports.SharedNetworkBusinessStatus = exports.$Enums.SharedNetworkBusinessStatus
   PENDING: 'PENDING'
 };
 
-exports.SharedNetworkCreditTxType = exports.$Enums.SharedNetworkCreditTxType = {
-  PURCHASE: 'PURCHASE',
-  USAGE: 'USAGE',
-  REFUND: 'REFUND',
-  ADMIN_ADJUSTMENT: 'ADMIN_ADJUSTMENT',
-  EXPIRY: 'EXPIRY'
-};
-
 exports.SharedNetworkSubscriptionStatus = exports.$Enums.SharedNetworkSubscriptionStatus = {
   PENDING_PAYMENT: 'PENDING_PAYMENT',
   ACTIVE: 'ACTIVE',
@@ -821,9 +776,6 @@ exports.Prisma.ModelName = {
   AiAuditEvent: 'AiAuditEvent',
   SharedNetworkPlan: 'SharedNetworkPlan',
   SharedNetworkBusiness: 'SharedNetworkBusiness',
-  SharedNetworkWallet: 'SharedNetworkWallet',
-  SharedNetworkCreditTransaction: 'SharedNetworkCreditTransaction',
-  SharedNetworkCreditPurchase: 'SharedNetworkCreditPurchase',
   SharedNetworkSubscription: 'SharedNetworkSubscription',
   SharedNetworkCapacity: 'SharedNetworkCapacity',
   SharedNetworkReservation: 'SharedNetworkReservation',

@@ -4,6 +4,7 @@ import { randomUUID } from 'node:crypto';
 import { Prisma } from 'prisma/generated';
 import { PrismaService } from 'prisma/prisma.service';
 import { BachsService } from '../payment/payment.service';
+import { CreditsService } from '../credits/credit.service';
 import * as dto from './dto/shared-network.dto';
 
 type Tx = Prisma.TransactionClient;
@@ -11,7 +12,7 @@ const DAY = 86400000;
 
 @Injectable()
 export class SharedNetworkService {
-  constructor(private prisma: PrismaService, private bachs: BachsService, private config: ConfigService) {}
+  constructor(private prisma: PrismaService, private bachs: BachsService, private config: ConfigService, private credits: CreditsService) {}
 
   async getNetworkSetting() {
     return this.prisma.sharedNetworkSetting.upsert({ where: { id: 'default' }, create: { id: 'default', networkEnabled: true }, update: {} });
@@ -41,14 +42,14 @@ export class SharedNetworkService {
   // ---------- business ----------
   async requireBusiness(userId: string) {
     await this.assertNetworkEnabled();
-    const b = await this.prisma.sharedNetworkBusiness.findUnique({ where: { userId }, include: { wallet: true, subscriptions: { include: { plan: true }, orderBy: { createdAt: 'desc' }, take: 1 } } });
+    const b = await this.prisma.sharedNetworkBusiness.findUnique({ where: { userId }, include: { user: { select: { id: true, email: true, businessName: true, creditWallet: { select: { balance: true, id: true } } } }, subscriptions: { include: { plan: true }, orderBy: { createdAt: 'desc' }, take: 1 } } });
     if (!b) throw new NotFoundException('Shared Network business not found. Complete onboarding first.');
     if (b.status === 'SUSPENDED') throw new ForbiddenException('Shared Network account is suspended');
     if (!b.accessEnabled) throw new ForbiddenException('Your Shared Delivery Network access has been deactivated by an administrator. Please contact Dispatchly support.');
     return b;
   }
   async getBusiness(userId: string) {
-    const b = await this.prisma.sharedNetworkBusiness.findUnique({ where: { userId }, include: { wallet: true, subscriptions: { include: { plan: true }, orderBy: { createdAt: 'desc' } } } });
+    const b = await this.prisma.sharedNetworkBusiness.findUnique({ where: { userId }, include: { user: { select: { id: true, email: true, businessName: true, creditWallet: { select: { balance: true, id: true } } } }, subscriptions: { include: { plan: true }, orderBy: { createdAt: 'desc' } } } });
     return b; // null => frontend shows onboarding CTA (not an error)
   }
   async createBusiness(userId: string, d: dto.CreateNetworkBusinessDto) {
@@ -58,7 +59,6 @@ export class SharedNetworkService {
     if (existing) throw new ConflictException('Shared Network already activated for this account');
     const business = await this.prisma.$transaction(async (tx) => {
       const b = await tx.sharedNetworkBusiness.create({ data: { userId, businessName: d.businessName, businessEmail: d.businessEmail, contactPhone: d.contactPhone, category: d.category, pickupLocations: d.pickupLocations, operatingRegions: d.operatingRegions, expectedDailyVolume: d.expectedDailyVolume ?? 0, expectedWeeklyVolume: d.expectedWeeklyVolume ?? 0, preferredWindows: d.preferredWindows ?? [] } });
-      await tx.sharedNetworkWallet.create({ data: { businessId: b.id } });
       return b;
     });
     if (!d.planId) throw new BadRequestException('A paid subscription plan is required to join the Shared Delivery Network');
@@ -147,7 +147,7 @@ export class SharedNetworkService {
           if (fresh.totalCapacity - fresh.reservedCapacity < d.quantity) throw new BadRequestException(`Only ${Math.max(0, fresh.totalCapacity - fresh.reservedCapacity)} slots available`);
           throw new ConflictException('Capacity changed, please retry');
         }
-        if (costCredits > 0) await this.debitWallet(tx, b.id, costCredits, `Capacity reservation ${capacity!.region} ${capacity!.window} x${d.quantity}`, d.idempotencyKey ? `reserve:${d.idempotencyKey}` : `reserve:${randomUUID()}`);
+        if (costCredits > 0) await this.debitWallet(tx, b, costCredits, `Capacity reservation ${capacity!.region} ${capacity!.window} x${d.quantity}`, d.idempotencyKey ? `reserve:${d.idempotencyKey}` : `reserve:${randomUUID()}`);
         const reservation = await tx.sharedNetworkReservation.create({ data: { businessId: b.id, capacityId: capacity!.id, quantity: d.quantity, pickupLocation: d.pickupLocation, deliveryType: d.deliveryType ?? 'STANDARD', costCredits, costKobo: capacity!.pricePerSlotKobo * d.quantity, idempotencyKey: d.idempotencyKey ?? null }, include: { capacity: true } });
         await tx.sharedNetworkUsageRecord.create({ data: { businessId: b.id, type: 'RESERVATION', quantity: d.quantity, costCredits, costKobo: reservation.costKobo, reference: reservation.id } });
         return reservation;
@@ -165,10 +165,10 @@ export class SharedNetworkService {
       if (delta > 0) {
         const claimed = await tx.sharedNetworkCapacity.updateMany({ where: { id: r.capacityId, reservedCapacity: { lte: r.capacity.totalCapacity - delta } }, data: { reservedCapacity: { increment: delta } } });
         if (!claimed.count) throw new BadRequestException('Not enough remaining capacity');
-        const cost = r.capacity.pricePerSlotCredits * delta; if (cost) await this.debitWallet(tx, b.id, cost, `Reservation increase x${delta}`, `reserve-inc:${id}:${d.quantity}`);
+        const cost = r.capacity.pricePerSlotCredits * delta; if (cost) await this.debitWallet(tx, b, cost, `Reservation increase x${delta}`, `reserve-inc:${id}:${d.quantity}`);
       } else {
         await tx.sharedNetworkCapacity.update({ where: { id: r.capacityId }, data: { reservedCapacity: { decrement: -delta } } });
-        const refund = r.capacity.pricePerSlotCredits * -delta; if (refund) await this.creditWallet(tx, b.id, refund, 'REFUND', `Reservation reduction refund x${-delta}`, `reserve-dec:${id}:${d.quantity}`);
+        const refund = r.capacity.pricePerSlotCredits * -delta; if (refund) await this.refundWithinTx(tx, userId, refund, `Shared Network reservation reduction refund x${-delta}`, `reserve-dec:${id}:${d.quantity}`);
       }
       return tx.sharedNetworkReservation.update({ where: { id }, data: { quantity: d.quantity, costCredits: Math.max(0, r.costCredits + r.capacity.pricePerSlotCredits * delta) }, include: { capacity: true } });
     });
@@ -181,7 +181,7 @@ export class SharedNetworkService {
       const claimed = await tx.sharedNetworkReservation.updateMany({ where: { id, status: 'CONFIRMED' }, data: { status: 'CANCELLED' } });
       if (!claimed.count) throw new ConflictException('Reservation already cancelled');
       await tx.sharedNetworkCapacity.update({ where: { id: r.capacityId }, data: { reservedCapacity: { decrement: r.quantity } } });
-      if (r.costCredits) await this.creditWallet(tx, b.id, r.costCredits, 'REFUND', 'Reservation cancellation refund', `reserve-cancel:${id}`);
+      if (r.costCredits) await this.refundWithinTx(tx, userId, r.costCredits, 'Shared Network reservation cancellation refund', `reserve-cancel:${id}`);
       await tx.sharedNetworkSlot.updateMany({ where: { reservationId: id, status: 'BOOKED' }, data: { status: 'CANCELLED' } });
       return tx.sharedNetworkReservation.findUniqueOrThrow({ where: { id } });
     });
@@ -279,69 +279,42 @@ export class SharedNetworkService {
   }
 
   // ---------- wallet / credits (separate ledger, idempotent Bachs purchase) ----------
-  private async debitWallet(tx: Tx, businessId: string, amount: number, description: string, idempotencyKey: string) {
-    const w = await tx.sharedNetworkWallet.findUniqueOrThrow({ where: { businessId } });
-    const updated = await tx.sharedNetworkWallet.updateMany({ where: { id: w.id, balance: { gte: amount } }, data: { balance: { decrement: amount }, lifetimeSpent: { increment: amount } } });
-    if (!updated.count) throw new BadRequestException(`Insufficient Shared Network credits (need ${amount}, have ${w.balance}). Purchase credits first.`);
-    const fresh = await tx.sharedNetworkWallet.findUniqueOrThrow({ where: { id: w.id } });
-    await tx.sharedNetworkCreditTransaction.create({ data: { walletId: w.id, type: 'USAGE', amount: -amount, balanceAfter: fresh.balance, description, idempotencyKey } });
-    return fresh;
+  // Charges/refunds go to the user's existing Billing credits wallet (CreditWallet),
+  // inside the caller's transaction so capacity + credit move atomically.
+  private ownerId(business: { userId: string }) { return business.userId; }
+  private async debitWallet(tx: Tx, business: { userId: string }, amount: number, description: string, idempotencyKey: string) {
+    return this.credits.spendWithinTransaction(tx as never, { userId: this.ownerId(business), credits: amount, description, idempotencyKey: `sn:${idempotencyKey}`, metadata: { source: 'SHARED_NETWORK' } });
   }
-  private async creditWallet(tx: Tx, businessId: string, amount: number, type: 'PURCHASE' | 'REFUND' | 'ADMIN_ADJUSTMENT', description: string, idempotencyKey: string) {
-    const w = await tx.sharedNetworkWallet.findUniqueOrThrow({ where: { businessId } });
-    const fresh = await tx.sharedNetworkWallet.update({ where: { id: w.id }, data: { balance: { increment: amount }, ...(type === 'PURCHASE' ? { lifetimePurchased: { increment: amount } } : {}) } });
-    await tx.sharedNetworkCreditTransaction.create({ data: { walletId: w.id, type, amount, balanceAfter: fresh.balance, description, idempotencyKey } });
-    return fresh;
+  private async refundBillingCredits(userId: string, usageTransactionId: string, description: string) {
+    return this.credits.refundUsage(userId, usageTransactionId, description);
   }
-  creditPriceKobo() { const v = Number(this.config.get<string>('SHARED_NETWORK_CREDIT_PRICE_KOBO') ?? '100'); return Number.isSafeInteger(v) && v > 0 ? v : 100; }
-  async getCredits(userId: string) { const b = await this.requireBusiness(userId); const w = await this.prisma.sharedNetworkWallet.findUniqueOrThrow({ where: { businessId: b.id } }); const txns = await this.prisma.sharedNetworkCreditTransaction.findMany({ where: { walletId: w.id }, orderBy: { createdAt: 'desc' }, take: 100 }); return { wallet: w, priceKoboPerCredit: this.creditPriceKobo(), transactions: txns }; }
-  async purchaseCredits(userId: string, d: dto.PurchaseCreditsDto) {
+  // In-transaction refund mirroring CreditsService.refundUsage (idempotent by usage tx id).
+  private async refundWithinTx(tx: Tx, userId: string, amount: number, description: string, idempotencyKey: string) {
+    const key = `sn:${idempotencyKey}`;
+    const prev = await tx.creditTransaction.findUnique({ where: { idempotencyKey: key } });
+    if (prev) return prev;
+    const wallet = await tx.creditWallet.upsert({ where: { userId }, create: { userId }, update: {} });
+    const fresh = await tx.creditWallet.update({ where: { id: wallet.id }, data: { balance: { increment: amount } } });
+    return tx.creditTransaction.create({ data: { walletId: wallet.id, type: 'REFUND', amount, balanceAfter: fresh.balance, description, idempotencyKey: key, metadata: { source: 'SHARED_NETWORK' } as never } });
+  }
+  async getCredits(userId: string) {
     const b = await this.requireBusiness(userId);
-    const w = await this.prisma.sharedNetworkWallet.findUniqueOrThrow({ where: { businessId: b.id } });
-    const amountKobo = d.credits * this.creditPriceKobo();
-    const reference = `SN-CR-${randomUUID()}`;
-    const purchase = await this.prisma.sharedNetworkCreditPurchase.create({ data: { walletId: w.id, credits: d.credits, amountKobo, paymentReference: reference } });
-    try {
-      const checkout = await this.bachs.createCheckoutSession({ expires_in_minutes: 60, customer_creation: 'if_required', save_payment_method: false, pricing: { currency: 'NGN', amount: this.naira(amountKobo), price_type: 'fixed' }, billing_currency: 'NGN', reference } as any);
-      const data = this.record(this.record(checkout)?.data) ?? this.record(checkout);
-      const sid = typeof data?.checkout_id === 'string' ? data.checkout_id : typeof data?.id === 'string' ? data.id : undefined;
-      const url = typeof data?.checkout_url === 'string' ? data.checkout_url : typeof data?.url === 'string' ? data.url : undefined;
-      if (!sid || !url) throw new ServiceUnavailableException('Bachs did not return a checkout session');
-      const saved = await this.prisma.sharedNetworkCreditPurchase.update({ where: { id: purchase.id }, data: { checkoutSessionId: sid, checkoutUrl: url } });
-      return { purchase: saved, checkoutUrl: url, checkoutSessionId: sid };
-    } catch (e) { await this.prisma.sharedNetworkCreditPurchase.update({ where: { id: purchase.id }, data: { status: 'FAILED' } }); throw e; }
+    const wallet = await this.credits.getWallet(userId);
+    const transactions = await this.prisma.creditTransaction.findMany({ where: { wallet: { userId }, metadata: { path: ['source'], equals: 'SHARED_NETWORK' } }, orderBy: { createdAt: 'desc' }, take: 100 }).catch(() => []);
+    const billingTransactions = transactions.length ? transactions : await this.prisma.creditTransaction.findMany({ where: { wallet: { userId }, description: { contains: 'Capacity reservation' } }, orderBy: { createdAt: 'desc' }, take: 100 }).catch(() => []);
+    return { wallet: { id: wallet.walletId, balance: wallet.balance, points: wallet.points ?? 0, userId }, billingWallet: wallet, transactions: billingTransactions, purchaseUrl: '/billing' };
   }
-  async verifyCredits(userId: string, reference: string) {
-    const b = await this.requireBusiness(userId);
-    const purchase = await this.prisma.sharedNetworkCreditPurchase.findFirst({ where: { paymentReference: reference, wallet: { businessId: b.id } } });
-    if (!purchase) throw new NotFoundException('Credit purchase not found');
-    if (purchase.status === 'PAID') return { purchase, credited: false, status: 'PAID' };
-    if (!purchase.checkoutSessionId) throw new ConflictException('Purchase has no checkout session');
-    const session = await this.bachs.getCheckoutSessionById(purchase.checkoutSessionId);
-    const status = this.checkoutStatus(session);
-    if (['failed', 'cancelled', 'canceled', 'expired', 'declined'].includes(status)) { const p = await this.prisma.sharedNetworkCreditPurchase.update({ where: { id: purchase.id }, data: { status: status.startsWith('cancel') || status === 'expired' ? 'CANCELLED' : 'FAILED' } }); return { purchase: p, credited: false, status: p.status }; }
-    if (!['paid', 'succeeded', 'success', 'completed'].includes(status)) return { purchase, credited: false, status: 'PENDING' };
-    this.assertPaid(session, reference, purchase.amountKobo, purchase.checkoutSessionId);
-    return this.prisma.$transaction(async (tx) => {
-      const claimed = await tx.sharedNetworkCreditPurchase.updateMany({ where: { id: purchase.id, status: 'PENDING' }, data: { status: 'PAID', paidAt: new Date() } });
-      if (!claimed.count) return { purchase: await tx.sharedNetworkCreditPurchase.findUniqueOrThrow({ where: { id: purchase.id } }), credited: false, status: 'PAID' };
-      await this.creditWallet(tx, b.id, purchase.credits, 'PURCHASE', `Shared Network credits purchase ${reference}`, `credit-purchase:${reference}`);
-      await tx.sharedNetworkBillingTransaction.create({ data: { businessId: b.id, type: 'CREDIT_PURCHASE', amountKobo: purchase.amountKobo, status: 'PAID', description: `${purchase.credits} Shared Network credits`, reference, idempotencyKey: `credit-purchase:${reference}` } });
-      return { purchase: await tx.sharedNetworkCreditPurchase.findUniqueOrThrow({ where: { id: purchase.id } }), credited: true, status: 'PAID' };
-    });
-  }
-
   // ---------- billing / analytics / deliveries ----------
   async billingOverview(userId: string) {
     const b = await this.requireBusiness(userId);
     const [wallet, sub, txns, invoices, monthUsage] = await Promise.all([
-      this.prisma.sharedNetworkWallet.findUnique({ where: { businessId: b.id } }),
+      this.credits.getWallet(userId),
       this.currentSubscription(userId),
       this.prisma.sharedNetworkBillingTransaction.findMany({ where: { businessId: b.id }, orderBy: { createdAt: 'desc' }, take: 50 }),
       this.prisma.sharedNetworkInvoice.findMany({ where: { businessId: b.id }, orderBy: { createdAt: 'desc' }, take: 50 }),
       this.prisma.sharedNetworkUsageRecord.aggregate({ where: { businessId: b.id, createdAt: { gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1) } }, _sum: { costKobo: true, costCredits: true, quantity: true } }),
     ]);
-    return { wallet, subscription: sub, transactions: txns, invoices, monthlyExpenditureKobo: monthUsage._sum.costKobo ?? 0, monthlyCreditsSpent: monthUsage._sum.costCredits ?? 0 };
+    return { wallet: { id: wallet.walletId, balance: wallet.balance, points: wallet.points ?? 0 }, billingWallet: wallet, subscription: sub, transactions: txns, invoices, monthlyExpenditureKobo: monthUsage._sum.costKobo ?? 0, monthlyCreditsSpent: monthUsage._sum.costCredits ?? 0 };
   }
   async listTransactions(userId: string) { const b = await this.requireBusiness(userId); return this.prisma.sharedNetworkBillingTransaction.findMany({ where: { businessId: b.id }, orderBy: { createdAt: 'desc' }, take: 100 }); }
   async listInvoices(userId: string) { const b = await this.requireBusiness(userId); return this.prisma.sharedNetworkInvoice.findMany({ where: { businessId: b.id }, orderBy: { createdAt: 'desc' }, take: 100 }); }
@@ -379,7 +352,7 @@ export class SharedNetworkService {
     ]);
     return { businesses, activeSubscriptions: subs, activePools: pools, revenueKobo: revenue._sum.amountKobo ?? 0, reservedCapacity: reservations._sum.quantity ?? 0 };
   }
-  async adminBusinesses() { return this.prisma.sharedNetworkBusiness.findMany({ include: { wallet: true, subscriptions: { include: { plan: true }, orderBy: { createdAt: 'desc' }, take: 1 }, user: { select: { id: true, email: true, businessName: true } } }, orderBy: { createdAt: 'desc' }, take: 200 }); }
+  async adminBusinesses() { return this.prisma.sharedNetworkBusiness.findMany({ include: { subscriptions: { include: { plan: true }, orderBy: { createdAt: 'desc' }, take: 1 }, user: { select: { id: true, email: true, businessName: true, creditWallet: { select: { balance: true, id: true } } } } }, orderBy: { createdAt: 'desc' }, take: 200 }); }
   async adminSetBusinessAccess(actor: string, id: string, enabled: boolean) {
     const b = await this.prisma.sharedNetworkBusiness.update({ where: { id }, data: { accessEnabled: enabled } });
     await this.prisma.sharedNetworkAuditLog.create({ data: { actorUserId: actor, businessId: id, action: enabled ? 'BUSINESS_ACCESS_ACTIVATED' : 'BUSINESS_ACCESS_DEACTIVATED', entityType: 'SharedNetworkBusiness', entityId: id } });
@@ -388,11 +361,13 @@ export class SharedNetworkService {
   async adminSetBusinessStatus(actor: string, id: string, status: 'ACTIVE' | 'SUSPENDED') { const b = await this.prisma.sharedNetworkBusiness.update({ where: { id }, data: { status } }); await this.prisma.sharedNetworkAuditLog.create({ data: { actorUserId: actor, businessId: id, action: `BUSINESS_${status}`, entityType: 'SharedNetworkBusiness', entityId: id } }); return b; }
   async adminAdjustCredits(actor: string, d: dto.AdminAdjustCreditsDto) {
     if (!d.amount) throw new BadRequestException('amount required');
+    const business = await this.prisma.sharedNetworkBusiness.findUniqueOrThrow({ where: { id: d.businessId }, select: { userId: true } });
     return this.prisma.$transaction(async (tx) => {
-      const w = await tx.sharedNetworkWallet.findUniqueOrThrow({ where: { businessId: d.businessId } });
-      if (d.amount < 0 && w.balance + d.amount < 0) throw new BadRequestException('Adjustment would make balance negative');
-      const fresh = await this.creditWallet(tx, d.businessId, d.amount, 'ADMIN_ADJUSTMENT', d.reason, `admin-adjust:${randomUUID()}`);
-      await tx.sharedNetworkAuditLog.create({ data: { actorUserId: actor, businessId: d.businessId, action: 'CREDIT_ADJUSTMENT', entityType: 'SharedNetworkWallet', entityId: w.id, metadata: { amount: d.amount, reason: d.reason } as any } });
+      const wallet = await tx.creditWallet.upsert({ where: { userId: business.userId }, create: { userId: business.userId }, update: {} });
+      if (d.amount < 0 && wallet.balance + d.amount < 0) throw new BadRequestException('Adjustment would make the Billing credits balance negative');
+      const fresh = await tx.creditWallet.update({ where: { id: wallet.id }, data: { balance: { increment: d.amount } } });
+      await tx.creditTransaction.create({ data: { walletId: wallet.id, type: 'ADMIN_ADJUSTMENT', amount: d.amount, balanceAfter: fresh.balance, description: d.reason, idempotencyKey: `sn:admin-adjust:${randomUUID()}`, metadata: { source: 'SHARED_NETWORK', actorUserId: actor } as never } });
+      await tx.sharedNetworkAuditLog.create({ data: { actorUserId: actor, businessId: d.businessId, action: 'BILLING_CREDIT_ADJUSTMENT', entityType: 'CreditWallet', entityId: wallet.id, metadata: { amount: d.amount, reason: d.reason } as never } });
       return fresh;
     });
   }
