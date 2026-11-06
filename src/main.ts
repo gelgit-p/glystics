@@ -3,6 +3,7 @@ require('dotenv').config();
 console.log('🔥 MAIN.TS LOADED', process.pid);
 
 import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
@@ -16,6 +17,7 @@ async function bootstrap() {
   const port = Number(process.env.PORT ?? 3000);
 
   app.enableCors();
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 
   const config = new DocumentBuilder()
     .setTitle('My API')

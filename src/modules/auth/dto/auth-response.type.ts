@@ -1,11 +1,10 @@
-import { ObjectType, Field } from '@nestjs/graphql';
+import { ApiProperty } from '@nestjs/swagger';
 import { UserObject } from './user.type';
 
-@ObjectType()
 export class AuthResponse {
-  @Field() accessToken: string;
-  @Field() refreshToken: string;
+  @ApiProperty() accessToken: string;
+  @ApiProperty() refreshToken: string;
 
-  @Field(() => UserObject)
+  @ApiProperty({ type: () => UserObject })
   user: UserObject;
 }

@@ -1,99 +1,100 @@
-import { InputType, Field } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsEmail, IsOptional, IsString } from 'class-validator';
 
-@InputType()
 export class SignupInput {
   @ApiProperty()
-  @Field()
+  @IsEmail()
   email: string;
 
 
   @ApiProperty()
-  @Field() password: string;
+  @IsString() password: string;
 
   @ApiProperty()
-  @Field() businessName: string;
+  @IsString() businessName: string;
 
   @ApiProperty()
-  @Field() fullName: string;
+  @IsString() fullName: string;
 }
 
 
 export class UpdateInput {
   @ApiProperty()
-  @Field()
+  @IsEmail()
   @IsOptional()
   email: string;
 
 
   @ApiProperty()
   @IsOptional()
-  @Field() password: string;
+  @IsString()
+  password: string;
 
   @ApiProperty()
   @IsOptional()
-  @Field() businessName: string;
+  @IsString()
+  businessName: string;
 
   @ApiProperty()
   @IsOptional()
-  @Field() fullName: string;
+  @IsString()
+  fullName: string;
 
 
   @ApiProperty()
-  @Field()
+  @IsString()
   @IsOptional()
   appId: string;
 
 
   @ApiProperty()
-  @Field()
+  @IsString()
   @IsOptional()
   appSecret: string;
 
 
   @ApiProperty()
-  @Field()
+  @IsString()
   @IsOptional()
   facebookAcceessToken: string;
 
   @ApiProperty()
-  @Field()
+  @IsString()
   @IsOptional()
   grantedScopes: string;
 
   @ApiProperty()
-  @Field()
+  @IsString()
   @IsOptional()
   accessTokenExpiresIn: string;
 
   @ApiProperty()
-  @Field()
+  @IsString()
   @IsOptional()
   facebookConnectStatus: boolean;
 
     @ApiProperty()
-  @Field()
+  @IsString()
   @IsOptional()
   selectedWabaId: string;
 
       @ApiProperty()
-  @Field()
+  @IsString()
   @IsOptional()
   selectedFacebookBusinessId: string;
 
         @ApiProperty()
-  @Field()
+  @IsString()
   @IsOptional()
   selectedFacebookBusinessName: string;
 
           @ApiProperty()
-  @Field()
+  @IsString()
   @IsOptional()
   selectedPhoneNumberQualityRating: string;
 
           @ApiProperty()
-  @Field()
+  @IsString()
   @IsOptional()
   selectedPhoneNumberVerifiedName: string;
 
@@ -101,7 +102,6 @@ export class UpdateInput {
     required: false,
     type: [String],
   })
-  @Field(() => [String], { nullable: true })
   @IsOptional()
   @IsArray()
   @IsString({ each: true })

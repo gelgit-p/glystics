@@ -1,16 +1,15 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ApiProperty } from '@nestjs/swagger';
 
-@ObjectType()
 export class UserObject {
-  @Field(() => ID)
+  @ApiProperty()
   id: string;
 
-  @Field()
+  @ApiProperty()
   email: string;
 
-  @Field()
+  @ApiProperty()
   emailConfirmed: boolean;
 
-  @Field()
+  @ApiProperty()
   createdAt: Date;
 }

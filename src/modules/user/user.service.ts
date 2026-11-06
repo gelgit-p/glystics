@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { Prisma } from '../../../prisma/generated';
 
@@ -8,7 +8,7 @@ export class UserService {
 
   async findById(id: string) {
     try {
-      return await this.prisma.user.findUnique({
+      const user = await this.prisma.user.findUnique({
         where: { id },
         select: {
           id: true,
@@ -16,6 +16,9 @@ export class UserService {
           emailConfirmed: true,
           businessName: true,
           fullName: true,
+          appId: true,
+          appSecret: true,
+          metaUserId: true,
           selectedWabaId: true,
           displayPhoneNumber: true,
           selectedFacebookBusinessId: true,
@@ -25,9 +28,15 @@ export class UserService {
           webhookStatus: true,
           selectedPhoneNumberId: true,
           facebookConnectStatus: true,
+          role: true,
+          aiDeliveryDetectionEnabled: true,
           createdAt: true,
         },
       });
+      if (!user) return user;
+      // Never expose the raw secret; only whether one is stored (for reconnect UX).
+      const { appSecret, ...safeUser } = user;
+      return { ...safeUser, appSecretConfigured: !!appSecret?.trim() };
     } catch (error) {
       console.error(`Failed to find user with ID ${id}:`, error);
       throw error;
@@ -35,7 +44,11 @@ export class UserService {
   }
 
   async findByEmail(email: string) {
-    return this.prisma.user.findUnique({ where: { email } });
+    const normalizedEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
+    if (!normalizedEmail) {
+      throw new BadRequestException('Email is required');
+    }
+    return this.prisma.user.findUnique({ where: { email: normalizedEmail } });
   }
 
   async create(data: Prisma.UserCreateInput) {
