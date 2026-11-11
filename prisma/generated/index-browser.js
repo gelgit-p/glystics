@@ -669,7 +669,7 @@ exports.Prisma.LogisticsProviderScalarFieldEnum = {
   verificationNote: 'verificationNote',
   payoutBankName: 'payoutBankName',
   payoutAccountName: 'payoutAccountName',
-  payoutAccountLast4: 'payoutAccountLast4',
+  payoutAccountNumber: 'payoutAccountNumber',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

@@ -44068,7 +44068,7 @@ export namespace Prisma {
     verificationNote: string | null
     payoutBankName: string | null
     payoutAccountName: string | null
-    payoutAccountLast4: string | null
+    payoutAccountNumber: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -44088,7 +44088,7 @@ export namespace Prisma {
     verificationNote: string | null
     payoutBankName: string | null
     payoutAccountName: string | null
-    payoutAccountLast4: string | null
+    payoutAccountNumber: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -44110,7 +44110,7 @@ export namespace Prisma {
     verificationNote: number
     payoutBankName: number
     payoutAccountName: number
-    payoutAccountLast4: number
+    payoutAccountNumber: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -44140,7 +44140,7 @@ export namespace Prisma {
     verificationNote?: true
     payoutBankName?: true
     payoutAccountName?: true
-    payoutAccountLast4?: true
+    payoutAccountNumber?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -44160,7 +44160,7 @@ export namespace Prisma {
     verificationNote?: true
     payoutBankName?: true
     payoutAccountName?: true
-    payoutAccountLast4?: true
+    payoutAccountNumber?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -44182,7 +44182,7 @@ export namespace Prisma {
     verificationNote?: true
     payoutBankName?: true
     payoutAccountName?: true
-    payoutAccountLast4?: true
+    payoutAccountNumber?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -44291,7 +44291,7 @@ export namespace Prisma {
     verificationNote: string | null
     payoutBankName: string | null
     payoutAccountName: string | null
-    payoutAccountLast4: string | null
+    payoutAccountNumber: string | null
     createdAt: Date
     updatedAt: Date
     _count: LogisticsProviderCountAggregateOutputType | null
@@ -44332,7 +44332,7 @@ export namespace Prisma {
     verificationNote?: boolean
     payoutBankName?: boolean
     payoutAccountName?: boolean
-    payoutAccountLast4?: boolean
+    payoutAccountNumber?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -44363,7 +44363,7 @@ export namespace Prisma {
     verificationNote?: boolean
     payoutBankName?: boolean
     payoutAccountName?: boolean
-    payoutAccountLast4?: boolean
+    payoutAccountNumber?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -44386,7 +44386,7 @@ export namespace Prisma {
     verificationNote?: boolean
     payoutBankName?: boolean
     payoutAccountName?: boolean
-    payoutAccountLast4?: boolean
+    payoutAccountNumber?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -44409,12 +44409,12 @@ export namespace Prisma {
     verificationNote?: boolean
     payoutBankName?: boolean
     payoutAccountName?: boolean
-    payoutAccountLast4?: boolean
+    payoutAccountNumber?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type LogisticsProviderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "companyName" | "registrationNumber" | "contactName" | "businessEmail" | "phoneNumber" | "businessAddress" | "operatingRegions" | "servicesOffered" | "fleetSize" | "description" | "verificationStatus" | "verificationNote" | "payoutBankName" | "payoutAccountName" | "payoutAccountLast4" | "createdAt" | "updatedAt", ExtArgs["result"]["logisticsProvider"]>
+  export type LogisticsProviderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "companyName" | "registrationNumber" | "contactName" | "businessEmail" | "phoneNumber" | "businessAddress" | "operatingRegions" | "servicesOffered" | "fleetSize" | "description" | "verificationStatus" | "verificationNote" | "payoutBankName" | "payoutAccountName" | "payoutAccountNumber" | "createdAt" | "updatedAt", ExtArgs["result"]["logisticsProvider"]>
   export type LogisticsProviderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     zones?: boolean | LogisticsProvider$zonesArgs<ExtArgs>
@@ -44462,7 +44462,7 @@ export namespace Prisma {
       verificationNote: string | null
       payoutBankName: string | null
       payoutAccountName: string | null
-      payoutAccountLast4: string | null
+      payoutAccountNumber: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["logisticsProvider"]>
@@ -44912,7 +44912,7 @@ export namespace Prisma {
     readonly verificationNote: FieldRef<"LogisticsProvider", 'String'>
     readonly payoutBankName: FieldRef<"LogisticsProvider", 'String'>
     readonly payoutAccountName: FieldRef<"LogisticsProvider", 'String'>
-    readonly payoutAccountLast4: FieldRef<"LogisticsProvider", 'String'>
+    readonly payoutAccountNumber: FieldRef<"LogisticsProvider", 'String'>
     readonly createdAt: FieldRef<"LogisticsProvider", 'DateTime'>
     readonly updatedAt: FieldRef<"LogisticsProvider", 'DateTime'>
   }
@@ -58194,7 +58194,7 @@ export namespace Prisma {
     verificationNote: 'verificationNote',
     payoutBankName: 'payoutBankName',
     payoutAccountName: 'payoutAccountName',
-    payoutAccountLast4: 'payoutAccountLast4',
+    payoutAccountNumber: 'payoutAccountNumber',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -62035,7 +62035,7 @@ export namespace Prisma {
     verificationNote?: StringNullableFilter<"LogisticsProvider"> | string | null
     payoutBankName?: StringNullableFilter<"LogisticsProvider"> | string | null
     payoutAccountName?: StringNullableFilter<"LogisticsProvider"> | string | null
-    payoutAccountLast4?: StringNullableFilter<"LogisticsProvider"> | string | null
+    payoutAccountNumber?: StringNullableFilter<"LogisticsProvider"> | string | null
     createdAt?: DateTimeFilter<"LogisticsProvider"> | Date | string
     updatedAt?: DateTimeFilter<"LogisticsProvider"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -62065,7 +62065,7 @@ export namespace Prisma {
     verificationNote?: SortOrderInput | SortOrder
     payoutBankName?: SortOrderInput | SortOrder
     payoutAccountName?: SortOrderInput | SortOrder
-    payoutAccountLast4?: SortOrderInput | SortOrder
+    payoutAccountNumber?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -62098,7 +62098,7 @@ export namespace Prisma {
     verificationNote?: StringNullableFilter<"LogisticsProvider"> | string | null
     payoutBankName?: StringNullableFilter<"LogisticsProvider"> | string | null
     payoutAccountName?: StringNullableFilter<"LogisticsProvider"> | string | null
-    payoutAccountLast4?: StringNullableFilter<"LogisticsProvider"> | string | null
+    payoutAccountNumber?: StringNullableFilter<"LogisticsProvider"> | string | null
     createdAt?: DateTimeFilter<"LogisticsProvider"> | Date | string
     updatedAt?: DateTimeFilter<"LogisticsProvider"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -62128,7 +62128,7 @@ export namespace Prisma {
     verificationNote?: SortOrderInput | SortOrder
     payoutBankName?: SortOrderInput | SortOrder
     payoutAccountName?: SortOrderInput | SortOrder
-    payoutAccountLast4?: SortOrderInput | SortOrder
+    payoutAccountNumber?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: LogisticsProviderCountOrderByAggregateInput
@@ -62158,7 +62158,7 @@ export namespace Prisma {
     verificationNote?: StringNullableWithAggregatesFilter<"LogisticsProvider"> | string | null
     payoutBankName?: StringNullableWithAggregatesFilter<"LogisticsProvider"> | string | null
     payoutAccountName?: StringNullableWithAggregatesFilter<"LogisticsProvider"> | string | null
-    payoutAccountLast4?: StringNullableWithAggregatesFilter<"LogisticsProvider"> | string | null
+    payoutAccountNumber?: StringNullableWithAggregatesFilter<"LogisticsProvider"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"LogisticsProvider"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"LogisticsProvider"> | Date | string
   }
@@ -66958,7 +66958,7 @@ export namespace Prisma {
     verificationNote?: string | null
     payoutBankName?: string | null
     payoutAccountName?: string | null
-    payoutAccountLast4?: string | null
+    payoutAccountNumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutLogisticsProviderInput
@@ -66988,7 +66988,7 @@ export namespace Prisma {
     verificationNote?: string | null
     payoutBankName?: string | null
     payoutAccountName?: string | null
-    payoutAccountLast4?: string | null
+    payoutAccountNumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     zones?: LogisticsZoneUncheckedCreateNestedManyWithoutProviderInput
@@ -67016,7 +67016,7 @@ export namespace Prisma {
     verificationNote?: NullableStringFieldUpdateOperationsInput | string | null
     payoutBankName?: NullableStringFieldUpdateOperationsInput | string | null
     payoutAccountName?: NullableStringFieldUpdateOperationsInput | string | null
-    payoutAccountLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    payoutAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutLogisticsProviderNestedInput
@@ -67046,7 +67046,7 @@ export namespace Prisma {
     verificationNote?: NullableStringFieldUpdateOperationsInput | string | null
     payoutBankName?: NullableStringFieldUpdateOperationsInput | string | null
     payoutAccountName?: NullableStringFieldUpdateOperationsInput | string | null
-    payoutAccountLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    payoutAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     zones?: LogisticsZoneUncheckedUpdateManyWithoutProviderNestedInput
@@ -67075,7 +67075,7 @@ export namespace Prisma {
     verificationNote?: string | null
     payoutBankName?: string | null
     payoutAccountName?: string | null
-    payoutAccountLast4?: string | null
+    payoutAccountNumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -67096,7 +67096,7 @@ export namespace Prisma {
     verificationNote?: NullableStringFieldUpdateOperationsInput | string | null
     payoutBankName?: NullableStringFieldUpdateOperationsInput | string | null
     payoutAccountName?: NullableStringFieldUpdateOperationsInput | string | null
-    payoutAccountLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    payoutAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -67118,7 +67118,7 @@ export namespace Prisma {
     verificationNote?: NullableStringFieldUpdateOperationsInput | string | null
     payoutBankName?: NullableStringFieldUpdateOperationsInput | string | null
     payoutAccountName?: NullableStringFieldUpdateOperationsInput | string | null
-    payoutAccountLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    payoutAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -70954,7 +70954,7 @@ export namespace Prisma {
     verificationNote?: SortOrder
     payoutBankName?: SortOrder
     payoutAccountName?: SortOrder
-    payoutAccountLast4?: SortOrder
+    payoutAccountNumber?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -70978,7 +70978,7 @@ export namespace Prisma {
     verificationNote?: SortOrder
     payoutBankName?: SortOrder
     payoutAccountName?: SortOrder
-    payoutAccountLast4?: SortOrder
+    payoutAccountNumber?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -70998,7 +70998,7 @@ export namespace Prisma {
     verificationNote?: SortOrder
     payoutBankName?: SortOrder
     payoutAccountName?: SortOrder
-    payoutAccountLast4?: SortOrder
+    payoutAccountNumber?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -74813,7 +74813,7 @@ export namespace Prisma {
     verificationNote?: string | null
     payoutBankName?: string | null
     payoutAccountName?: string | null
-    payoutAccountLast4?: string | null
+    payoutAccountNumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     zones?: LogisticsZoneCreateNestedManyWithoutProviderInput
@@ -74841,7 +74841,7 @@ export namespace Prisma {
     verificationNote?: string | null
     payoutBankName?: string | null
     payoutAccountName?: string | null
-    payoutAccountLast4?: string | null
+    payoutAccountNumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     zones?: LogisticsZoneUncheckedCreateNestedManyWithoutProviderInput
@@ -75173,7 +75173,7 @@ export namespace Prisma {
     verificationNote?: NullableStringFieldUpdateOperationsInput | string | null
     payoutBankName?: NullableStringFieldUpdateOperationsInput | string | null
     payoutAccountName?: NullableStringFieldUpdateOperationsInput | string | null
-    payoutAccountLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    payoutAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     zones?: LogisticsZoneUpdateManyWithoutProviderNestedInput
@@ -75201,7 +75201,7 @@ export namespace Prisma {
     verificationNote?: NullableStringFieldUpdateOperationsInput | string | null
     payoutBankName?: NullableStringFieldUpdateOperationsInput | string | null
     payoutAccountName?: NullableStringFieldUpdateOperationsInput | string | null
-    payoutAccountLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    payoutAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     zones?: LogisticsZoneUncheckedUpdateManyWithoutProviderNestedInput
@@ -80282,7 +80282,7 @@ export namespace Prisma {
     verificationNote?: string | null
     payoutBankName?: string | null
     payoutAccountName?: string | null
-    payoutAccountLast4?: string | null
+    payoutAccountNumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutLogisticsProviderInput
@@ -80311,7 +80311,7 @@ export namespace Prisma {
     verificationNote?: string | null
     payoutBankName?: string | null
     payoutAccountName?: string | null
-    payoutAccountLast4?: string | null
+    payoutAccountNumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     zones?: LogisticsZoneUncheckedCreateNestedManyWithoutProviderInput
@@ -80354,7 +80354,7 @@ export namespace Prisma {
     verificationNote?: NullableStringFieldUpdateOperationsInput | string | null
     payoutBankName?: NullableStringFieldUpdateOperationsInput | string | null
     payoutAccountName?: NullableStringFieldUpdateOperationsInput | string | null
-    payoutAccountLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    payoutAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutLogisticsProviderNestedInput
@@ -80383,7 +80383,7 @@ export namespace Prisma {
     verificationNote?: NullableStringFieldUpdateOperationsInput | string | null
     payoutBankName?: NullableStringFieldUpdateOperationsInput | string | null
     payoutAccountName?: NullableStringFieldUpdateOperationsInput | string | null
-    payoutAccountLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    payoutAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     zones?: LogisticsZoneUncheckedUpdateManyWithoutProviderNestedInput
@@ -80410,7 +80410,7 @@ export namespace Prisma {
     verificationNote?: string | null
     payoutBankName?: string | null
     payoutAccountName?: string | null
-    payoutAccountLast4?: string | null
+    payoutAccountNumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutLogisticsProviderInput
@@ -80439,7 +80439,7 @@ export namespace Prisma {
     verificationNote?: string | null
     payoutBankName?: string | null
     payoutAccountName?: string | null
-    payoutAccountLast4?: string | null
+    payoutAccountNumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     capacities?: LogisticsCapacityUncheckedCreateNestedManyWithoutProviderInput
@@ -80482,7 +80482,7 @@ export namespace Prisma {
     verificationNote?: NullableStringFieldUpdateOperationsInput | string | null
     payoutBankName?: NullableStringFieldUpdateOperationsInput | string | null
     payoutAccountName?: NullableStringFieldUpdateOperationsInput | string | null
-    payoutAccountLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    payoutAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutLogisticsProviderNestedInput
@@ -80511,7 +80511,7 @@ export namespace Prisma {
     verificationNote?: NullableStringFieldUpdateOperationsInput | string | null
     payoutBankName?: NullableStringFieldUpdateOperationsInput | string | null
     payoutAccountName?: NullableStringFieldUpdateOperationsInput | string | null
-    payoutAccountLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    payoutAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     capacities?: LogisticsCapacityUncheckedUpdateManyWithoutProviderNestedInput
@@ -80538,7 +80538,7 @@ export namespace Prisma {
     verificationNote?: string | null
     payoutBankName?: string | null
     payoutAccountName?: string | null
-    payoutAccountLast4?: string | null
+    payoutAccountNumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutLogisticsProviderInput
@@ -80567,7 +80567,7 @@ export namespace Prisma {
     verificationNote?: string | null
     payoutBankName?: string | null
     payoutAccountName?: string | null
-    payoutAccountLast4?: string | null
+    payoutAccountNumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     zones?: LogisticsZoneUncheckedCreateNestedManyWithoutProviderInput
@@ -80668,7 +80668,7 @@ export namespace Prisma {
     verificationNote?: NullableStringFieldUpdateOperationsInput | string | null
     payoutBankName?: NullableStringFieldUpdateOperationsInput | string | null
     payoutAccountName?: NullableStringFieldUpdateOperationsInput | string | null
-    payoutAccountLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    payoutAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutLogisticsProviderNestedInput
@@ -80697,7 +80697,7 @@ export namespace Prisma {
     verificationNote?: NullableStringFieldUpdateOperationsInput | string | null
     payoutBankName?: NullableStringFieldUpdateOperationsInput | string | null
     payoutAccountName?: NullableStringFieldUpdateOperationsInput | string | null
-    payoutAccountLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    payoutAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     zones?: LogisticsZoneUncheckedUpdateManyWithoutProviderNestedInput
@@ -80740,7 +80740,7 @@ export namespace Prisma {
     verificationNote?: string | null
     payoutBankName?: string | null
     payoutAccountName?: string | null
-    payoutAccountLast4?: string | null
+    payoutAccountNumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutLogisticsProviderInput
@@ -80769,7 +80769,7 @@ export namespace Prisma {
     verificationNote?: string | null
     payoutBankName?: string | null
     payoutAccountName?: string | null
-    payoutAccountLast4?: string | null
+    payoutAccountNumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     zones?: LogisticsZoneUncheckedCreateNestedManyWithoutProviderInput
@@ -80965,7 +80965,7 @@ export namespace Prisma {
     verificationNote?: NullableStringFieldUpdateOperationsInput | string | null
     payoutBankName?: NullableStringFieldUpdateOperationsInput | string | null
     payoutAccountName?: NullableStringFieldUpdateOperationsInput | string | null
-    payoutAccountLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    payoutAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutLogisticsProviderNestedInput
@@ -80994,7 +80994,7 @@ export namespace Prisma {
     verificationNote?: NullableStringFieldUpdateOperationsInput | string | null
     payoutBankName?: NullableStringFieldUpdateOperationsInput | string | null
     payoutAccountName?: NullableStringFieldUpdateOperationsInput | string | null
-    payoutAccountLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    payoutAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     zones?: LogisticsZoneUncheckedUpdateManyWithoutProviderNestedInput
@@ -81619,7 +81619,7 @@ export namespace Prisma {
     verificationNote?: string | null
     payoutBankName?: string | null
     payoutAccountName?: string | null
-    payoutAccountLast4?: string | null
+    payoutAccountNumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutLogisticsProviderInput
@@ -81648,7 +81648,7 @@ export namespace Prisma {
     verificationNote?: string | null
     payoutBankName?: string | null
     payoutAccountName?: string | null
-    payoutAccountLast4?: string | null
+    payoutAccountNumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     zones?: LogisticsZoneUncheckedCreateNestedManyWithoutProviderInput
@@ -81749,7 +81749,7 @@ export namespace Prisma {
     verificationNote?: NullableStringFieldUpdateOperationsInput | string | null
     payoutBankName?: NullableStringFieldUpdateOperationsInput | string | null
     payoutAccountName?: NullableStringFieldUpdateOperationsInput | string | null
-    payoutAccountLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    payoutAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutLogisticsProviderNestedInput
@@ -81778,7 +81778,7 @@ export namespace Prisma {
     verificationNote?: NullableStringFieldUpdateOperationsInput | string | null
     payoutBankName?: NullableStringFieldUpdateOperationsInput | string | null
     payoutAccountName?: NullableStringFieldUpdateOperationsInput | string | null
-    payoutAccountLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    payoutAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     zones?: LogisticsZoneUncheckedUpdateManyWithoutProviderNestedInput
@@ -81821,7 +81821,7 @@ export namespace Prisma {
     verificationNote?: string | null
     payoutBankName?: string | null
     payoutAccountName?: string | null
-    payoutAccountLast4?: string | null
+    payoutAccountNumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutLogisticsProviderInput
@@ -81850,7 +81850,7 @@ export namespace Prisma {
     verificationNote?: string | null
     payoutBankName?: string | null
     payoutAccountName?: string | null
-    payoutAccountLast4?: string | null
+    payoutAccountNumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     zones?: LogisticsZoneUncheckedCreateNestedManyWithoutProviderInput
@@ -81893,7 +81893,7 @@ export namespace Prisma {
     verificationNote?: NullableStringFieldUpdateOperationsInput | string | null
     payoutBankName?: NullableStringFieldUpdateOperationsInput | string | null
     payoutAccountName?: NullableStringFieldUpdateOperationsInput | string | null
-    payoutAccountLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    payoutAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutLogisticsProviderNestedInput
@@ -81922,7 +81922,7 @@ export namespace Prisma {
     verificationNote?: NullableStringFieldUpdateOperationsInput | string | null
     payoutBankName?: NullableStringFieldUpdateOperationsInput | string | null
     payoutAccountName?: NullableStringFieldUpdateOperationsInput | string | null
-    payoutAccountLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    payoutAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     zones?: LogisticsZoneUncheckedUpdateManyWithoutProviderNestedInput
@@ -81949,7 +81949,7 @@ export namespace Prisma {
     verificationNote?: string | null
     payoutBankName?: string | null
     payoutAccountName?: string | null
-    payoutAccountLast4?: string | null
+    payoutAccountNumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutLogisticsProviderInput
@@ -81978,7 +81978,7 @@ export namespace Prisma {
     verificationNote?: string | null
     payoutBankName?: string | null
     payoutAccountName?: string | null
-    payoutAccountLast4?: string | null
+    payoutAccountNumber?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     zones?: LogisticsZoneUncheckedCreateNestedManyWithoutProviderInput
@@ -82021,7 +82021,7 @@ export namespace Prisma {
     verificationNote?: NullableStringFieldUpdateOperationsInput | string | null
     payoutBankName?: NullableStringFieldUpdateOperationsInput | string | null
     payoutAccountName?: NullableStringFieldUpdateOperationsInput | string | null
-    payoutAccountLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    payoutAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutLogisticsProviderNestedInput
@@ -82050,7 +82050,7 @@ export namespace Prisma {
     verificationNote?: NullableStringFieldUpdateOperationsInput | string | null
     payoutBankName?: NullableStringFieldUpdateOperationsInput | string | null
     payoutAccountName?: NullableStringFieldUpdateOperationsInput | string | null
-    payoutAccountLast4?: NullableStringFieldUpdateOperationsInput | string | null
+    payoutAccountNumber?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     zones?: LogisticsZoneUncheckedUpdateManyWithoutProviderNestedInput

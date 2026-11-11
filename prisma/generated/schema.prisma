@@ -780,34 +780,34 @@ model LogisticsProviderSetting {
 }
 
 model LogisticsProvider {
-  id                 String                          @id @default(cuid())
-  userId             String                          @unique
-  companyName        String
-  registrationNumber String?
-  contactName        String
-  businessEmail      String
-  phoneNumber        String
-  businessAddress    String
-  operatingRegions   String[]
-  servicesOffered    String[]
-  fleetSize          Int                             @default(0)
-  description        String?
-  verificationStatus LogisticsVerificationStatus     @default(UNVERIFIED)
-  verificationNote   String?
-  payoutBankName     String?
-  payoutAccountName  String?
-  // Only the last 4 digits are ever stored/returned; full account numbers stay with the payment provider.
-  payoutAccountLast4 String?
-  createdAt          DateTime                        @default(now())
-  updatedAt          DateTime                        @updatedAt
-  user               User                            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  zones              LogisticsZone[]
-  capacities         LogisticsCapacity[]
-  reservations       LogisticsReservation[]
-  riders             LogisticsRider[]
-  vehicles           LogisticsVehicle[]
-  payouts            LogisticsPayout[]
-  documents          LogisticsVerificationDocument[]
+  id                  String                          @id @default(cuid())
+  userId              String                          @unique
+  companyName         String
+  registrationNumber  String?
+  contactName         String
+  businessEmail       String
+  phoneNumber         String
+  businessAddress     String
+  operatingRegions    String[]
+  servicesOffered     String[]
+  fleetSize           Int                             @default(0)
+  description         String?
+  verificationStatus  LogisticsVerificationStatus     @default(UNVERIFIED)
+  verificationNote    String?
+  payoutBankName      String?
+  payoutAccountName   String?
+  // Full payout account number, stored digits-only; shown in admin payout views. Handle as sensitive data.
+  payoutAccountNumber String?
+  createdAt           DateTime                        @default(now())
+  updatedAt           DateTime                        @updatedAt
+  user                User                            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  zones               LogisticsZone[]
+  capacities          LogisticsCapacity[]
+  reservations        LogisticsReservation[]
+  riders              LogisticsRider[]
+  vehicles            LogisticsVehicle[]
+  payouts             LogisticsPayout[]
+  documents           LogisticsVerificationDocument[]
 
   @@index([verificationStatus])
 }

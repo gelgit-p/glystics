@@ -18,7 +18,7 @@ export class UpsertProviderProfileDto {
   @IsOptional() @IsString() description?: string;
   @IsOptional() @IsString() payoutBankName?: string;
   @IsOptional() @IsString() payoutAccountName?: string;
-  // Full account number is accepted only to derive the last 4; it is never stored or returned.
+  // Full payout account number; stored as digits only (spaces/dashes stripped).
   @IsOptional() @IsString() payoutAccountNumber?: string;
 }
 

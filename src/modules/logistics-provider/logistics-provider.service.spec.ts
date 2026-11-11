@@ -8,7 +8,7 @@ import { LogisticsProviderService } from './logistics-provider.service';
 // Minimal in-memory Prisma double covering the paths under test.
 function makePrisma() {
   const state: any = {
-    provider: { id: 'prov1', userId: 'user1', companyName: 'Swift', verificationStatus: 'VERIFIED', payoutBankName: 'GTBank', payoutAccountLast4: '1234', payoutAccountName: 'Swift Ltd' },
+    provider: { id: 'prov1', userId: 'user1', companyName: 'Swift', verificationStatus: 'VERIFIED', payoutBankName: 'OPAY', payoutAccountNumber: '8123450094', payoutAccountName: 'Swift Ltd' },
     capacity: { id: 'cap1', providerId: 'prov1', title: 'Lagos run', totalCapacity: 100, reservedCapacity: 20, status: 'PUBLISHED', pricePerPackageKobo: 100000, minReservationQty: 1, maxReservationQty: null, reservationDeadline: null, destinationZones: ['Ikeja'], region: 'Lagos', city: 'Lagos', provider: { id: 'prov1', userId: 'user1' } },
     notifications: [] as any[],
   };
@@ -87,13 +87,13 @@ describe('LogisticsProviderService', () => {
     await expect(svc.createCapacity('user1', { title: 'T', region: 'Lagos', state: 'Lagos', city: 'Lagos', pickupZones: [], destinationZones: [], totalCapacity: 10, deliveryDate: new Date().toISOString(), pickupStartTime: '08:00', pickupEndTime: '10:00', deliveryTimeframe: 'Same day', pricePerPackageKobo: 1000, status: 'PUBLISHED' })).rejects.toBeInstanceOf(ForbiddenException);
   });
 
-  it('never stores a full payout account number, only last 4', async () => {
+  it('stores the full payout account number, digits only', async () => {
     const { prisma } = makePrisma();
     let saved: any;
     prisma.logisticsProvider.upsert = async ({ create }: any) => { saved = create; return create; };
     const svc = new LogisticsProviderService(prisma, config);
-    await svc.upsertProfile('user1', { companyName: 'Swift', contactName: 'A', businessEmail: 'a@b.c', phoneNumber: '080', businessAddress: 'Lagos', operatingRegions: [], servicesOffered: [], payoutAccountNumber: '0123456789' } as any);
-    expect(saved.payoutAccountLast4).toBe('6789');
-    expect(JSON.stringify(saved)).not.toContain('0123456789');
+    await svc.upsertProfile('user1', { companyName: 'Swift', contactName: 'A', businessEmail: 'a@b.c', phoneNumber: '080', businessAddress: 'Lagos', operatingRegions: [], servicesOffered: [], payoutAccountNumber: '8123 4500-94' } as any);
+    expect(saved.payoutAccountNumber).toBe('8123450094');
+    expect(saved.payoutAccountLast4).toBeUndefined();
   });
 });

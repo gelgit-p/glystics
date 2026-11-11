@@ -83,7 +83,7 @@ export class LogisticsProviderService {
   }
   async upsertProfile(userId: string, d: dto.UpsertProviderProfileDto) {
     const { payoutAccountNumber, ...rest } = d;
-    const data = { ...rest, fleetSize: d.fleetSize ?? 0, ...(payoutAccountNumber ? { payoutAccountLast4: payoutAccountNumber.replace(/\D/g, '').slice(-4) } : {}) };
+    const data = { ...rest, fleetSize: d.fleetSize ?? 0, ...(payoutAccountNumber ? { payoutAccountNumber: payoutAccountNumber.replace(/\D/g, '') } : {}) };
     return this.prisma.logisticsProvider.upsert({ where: { userId }, create: { userId, ...data }, update: data, include: { documents: true } });
   }
   async addDocument(userId: string, d: dto.AddDocumentDto) {
@@ -310,11 +310,11 @@ export class LogisticsProviderService {
     const refunds = reservations.filter((r) => r.paymentStatus === 'REFUNDED').length;
     const paidOut = payouts.filter((x) => x.status === 'PAID' || x.status === 'PROCESSING').reduce((s, x) => s + x.amountKobo, 0);
     const pendingPayouts = payouts.filter((x) => x.status === 'PENDING').reduce((s, x) => s + x.amountKobo, 0);
-    return { commissionPercent: percent, totalRevenueKobo: gross, platformCommissionKobo: commission, totalEarningsKobo: earned, completedDeliveryEarningsKobo: paid.filter((r) => r.status === 'COMPLETED').reduce((s, r) => s + r.providerEarningKobo, 0), pendingEarningsKobo: paid.filter((r) => r.status !== 'COMPLETED').reduce((s, r) => s + r.providerEarningKobo, 0), availableBalanceKobo: Math.max(0, earned - paidOut - pendingPayouts), pendingPayoutsKobo: pendingPayouts, refundCount: refunds, payouts, payoutBank: { bankName: p.payoutBankName, accountName: p.payoutAccountName, accountLast4: p.payoutAccountLast4 } };
+    return { commissionPercent: percent, totalRevenueKobo: gross, platformCommissionKobo: commission, totalEarningsKobo: earned, completedDeliveryEarningsKobo: paid.filter((r) => r.status === 'COMPLETED').reduce((s, r) => s + r.providerEarningKobo, 0), pendingEarningsKobo: paid.filter((r) => r.status !== 'COMPLETED').reduce((s, r) => s + r.providerEarningKobo, 0), availableBalanceKobo: Math.max(0, earned - paidOut - pendingPayouts), pendingPayoutsKobo: pendingPayouts, refundCount: refunds, payouts, payoutBank: { bankName: p.payoutBankName, accountName: p.payoutAccountName, accountNumber: p.payoutAccountNumber } };
   }
   async requestPayout(userId: string, d: dto.RequestPayoutDto) {
     const p = await this.requireProvider(userId);
-    if (!p.payoutBankName || !p.payoutAccountLast4) throw new BadRequestException('Add payout bank details in your provider profile first');
+    if (!p.payoutBankName || !p.payoutAccountNumber) throw new BadRequestException('Add payout bank details in your provider profile first');
     const e = await this.earnings(userId);
     if (d.amountKobo > e.availableBalanceKobo) throw new BadRequestException('Amount exceeds available balance');
     const payout = await this.prisma.logisticsPayout.create({ data: { providerId: p.id, amountKobo: d.amountKobo, reference: ref('LP-PAY'), note: d.note } });
