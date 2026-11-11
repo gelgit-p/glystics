@@ -19,6 +19,7 @@ import {
   AdminAdjustCreditsDto,
   AdminListQueryDto,
   AdminSetDetectionDto,
+  AdminSetLogisticsProviderDto,
   AdminSetRoleDto,
   AdminSetSuspendedDto,
   AdminToggleAutomationDto,
@@ -53,6 +54,12 @@ export class AdminController {
   @Patch('users/:id/role')
   setRole(@Req() r: Authed, @Param('id') id: string, @Body() dto: AdminSetRoleDto) {
     return this.admin.setRole(r.user.id, id, dto.role);
+  }
+
+  // Grant/revoke LOGISTICS_PROVIDER status. Guarded by SuperAdminGuard (class-level) + service re-check.
+  @Patch('users/:id/logistics-provider')
+  setLogisticsProvider(@Req() r: Authed, @Param('id') id: string, @Body() dto: AdminSetLogisticsProviderDto) {
+    return this.admin.setLogisticsProvider(r.user.id, id, dto.enabled);
   }
 
   @Patch('users/:id/suspend')

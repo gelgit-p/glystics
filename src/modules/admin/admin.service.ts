@@ -218,6 +218,39 @@ export class AdminService {
     return user;
   }
 
+  /**
+   * Grant/revoke LOGISTICS_PROVIDER status (User.role). SUPER_ADMIN only:
+   * the controller's SuperAdminGuard enforces it, and this re-check keeps
+   * the rule if the method is ever called from another path.
+   * Promoting a SUPER_ADMIN is refused — demote them via setRole first.
+   */
+  async setLogisticsProvider(adminId: string, targetId: string, enabled: boolean) {
+    await this.assertSuperAdmin(adminId);
+    const target = await this.prisma.user.findUnique({
+      where: { id: targetId },
+      select: { id: true, email: true, role: true },
+    });
+    if (!target) throw new NotFoundException('User not found');
+    if (target.role === 'SUPER_ADMIN')
+      throw new BadRequestException('Super admin accounts cannot be logistics providers');
+    const role = enabled ? 'LOGISTICS_PROVIDER' : 'USER';
+    if (target.role === role) return target;
+    const user = await this.prisma.user.update({
+      where: { id: targetId },
+      data: { role },
+      select: { id: true, email: true, role: true },
+    });
+    await this.ai.audit(
+      adminId,
+      'ADMIN',
+      enabled ? 'admin.user_logistics_provider_granted' : 'admin.user_logistics_provider_revoked',
+      'User',
+      targetId,
+      { role },
+    );
+    return user;
+  }
+
   async setSuspended(adminId: string, targetId: string, suspended: boolean) {
     if (adminId === targetId && suspended)
       throw new BadRequestException('You cannot suspend yourself');
