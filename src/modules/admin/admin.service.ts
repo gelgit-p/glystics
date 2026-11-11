@@ -206,7 +206,7 @@ export class AdminService {
     return { ...user, deliveries, conversations, drafts };
   }
 
-  async setRole(adminId: string, targetId: string, role: 'USER' | 'SUPER_ADMIN') {
+  async setRole(adminId: string, targetId: string, role: 'USER' | 'SUPER_ADMIN' | 'LOGISTICS_PROVIDER') {
     if (adminId === targetId && role !== 'SUPER_ADMIN')
       throw new BadRequestException('You cannot demote yourself');
     const user = await this.prisma.user.update({

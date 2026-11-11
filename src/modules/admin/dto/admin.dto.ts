@@ -25,9 +25,9 @@ export class AdminListQueryDto {
 }
 
 export class AdminSetRoleDto {
-  @ApiProperty({ enum: ['USER', 'SUPER_ADMIN'] })
-  @IsIn(['USER', 'SUPER_ADMIN'])
-  role!: 'USER' | 'SUPER_ADMIN';
+  @ApiProperty({ enum: ['USER', 'SUPER_ADMIN', 'LOGISTICS_PROVIDER'] })
+  @IsIn(['USER', 'SUPER_ADMIN', 'LOGISTICS_PROVIDER'])
+  role!: 'USER' | 'SUPER_ADMIN' | 'LOGISTICS_PROVIDER';
 }
 
 export class AdminSetSuspendedDto {
