@@ -4,6 +4,7 @@ import { randomUUID } from 'node:crypto';
 import { Prisma } from 'prisma/generated';
 import { PrismaService } from 'prisma/prisma.service';
 import * as dto from './dto/logistics-provider.dto';
+import { AdminNotificationsGateway } from './admin-notifications.gateway';
 
 type Tx = Prisma.TransactionClient;
 
@@ -32,7 +33,7 @@ const ref = (p: string) => `${p}-${randomUUID().slice(0, 8).toUpperCase()}`;
 
 @Injectable()
 export class LogisticsProviderService {
-  constructor(private prisma: PrismaService, private config: ConfigService) {}
+  constructor(private prisma: PrismaService, private config: ConfigService, private adminNotifications?: AdminNotificationsGateway) {}
 
   // ---------- helpers ----------
   async commissionPercent(): Promise<number> {
@@ -91,6 +92,8 @@ export class LogisticsProviderService {
     if (p.verificationStatus === 'UNVERIFIED' || p.verificationStatus === 'REJECTED') {
       await this.prisma.logisticsProvider.update({ where: { id: p.id }, data: { verificationStatus: 'PENDING_VERIFICATION' } });
     }
+    // Realtime bell alert for SUPER_ADMINs (websocket); also persisted in admin list.
+    this.adminNotifications?.notifyVerificationPending({ type: 'verification.pending', providerId: p.id, companyName: p.companyName, documentName: d.name, submittedAt: new Date().toISOString() });
     return doc;
   }
 

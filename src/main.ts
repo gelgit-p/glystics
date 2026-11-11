@@ -6,6 +6,7 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AdminNotificationsGateway } from './modules/logistics-provider/admin-notifications.gateway';
 
 async function bootstrap() {
   console.log('🚀 BOOTSTRAP', process.pid);
@@ -30,6 +31,7 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   await app.listen(port);
+  app.get(AdminNotificationsGateway).attach(app.getHttpServer());
 
   console.log(`🚀 Server ready at: http://localhost:${port}`);
 }
