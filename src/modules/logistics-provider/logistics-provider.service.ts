@@ -60,7 +60,7 @@ export class LogisticsProviderService {
 
   async requireProvider(userId: string) {
     const p = await this.prisma.logisticsProvider.findUnique({ where: { userId }, include: { documents: true } });
-    if (!p) throw new NotFoundException('Logistics provider profile not found. Complete your provider profile first.');
+    if (!p) throw new NotFoundException('PROFILE_NOT_FOUND: No logistics provider profile yet for this account. Create your provider profile first — capacity, zones, reservations and earnings are empty until then.');
     return p;
   }
   private assertCanPublish(p: { verificationStatus: string }) {
