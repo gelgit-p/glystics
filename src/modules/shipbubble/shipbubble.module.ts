@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ShipbubbleController } from './shipbubble.controller';
+import { PublicCouriersController, ShipbubbleController } from './shipbubble.controller';
 import { ShipbubbleService } from './shipbubble.service';
 
 @Module({
-	controllers: [ShipbubbleController],
+	controllers: [PublicCouriersController, ShipbubbleController],
 	providers: [ShipbubbleService],
 	exports: [ShipbubbleService],
 })

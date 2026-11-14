@@ -49,6 +49,7 @@ model User {
   automations                Automation[]
   creditWallet               CreditWallet?
   sharedNetworkBusiness      SharedNetworkBusiness?
+  logisticsProvider          LogisticsProvider?
   aiConversations            AiConversation[]
   deliveryDrafts             DeliveryDraft[]
 }
@@ -56,6 +57,7 @@ model User {
 enum UserRole {
   USER
   SUPER_ADMIN
+  LOGISTICS_PROVIDER
 }
 
 model Token {
@@ -764,4 +766,309 @@ model SharedNetworkSetting {
   updatedByUserId String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+}
+
+// --- Logistics Provider marketplace (providers publish capacity; businesses reserve it) ---
+// Commission is config, never hardcoded: env LOGISTICS_PLATFORM_COMMISSION_PERCENT wins,
+// then this row (id="default"), then the service default.
+model LogisticsProviderSetting {
+  id                String   @id @default("default")
+  commissionPercent Float    @default(10)
+  updatedByUserId   String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model LogisticsProvider {
+  id                  String                          @id @default(cuid())
+  userId              String                          @unique
+  companyName         String
+  registrationNumber  String?
+  contactName         String
+  businessEmail       String
+  phoneNumber         String
+  businessAddress     String
+  operatingRegions    String[]
+  servicesOffered     String[]
+  fleetSize           Int                             @default(0)
+  description         String?
+  verificationStatus  LogisticsVerificationStatus     @default(UNVERIFIED)
+  verificationNote    String?
+  payoutBankName      String?
+  payoutAccountName   String?
+  // Full payout account number, stored digits-only; shown in admin payout views. Handle as sensitive data.
+  payoutAccountNumber String?
+  createdAt           DateTime                        @default(now())
+  updatedAt           DateTime                        @updatedAt
+  user                User                            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  zones               LogisticsZone[]
+  capacities          LogisticsCapacity[]
+  reservations        LogisticsReservation[]
+  riders              LogisticsRider[]
+  vehicles            LogisticsVehicle[]
+  payouts             LogisticsPayout[]
+  documents           LogisticsVerificationDocument[]
+
+  @@index([verificationStatus])
+}
+
+model LogisticsVerificationDocument {
+  id         String            @id @default(cuid())
+  providerId String
+  name       String
+  url        String
+  createdAt  DateTime          @default(now())
+  provider   LogisticsProvider @relation(fields: [providerId], references: [id], onDelete: Cascade)
+
+  @@index([providerId])
+}
+
+model LogisticsZone {
+  id                     String            @id @default(cuid())
+  providerId             String
+  name                   String
+  region                 String
+  state                  String
+  city                   String
+  pickupLocation         String
+  supportedDestinations  String[]
+  restrictedLocations    String[]
+  deliveryPriceKobo      Int               @default(0)
+  distantSurchargeKobo   Int               @default(0)
+  estimatedDeliveryHours Int               @default(24)
+  minPackages            Int               @default(1)
+  maxPackages            Int?
+  maxWeightKg            Float?
+  supportedSizes         String[]
+  isActive               Boolean           @default(true)
+  createdAt              DateTime          @default(now())
+  updatedAt              DateTime          @updatedAt
+  provider               LogisticsProvider @relation(fields: [providerId], references: [id], onDelete: Cascade)
+
+  @@index([providerId, isActive])
+}
+
+model LogisticsCapacity {
+  id                  String                  @id @default(cuid())
+  providerId          String
+  zoneId              String?
+  title               String
+  region              String
+  state               String
+  city                String
+  pickupZones         String[]
+  destinationZones    String[]
+  totalCapacity       Int
+  reservedCapacity    Int                     @default(0)
+  unit                String                  @default("PACKAGES")
+  maxWeightKg         Float?
+  maxDimensions       String?
+  deliveryDate        DateTime
+  pickupStartTime     String
+  pickupEndTime       String
+  deliveryTimeframe   String
+  pricePerPackageKobo Int
+  minReservationQty   Int                     @default(1)
+  maxReservationQty   Int?
+  reservationDeadline DateTime?
+  cancellationPolicy  String?
+  instructions        String?
+  isRecurring         Boolean                 @default(false)
+  recurrence          String?
+  status              LogisticsCapacityStatus @default(DRAFT)
+  createdAt           DateTime                @default(now())
+  updatedAt           DateTime                @updatedAt
+  provider            LogisticsProvider       @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  reservations        LogisticsReservation[]
+
+  @@index([providerId, status])
+  @@index([status, deliveryDate])
+}
+
+model LogisticsReservation {
+  id                  String                      @id @default(cuid())
+  reference           String                      @unique
+  providerId          String
+  capacityId          String
+  // Reserving business: a Dispatchly user, optionally its Shared Network business profile.
+  businessUserId      String
+  businessId          String?
+  businessName        String
+  quantity            Int
+  pickupLocation      String
+  destinationZone     String
+  amountKobo          Int
+  commissionKobo      Int                         @default(0)
+  providerEarningKobo Int                         @default(0)
+  paymentStatus       LogisticsPaymentStatus      @default(UNPAID)
+  status              LogisticsReservationStatus  @default(PENDING)
+  specialInstructions String?
+  rejectReason        String?
+  idempotencyKey      String?                     @unique
+  createdAt           DateTime                    @default(now())
+  updatedAt           DateTime                    @updatedAt
+  provider            LogisticsProvider           @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  capacity            LogisticsCapacity           @relation(fields: [capacityId], references: [id])
+  shipments           LogisticsShipment[]
+  events              LogisticsReservationEvent[]
+
+  @@index([providerId, status])
+  @@index([businessUserId, createdAt])
+  @@index([capacityId, status])
+}
+
+model LogisticsReservationEvent {
+  id            String               @id @default(cuid())
+  reservationId String
+  status        String
+  note          String?
+  actorUserId   String?
+  createdAt     DateTime             @default(now())
+  reservation   LogisticsReservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+
+  @@index([reservationId, createdAt])
+}
+
+// A shipment fulfils (part of) a reservation. deliveryId links the existing Delivery
+// record instead of duplicating sender/receiver/package data when one already exists.
+model LogisticsShipment {
+  id                   String                     @id @default(cuid())
+  reference            String                     @unique
+  reservationId        String
+  providerId           String
+  deliveryId           String?
+  riderId              String?
+  senderName           String
+  receiverName         String
+  receiverPhone        String
+  pickupAddress        String
+  deliveryAddress      String
+  packageDescription   String?
+  packageWeightKg      Float?
+  packageDimensions    String?
+  deliveryInstructions String?
+  trackingReference    String?
+  proofOfDeliveryUrl   String?
+  deliveryNote         String?
+  status               LogisticsShipmentStatus    @default(PENDING)
+  createdAt            DateTime                   @default(now())
+  updatedAt            DateTime                   @updatedAt
+  reservation          LogisticsReservation       @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+  rider                LogisticsRider?            @relation(fields: [riderId], references: [id], onDelete: SetNull)
+  attempts             LogisticsDeliveryAttempt[]
+
+  @@index([providerId, status])
+  @@index([reservationId])
+}
+
+model LogisticsDeliveryAttempt {
+  id         String            @id @default(cuid())
+  shipmentId String
+  note       String
+  createdAt  DateTime          @default(now())
+  shipment   LogisticsShipment @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+
+  @@index([shipmentId, createdAt])
+}
+
+model LogisticsRider {
+  id                  String              @id @default(cuid())
+  providerId          String
+  name                String
+  phoneNumber         String
+  vehicleType         String              @default("BIKE")
+  vehicleRegistration String?
+  isAvailable         Boolean             @default(true)
+  isActive            Boolean             @default(true)
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  provider            LogisticsProvider   @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  shipments           LogisticsShipment[]
+
+  @@index([providerId, isAvailable])
+}
+
+model LogisticsVehicle {
+  id               String            @id @default(cuid())
+  providerId       String
+  type             String
+  registration     String
+  capacityPackages Int               @default(0)
+  isActive         Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  provider         LogisticsProvider @relation(fields: [providerId], references: [id], onDelete: Cascade)
+
+  @@index([providerId])
+}
+
+model LogisticsPayout {
+  id         String                @id @default(cuid())
+  providerId String
+  amountKobo Int
+  status     LogisticsPayoutStatus @default(PENDING)
+  reference  String                @unique
+  note       String?
+  createdAt  DateTime              @default(now())
+  updatedAt  DateTime              @updatedAt
+  provider   LogisticsProvider     @relation(fields: [providerId], references: [id], onDelete: Cascade)
+
+  @@index([providerId, status])
+}
+
+enum LogisticsVerificationStatus {
+  UNVERIFIED
+  PENDING_VERIFICATION
+  VERIFIED
+  REJECTED
+  SUSPENDED
+}
+
+enum LogisticsCapacityStatus {
+  DRAFT
+  PUBLISHED
+  FULL
+  PAUSED
+  EXPIRED
+  CANCELLED
+}
+
+enum LogisticsReservationStatus {
+  PENDING
+  AWAITING_PAYMENT
+  CONFIRMED
+  ACCEPTED
+  REJECTED
+  EXPIRED
+  CANCELLED
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum LogisticsPaymentStatus {
+  UNPAID
+  PENDING
+  PAID
+  REFUNDED
+  FAILED
+}
+
+enum LogisticsShipmentStatus {
+  PENDING
+  PICKUP_SCHEDULED
+  PICKED_UP
+  IN_TRANSIT
+  OUT_FOR_DELIVERY
+  DELIVERED
+  FAILED
+  RETURNED
+  CANCELLED
+}
+
+enum LogisticsPayoutStatus {
+  PENDING
+  PROCESSING
+  PAID
+  FAILED
+  CANCELLED
 }

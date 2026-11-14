@@ -20,11 +20,11 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "pnpm": {
-  "allowBuilds": [
-    "@prisma/client",
-    "@prisma/engines",
-    "@scarf/scarf",
-    "@swc/core",
+    "allowBuilds": [
+      "@prisma/client",
+      "@prisma/engines",
+      "@scarf/scarf",
+      "@swc/core",
       "bcrypt",
       "prisma"
     ]
@@ -55,7 +55,8 @@
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
-    "shipbubble": "^1.0.6"
+    "shipbubble": "^1.0.6",
+    "ws": "^8.22.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
@@ -72,6 +73,7 @@
     "@types/node": "^22.10.7",
     "@types/passport-jwt": "^4.0.1",
     "@types/supertest": "^6.0.2",
+    "@types/ws": "^8.18.2",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",

@@ -644,6 +644,196 @@ exports.Prisma.SharedNetworkSettingScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.LogisticsProviderSettingScalarFieldEnum = {
+  id: 'id',
+  commissionPercent: 'commissionPercent',
+  updatedByUserId: 'updatedByUserId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LogisticsProviderScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  companyName: 'companyName',
+  registrationNumber: 'registrationNumber',
+  contactName: 'contactName',
+  businessEmail: 'businessEmail',
+  phoneNumber: 'phoneNumber',
+  businessAddress: 'businessAddress',
+  operatingRegions: 'operatingRegions',
+  servicesOffered: 'servicesOffered',
+  fleetSize: 'fleetSize',
+  description: 'description',
+  verificationStatus: 'verificationStatus',
+  verificationNote: 'verificationNote',
+  payoutBankName: 'payoutBankName',
+  payoutAccountName: 'payoutAccountName',
+  payoutAccountNumber: 'payoutAccountNumber',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LogisticsVerificationDocumentScalarFieldEnum = {
+  id: 'id',
+  providerId: 'providerId',
+  name: 'name',
+  url: 'url',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.LogisticsZoneScalarFieldEnum = {
+  id: 'id',
+  providerId: 'providerId',
+  name: 'name',
+  region: 'region',
+  state: 'state',
+  city: 'city',
+  pickupLocation: 'pickupLocation',
+  supportedDestinations: 'supportedDestinations',
+  restrictedLocations: 'restrictedLocations',
+  deliveryPriceKobo: 'deliveryPriceKobo',
+  distantSurchargeKobo: 'distantSurchargeKobo',
+  estimatedDeliveryHours: 'estimatedDeliveryHours',
+  minPackages: 'minPackages',
+  maxPackages: 'maxPackages',
+  maxWeightKg: 'maxWeightKg',
+  supportedSizes: 'supportedSizes',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LogisticsCapacityScalarFieldEnum = {
+  id: 'id',
+  providerId: 'providerId',
+  zoneId: 'zoneId',
+  title: 'title',
+  region: 'region',
+  state: 'state',
+  city: 'city',
+  pickupZones: 'pickupZones',
+  destinationZones: 'destinationZones',
+  totalCapacity: 'totalCapacity',
+  reservedCapacity: 'reservedCapacity',
+  unit: 'unit',
+  maxWeightKg: 'maxWeightKg',
+  maxDimensions: 'maxDimensions',
+  deliveryDate: 'deliveryDate',
+  pickupStartTime: 'pickupStartTime',
+  pickupEndTime: 'pickupEndTime',
+  deliveryTimeframe: 'deliveryTimeframe',
+  pricePerPackageKobo: 'pricePerPackageKobo',
+  minReservationQty: 'minReservationQty',
+  maxReservationQty: 'maxReservationQty',
+  reservationDeadline: 'reservationDeadline',
+  cancellationPolicy: 'cancellationPolicy',
+  instructions: 'instructions',
+  isRecurring: 'isRecurring',
+  recurrence: 'recurrence',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LogisticsReservationScalarFieldEnum = {
+  id: 'id',
+  reference: 'reference',
+  providerId: 'providerId',
+  capacityId: 'capacityId',
+  businessUserId: 'businessUserId',
+  businessId: 'businessId',
+  businessName: 'businessName',
+  quantity: 'quantity',
+  pickupLocation: 'pickupLocation',
+  destinationZone: 'destinationZone',
+  amountKobo: 'amountKobo',
+  commissionKobo: 'commissionKobo',
+  providerEarningKobo: 'providerEarningKobo',
+  paymentStatus: 'paymentStatus',
+  status: 'status',
+  specialInstructions: 'specialInstructions',
+  rejectReason: 'rejectReason',
+  idempotencyKey: 'idempotencyKey',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LogisticsReservationEventScalarFieldEnum = {
+  id: 'id',
+  reservationId: 'reservationId',
+  status: 'status',
+  note: 'note',
+  actorUserId: 'actorUserId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.LogisticsShipmentScalarFieldEnum = {
+  id: 'id',
+  reference: 'reference',
+  reservationId: 'reservationId',
+  providerId: 'providerId',
+  deliveryId: 'deliveryId',
+  riderId: 'riderId',
+  senderName: 'senderName',
+  receiverName: 'receiverName',
+  receiverPhone: 'receiverPhone',
+  pickupAddress: 'pickupAddress',
+  deliveryAddress: 'deliveryAddress',
+  packageDescription: 'packageDescription',
+  packageWeightKg: 'packageWeightKg',
+  packageDimensions: 'packageDimensions',
+  deliveryInstructions: 'deliveryInstructions',
+  trackingReference: 'trackingReference',
+  proofOfDeliveryUrl: 'proofOfDeliveryUrl',
+  deliveryNote: 'deliveryNote',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LogisticsDeliveryAttemptScalarFieldEnum = {
+  id: 'id',
+  shipmentId: 'shipmentId',
+  note: 'note',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.LogisticsRiderScalarFieldEnum = {
+  id: 'id',
+  providerId: 'providerId',
+  name: 'name',
+  phoneNumber: 'phoneNumber',
+  vehicleType: 'vehicleType',
+  vehicleRegistration: 'vehicleRegistration',
+  isAvailable: 'isAvailable',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LogisticsVehicleScalarFieldEnum = {
+  id: 'id',
+  providerId: 'providerId',
+  type: 'type',
+  registration: 'registration',
+  capacityPackages: 'capacityPackages',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LogisticsPayoutScalarFieldEnum = {
+  id: 'id',
+  providerId: 'providerId',
+  amountKobo: 'amountKobo',
+  status: 'status',
+  reference: 'reference',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -675,7 +865,8 @@ exports.Prisma.JsonNullValueFilter = {
 };
 exports.UserRole = exports.$Enums.UserRole = {
   USER: 'USER',
-  SUPER_ADMIN: 'SUPER_ADMIN'
+  SUPER_ADMIN: 'SUPER_ADMIN',
+  LOGISTICS_PROVIDER: 'LOGISTICS_PROVIDER'
 };
 
 exports.CreditTransactionType = exports.$Enums.CreditTransactionType = {
@@ -756,6 +947,63 @@ exports.SharedNetworkInvoiceStatus = exports.$Enums.SharedNetworkInvoiceStatus =
   OVERDUE: 'OVERDUE'
 };
 
+exports.LogisticsVerificationStatus = exports.$Enums.LogisticsVerificationStatus = {
+  UNVERIFIED: 'UNVERIFIED',
+  PENDING_VERIFICATION: 'PENDING_VERIFICATION',
+  VERIFIED: 'VERIFIED',
+  REJECTED: 'REJECTED',
+  SUSPENDED: 'SUSPENDED'
+};
+
+exports.LogisticsCapacityStatus = exports.$Enums.LogisticsCapacityStatus = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED',
+  FULL: 'FULL',
+  PAUSED: 'PAUSED',
+  EXPIRED: 'EXPIRED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.LogisticsPaymentStatus = exports.$Enums.LogisticsPaymentStatus = {
+  UNPAID: 'UNPAID',
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  REFUNDED: 'REFUNDED',
+  FAILED: 'FAILED'
+};
+
+exports.LogisticsReservationStatus = exports.$Enums.LogisticsReservationStatus = {
+  PENDING: 'PENDING',
+  AWAITING_PAYMENT: 'AWAITING_PAYMENT',
+  CONFIRMED: 'CONFIRMED',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED',
+  EXPIRED: 'EXPIRED',
+  CANCELLED: 'CANCELLED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED'
+};
+
+exports.LogisticsShipmentStatus = exports.$Enums.LogisticsShipmentStatus = {
+  PENDING: 'PENDING',
+  PICKUP_SCHEDULED: 'PICKUP_SCHEDULED',
+  PICKED_UP: 'PICKED_UP',
+  IN_TRANSIT: 'IN_TRANSIT',
+  OUT_FOR_DELIVERY: 'OUT_FOR_DELIVERY',
+  DELIVERED: 'DELIVERED',
+  FAILED: 'FAILED',
+  RETURNED: 'RETURNED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.LogisticsPayoutStatus = exports.$Enums.LogisticsPayoutStatus = {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  PAID: 'PAID',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Token: 'Token',
@@ -787,7 +1035,19 @@ exports.Prisma.ModelName = {
   SharedNetworkPricingRule: 'SharedNetworkPricingRule',
   SharedNetworkUsageRecord: 'SharedNetworkUsageRecord',
   SharedNetworkAuditLog: 'SharedNetworkAuditLog',
-  SharedNetworkSetting: 'SharedNetworkSetting'
+  SharedNetworkSetting: 'SharedNetworkSetting',
+  LogisticsProviderSetting: 'LogisticsProviderSetting',
+  LogisticsProvider: 'LogisticsProvider',
+  LogisticsVerificationDocument: 'LogisticsVerificationDocument',
+  LogisticsZone: 'LogisticsZone',
+  LogisticsCapacity: 'LogisticsCapacity',
+  LogisticsReservation: 'LogisticsReservation',
+  LogisticsReservationEvent: 'LogisticsReservationEvent',
+  LogisticsShipment: 'LogisticsShipment',
+  LogisticsDeliveryAttempt: 'LogisticsDeliveryAttempt',
+  LogisticsRider: 'LogisticsRider',
+  LogisticsVehicle: 'LogisticsVehicle',
+  LogisticsPayout: 'LogisticsPayout'
 };
 
 /**

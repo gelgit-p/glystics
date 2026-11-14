@@ -20,6 +20,7 @@ import { CreditModule } from './modules/credits/credit.module';
 import { AiDeliveryModule } from './modules/ai-delivery/ai-delivery.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { SharedNetworkModule } from './modules/shared-network/shared-network.module';
+import { LogisticsProviderModule } from './modules/logistics-provider/logistics-provider.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { SharedNetworkModule } from './modules/shared-network/shared-network.mod
     AiDeliveryModule,
     AdminModule,
     SharedNetworkModule,
+    LogisticsProviderModule,
   ],
   controllers: [AppController, HealthController],
   providers: [
