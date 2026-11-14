@@ -20,6 +20,29 @@ import {
 } from './dto/validate-address.dto';
 import { UpdateRequestTokenDto } from './dto/update-request-token.dto';
 import { LandedCostDto } from './dto/landed-cost.dto';
+import { normalizeCouriers, normalizeCoverage } from './couriers.util';
+
+// Public, unauthenticated courier directory for the landing page. Only normalized,
+// marketing-safe fields are exposed (the service strips everything else).
+@Controller('public/couriers')
+export class PublicCouriersController {
+	constructor(private readonly shipbubbleService: ShipbubbleService) {}
+
+	@Get()
+	async getCouriers() {
+		return normalizeCouriers(await this.shipbubbleService.getCouriers());
+	}
+
+	@Post(':serviceCode/coverage')
+	async getCourierCoverageAreas(
+		@Param('serviceCode') serviceCode: string,
+		@Body() data: CourierCoverageDto,
+	) {
+		return normalizeCoverage(
+			await this.shipbubbleService.getCourierCoverageAreas(serviceCode, data),
+		);
+	}
+}
 
 @Controller('shipping')
 export class ShipbubbleController {
