@@ -24,6 +24,7 @@ export interface CourierCoverageArea {
   countryCode: string;
   pickupStates: string[];
   deliveryStates: string[];
+  routes: string[];
 }
 
 export function normalizeCouriers(raw: unknown): Courier[] {
@@ -47,11 +48,21 @@ export function normalizeCouriers(raw: unknown): Courier[] {
 }
 
 export function normalizeCoverage(raw: unknown): CourierCoverageArea[] {
+  const envelope = obj(raw);
+  // Upstream answers some requests with HTTP 200 + { status: 'failed', data: undefined }.
+  // Treat that as "no coverage" only via thrown errors in the controller; here a failed
+  // envelope must not silently become an empty list that FE shows as success.
+  if (typeof envelope.status === 'string' && envelope.status !== 'success') return [];
   const list = unwrap(raw);
   if (!Array.isArray(list)) return [];
   return list.map((item) => {
     const a = obj(item);
     const strs = (v: unknown) => (Array.isArray(v) ? v.map(str).filter(Boolean) : []);
-    return { country: str(a.country), countryCode: str(a.country_code), pickupStates: strs(a.pickup_states), deliveryStates: strs(a.delivery_states) };
+    return { country: str(a.country), countryCode: str(a.country_code), pickupStates: strs(a.pickup_states), deliveryStates: strs(a.delivery_states), routes: strs(a.routes) };
   }).filter((a) => a.country || a.countryCode);
+}
+
+export function isFailedEnvelope(raw: unknown): boolean {
+  const e = obj(raw);
+  return typeof e.status === 'string' && e.status !== 'success';
 }
