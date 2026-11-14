@@ -24,8 +24,11 @@ describe('courier normalization (Shipbubble docs sample)', () => {
       { country: 'Ghana', country_code: 'GH', pickup_states: [], delivery_states: ['Greater Accra Region'] },
     ] });
     expect(out).toHaveLength(2);
-    expect(out[0]).toEqual({ country: 'Nigeria', countryCode: 'NG', pickupStates: ['Abuja', 'Lagos'], deliveryStates: ['Abuja', 'Lagos', 'Ogun', 'Oyo'] });
+    expect(out[0]).toEqual({ country: 'Nigeria', countryCode: 'NG', pickupStates: ['Abuja', 'Lagos'], deliveryStates: ['Abuja', 'Lagos', 'Ogun', 'Oyo'], routes: [] });
     expect(out[1].pickupStates).toEqual([]);
+    // Live chowdeck-shaped payload keeps routes.
+    expect(normalizeCoverage({ status: 'success', data: [{ country: 'Nigeria', country_code: 'NG', pickup_states: ['Lagos'], delivery_states: ['Lagos'], routes: ['intra state'] }] })[0].routes).toEqual(['intra state']);
+    expect(normalizeCoverage({ status: 'failed', message: 'Requested resource not available' })).toEqual([]);
   });
 
   it('tolerates malformed payloads', () => {

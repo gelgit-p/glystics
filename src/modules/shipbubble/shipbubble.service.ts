@@ -114,13 +114,17 @@ export class ShipbubbleService {
     return this.fromSdk(Shipbubble.misc.getCouriers());
   }
 
+  // Shipbubble coverage is a GET endpoint (verified live against production).
+  // The docs/pasted snippet says POST, but upstream POST returns
+  // { status: 'failed', message: 'Requested resource not available' }.
+  // The `data` arg is kept for controller-call compatibility and ignored.
   async getCourierCoverageAreas(
     serviceCode: string,
-    data: Record<string, unknown> = {},
+    _data: Record<string, unknown> = {},
   ): Promise<unknown> {
-    return this.request(`/couriers/${serviceCode}/coverage`, {
-      method: 'POST',
-      body: JSON.stringify(data),
+    void _data;
+    return this.request(`/couriers/${encodeURIComponent(serviceCode)}/coverage`, {
+      method: 'GET',
     });
   }
 

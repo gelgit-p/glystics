@@ -20,7 +20,8 @@ import {
 } from './dto/validate-address.dto';
 import { UpdateRequestTokenDto } from './dto/update-request-token.dto';
 import { LandedCostDto } from './dto/landed-cost.dto';
-import { normalizeCouriers, normalizeCoverage } from './couriers.util';
+import { isFailedEnvelope, normalizeCouriers, normalizeCoverage } from './couriers.util';
+import { NotFoundException } from '@nestjs/common';
 
 // Public, unauthenticated courier directory for the landing page. Only normalized,
 // marketing-safe fields are exposed (the service strips everything else).
@@ -33,14 +34,23 @@ export class PublicCouriersController {
 		return normalizeCouriers(await this.shipbubbleService.getCouriers());
 	}
 
+	// GET to mirror upstream Shipbubble (POST there returns a failed envelope).
+	// The legacy POST route is kept for one release so older clients don't break;
+	// it behaves identically. Remove after the frontend (GET) is fully deployed.
+	@Get(':serviceCode/coverage')
+	async getCourierCoverageAreas(@Param('serviceCode') serviceCode: string) {
+		const raw = await this.shipbubbleService.getCourierCoverageAreas(serviceCode);
+		if (isFailedEnvelope(raw)) throw new NotFoundException('Coverage not available for this courier');
+		return normalizeCoverage(raw);
+	}
+
 	@Post(':serviceCode/coverage')
-	async getCourierCoverageAreas(
+	async getCourierCoverageAreasLegacy(
 		@Param('serviceCode') serviceCode: string,
-		@Body() data: CourierCoverageDto,
+		@Body() _data: CourierCoverageDto,
 	) {
-		return normalizeCoverage(
-			await this.shipbubbleService.getCourierCoverageAreas(serviceCode, data),
-		);
+		void _data;
+		return this.getCourierCoverageAreas(serviceCode);
 	}
 }
 
@@ -94,6 +104,12 @@ export class ShipbubbleController {
 		return this.shipbubbleService.getCouriers();
 	}
 
+	@Get('couriers/:serviceCode/coverage')
+	getCourierCoverageAreasGet(@Param('serviceCode') serviceCode: string) {
+		return this.shipbubbleService.getCourierCoverageAreas(serviceCode);
+	}
+
+	// Legacy POST kept for compatibility; upstream is GET-only for coverage.
 	@Post('couriers/:serviceCode/coverage')
 	getCourierCoverageAreas(
 		@Param('serviceCode') serviceCode: string,
